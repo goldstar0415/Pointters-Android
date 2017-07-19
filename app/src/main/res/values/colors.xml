@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@android:color/white</color>
+    <color name="colorPrimaryDark">#bdbdbd</color>
+    <color name="colorAccent">#00ACE3</color>
+
+    <color name="fb_color">#395692</color>
+    <color name="light_gray">#ECECEC</color>
+    <color name="text_color_gray">#8E8E92</color>
+
+</resources>

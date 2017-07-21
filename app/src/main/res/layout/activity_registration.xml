@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingPrefix"
-    android:layout_height="match_parent">
-
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingPrefix">
 
     <include
         android:id="@+id/toolbar_registration"
@@ -21,6 +19,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_15sdp"
         android:fillViewport="true"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -28,9 +27,9 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_height="wrap_content">
+            android:focusableInTouchMode="true">
 
             <android.support.constraint.Guideline
                 android:id="@+id/constraint_guide_left"
@@ -61,8 +60,20 @@
                     android:hint="@string/email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="@color/text_color_gray"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/img_valid_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tick_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/text_input_email"
+                app:layout_constraintRight_toRightOf="@id/text_input_email"
+                app:layout_constraintTop_toTopOf="@id/text_input_email" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/text_input_password"
@@ -80,6 +91,8 @@
                     android:hint="@string/password"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="@color/text_color_gray"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
@@ -99,25 +112,42 @@
                     android:hint="@string/re_enter_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="@color/text_color_gray"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/txt_agree_to_terms_conditions"
-                android:layout_width="0dp"
+                android:id="@+id/txt_warning"
+                fontPath="fonts/Montserrat-Light.ttf"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textColor="@color/color_red_for_warning"
+                android:textSize="@dimen/text_size_tiny"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@+id/text_input_re_enter_password" />
+
+            <TextView
+                android:id="@+id/txt_agree_to_terms_conditions"
+                fontPath="fonts/Montserrat-Light.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
+                app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
+                app:layout_constraintTop_toBottomOf="@+id/txt_warning" />
 
             <com.dd.CircularProgressButton
                 android:id="@+id/btn_email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
                 app:cpb_colorIndicator="@color/colorAccent"
@@ -165,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/or"
-                android:textColor="@android:color/black"
+                android:textColor="@color/color_black_info"
                 android:textSize="@dimen/text_size_medium"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -195,6 +225,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/sign_up_with_fb"
+                android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 app:cpb_colorIndicator="@color/fb_color"
                 app:cpb_selectorIdle="@drawable/bg_btn_sign_up_fb"
@@ -219,12 +250,27 @@
 
             <TextView
                 android:id="@+id/txt_already_account"
+                fontPath="fonts/Montserrat-Light.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/already_have_account"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/text_size_small"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/txt_sign_in"
+                app:layout_constraintTop_toBottomOf="@id/btn_fb" />
+
+            <TextView
+                android:id="@+id/txt_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/sign_in"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintLeft_toRightOf="@id/txt_already_account"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_fb" />
 

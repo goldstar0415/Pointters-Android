@@ -18,6 +18,28 @@ allprojects {
     }
 }
 
+ext {
+    compileSdkVersion = 25
+    buildToolsVersion = "25.0.2"
+
+    minSdkVersion = 16
+    targetSdkVersion = 25
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    lintAbortOnError = false
+
+    // Dependency versions
+    playServicesVersion = '10.2.1'
+    appcompatV7Version = '25.3.1'
+    designVersion = '25.3.1'
+    constraintLayout = '1.0.2'
+    facebook = '4.0.0'
+    calligraphy = '2.3.0'
+
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

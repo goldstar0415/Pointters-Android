@@ -16,7 +16,7 @@ public class PointtersApplication extends Application {
     public void onCreate() {
         super.onCreate();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Montserrat-Regular.ttf")
+                .setDefaultFontPath("fonts/Montserrat-Black.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

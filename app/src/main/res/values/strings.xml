@@ -17,16 +17,28 @@
     <string name="sign_up_with_email">SignUp with Email</string>
     <string name="sign_up_with_fb">SignUp with Facebook</string>
     <string name="or">Or</string>
-    <string name="already_have_account">ALREADY HAVE AN ACCOUNT? SIGN IN</string>
+    <string name="already_have_account">ALREADY HAVE AN ACCOUNT?\u0020</string>
+    <string name="sign_in">SIGN IN</string>
     <string name="success">SUCCESS</string>
     <string name="error">Error</string>
+    <string name="password_mismatch">Passoword mismatch.</string>
+    <string name="provide_valid_email">Please proide valid E-mail id.</string>
+    <string name="provide_valid_password">Please provide valid password.</string>
 
     <!--Registration Details-->
     <string name="tell_us_few_things">Tell us few things about you</string>
+    <string name="first_name">FIRST NAME</string>
+    <string name="last_name">LAST NAME</string>
+    <string name="company_name">COMPANY NAME</string>
+    <string name="location">LOCATION</string>
+    <string name="phone_number">PHONE NUMBER</string>
+    <string name="about_you">ABOUT YOU</string>
+    <string name="next">Next</string>
+    <string name="location_service_required">Location service is required</string>
     
     <!--Login-->
     <string name="forgot_password">Forgot Password?</string>
-    <string name="dont_have_account">DON\'T HAVE AN ACCOUNT? SIGN UP</string>
+    <string name="dont_have_account">DON\'T HAVE AN ACCOUNT?\u0020</string>
     <string name="wrong_username_password">Wrong username or password, please try again.</string>
     <string name="fb">Facebook</string>
 

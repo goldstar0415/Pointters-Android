@@ -4,19 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.pointters.R;
+import com.pointters.listener.OnEditTextChangeListener;
+import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
+import com.pointters.utils.MyTextWatcher;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -24,13 +29,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by Vishal Sharma on 19-Jul-17.
  */
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener, OnEditTextChangeListener {
 
     private Toolbar toolbar;
-    private CircularProgressButton btnLogin;
-    private CircularProgressButton btnFb;
-    private TextView txtForgotPassword;
-    private TextView txtDontHaveAccount;
+    private CircularProgressButton btnLoginEmail;
+    private CircularProgressButton btnLoginFb;
+    private EditText edtEmail;
+    private EditText edtPassword;
+    private ImageView imgValidEmail;
+    private TextView txtWarning;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,49 +48,47 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         AppUtils.setDefaultToolbarWithBackIcon(this, toolbar);
 
-        enableOnClick();
+        setOnClick();
 
-        makeSpannableText();
+        //calligraphy library not applying fonts to text input layout hence done programmatically
+        AppUtils.applyFontsToTextInputLayout(this, new TextInputLayout[]{
+                (TextInputLayout) findViewById(R.id.text_input_email),
+                (TextInputLayout) findViewById(R.id.text_input_password)});
+
+        setEditTextListener();
 
 
+    }
+
+    private void setEditTextListener() {
+
+        //listener for action done button click
+        edtPassword.setOnEditorActionListener(this);
+
+        //Custom Edit text change listener with returning id of edi text
+        edtEmail.addTextChangedListener(new MyTextWatcher(edtEmail, this));
+        edtPassword.addTextChangedListener(new MyTextWatcher(edtPassword, this));
     }
 
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.common_toolbar);
-        btnLogin = (CircularProgressButton) findViewById(R.id.btn_email);
-        btnFb = (CircularProgressButton) findViewById(R.id.btn_fb);
-        txtForgotPassword = (TextView) findViewById(R.id.txt_forgot_password);
-        txtDontHaveAccount = (TextView) findViewById(R.id.txt_dont_have_account);
-    }
-
-
-    private void enableOnClick() {
-
-        findViewById(R.id.btn_email).setOnClickListener(this);
-        findViewById(R.id.btn_fb).setOnClickListener(this);
+        btnLoginEmail = (CircularProgressButton) findViewById(R.id.btn_email);
+        btnLoginFb = (CircularProgressButton) findViewById(R.id.btn_fb);
+        edtEmail = (EditText) findViewById(R.id.edt_email);
+        edtPassword = (EditText) findViewById(R.id.edt_password);
+        imgValidEmail = (ImageView) findViewById(R.id.img_valid_email);
+        txtWarning = (TextView) findViewById(R.id.txt_warning);
 
     }
 
-    private void makeSpannableText() {
 
-        //Spannable String builder for sign in
-        SpannableStringBuilder spannableAlreadyAccount = new SpannableStringBuilder(getResources().getString(
-                R.string.dont_have_account));
+    private void setOnClick() {
 
-        ClickableSpan spanAlreadyAccount = new ClickableSpan() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
-
-            }
-        };
-
-        spannableAlreadyAccount.setSpan(spanAlreadyAccount, 23, spannableAlreadyAccount.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        txtDontHaveAccount.setText(spannableAlreadyAccount);
-        txtDontHaveAccount.setMovementMethod(LinkMovementMethod.getInstance());
+        btnLoginEmail.setOnClickListener(this);
+        btnLoginFb.setOnClickListener(this);
+        findViewById(R.id.txt_forgot_password).setOnClickListener(this);
+        findViewById(R.id.txt_sign_up).setOnClickListener(this);
 
     }
 
@@ -105,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.btn_email:
 
-                // startActivity(new Intent(this, RegistrationDetailsActivity.class));
+                performLoginEmail();
 
                 //btnSignUpFb.setProgress(100); // set progress to 100 or -1 to indicate complete or error state
                 break;
@@ -115,12 +120,65 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                /* btnSignUpFb.setIndeterminateProgressMode(true); // turn on indeterminate progress
                 btnSignUpFb.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress*/
                 break;
+
+            case R.id.txt_forgot_password:
+                Toast.makeText(LoginActivity.this, "forgot password", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.txt_sign_up:
+
+                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+                finish();
+                break;
         }
 
+    }
+
+    private void performLoginEmail() {
+
+        String email = edtEmail.getText().toString().trim();
+        String password = edtPassword.getText().toString();
+
+        if (email.isEmpty() || !AndroidUtils.isValidEmailAddress(email)) {
+            txtWarning.setVisibility(View.VISIBLE);
+            txtWarning.setText(getResources().getString(R.string.provide_valid_email));
+        } else if (password.isEmpty()) {
+            txtWarning.setVisibility(View.VISIBLE);
+            txtWarning.setText(getResources().getString(R.string.provide_valid_password));
+        } else {
+
+        }
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            performLoginEmail();
+        }
+        return false;
+    }
+
+    @Override
+    public void onTextChange(String text, View view) {
+
+        if (txtWarning.getVisibility() == View.VISIBLE)
+            txtWarning.setVisibility(View.GONE);
+
+        switch (view.getId()) {
+            case R.id.edt_email:
+                if (AndroidUtils.isValidEmailAddress(text)) {
+                    imgValidEmail.setVisibility(View.VISIBLE);
+                } else {
+                    imgValidEmail.setVisibility(View.GONE);
+                }
+
+                break;
+
+        }
     }
 }

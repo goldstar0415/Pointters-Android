@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/toolbar_registration_details"
@@ -11,6 +13,230 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_registration_details"
+        app:layout_constraintVertical_bias="0.0">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/constraint_guide_left"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/constraint_guide_right"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.9" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_profile"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_90sdp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/slider_img_b"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
+
+            <ImageView
+                android:id="@+id/img_select_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/plus_icon"
+                app:layout_constraintRight_toRightOf="@id/img_profile"
+                app:layout_constraintTop_toTopOf="@id/img_profile" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_first_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
+                app:layout_constraintRight_toLeftOf="@+id/text_input_last_name"
+                app:layout_constraintTop_toBottomOf="@+id/img_profile">
+
+                <EditText
+                    android:id="@+id/edt_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/first_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_last_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                app:layout_constraintLeft_toRightOf="@+id/text_input_first_name"
+                app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
+                app:layout_constraintTop_toBottomOf="@id/img_profile">
+
+                <EditText
+                    android:id="@+id/edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/last_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_company_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7sdp"
+                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
+                app:layout_constraintTop_toBottomOf="@id/text_input_first_name">
+
+                <EditText
+                    android:id="@+id/edt_company_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/company_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textNoSuggestions"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/txt_hint_location"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:text="@string/location"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_tiny"
+                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                app:layout_constraintTop_toBottomOf="@id/text_input_company_name" />
+
+            <TextView
+                android:id="@+id/txt_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?attr/editTextBackground"
+                android:hint="@string/location"
+                android:text="@string/location_service_required"
+                android:textAppearance="@style/Widget.AppCompat.EditText"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
+                app:layout_constraintTop_toBottomOf="@id/txt_hint_location" />
+
+            <ImageView
+                android:id="@+id/img_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/location_icon"
+                app:layout_constraintBottom_toBottomOf="@id/txt_location"
+                app:layout_constraintRight_toRightOf="@id/txt_location"
+                app:layout_constraintTop_toTopOf="@id/txt_hint_location" />
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_phone_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7sdp"
+                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
+                app:layout_constraintTop_toBottomOf="@id/txt_location">
+
+                <EditText
+                    android:id="@+id/edt_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phone_number"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_about_you"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7sdp"
+                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
+                app:layout_constraintTop_toBottomOf="@id/text_input_phone_number">
+
+                <EditText
+                    android:id="@+id/edt_about_you"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_80sdp"
+                    android:gravity="top"
+                    android:hint="@string/about_you"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences|textNoSuggestions|textMultiLine"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <com.dd.CircularProgressButton
+                android:id="@+id/btn_next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                app:cpb_colorIndicator="@color/colorAccent"
+                app:cpb_selectorIdle="@drawable/bg_btn_sign_up_email"
+                app:cpb_textComplete="@string/success"
+                app:cpb_textError="@string/error"
+                app:cpb_textIdle="@string/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
+                app:layout_constraintTop_toBottomOf="@id/text_input_about_you" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>

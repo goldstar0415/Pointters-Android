@@ -7,5 +7,7 @@
     <color name="fb_color">#395692</color>
     <color name="light_gray">#ECECEC</color>
     <color name="text_color_gray">#8E8E92</color>
+    <color name="color_red_for_warning">#FF0000</color>
+    <color name="color_black_info">#1D1D26</color>
 
 </resources>

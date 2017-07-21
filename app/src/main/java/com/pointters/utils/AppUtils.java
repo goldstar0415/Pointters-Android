@@ -1,5 +1,8 @@
 package com.pointters.utils;
 
+import android.content.Context;
+import android.graphics.Typeface;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -17,6 +20,14 @@ public class AppUtils {
             context.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             context.getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
+    }
+
+    public static void applyFontsToTextInputLayout(Context context, TextInputLayout[] textInputLayouts) {
+
+        for (TextInputLayout textInputLayout : textInputLayouts) {
+            textInputLayout.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Regular.ttf"));
+        }
+
     }
 
 }

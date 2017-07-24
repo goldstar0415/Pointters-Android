@@ -21,9 +21,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.dd.CircularProgressButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -36,10 +39,13 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.pointters.R;
+import com.pointters.listener.OnEditTextChangeListener;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.ConstantUtils;
+import com.pointters.utils.MyTextWatcher;
 
 import net.alhazmy13.mediapicker.FileProcessing;
 import net.alhazmy13.mediapicker.Image.ImagePicker;
@@ -56,7 +62,7 @@ import static android.os.Build.VERSION_CODES.M;
  */
 
 public class RegistrationDetailsActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks
-        , GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener {
+        , GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener, OnEditTextChangeListener {
 
     private Toolbar toolbar;
     private LocationRequest locationRequest;
@@ -66,7 +72,20 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
     private TextView txtLocation;
     private String imagePath;
     private String originalImagePath;
-    private ImageView imgProfile;
+    private RoundedImageView imgProfile;
+    private TextInputLayout txtInputFirstName;
+    private TextInputLayout txtInputLastName;
+    private TextInputLayout txtInputCompanyName;
+    private TextInputLayout txtInputPhoneNo;
+    private TextInputLayout txtInputAboutYou;
+    private EditText edtFirstName;
+    private EditText edtLastName;
+    private EditText edtCompanyName;
+    private EditText edtPhoneNo;
+    private EditText edtAboutYou;
+    private CircularProgressButton btnNext;
+    private TextView txtErrorLocation;
+    private TextView txtErrorProfile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,24 +101,49 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
         setOnClick();
 
         //calligraphy library not applying fonts to text input layout hence done programmatically
-        AppUtils.applyFontsToTextInputLayout(this, new TextInputLayout[]{
-                (TextInputLayout) findViewById(R.id.text_input_first_name)
-                , (TextInputLayout) findViewById(R.id.text_input_last_name)
-                , (TextInputLayout) findViewById(R.id.text_input_company_name)
-                , (TextInputLayout) findViewById(R.id.text_input_phone_number)
-                , (TextInputLayout) findViewById(R.id.text_input_about_you)});
+        AppUtils.applyFontsToTextInputLayout(this, new TextInputLayout[]{txtInputFirstName, txtInputLastName
+                , txtInputCompanyName, txtInputPhoneNo, txtInputAboutYou});
+
+        setEditTextListener();
 
     }
 
     private void setOnClick() {
         findViewById(R.id.img_select_profile).setOnClickListener(this);
+        findViewById(R.id.img_location).setOnClickListener(this);
+        txtLocation.setOnClickListener(this);
         imgProfile.setOnClickListener(this);
+        btnNext.setOnClickListener(this);
     }
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.common_toolbar);
         txtLocation = (TextView) findViewById(R.id.txt_location);
-        imgProfile = (ImageView) findViewById(R.id.img_profile);
+        imgProfile = (RoundedImageView) findViewById(R.id.img_profile);
+        txtInputFirstName = (TextInputLayout) findViewById(R.id.text_input_first_name);
+        txtInputLastName = (TextInputLayout) findViewById(R.id.text_input_last_name);
+        txtInputCompanyName = (TextInputLayout) findViewById(R.id.text_input_company_name);
+        txtInputPhoneNo = (TextInputLayout) findViewById(R.id.text_input_phone_number);
+        txtInputAboutYou = (TextInputLayout) findViewById(R.id.text_input_about_you);
+        edtFirstName = (EditText) findViewById(R.id.edt_first_name);
+        edtLastName = (EditText) findViewById(R.id.edt_last_name);
+        edtCompanyName = (EditText) findViewById(R.id.edt_company_name);
+        edtPhoneNo = (EditText) findViewById(R.id.edt_phone_number);
+        edtAboutYou = (EditText) findViewById(R.id.edt_about_you);
+        btnNext = (CircularProgressButton) findViewById(R.id.btn_next);
+        txtErrorLocation = (TextView) findViewById(R.id.txt_error_location);
+        txtErrorProfile = (TextView) findViewById(R.id.txt_error_profile);
+
+    }
+
+    private void setEditTextListener() {
+
+        //Custom Edit text change listener with returning id of edit text
+        edtFirstName.addTextChangedListener(new MyTextWatcher(edtFirstName, this));
+        edtLastName.addTextChangedListener(new MyTextWatcher(edtLastName, this));
+        edtCompanyName.addTextChangedListener(new MyTextWatcher(edtCompanyName, this));
+        edtPhoneNo.addTextChangedListener(new MyTextWatcher(edtPhoneNo, this));
+        edtAboutYou.addTextChangedListener(new MyTextWatcher(edtAboutYou, this));
     }
 
 
@@ -193,7 +237,13 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
             //If everything went fine lets get latitude and longitude
             String locationName = AndroidUtils.getLocationName(RegistrationDetailsActivity.this, location);
             if (!locationName.isEmpty()) {
+
+                if (txtErrorLocation.getVisibility() == View.VISIBLE) {
+                    txtErrorLocation.setVisibility(View.GONE);
+                }
+
                 txtLocation.setText(locationName);
+                txtLocation.setEnabled(true);
                 txtLocation.setTextColor(ContextCompat.getColor(RegistrationDetailsActivity.this, R.color.color_black_info));
             }
         }
@@ -283,6 +333,10 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
                     imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     imgProfile.setImageBitmap(photo);
 
+                    if (txtErrorProfile.getVisibility() == View.VISIBLE) {
+                        txtErrorProfile.setVisibility(View.GONE);
+                    }
+
                 } else {
                     File originalCoverFile = new File(imagePath);
                     if (originalCoverFile.exists())
@@ -328,7 +382,13 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
 
         String locationName = AndroidUtils.getLocationName(RegistrationDetailsActivity.this, location);
         if (!locationName.isEmpty()) {
+
+            if (txtErrorLocation.getVisibility() == View.VISIBLE) {
+                txtErrorLocation.setVisibility(View.GONE);
+            }
+
             txtLocation.setText(locationName);
+            txtLocation.setEnabled(true);
             txtLocation.setTextColor(ContextCompat.getColor(RegistrationDetailsActivity.this, R.color.color_black_info));
         }
 
@@ -352,6 +412,7 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_location:
+            case R.id.txt_location:
                 if (txtLocation.getText().toString().equals(getResources().getString(R.string.location_service_required)))
                     turnOnLocation();
                 break;
@@ -364,6 +425,32 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
                         .extension(ImagePicker.Extension.JPG)
                         .enableDebuggingMode(true)
                         .build();
+                break;
+
+            case R.id.btn_next:
+
+
+                boolean isRequiredFieldsFilled = AppUtils.isRequiredFieldsFilled(new TextInputLayout[]{txtInputFirstName, txtInputLastName,
+                                txtInputCompanyName, txtInputPhoneNo, txtInputAboutYou},
+                        getResources().getStringArray(R.array.registration_details_errors));
+
+                if (txtLocation.getText().toString().equals(getResources().getString(R.string.location_service_required))) {
+                    isRequiredFieldsFilled = false;
+                    txtErrorLocation.setVisibility(View.VISIBLE);
+                }
+
+                if (imagePath == null) {
+                    isRequiredFieldsFilled = false;
+                    txtErrorProfile.setVisibility(View.VISIBLE);
+                }
+
+
+                if (isRequiredFieldsFilled) {
+                    Toast.makeText(RegistrationDetailsActivity.this, "success", Toast.LENGTH_SHORT).show();
+                } else {
+
+                }
+
                 break;
         }
     }
@@ -400,5 +487,15 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
         }
 
         super.onBackPressed();
+    }
+
+    @Override
+    public void onTextChange(String text, View view) {
+        EditText editText = (EditText) view;
+
+        if (!text.trim().isEmpty()) {
+            ((TextInputLayout) editText.getParentForAccessibility()).setError(null);
+        }
+
     }
 }

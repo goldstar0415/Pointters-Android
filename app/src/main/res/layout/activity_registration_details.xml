@@ -2,9 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingPrefix"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="MissingPrefix">
 
     <include
         android:id="@+id/toolbar_registration_details"
@@ -17,7 +17,6 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_15sdp"
         android:fillViewport="true"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,10 +50,12 @@
                 android:id="@+id/img_profile"
                 android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_90sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/slider_img_b"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:riv_mutate_background="true"
                 app:riv_oval="true"
                 app:riv_tile_mode="clamp" />
@@ -68,15 +69,31 @@
                 app:layout_constraintRight_toRightOf="@id/img_profile"
                 app:layout_constraintTop_toTopOf="@id/img_profile" />
 
+            <TextView
+                android:id="@+id/txt_error_profile"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:text="@string/proifile_image_required"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/text_size_tiny"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
+                app:layout_constraintTop_toBottomOf="@id/img_profile" />
+
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/text_input_first_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toLeftOf="@+id/text_input_last_name"
-                app:layout_constraintTop_toBottomOf="@+id/img_profile">
+                app:layout_constraintTop_toBottomOf="@+id/txt_error_profile">
 
                 <EditText
                     android:id="@+id/edt_first_name"
@@ -95,13 +112,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintLeft_toRightOf="@+id/text_input_first_name"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
-                app:layout_constraintTop_toBottomOf="@id/img_profile">
+                app:layout_constraintTop_toBottomOf="@id/txt_error_profile">
 
                 <EditText
-                    android:id="@+id/edt_password"
+                    android:id="@+id/edt_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/last_name"
@@ -152,7 +169,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?attr/editTextBackground"
-                android:hint="@string/location"
                 android:text="@string/location_service_required"
                 android:textAppearance="@style/Widget.AppCompat.EditText"
                 android:textColor="@color/text_color_gray"
@@ -165,12 +181,25 @@
                 android:id="@+id/img_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_3sdp"
+                android:paddingLeft="@dimen/_3sdp"
+                android:paddingRight="@dimen/_3sdp"
                 android:src="@drawable/location_icon"
                 app:layout_constraintBottom_toBottomOf="@id/txt_location"
                 app:layout_constraintRight_toRightOf="@id/txt_location"
                 app:layout_constraintTop_toTopOf="@id/txt_hint_location" />
 
+            <TextView
+                android:id="@+id/txt_error_location"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:text="@string/location_required"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/text_size_tiny"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                app:layout_constraintTop_toBottomOf="@id/txt_location" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/text_input_phone_number"
@@ -179,7 +208,7 @@
                 android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
-                app:layout_constraintTop_toBottomOf="@id/txt_location">
+                app:layout_constraintTop_toBottomOf="@id/txt_error_location">
 
                 <EditText
                     android:id="@+id/edt_phone_number"
@@ -220,7 +249,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"

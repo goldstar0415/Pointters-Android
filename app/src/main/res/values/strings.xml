@@ -21,8 +21,8 @@
     <string name="sign_in">SIGN IN</string>
     <string name="success">SUCCESS</string>
     <string name="error">Error</string>
-    <string name="password_mismatch">Passoword mismatch.</string>
-    <string name="provide_valid_email">Please proide valid E-mail id.</string>
+    <string name="password_mismatch">Password mismatch.</string>
+    <string name="provide_valid_email">Please provide a valid E-mail id.</string>
     <string name="provide_valid_password">Please provide valid password.</string>
 
     <!--Registration Details-->
@@ -34,8 +34,15 @@
     <string name="phone_number">PHONE NUMBER</string>
     <string name="about_you">ABOUT YOU</string>
     <string name="next">Next</string>
+    <string name="proifile_image_required">Profile image required.</string>
     <string name="location_service_required">Location service is required</string>
-    
+    <string name="first_name_required">First name required.</string>
+    <string name="last_name_required">Last name required.</string>
+    <string name="company_name_required">Company name required.</string>
+    <string name="location_required">Location required.</string>
+    <string name="phone_no_required">Phone number required.</string>
+    <string name="about_you_required">About you required.</string>
+
     <!--Login-->
     <string name="forgot_password">Forgot Password?</string>
     <string name="dont_have_account">DON\'T HAVE AN ACCOUNT?\u0020</string>

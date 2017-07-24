@@ -30,4 +30,18 @@ public class AppUtils {
 
     }
 
+    public static boolean isRequiredFieldsFilled(TextInputLayout[] textInputLayouts, String[] errorMessages) {
+        boolean isRequiredFieldsFilled = true;
+
+        for (int i = 0; i < textInputLayouts.length; i++) {
+            if (textInputLayouts[i].getEditText().getText().toString().trim().isEmpty()) {
+                textInputLayouts[i].setError(errorMessages[i]);
+                isRequiredFieldsFilled = false;
+            }
+        }
+
+        return isRequiredFieldsFilled;
+
+    }
+
 }

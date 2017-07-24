@@ -75,7 +75,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         //listener for action done button click
         edtReEnterPassword.setOnEditorActionListener(this);
 
-        //Custom Edit text change listener with returning id of edi text
+        //Custom Edit text change listener with returning id of edit text
         edtEmail.addTextChangedListener(new MyTextWatcher(edtEmail, this));
         edtPassword.addTextChangedListener(new MyTextWatcher(edtPassword, this));
         edtReEnterPassword.addTextChangedListener(new MyTextWatcher(edtReEnterPassword, this));
@@ -155,13 +155,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             case R.id.btn_email:
 
                 performSignUpEmail();
-                //btnSignUpFb.setProgress(100); // set progress to 100 or -1 to indicate complete or error state
+               // btnSignUpFb.setProgress(100); // set progress to 100 or -1 to indicate complete or error state
                 break;
 
             case R.id.btn_fb:
                 startActivity(new Intent(this, RegistrationDetailsActivity.class));
-               /* btnSignUpFb.setIndeterminateProgressMode(true); // turn on indeterminate progress
-                btnSignUpFb.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress*/
+                //btnSignUpFb.setIndeterminateProgressMode(true); // turn on indeterminate progress
+                //btnSignUpFb.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress
                 break;
             case R.id.txt_sign_in:
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));

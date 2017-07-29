@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="facebook_app_id">128938584381729</string>
+
     <string name="app_name">Pointters</string>
 
     <!--Intro-->
@@ -34,7 +37,7 @@
     <string name="phone_number">PHONE NUMBER</string>
     <string name="about_you">ABOUT YOU</string>
     <string name="next">Next</string>
-    <string name="proifile_image_required">Profile image required.</string>
+    <string name="profile_image_required">Profile image required.</string>
     <string name="location_service_required">Location service is required</string>
     <string name="first_name_required">First name required.</string>
     <string name="last_name_required">Last name required.</string>
@@ -48,5 +51,26 @@
     <string name="dont_have_account">DON\'T HAVE AN ACCOUNT?\u0020</string>
     <string name="wrong_username_password">Wrong username or password, please try again.</string>
     <string name="fb">Facebook</string>
+
+    <!--Forgot Password-->
+    <string name="send_verification_code">Send Verification Code</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_verification_code">ENTER VERIFICATION CODE</string>
+    <string name="email_does_not_exist">Email does not exist</string>
+    <string name="provide_verification_code">Please provide a valid verification code.</string>
+    <string name="incorrect_verification_code">Incorrect verification code</string>
+    <string name="forgot_password_heading">Forgot Password</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!--Explore Service-->
+    <string name="search_here">Search here</string>
+    <string name="by">By:\u0020</string>
+    <string name="services">Services</string>
+    <string name="live_offers">Live Offers</string>
+    <string name="jobs">Jobs</string>
+
 
 </resources>

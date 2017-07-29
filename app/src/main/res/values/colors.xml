@@ -9,5 +9,9 @@
     <color name="text_color_gray">#8E8E92</color>
     <color name="color_red_for_warning">#FF0000</color>
     <color name="color_black_info">#1D1D26</color>
+    <color name="search_color_main_screen_hint">#969698</color>
+    <color name="window_bg">#F8F8F9</color>
+    <color name="color_service_actual_price">#B9B9BA</color>
+    <color name="color_service_rate_time">#A5A6A6</color>
 
 </resources>

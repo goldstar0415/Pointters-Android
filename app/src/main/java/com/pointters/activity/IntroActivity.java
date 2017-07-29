@@ -121,7 +121,7 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.txt_skip:
-
+                startActivity(new Intent(this, HomeActivity.class));
                 break;
         }
     }

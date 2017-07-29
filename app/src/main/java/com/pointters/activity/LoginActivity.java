@@ -14,7 +14,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.pointters.R;
@@ -65,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //listener for action done button click
         edtPassword.setOnEditorActionListener(this);
 
-        //Custom Edit text change listener with returning id of edi text
+        //Custom Edit text change listener with returning id of edit text
         edtEmail.addTextChangedListener(new MyTextWatcher(edtEmail, this));
         edtPassword.addTextChangedListener(new MyTextWatcher(edtPassword, this));
     }
@@ -122,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.txt_forgot_password:
-                Toast.makeText(LoginActivity.this, "forgot password", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, ForgotPasswordActivity.class));
                 break;
 
             case R.id.txt_sign_up:

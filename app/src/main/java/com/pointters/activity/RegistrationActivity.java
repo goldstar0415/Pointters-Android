@@ -21,11 +21,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.pointters.R;
 import com.pointters.listener.OnEditTextChangeListener;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.MyTextWatcher;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -45,6 +59,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private EditText edtReEnterPassword;
     private ImageView imgValidEmail;
     private TextView txtWarning;
+    private CallbackManager callbackManager;
+    private String userFirstName;
+    private String userLastName;
+    private String userFbId;
+    private String userFbEmail;
+    private String profilePicURL;
+    private String currentLocation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,8 +88,76 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         setEditTextListener();
 
+        registerFbCallBack();
 
     }
+
+    private void registerFbCallBack() {
+
+        callbackManager = CallbackManager.Factory.create();
+
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        getRequiredFbData();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
+
+    }
+
+    private void getRequiredFbData() {
+
+        GraphRequest request = GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+
+                            if (object.has("id")) {
+                                userFbId = object.getString("id");
+                            } else {
+                                userFbId = "";
+                            }
+
+                            if (object.has("email")) {
+                                userFbEmail = object.getString("email");
+
+                            } else {
+                                userFbEmail = "";
+
+                            }
+
+                            startActivity(new Intent(RegistrationActivity.this, RegistrationDetailsActivity.class));
+
+
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+
+                        }
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,email");
+        request.setParameters(parameters);
+        request.executeAsync();
+
+    }
+
 
     private void setEditTextListener() {
 
@@ -155,13 +244,15 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             case R.id.btn_email:
 
                 performSignUpEmail();
-               // btnSignUpFb.setProgress(100); // set progress to 100 or -1 to indicate complete or error state
+                // btnSignUpFb.setProgress(100); // set progress to 100 or -1 to indicate complete or error state
                 break;
 
             case R.id.btn_fb:
-                startActivity(new Intent(this, RegistrationDetailsActivity.class));
-                //btnSignUpFb.setIndeterminateProgressMode(true); // turn on indeterminate progress
-                //btnSignUpFb.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "user_work_history", "user_location"));
+
+               /*btnSignUpFb.setIndeterminateProgressMode(true); // turn on indeterminate progress
+                btnSignUpFb.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress*/
+
                 break;
             case R.id.txt_sign_in:
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
@@ -223,5 +314,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (FacebookSdk.isFacebookRequestCode(requestCode))
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
 }

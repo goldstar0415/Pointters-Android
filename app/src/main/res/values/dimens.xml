@@ -2,6 +2,7 @@
 
     <!--Fixed dimension-->
     <dimen name="fix_1dp">1dp</dimen>
+    <dimen name="fix_0.5dp">0.5dp</dimen>
     <dimen name="elevation">3dp</dimen>
 
     <!-- text size-->
@@ -11,6 +12,9 @@
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_tiny">10sp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
 
 </resources>

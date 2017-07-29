@@ -27,6 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -40,6 +44,8 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnEditTextChangeListener;
 import com.pointters.utils.AndroidUtils;
@@ -49,6 +55,10 @@ import com.pointters.utils.MyTextWatcher;
 
 import net.alhazmy13.mediapicker.FileProcessing;
 import net.alhazmy13.mediapicker.Image.ImagePicker;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
@@ -86,6 +96,7 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
     private CircularProgressButton btnNext;
     private TextView txtErrorLocation;
     private TextView txtErrorProfile;
+    private DisplayImageOptions options;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +116,98 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
                 , txtInputCompanyName, txtInputPhoneNo, txtInputAboutYou});
 
         setEditTextListener();
+
+        if (AccessToken.getCurrentAccessToken() != null)
+            getRequiredFbData();
+
+    }
+
+    private void getRequiredFbData() {
+
+        GraphRequest request = GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+
+
+                            if (object.has("first_name"))
+                                edtFirstName.setText(object.getString("first_name"));
+
+
+                            if (object.has("last_name"))
+                                edtLastName.setText(object.getString("last_name"));
+
+                            if (object.has("id")) {
+
+                                options = new DisplayImageOptions.Builder()
+                                        .showImageOnLoading(R.drawable.user_avatar_placeholder)
+                                        .showImageForEmptyUri(R.drawable.user_avatar_placeholder)
+                                        .showImageOnFail(R.drawable.user_avatar_placeholder)
+                                        .cacheInMemory(true)
+                                        .cacheOnDisk(true)
+                                        .considerExifParams(true)
+                                        .build();
+
+                                imagePath=String.format(
+                                        "https://graph.facebook.com/%s/picture/?type=large", object.getString("id"));
+
+                                ImageLoader.getInstance().displayImage(imagePath, imgProfile, options);
+
+
+                            }
+
+                            // location of user
+                            if (object.has("location")) {
+                                JSONObject jsonLocation = object.getJSONObject("location");
+
+                                if (jsonLocation.has("name"))
+                                    txtLocation.setText(object.getJSONObject("location").getString("name"));
+
+                            }
+
+                            if (object.has("work")) {
+
+                                JSONArray jsonArray = object.getJSONArray("work");
+
+                                if (jsonArray.length() > 0) {
+
+                                    for (int x = 0; x < jsonArray.length(); x++) {
+
+                                        if (x == jsonArray.length() - 1) {
+
+                                            JSONObject jsonWorkedObj = jsonArray.getJSONObject(x);
+
+                                            if (jsonWorkedObj.has("employer")) {
+
+                                                JSONObject jsonWorkingObj = jsonWorkedObj.getJSONObject("employer");
+
+                                                if (jsonWorkingObj.has("name")) {
+
+                                                    edtCompanyName.setText(jsonWorkingObj.getString("name"));
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+
+                        }
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,first_name,last_name,location,work");
+        request.setParameters(parameters);
+        request.executeAsync();
 
     }
 
@@ -237,6 +340,9 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
             //If everything went fine lets get latitude and longitude
             String locationName = AndroidUtils.getLocationName(RegistrationDetailsActivity.this, location);
             if (!locationName.isEmpty()) {
+
+                ((ImageView) findViewById(R.id.img_location)).setImageDrawable(ContextCompat.getDrawable(RegistrationDetailsActivity.this,
+                        R.drawable.location_icon));
 
                 if (txtErrorLocation.getVisibility() == View.VISIBLE) {
                     txtErrorLocation.setVisibility(View.GONE);
@@ -383,6 +489,9 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
         String locationName = AndroidUtils.getLocationName(RegistrationDetailsActivity.this, location);
         if (!locationName.isEmpty()) {
 
+            ((ImageView) findViewById(R.id.img_location)).setImageDrawable(ContextCompat.getDrawable(RegistrationDetailsActivity.this,
+                    R.drawable.location_icon));
+
             if (txtErrorLocation.getVisibility() == View.VISIBLE) {
                 txtErrorLocation.setVisibility(View.GONE);
             }
@@ -486,6 +595,8 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
 
         }
 
+        LoginManager.getInstance().logOut();
+
         super.onBackPressed();
     }
 
@@ -495,6 +606,7 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
 
         if (!text.trim().isEmpty()) {
             ((TextInputLayout) editText.getParentForAccessibility()).setError(null);
+            ((TextInputLayout) editText.getParentForAccessibility()).setErrorEnabled(false);
         }
 
     }

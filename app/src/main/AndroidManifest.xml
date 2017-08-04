@@ -12,43 +12,56 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.IntroActivity">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
         <activity
-            android:name=".activity.RegistrationActivity"
-            android:label="@string/create_account"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activity.RegistrationDetailsActivity"
-            android:label="@string/tell_us_few_things"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activity.LoginActivity"
-            android:label="@string/login"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activity.ForgotPasswordActivity"
-            android:label="@string/forgot_password_heading" />
-
-        <activity android:name=".activity.HomeActivity" />
-
-        <activity android:name=".activity.SearchServiceActivity" />
-
-        <activity android:name=".activity.SearchResultsActivity" />
-
-        <activity
-            android:name=".activity.AddServiceActivity"
-            android:label="@string/add_service">
+            android:name=".activity.IntroActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.RegistrationActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.RegistrationDetailsActivity"
+            android:label="@string/tell_us_few_things"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.HomeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.SearchServiceActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.SearchResultsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AddServiceActivity"
+            android:label="@string/add_service"
+            android:screenOrientation="portrait">
+            <!-- <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>-->
         </activity>
 
         <meta-data

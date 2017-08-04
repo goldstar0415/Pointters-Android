@@ -7,7 +7,7 @@
     <!--Intro-->
     <string name="welcome">Welcome</string>
     <string name="app_intro">Lorem Ipsum is dummy text\nyou\'ll ever need</string>
-    <string name="sign_up">SignUp</string>
+    <string name="sign_up">Signup</string>
     <string name="login">Login</string>
     <string name="skip">Skip</string>
 
@@ -17,8 +17,8 @@
     <string name="password">PASSWORD</string>
     <string name="re_enter_password">RE-ENTER PASSWORD</string>
     <string name="agree_to_terms_conditions">Agree to Term\'s &amp; Conditions and Privacy Conditions</string>
-    <string name="sign_up_with_email">SignUp with Email</string>
-    <string name="sign_up_with_fb">SignUp with Facebook</string>
+    <string name="sign_up_with_email">Signup with Email</string>
+    <string name="sign_up_with_fb">Signup with Facebook</string>
     <string name="or">Or</string>
     <string name="already_have_account">ALREADY HAVE AN ACCOUNT?\u0020\u0020</string>
     <string name="sign_in">SIGN IN</string>

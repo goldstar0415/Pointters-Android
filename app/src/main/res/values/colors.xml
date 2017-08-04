@@ -13,5 +13,11 @@
     <color name="window_bg">#F8F8F9</color>
     <color name="color_service_actual_price">#B9B9BA</color>
     <color name="color_service_rate_time">#A5A6A6</color>
+    <color name="intro_pager_stroke_color">#E7E7E7</color>
+    <color name="color_option_1">#8DC8C1</color>
+    <color name="color_option_2">#E2B267</color>
+    <color name="color_option_3">#AC85F3</color>
+    <color name="color_view">#EFEFF0</color>
+    <color name="text_color_dark_gray">#414141</color>
 
 </resources>

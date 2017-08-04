@@ -15,12 +15,12 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dd.CircularProgressButton;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -51,8 +51,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         TextView.OnEditorActionListener, OnEditTextChangeListener {
 
     private Toolbar toolbar;
-    private CircularProgressButton btnSignUpEmail;
-    private CircularProgressButton btnSignUpFb;
+    private Button btnSignUpEmail;
+    private Button btnSignUpFb;
     private TextView txtTermsConditions;
     private EditText edtEmail;
     private EditText edtPassword;
@@ -173,8 +173,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.common_toolbar);
-        btnSignUpEmail = (CircularProgressButton) findViewById(R.id.btn_email);
-        btnSignUpFb = (CircularProgressButton) findViewById(R.id.btn_fb);
+        btnSignUpEmail = (Button) findViewById(R.id.btn_email);
+        btnSignUpFb = (Button) findViewById(R.id.btn_fb);
         txtTermsConditions = (TextView) findViewById(R.id.txt_agree_to_terms_conditions);
         edtEmail = (EditText) findViewById(R.id.edt_email);
         edtPassword = (EditText) findViewById(R.id.edt_password);

@@ -2,8 +2,9 @@
 
     <!--Fixed dimension-->
     <dimen name="fix_1dp">1dp</dimen>
+    <dimen name="fix_3dp">3dp</dimen>
     <dimen name="fix_0.5dp">0.5dp</dimen>
-    <dimen name="elevation">3dp</dimen>
+    <dimen name="elevation">1dp</dimen>
 
     <!-- text size-->
     <dimen name="text_size_huge">28sp</dimen>

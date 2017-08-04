@@ -39,9 +39,6 @@ dependencies {
 
     compile 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
 
-    //for button loading effect
-    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
-
     //for custom fonts
     compile "uk.co.chrisjenx:calligraphy:${rootProject.calligraphy}"
 

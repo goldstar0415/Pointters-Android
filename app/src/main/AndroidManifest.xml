@@ -13,42 +13,52 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.IntroActivity">
-              <intent-filter>
-                  <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                  <category android:name="android.intent.category.LAUNCHER" />
-              </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".activity.RegistrationActivity"
-            android:label="@string/create_account" />
+            android:label="@string/create_account"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.RegistrationDetailsActivity"
             android:label="@string/tell_us_few_things"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/login" />
+            android:label="@string/login"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:label="@string/forgot_password_heading" />
 
-        <activity android:name=".activity.HomeActivity">
-      <!--  <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activity.HomeActivity" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>-->
-    </activity>
+        <activity android:name=".activity.SearchServiceActivity" />
 
-    <meta-data
-        android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_app_id" />
+        <activity android:name=".activity.SearchResultsActivity" />
 
-    <activity
-        android:name="com.facebook.FacebookActivity"
-        android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:label="@string/app_name" />
-</application>
+        <activity
+            android:name=".activity.AddServiceActivity"
+            android:label="@string/add_service">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    </manifest>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+    </application>
+
+</manifest>

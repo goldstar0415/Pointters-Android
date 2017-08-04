@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="match_parent"
     tools:ignore="MissingPrefix">
 
@@ -244,20 +245,18 @@
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
-            <com.dd.CircularProgressButton
+            <Button
+                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/btn_next"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:background="@color/colorAccent"
+                android:text="@string/next"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
-                app:cpb_colorIndicator="@color/colorAccent"
-                app:cpb_selectorIdle="@drawable/bg_btn_sign_up_email"
-                app:cpb_textComplete="@string/success"
-                app:cpb_textError="@string/error"
-                app:cpb_textIdle="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"

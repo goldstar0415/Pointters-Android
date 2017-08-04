@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.pointters.R;
 import com.pointters.adapter.IntroViewPagerAdapter;
+import com.pointters.utils.AndroidUtils;
+import com.pointters.utils.ConstantUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.Timer;
@@ -27,7 +29,7 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-
+        AndroidUtils.getHashKey(this);
         setUpViewPager();
 
         setOnClick();
@@ -121,6 +123,8 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.txt_skip:
+                getSharedPreferences(ConstantUtils.APP_PREF, MODE_PRIVATE).edit()
+                        .putBoolean(ConstantUtils.PREF_IS_LOGIN, false).apply();
                 startActivity(new Intent(this, HomeActivity.class));
                 break;
         }

@@ -21,12 +21,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dd.CircularProgressButton;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -93,7 +93,7 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
     private EditText edtCompanyName;
     private EditText edtPhoneNo;
     private EditText edtAboutYou;
-    private CircularProgressButton btnNext;
+    private Button btnNext;
     private TextView txtErrorLocation;
     private TextView txtErrorProfile;
     private DisplayImageOptions options;
@@ -233,7 +233,7 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
         edtCompanyName = (EditText) findViewById(R.id.edt_company_name);
         edtPhoneNo = (EditText) findViewById(R.id.edt_phone_number);
         edtAboutYou = (EditText) findViewById(R.id.edt_about_you);
-        btnNext = (CircularProgressButton) findViewById(R.id.btn_next);
+        btnNext = (Button) findViewById(R.id.btn_next);
         txtErrorLocation = (TextView) findViewById(R.id.txt_error_location);
         txtErrorProfile = (TextView) findViewById(R.id.txt_error_profile);
 

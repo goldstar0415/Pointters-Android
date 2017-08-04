@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:ignore="MissingPrefix">
 
     <include
@@ -69,7 +70,7 @@
                 android:id="@+id/img_valid_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/tick_icon"
+                android:src="@drawable/tick_icon_blue"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/text_input_email"
                 app:layout_constraintRight_toRightOf="@id/text_input_email"
@@ -142,35 +143,21 @@
                 app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@+id/txt_warning" />
 
-            <com.dd.CircularProgressButton
+            <Button
+                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/btn_email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:background="@color/colorAccent"
+                android:text="@string/sign_up_with_email"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
-                app:cpb_colorIndicator="@color/colorAccent"
-                app:cpb_selectorIdle="@drawable/bg_btn_sign_up_email"
-                app:cpb_textComplete="@string/success"
-                app:cpb_textError="@string/error"
-                app:cpb_textIdle="@string/sign_up_with_email"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@+id/txt_agree_to_terms_conditions" />
 
-            <!-- <Button
-                 android:id="@+id/btn_email"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="@dimen/_15sdp"
-                 android:background="@color/colorAccent"
-                 android:text="@string/sign_up_with_email"
-                 android:textColor="@android:color/white"
-                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
-                 app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
-                 app:layout_constraintTop_toBottomOf="@+id/txt_agree_to_terms_conditions" />
- -->
             <android.support.constraint.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -219,34 +206,20 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
 
-            <com.dd.CircularProgressButton
+            <Button
                 android:id="@+id/btn_fb"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/sign_up_with_fb"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                app:cpb_colorIndicator="@color/fb_color"
-                app:cpb_selectorIdle="@drawable/bg_btn_sign_up_fb"
-                app:cpb_textComplete="@string/success"
-                app:cpb_textError="@string/error"
-                app:cpb_textIdle="@string/sign_up_with_fb"
+                android:background="@color/fb_color"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toLeftOf="@+id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@+id/txt_or" />
 
-            <!-- <Button
-                 android:id="@+id/btn_fb"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="@dimen/_10sdp"
-                 android:background="@color/fb_color"
-                 android:text="@string/sign_up_with_fb"
-                 android:textColor="@android:color/white"
-                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
-                 app:layout_constraintRight_toLeftOf="@+id/constraint_guide_right"
-                 app:layout_constraintTop_toBottomOf="@+id/txt_or" />-->
 
             <TextView
                 android:id="@+id/txt_already_account"
@@ -256,7 +229,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/already_have_account"
                 android:textColor="@color/text_color_gray"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_tiny"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/txt_sign_in"
@@ -269,7 +242,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/sign_in"
                 android:textColor="@color/color_black_info"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_tiny"
                 app:layout_constraintLeft_toRightOf="@id/txt_already_account"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_fb" />

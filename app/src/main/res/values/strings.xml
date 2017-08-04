@@ -20,7 +20,7 @@
     <string name="sign_up_with_email">SignUp with Email</string>
     <string name="sign_up_with_fb">SignUp with Facebook</string>
     <string name="or">Or</string>
-    <string name="already_have_account">ALREADY HAVE AN ACCOUNT?\u0020</string>
+    <string name="already_have_account">ALREADY HAVE AN ACCOUNT?\u0020\u0020</string>
     <string name="sign_in">SIGN IN</string>
     <string name="success">SUCCESS</string>
     <string name="error">Error</string>
@@ -48,7 +48,7 @@
 
     <!--Login-->
     <string name="forgot_password">Forgot Password?</string>
-    <string name="dont_have_account">DON\'T HAVE AN ACCOUNT?\u0020</string>
+    <string name="dont_have_account">DON\'T HAVE AN ACCOUNT?\u0020\u0020</string>
     <string name="wrong_username_password">Wrong username or password, please try again.</string>
     <string name="fb">Facebook</string>
 
@@ -65,12 +65,34 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <!--Explore Service-->
+    <!--Explore Service after login-->
     <string name="search_here">Search here</string>
     <string name="by">By:\u0020</string>
     <string name="services">Services</string>
     <string name="live_offers">Live Offers</string>
     <string name="jobs">Jobs</string>
 
+    <!--Explore Service without login-->
+    <string name="popular_categories">Popular Categories</string>
+
+    <!--Search Service-->
+    <string name="enter_location">Enter Location</string>
+    <string name="see_all">See all</string>
+    <string name="apply">Apply</string>
+
+    <!--Search Result-->
+    <string name="get_live_offer">Get Live Offer</string>
+
+    <!--Add Service-->
+    <string name="add_service">Add Service</string>
+    <string name="choose_category">CHOOSE CATEGORY</string>
+    <string name="upload_photo_or_video">Upload photo or video</string>
+    <string name="service_description">Service Description</string>
+    <string name="pricing">Pricing</string>
+    <string name="add_price_option">Add price option</string>
+    <string name="delivery_method">Delivery Method</string>
+    <string name="your_local_services_wont_be_updated">Your local services will not be posted until you have passed background check</string>
+    <string name="add">ADD</string>
+    <string name="type_service_descn">Type your service Description</string>
 
 </resources>

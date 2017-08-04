@@ -11,15 +11,16 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dd.CircularProgressButton;
 import com.pointters.R;
 import com.pointters.listener.OnEditTextChangeListener;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
+import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.MyTextWatcher;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -31,8 +32,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener, OnEditTextChangeListener {
 
     private Toolbar toolbar;
-    private CircularProgressButton btnLoginEmail;
-    private CircularProgressButton btnLoginFb;
+    private Button btnLoginEmail;
+    private Button btnLoginFb;
     private EditText edtEmail;
     private EditText edtPassword;
     private ImageView imgValidEmail;
@@ -72,8 +73,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.common_toolbar);
-        btnLoginEmail = (CircularProgressButton) findViewById(R.id.btn_email);
-        btnLoginFb = (CircularProgressButton) findViewById(R.id.btn_fb);
+        btnLoginEmail = (Button) findViewById(R.id.btn_email);
+        btnLoginFb = (Button) findViewById(R.id.btn_fb);
         edtEmail = (EditText) findViewById(R.id.edt_email);
         edtPassword = (EditText) findViewById(R.id.edt_password);
         imgValidEmail = (ImageView) findViewById(R.id.img_valid_email);
@@ -111,7 +112,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 performLoginEmail();
 
-                //btnSignUpFb.setProgress(100); // set progress to 100 or -1 to indicate complete or error state
+                getSharedPreferences(ConstantUtils.APP_PREF, MODE_PRIVATE).edit()
+                        .putBoolean(ConstantUtils.PREF_IS_LOGIN, true).apply();
+                startActivity(new Intent(this, HomeActivity.class));
+
                 break;
 
             case R.id.btn_fb:

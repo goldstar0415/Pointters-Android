@@ -4,11 +4,12 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
-        applicationId "com.pointters"
+        applicationId "com.pointters.androiddevelopment"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
+        versionCode 4
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,18 +33,13 @@ dependencies {
     compile "com.android.support.constraint:constraint-layout:${rootProject.constraintLayout}"
     compile "com.android.support:design:${rootProject.designVersion}"
     compile "com.google.android.gms:play-services-location:${rootProject.playServicesVersion}"
-    testCompile 'junit:junit:4.12'
 
     //for dp defined for muliple size phone
-    compile 'com.intuit.sdp:sdp-android:1.0.4'
-
-    compile 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
 
     //for custom fonts
     compile "uk.co.chrisjenx:calligraphy:${rootProject.calligraphy}"
 
     // custom shaped image view
-    compile 'com.makeramen:roundedimageview:2.3.0'
 
     //media picker library
     compile project(':libs:mediaPickerLibrary')
@@ -51,6 +47,26 @@ dependencies {
     compile "com.facebook.android:facebook-android-sdk:${rootProject.facebook}"
 
     // Image loading using UIL
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
+    // Retrofit api call
+
+    // custom loading dialog
+
+
+    compile 'com.intuit.sdp:sdp-android:1.0.4'
+    compile 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
+    compile 'com.makeramen:roundedimageview:2.3.0'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.google.code.gson:gson:2.6.1'
+    compile 'com.github.d-max:spots-dialog:0.7@aar'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
+    compile 'at.blogc:expandabletextview:1.0.3'
+    compile 'com.google.android.gms:play-services:10.2.1'
+    compile 'com.amazonaws:aws-android-sdk-core:2.2.+'
+    compile 'com.amazonaws:aws-android-sdk-s3:2.2.+'
+    compile 'com.amazonaws:aws-android-sdk-ddb:2.2.+'
+    testCompile 'junit:junit:4.12'
 }

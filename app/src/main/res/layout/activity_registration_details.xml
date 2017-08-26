@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:ignore="MissingPrefix">
 
     <include
@@ -49,8 +49,8 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/img_profile"
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="@dimen/_90sdp"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="@dimen/_68sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/user_avatar_placeholder"
@@ -65,7 +65,6 @@
                 android:id="@+id/img_select_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_2sdp"
                 android:src="@drawable/plus_icon"
                 app:layout_constraintRight_toRightOf="@id/img_profile"
                 app:layout_constraintTop_toTopOf="@id/img_profile" />
@@ -92,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toLeftOf="@+id/text_input_last_name"
                 app:layout_constraintTop_toBottomOf="@+id/txt_error_profile">
@@ -102,9 +102,10 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/first_name"
                     android:imeOptions="actionNext"
+                    android:backgroundTint="#e8e8e9"
                     android:inputType="textCapWords|textNoSuggestions"
                     android:textColor="@color/color_black_info"
-                    android:textColorHint="@color/text_color_gray"
+                     android:textColorHint="#ABABAD"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
@@ -126,7 +127,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords|textNoSuggestions"
                     android:textColor="@color/color_black_info"
-                    android:textColorHint="@color/text_color_gray"
+                    android:textColorHint="#ABABAD"
+                    android:backgroundTint="#e8e8e9"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
@@ -145,51 +147,87 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/company_name"
                     android:imeOptions="actionNext"
-                    android:inputType="textNoSuggestions"
+                    android:backgroundTint="#e8e8e9"
+                    android:inputType="textCapWords|textNoSuggestions"
                     android:textColor="@color/color_black_info"
-                    android:textColorHint="@color/text_color_gray"
+                    android:textColorHint="#ABABAD"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
+            <!-- <TextView
+                 android:id="@+id/txt_hint_location"
+                 fontPath="fonts/Montserrat-Regular.ttf"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="@dimen/_5sdp"
+                 android:layout_marginTop="@dimen/_7sdp"
+                 android:text="@string/location"
+                 android:textColor="@color/text_color_gray"
+                 android:textSize="@dimen/text_size_tiny"
+                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                 app:layout_constraintTop_toBottomOf="@id/text_input_company_name" />
 
-            <TextView
-                android:id="@+id/txt_hint_location"
-                fontPath="fonts/Montserrat-Regular.ttf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:text="@string/location"
-                android:textColor="@color/text_color_gray"
-                android:textSize="@dimen/text_size_tiny"
-                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
-                app:layout_constraintTop_toBottomOf="@id/text_input_company_name" />
+             <TextView
+                 android:id="@+id/txt_location"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:background="?attr/editTextBackground"
+                 android:text="@string/location_service_required"
+                 android:textAppearance="@style/Widget.AppCompat.EditText"
+                 android:textColor="@color/text_color_gray"
+                 android:textSize="@dimen/text_size_small"
+                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
+                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
+                 app:layout_constraintTop_toBottomOf="@id/txt_hint_location" />
 
-            <TextView
-                android:id="@+id/txt_location"
+             <ImageView
+                 android:id="@+id/img_location"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:paddingLeft="@dimen/_3sdp"
+                 android:paddingRight="@dimen/_3sdp"
+                 android:src="@drawable/location_icon_grey"
+                 app:layout_constraintBottom_toBottomOf="@id/txt_location"
+                 app:layout_constraintRight_toRightOf="@id/txt_location"
+                 app:layout_constraintTop_toTopOf="@id/txt_hint_location" />-->
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_location"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="?attr/editTextBackground"
-                android:text="@string/location_service_required"
-                android:textAppearance="@style/Widget.AppCompat.EditText"
-                android:textColor="@color/text_color_gray"
-                android:textSize="@dimen/text_size_small"
+                android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
-                app:layout_constraintTop_toBottomOf="@id/txt_hint_location" />
+                app:layout_constraintTop_toBottomOf="@id/text_input_company_name">
+
+                <EditText
+                    android:id="@+id/edt_text_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/location"
+                    android:imeOptions="actionNext"
+                    android:focusableInTouchMode="false"
+                    android:backgroundTint="#e8e8e9"
+                    android:focusable="false"
+                    android:inputType="textNoSuggestions"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#ABABAD"
+                    android:textSize="@dimen/text_size_small" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/img_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_24sdp"
                 android:paddingLeft="@dimen/_3sdp"
                 android:paddingRight="@dimen/_3sdp"
                 android:src="@drawable/location_icon_grey"
-                app:layout_constraintBottom_toBottomOf="@id/txt_location"
-                app:layout_constraintRight_toRightOf="@id/txt_location"
-                app:layout_constraintTop_toTopOf="@id/txt_hint_location" />
+                app:layout_constraintRight_toRightOf="@id/text_input_location"
+                app:layout_constraintTop_toBottomOf="@id/text_input_company_name" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/txt_error_location"
                 fontPath="fonts/Montserrat-Regular.ttf"
                 android:layout_width="wrap_content"
@@ -200,7 +238,8 @@
                 android:textSize="@dimen/text_size_tiny"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
-                app:layout_constraintTop_toBottomOf="@id/txt_location" />
+                app:layout_constraintTop_toBottomOf="@id/txt_location" />-->
+
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/text_input_phone_number"
@@ -209,7 +248,7 @@
                 android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
-                app:layout_constraintTop_toBottomOf="@id/txt_error_location">
+                app:layout_constraintTop_toBottomOf="@id/text_input_location">
 
                 <EditText
                     android:id="@+id/edt_phone_number"
@@ -218,8 +257,9 @@
                     android:hint="@string/phone_number"
                     android:imeOptions="actionNext"
                     android:inputType="number"
+                    android:backgroundTint="#e8e8e9"
                     android:textColor="@color/color_black_info"
-                    android:textColorHint="@color/text_color_gray"
+                    android:textColorHint="#ABABAD"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
@@ -235,19 +275,20 @@
                 <EditText
                     android:id="@+id/edt_about_you"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_80sdp"
+                    android:layout_height="wrap_content"
                     android:gravity="top"
                     android:hint="@string/about_you"
                     android:imeOptions="actionDone"
+                    android:backgroundTint="#e8e8e9"
                     android:inputType="textCapSentences|textNoSuggestions|textMultiLine"
                     android:textColor="@color/color_black_info"
-                    android:textColorHint="@color/text_color_gray"
+                    android:textColorHint="#ABABAD"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/btn_next"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_15sdp"

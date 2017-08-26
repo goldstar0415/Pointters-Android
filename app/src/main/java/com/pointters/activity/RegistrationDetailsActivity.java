@@ -4,22 +4,18 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,9 +23,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -45,27 +48,30 @@ import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnEditTextChangeListener;
+import com.pointters.model.request.LongitudeLatitude;
+import com.pointters.model.request.UserPutRequest;
+import com.pointters.model.response.ResponsePutUser;
+import com.pointters.rest.ApiClient;
+import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
+import com.pointters.utils.ConnectivityController;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.MyTextWatcher;
+import com.theartofdev.edmodo.cropper.CropImage;
 
-import net.alhazmy13.mediapicker.FileProcessing;
 import net.alhazmy13.mediapicker.Image.ImagePicker;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Vishal Sharma on 19-Jul-17.
@@ -74,14 +80,13 @@ import static android.os.Build.VERSION_CODES.M;
 public class RegistrationDetailsActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks
         , GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener, OnEditTextChangeListener {
 
-    private Toolbar toolbar;
-    private LocationRequest locationRequest;
-    private GoogleApiClient googleApiClient;
     private final int REQUEST_CHECK_SETTINGS = 1000;
     private final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 2000;
-    private TextView txtLocation;
+    AmazonS3 s3;
+    private LocationRequest locationRequest;
+    private GoogleApiClient googleApiClient;
+    private EditText edtInputLocation;
     private String imagePath;
-    private String originalImagePath;
     private RoundedImageView imgProfile;
     private TextInputLayout txtInputFirstName;
     private TextInputLayout txtInputLastName;
@@ -90,13 +95,18 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
     private TextInputLayout txtInputAboutYou;
     private EditText edtFirstName;
     private EditText edtLastName;
+    private SharedPreferences.Editor editor;
     private EditText edtCompanyName;
     private EditText edtPhoneNo;
     private EditText edtAboutYou;
     private Button btnNext;
-    private TextView txtErrorLocation;
     private TextView txtErrorProfile;
+    private SpotsDialog spotsDialog;
+    private boolean isRequiredFieldsFilled;
     private DisplayImageOptions options;
+    private TransferUtility transferUtility;
+    private SharedPreferences sharedPreferences;
+    private String MY_BUCKET = "pointters_dev/dev", OBJECT_KEY = "unique";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,8 +114,11 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
         setContentView(R.layout.activity_registration_details);
 
         initViews();
-
-        AppUtils.setDefaultToolbarWithBackIcon(this, toolbar);
+        sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        //set toolbar
+        AppUtils.setToolBarWithBothIcon(RegistrationDetailsActivity.this, getResources().getString(R.string.tell_us_few_things),
+                R.drawable.back_icon_grey, 0);
 
         turnOnLocation();
 
@@ -117,111 +130,21 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
 
         setEditTextListener();
 
-        if (AccessToken.getCurrentAccessToken() != null)
-            getRequiredFbData();
 
     }
 
-    private void getRequiredFbData() {
-
-        GraphRequest request = GraphRequest.newMeRequest(
-                AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        try {
-
-
-                            if (object.has("first_name"))
-                                edtFirstName.setText(object.getString("first_name"));
-
-
-                            if (object.has("last_name"))
-                                edtLastName.setText(object.getString("last_name"));
-
-                            if (object.has("id")) {
-
-                                options = new DisplayImageOptions.Builder()
-                                        .showImageOnLoading(R.drawable.user_avatar_placeholder)
-                                        .showImageForEmptyUri(R.drawable.user_avatar_placeholder)
-                                        .showImageOnFail(R.drawable.user_avatar_placeholder)
-                                        .cacheInMemory(true)
-                                        .cacheOnDisk(true)
-                                        .considerExifParams(true)
-                                        .build();
-
-                                imagePath=String.format(
-                                        "https://graph.facebook.com/%s/picture/?type=large", object.getString("id"));
-
-                                ImageLoader.getInstance().displayImage(imagePath, imgProfile, options);
-
-
-                            }
-
-                            // location of user
-                            if (object.has("location")) {
-                                JSONObject jsonLocation = object.getJSONObject("location");
-
-                                if (jsonLocation.has("name"))
-                                    txtLocation.setText(object.getJSONObject("location").getString("name"));
-
-                            }
-
-                            if (object.has("work")) {
-
-                                JSONArray jsonArray = object.getJSONArray("work");
-
-                                if (jsonArray.length() > 0) {
-
-                                    for (int x = 0; x < jsonArray.length(); x++) {
-
-                                        if (x == jsonArray.length() - 1) {
-
-                                            JSONObject jsonWorkedObj = jsonArray.getJSONObject(x);
-
-                                            if (jsonWorkedObj.has("employer")) {
-
-                                                JSONObject jsonWorkingObj = jsonWorkedObj.getJSONObject("employer");
-
-                                                if (jsonWorkingObj.has("name")) {
-
-                                                    edtCompanyName.setText(jsonWorkingObj.getString("name"));
-
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-
-                        }
-                    }
-                });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,first_name,last_name,location,work");
-        request.setParameters(parameters);
-        request.executeAsync();
-
-    }
 
     private void setOnClick() {
         findViewById(R.id.img_select_profile).setOnClickListener(this);
         findViewById(R.id.img_location).setOnClickListener(this);
-        txtLocation.setOnClickListener(this);
+        edtInputLocation.setOnClickListener(this);
         imgProfile.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
 
     private void initViews() {
-        toolbar = (Toolbar) findViewById(R.id.common_toolbar);
-        txtLocation = (TextView) findViewById(R.id.txt_location);
+
+        edtInputLocation = (EditText) findViewById(R.id.edt_text_location);
         imgProfile = (RoundedImageView) findViewById(R.id.img_profile);
         txtInputFirstName = (TextInputLayout) findViewById(R.id.text_input_first_name);
         txtInputLastName = (TextInputLayout) findViewById(R.id.text_input_last_name);
@@ -234,7 +157,6 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
         edtPhoneNo = (EditText) findViewById(R.id.edt_phone_number);
         edtAboutYou = (EditText) findViewById(R.id.edt_about_you);
         btnNext = (Button) findViewById(R.id.btn_next);
-        txtErrorLocation = (TextView) findViewById(R.id.txt_error_location);
         txtErrorProfile = (TextView) findViewById(R.id.txt_error_profile);
 
     }
@@ -248,7 +170,6 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
         edtPhoneNo.addTextChangedListener(new MyTextWatcher(edtPhoneNo, this));
         edtAboutYou.addTextChangedListener(new MyTextWatcher(edtAboutYou, this));
     }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -344,17 +265,13 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
                 ((ImageView) findViewById(R.id.img_location)).setImageDrawable(ContextCompat.getDrawable(RegistrationDetailsActivity.this,
                         R.drawable.location_icon));
 
-                if (txtErrorLocation.getVisibility() == View.VISIBLE) {
-                    txtErrorLocation.setVisibility(View.GONE);
-                }
 
-                txtLocation.setText(locationName);
-                txtLocation.setEnabled(true);
-                txtLocation.setTextColor(ContextCompat.getColor(RegistrationDetailsActivity.this, R.color.color_black_info));
+                edtInputLocation.setText(locationName);
+                edtInputLocation.setEnabled(true);
+                edtInputLocation.setTextColor(ContextCompat.getColor(RegistrationDetailsActivity.this, R.color.color_black_info));
             }
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -370,87 +287,84 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
                         break;
                 }
                 break;
-
             case ImagePicker.IMAGE_PICKER_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
                     List<String> mPaths = (List<String>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PATH);
                     if (mPaths != null && mPaths.size() == 1) {
                         imagePath = mPaths.get(0);
-
-                        //call the standard crop action intent (the user device may not support it)
-                        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-
-                        Uri contentUri;
+                        imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        imgProfile.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+                       /* if(imagePath!=null)
+                        {
+                            Uri contentUri;
 
                         if (Build.VERSION.SDK_INT > M) {
 
                             contentUri = FileProvider.getUriForFile(RegistrationDetailsActivity.this,
                                     "android3.maxtingapp.provider", new File(imagePath));
-
-                            //TODO:  Permission..
-
-                            getApplicationContext().grantUriPermission("com.android.camera",
-                                    contentUri,
-                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                            cropIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            cropIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
-                        } else {
+                        }else {
                             contentUri = Uri.fromFile(new File(imagePath));
                         }
+                            CropImage.activity(contentUri)
+                                    .start(this);
+                        }*/
 
-                        //indicate image type and Uri
-                        cropIntent.setDataAndType(contentUri, "image/*");
-                        //set crop properties
-                        cropIntent.putExtra("crop", "true");
-                        //indicate aspect of desired crop
-                        cropIntent.putExtra("aspectX", ConstantUtils.CROP_ASPECT_X);
-                        cropIntent.putExtra("aspectY", ConstantUtils.CROP_ASPECT_Y);
-                        //indicate output X and Y
-                        cropIntent.putExtra("outputX", ConstantUtils.CROP_IMAGE_DIMEN_X);
-                        cropIntent.putExtra("outputY", ConstantUtils.CROP_IMAGE_DIMEN_Y);
-                        //retrieve data on return
-                        cropIntent.putExtra("return-data", false);
-                        //start the activity - we handle returning in onActivityResult
-                        startActivityForResult(cropIntent, ConstantUtils.ACTION_CROP_IMAGE);
 
                     }
                 }
                 break;
 
-            case ConstantUtils.ACTION_CROP_IMAGE:
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
 
-                    Bitmap photo;
 
-                    if (data.getData() != null) {
-                        originalImagePath = imagePath;
-                        //used code of media picker library to convert to a valid path
-                        imagePath = FileProcessing.getPath(RegistrationDetailsActivity.this, data.getData());
-                        photo = BitmapFactory.decodeFile(imagePath);
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    if (result != null) {
+                        Uri resultUri = result.getUri();
+                        imagePath = resultUri.getPath();
 
-                    } else if (data.getExtras().get("data") != null) {
-                        photo = (Bitmap) data.getExtras().get("data");
-                    } else {
-                        photo = BitmapFactory.decodeFile(imagePath);
+                        imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        imgProfile.setImageBitmap(BitmapFactory.decodeFile(resultUri.getPath()));
                     }
 
-                    imgProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    imgProfile.setImageBitmap(photo);
-
-                    if (txtErrorProfile.getVisibility() == View.VISIBLE) {
-                        txtErrorProfile.setVisibility(View.GONE);
-                    }
-
-                } else {
-                    File originalCoverFile = new File(imagePath);
-                    if (originalCoverFile.exists())
-                        originalCoverFile.delete();
                 }
-
                 break;
         }
+    }
+
+
+    private void ImgUploadOnAws() {
+
+        BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(ConstantUtils.AWS_ACCESS_KEY, ConstantUtils.AWS_SECRATE_KEY);
+        s3 = new AmazonS3Client(basicAWSCredentials);
+        s3.setRegion(Region.getRegion(Regions.US_EAST_1));
+
+        transferUtility = new TransferUtility(s3, getApplicationContext());
+        TransferObserver observer = transferUtility.upload(MY_BUCKET, OBJECT_KEY, new File(imagePath), CannedAccessControlList.PublicRead);
+
+        observer.setTransferListener(new TransferListener() {
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+                if (state.equals(TransferState.COMPLETED)) {
+                    //   AndroidUtils.showToast(RegistrationDetailsActivity.this, "Uploading finished");
+
+                } else if (state.equals(TransferState.FAILED)) {
+                    //AndroidUtils.showToast(RegistrationDetailsActivity.this, "Uploading failed please try again");
+                }
+            }
+
+            @Override
+            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -492,13 +406,9 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
             ((ImageView) findViewById(R.id.img_location)).setImageDrawable(ContextCompat.getDrawable(RegistrationDetailsActivity.this,
                     R.drawable.location_icon));
 
-            if (txtErrorLocation.getVisibility() == View.VISIBLE) {
-                txtErrorLocation.setVisibility(View.GONE);
-            }
-
-            txtLocation.setText(locationName);
-            txtLocation.setEnabled(true);
-            txtLocation.setTextColor(ContextCompat.getColor(RegistrationDetailsActivity.this, R.color.color_black_info));
+            edtInputLocation.setText(locationName);
+            edtInputLocation.setEnabled(true);
+            edtInputLocation.setTextColor(ContextCompat.getColor(RegistrationDetailsActivity.this, R.color.color_black_info));
         }
 
 
@@ -520,16 +430,29 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.img_location:
-            case R.id.txt_location:
-                if (txtLocation.getText().toString().equals(getResources().getString(R.string.location_service_required)))
+            case R.id.edt_text_location:
+                if (edtInputLocation.getText().toString().isEmpty())
                     turnOnLocation();
+                break;
+
+            case R.id.toolbar_lft_img:
+
+                onBackPressed();
+
                 break;
 
             case R.id.img_select_profile:
             case R.id.img_profile:
+               /* CropImage.activity().setAspectRatio(ConstantUtils.CROP_ASPECT_X,ConstantUtils.CROP_ASPECT_Y)
+                        .setGuidelines(CropImageView.Guidelines.ON).setAllowFlipping(false).setAllowRotation(false)
+                        .start(this);
+*/
+                isRequiredFieldsFilled = false;
+                txtErrorProfile.setVisibility(View.GONE);
                 new ImagePicker.Builder(RegistrationDetailsActivity.this)
-                        .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
+                        .mode(ImagePicker.Mode.GALLERY)
                         .directory(ImagePicker.Directory.DEFAULT)
                         .extension(ImagePicker.Extension.JPG)
                         .enableDebuggingMode(true)
@@ -538,14 +461,13 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
 
             case R.id.btn_next:
 
-
-                boolean isRequiredFieldsFilled = AppUtils.isRequiredFieldsFilled(new TextInputLayout[]{txtInputFirstName, txtInputLastName,
-                                txtInputCompanyName, txtInputPhoneNo, txtInputAboutYou},
+                 isRequiredFieldsFilled = AppUtils.isRequiredFieldsFilled(new TextInputLayout[]{txtInputFirstName, txtInputLastName
+                                 /*, txtInputCompanyName, txtInputPhoneNo, txtInputAboutYou*/},
                         getResources().getStringArray(R.array.registration_details_errors));
 
-                if (txtLocation.getText().toString().equals(getResources().getString(R.string.location_service_required))) {
+                if (edtInputLocation.getText().toString().isEmpty()) {
                     isRequiredFieldsFilled = false;
-                    txtErrorLocation.setVisibility(View.VISIBLE);
+
                 }
 
                 if (imagePath == null) {
@@ -555,25 +477,60 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
 
 
                 if (isRequiredFieldsFilled) {
-                    Toast.makeText(RegistrationDetailsActivity.this, "success", Toast.LENGTH_SHORT).show();
-                } else {
 
+
+                    if (ConnectivityController.isNetworkAvailable(RegistrationDetailsActivity.this)) {
+
+                        callGetUserApi();
+                    } else {
+                        Toast.makeText(RegistrationDetailsActivity.this, getResources().getString(R.string.no_internet_warning), Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } else {
+                    // AndroidUtils.showToast(RegistrationDetailsActivity.this, "Please fill");
                 }
 
                 break;
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    private void callGetUserApi() {
 
-        // handle arrow click here
-        if (item.getItemId() == android.R.id.home) {
+        spotsDialog = new SpotsDialog(RegistrationDetailsActivity.this);
+        spotsDialog.show();
+        spotsDialog.setCancelable(false);
+        ImgUploadOnAws();
+        LongitudeLatitude longitudeLatitude = new LongitudeLatitude(-118.243685, 34.052234);
+        com.pointters.model.request.Location location = new com.pointters.model.request.Location("Los Angeles", "USA", longitudeLatitude, 91007, " ", "ca");
+        UserPutRequest userPutRequest = new UserPutRequest(txtInputCompanyName.getEditText().getText().toString().trim(), txtInputAboutYou.getEditText().getText().toString().trim(), txtInputFirstName.getEditText().getText().toString().trim(), txtInputLastName.getEditText().getText().toString().trim(), location, txtInputPhoneNo.getEditText().getText().toString(), "https://s3.amazonaws.com/pointters_dev/dev/unique");
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponsePutUser> responsePutUserCall = apiService.putUser(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.APP_PREF, ""), userPutRequest);
+        responsePutUserCall.enqueue(new Callback<ResponsePutUser>() {
+            @Override
+            public void onResponse(Call<ResponsePutUser> call, Response<ResponsePutUser> response) {
+                if (spotsDialog != null && spotsDialog.isShowing()) {
+                    spotsDialog.cancel();
+                }
 
-            onBackPressed(); // close this activity and return to preview activity
-        }
+                if (response.code() == 200 && response.body().isSuccess()) {
+                    AndroidUtils.showToast(RegistrationDetailsActivity.this, "Done");
+                } else if (response.code() == 403) {
+                    finish();
+                    startActivity(new Intent(RegistrationDetailsActivity.this, HomeActivity.class));
+                } else if (response.code() == 401) {
+                    finish();
+                    editor.putBoolean(ConstantUtils.PREF_IS_LOGIN, true).apply();
+                    startActivity(new Intent(RegistrationDetailsActivity.this, HomeActivity.class));
+                }
+            }
 
-        return super.onOptionsItemSelected(item);
+            @Override
+            public void onFailure(Call<ResponsePutUser> call, Throwable t) {
+                AndroidUtils.showToast(RegistrationDetailsActivity.this, "please try again");
+            }
+        });
+
     }
 
     @Override
@@ -584,14 +541,6 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
             File coverFile = new File(imagePath);
             if (coverFile.exists())
                 coverFile.delete();
-
-        }
-
-        //delete original cover image file
-        if (originalImagePath != null) {
-            File originalCoverFile = new File(originalImagePath);
-            if (originalCoverFile.exists())
-                originalCoverFile.delete();
 
         }
 

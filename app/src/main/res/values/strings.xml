@@ -1,8 +1,9 @@
 <resources>
 
-    <string name="facebook_app_id">128938584381729</string>
+    <string name="facebook_app_id">995599163788797</string>
 
     <string name="app_name">Pointters</string>
+    <string name="loading">Loading</string>
 
     <!--Intro-->
     <string name="welcome">Welcome</string>
@@ -24,9 +25,14 @@
     <string name="sign_in">SIGN IN</string>
     <string name="success">SUCCESS</string>
     <string name="error">Error</string>
-    <string name="password_mismatch">Password mismatch.</string>
-    <string name="provide_valid_email">Please provide a valid E-mail id.</string>
-    <string name="provide_valid_password">Please provide valid password.</string>
+    <string name="password_mismatch">Password not matching.</string>
+    <string name="provide_valid_email">Please provide a valid Email.</string>
+    <string name="email_does_not_exist">Email does not exist</string>
+    <string name="provide_valid_password">Please provide a valid password.</string>
+    <string name="provide_valid_verification_code">Please provide a valid verification code.</string>
+    <string name="email_required">Please provide a valid Email.</string>
+    <string name="password_required">Password required.</string>
+    <string name="email_already_used">Email is already used.</string>
 
     <!--Registration Details-->
     <string name="tell_us_few_things">Tell us few things about you</string>
@@ -49,16 +55,16 @@
     <!--Login-->
     <string name="forgot_password">Forgot Password?</string>
     <string name="dont_have_account">DON\'T HAVE AN ACCOUNT?\u0020\u0020</string>
-    <string name="wrong_username_password">Wrong username or password, please try again.</string>
+    <string name="wrong_email_password">Wrong email or password, please try again.</string>
     <string name="fb">Facebook</string>
+
 
     <!--Forgot Password-->
     <string name="send_verification_code">Send Verification Code</string>
     <string name="reset_password">Reset Password</string>
-    <string name="enter_verification_code">ENTER VERIFICATION CODE</string>
-    <string name="email_does_not_exist">Email does not exist</string>
-    <string name="provide_verification_code">Please provide a valid verification code.</string>
-    <string name="incorrect_verification_code">Incorrect verification code</string>
+    <string name="enter_verification_code">ENTER VERIFICATION CODE SENT IN EMAIL</string>
+    <string name="provide_verification_code">Please provide a verification code.</string>
+    <string name="invalid_verification_code">Invalid verification code</string>
     <string name="forgot_password_heading">Forgot Password</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
@@ -93,6 +99,115 @@
     <string name="delivery_method">Delivery Method</string>
     <string name="your_local_services_wont_be_updated">Your local services will not be posted until you have passed background check</string>
     <string name="add">ADD</string>
-    <string name="type_service_descn">Type your service Description</string>
+    <string name="type_service_descn">Type your Service Description</string>
+
+    <!--Add price otion-->
+    <string name="price_option_description">Price Option Description</string>
+    <string name="type_your_price_option_descn">Type your price option Description</string>
+    <string name="time_to_complete">Time to complete after job starts</string>
+    <string name="add_price_option_header">Add Price Option</string>
+
+
+    <!--Bottom tab text-->
+    <string name="update">Updates</string>
+    <string name="explore">Explore</string>
+    <string name="post">Post</string>
+    <string name="chat">Chat</string>
+    <string name="me">Me</string>
+
+    <!--Edit profile-->
+    <string name="first_name_edit">First Name</string>
+    <string name="last_name_edit">Last Name</string>
+    <string name="company">Company</string>
+    <string name="about_me">About Me</string>
+    <string name="education">Education</string>
+    <string name="insurance">Insurance</string>
+    <string name="license">Licences</string>
+    <string name="awards">Awards</string>
+    <string name="phone">Phone</string>
+    <string name="location_edit">Location</string>
+    <string name="save">Save</string>
+    <string name="edit_profile">Edit Profile</string>
+
+
+    <!--notification option-->
+    <string name="notification_option">Notification Option</string>
+    <string name="email_status">Email Status</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="set_prefreances_below_on_how">Set preferences below on how \nyou want to receive notifications</string>
+    <string name="push">Push</string>
+    <string name="you_want_to_recive_notification">you want to receive notifications</string>
+    <string name="email_small">Email</string>
+
+
+    <!--internet warning-->
+    <string name="no_internet_warning">Please check your internet connection</string>
+
+    <!--error messages-->
+
+    <string name="wrong_password_msg">Authentication failed. Wrong password.</string>
+    <string name="wrong_email_msg">Authentication failed. User not found.</string>
+
+
+    <!--Menu screen-->
+
+    <string name="menu_header">Menu</string>
+
+    <!--Profile Screen-->
+    <string name="avg_response">Avg. response\ntime</string>
+    <string name="service_detail">Service Details</string>
+    <string name="profile">Profile</string>
+    <string name="servic_description">Service description text text text text text  \ntext text text text text text text text \ntext text text text text text text text \ntext text text text text text text text    \ntext text text text text text text text \ntext text text text text text text text</string>
+    <string name="great_experience">Had a great experience and will \nservive again</string>
+    <string name="checkout">Checkout</string>
+    <string name="become_a_seller">Become a Seller</string>
+
+    <!-- My order Screen-->
+    <string name="my_order">My Orders</string>
+    <string name="orders">Orders</string>
+    <string name="offers">Offers</string>
+    <string name="pending_delivery">Pending Delivery</string>
+    <string name="paid_of">Paid Of </string>
+
+    <!--Chat Screen-->
+    <string name="search_conversations">Search conversations or users</string>
+
+    <!--Current updates-->
+    <string name="current_update">Current Update</string>
+    <string name="suggested">Suggested</string>
+    <string name="go_to_invite">Go To Invite</string>
+    <string name="actives_from_nt_ntwrk">Actives from my network</string>
+    <string name="comments">Comments</string>
+    <string name="points">Points</string>
+    <string name="likes">Likes</string>
+    <string name="see_more">See More</string>
+    <string name="write_comment">Write Comment</string>
+    <string name="send">Send</string>
+
+    <!--Custom Offer Detail Screen-->
+    <string name="custom_offer_detail">Custom offer Detail</string>
+    <string name="linked_service">Linked Service</string>
+    <string name="custom_price">Custom Price</string>
+    <string name="offer_description">Offer Description</string>
+    <string name="service_locally_map">servicing locally at store locations</string>
+    <string name="get_direction">get Direction</string>
+    <string name="accept">Accept</string>
+    <string name="view">View</string>
+
+    <!--Order fulfillment Scree-->
+    <string name="fulfillment">Fullfillment</string>
+
+    <string name="add_crdt_card">Add Credit Card</string>
+    <string name="payment_method">Payment Methods</string>
+    
+    <!--Invite Friends-->
+    <string name="invite_friend">Invite Friend</string>
+    <string name="qr_code">Qr Code</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="my_qr_code">My QR Code</string>
+    <string name="scan_from_galley">Scan from Gallery</string>
+    
+    <!--Current Updates-->
 
 </resources>

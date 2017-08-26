@@ -3,7 +3,10 @@
     package="com.pointters">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".application.PointtersApplication"
@@ -23,55 +26,102 @@
         </activity>
         <activity
             android:name=".activity.RegistrationActivity"
-            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.RegistrationDetailsActivity"
-            android:label="@string/tell_us_few_things"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize">
+
+            <!--
+           <intent-filter>
+               <action android:name="android.intent.action.MAIN" />
+
+               <category android:name="android.intent.category.LAUNCHER" />
+           </intent-filter>
+            -->
+        </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
-            android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.SearchServiceActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.SearchResultsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.AddServiceActivity"
-            android:label="@string/add_service"
-            android:screenOrientation="portrait">
-            <!-- <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddPriceOptionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NotificationOptionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MenuScreenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ProfileScreenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BecomeASellerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CheckoutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddCreditCardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FulfillmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CancelOrderScreenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PaymentMethodsActivity"
+            android:screenOrientation="portrait" />
 
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>-->
-        </activity>
+        <service android:name=".service.GetUserDataService" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBBGzrcEyLwBkvDoL4CyisK6XSvgz9tvEI" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+        <activity android:name=".activity.ServiceDetailActivity" />
+
+        <service
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
+
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".activity.CustomOfferDetailActivity" />
+        <activity android:name=".activity.InviteFriendActivity"></activity>
     </application>
 
 </manifest>

@@ -2,13 +2,14 @@ package com.pointters.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.KeyEvent;
@@ -26,21 +27,29 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.pointters.R;
 import com.pointters.listener.OnEditTextChangeListener;
+import com.pointters.model.request.UserEmailSignUpRequest;
+import com.pointters.model.request.UserFacebookLoginRequest;
+import com.pointters.model.response.UserEmailSignUpResponse;
+import com.pointters.model.response.UserFacebookLoginResponse;
+import com.pointters.rest.ApiClient;
+import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
+import com.pointters.utils.ConnectivityController;
+import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.MyTextWatcher;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import dmax.dialog.SpotsDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -50,7 +59,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener,
         TextView.OnEditorActionListener, OnEditTextChangeListener {
 
-    private Toolbar toolbar;
+    private static final String TAG = RegistrationActivity.class.getSimpleName();
     private Button btnSignUpEmail;
     private Button btnSignUpFb;
     private TextView txtTermsConditions;
@@ -58,14 +67,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private EditText edtPassword;
     private EditText edtReEnterPassword;
     private ImageView imgValidEmail;
-    private TextView txtWarning;
     private CallbackManager callbackManager;
-    private String userFirstName;
-    private String userLastName;
-    private String userFbId;
-    private String userFbEmail;
-    private String profilePicURL;
-    private String currentLocation;
+    private TextInputLayout txtInputEmail;
+    private TextInputLayout txtInputPassword;
+    private TextInputLayout txtInputRePassword;
+    private SpotsDialog spotsDialog;
+    private AccessToken fbAccessToken;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,17 +83,24 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         initViews();
 
-        AppUtils.setDefaultToolbarWithBackIcon(this, toolbar);
+        sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        //set toolbar
+        AppUtils.setToolBarWithBothIcon(RegistrationActivity.this, getResources().getString(R.string.app_name),
+                R.drawable.back_icon_grey, 0);
 
         setOnClick();
 
         makeSpannableText();
 
-        //calligraphy library not applying fonts to text input layout hence done programmatically
+        /*calligraphy library not applying
+        fonts to text input layout hence
+        done programmatically*/
         AppUtils.applyFontsToTextInputLayout(this, new TextInputLayout[]{
-                (TextInputLayout) findViewById(R.id.text_input_email)
-                , (TextInputLayout) findViewById(R.id.text_input_password)
-                , (TextInputLayout) findViewById(R.id.text_input_re_enter_password)});
+                txtInputEmail
+                , txtInputPassword
+                , txtInputRePassword});
 
         setEditTextListener();
 
@@ -100,61 +116,71 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        getRequiredFbData();
+
+                        fbAccessToken = loginResult.getAccessToken();
+                        AccessToken.setCurrentAccessToken(fbAccessToken);
+
+                        doLoginAttemptUsingFacebook();
                     }
 
                     @Override
                     public void onCancel() {
-                        // App code
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        // App code
                     }
                 });
 
     }
 
-    private void getRequiredFbData() {
+    private void doLoginAttemptUsingFacebook() {
 
-        GraphRequest request = GraphRequest.newMeRequest(
-                AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
+        if (fbAccessToken == null || TextUtils.isEmpty(fbAccessToken.getToken())) {
+            return;
+        }
 
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        try {
+        spotsDialog = new SpotsDialog(RegistrationActivity.this);
+        spotsDialog.show();
+        spotsDialog.setCancelable(false);
 
-                            if (object.has("id")) {
-                                userFbId = object.getString("id");
-                            } else {
-                                userFbId = "";
-                            }
+        UserFacebookLoginRequest userFacebookLoginRequest = new UserFacebookLoginRequest(fbAccessToken.getToken());
 
-                            if (object.has("email")) {
-                                userFbEmail = object.getString("email");
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<UserFacebookLoginResponse> response = apiService.userLoginViaFacebook(userFacebookLoginRequest);
 
-                            } else {
-                                userFbEmail = "";
+        response.enqueue(new Callback<UserFacebookLoginResponse>() {
+            @Override
+            public void onResponse(Call<UserFacebookLoginResponse> call, retrofit2.Response<UserFacebookLoginResponse> rawResponse) {
+                try {
 
-                            }
-
-                            startActivity(new Intent(RegistrationActivity.this, RegistrationDetailsActivity.class));
-
-
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-
-                        }
+                    if (spotsDialog != null && spotsDialog.isShowing()) {
+                        spotsDialog.cancel();
                     }
-                });
 
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,email");
-        request.setParameters(parameters);
-        request.executeAsync();
+                    if (rawResponse.code() == 200 && rawResponse.body() != null) {
+
+                        editor.putBoolean(ConstantUtils.PREF_IS_LOGIN, true);
+                        editor.putString(ConstantUtils.PREF_TOKEN, rawResponse.body().getToken());
+                        editor.putBoolean(ConstantUtils.PREF_IS_EMAIL_LOGIN, false);
+                        editor.apply();
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserFacebookLoginResponse> call, Throwable throwable) {
+
+                if (spotsDialog != null && spotsDialog.isShowing()) {
+                    spotsDialog.cancel();
+                }
+            }
+        });
 
     }
 
@@ -172,7 +198,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
 
     private void initViews() {
-        toolbar = (Toolbar) findViewById(R.id.common_toolbar);
+
         btnSignUpEmail = (Button) findViewById(R.id.btn_email);
         btnSignUpFb = (Button) findViewById(R.id.btn_fb);
         txtTermsConditions = (TextView) findViewById(R.id.txt_agree_to_terms_conditions);
@@ -180,7 +206,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         edtPassword = (EditText) findViewById(R.id.edt_password);
         edtReEnterPassword = (EditText) findViewById(R.id.edt_re_enter_password);
         imgValidEmail = (ImageView) findViewById(R.id.img_valid_email);
-        txtWarning = (TextView) findViewById(R.id.txt_warning);
+        txtInputPassword = (TextInputLayout) findViewById(R.id.text_input_password);
+        txtInputRePassword = (TextInputLayout) findViewById(R.id.text_input_re_enter_password);
+        txtInputEmail = (TextInputLayout) findViewById(R.id.text_input_email);
 
     }
 
@@ -202,8 +230,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         ClickableSpan spanTerms = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(RegistrationActivity.this, "term's & Conditions", Toast.LENGTH_SHORT).show();
+                //Terms And Condition on Click
+               // Toast.makeText(RegistrationActivity.this, "term's & Conditions", Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -211,8 +239,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         ClickableSpan spanPrivacy = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(RegistrationActivity.this, "Privacy Conditions", Toast.LENGTH_SHORT).show();
+                //privacy onClick
+             //   Toast.makeText(RegistrationActivity.this, "Privacy Conditions", Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -225,38 +253,42 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        // handle arrow click here
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed(); // close this activity and return to preview activity
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
 
+            case R.id.toolbar_lft_img:
+
+                onBackPressed();
+
+                break;
+
             case R.id.btn_email:
 
                 performSignUpEmail();
-                // btnSignUpFb.setProgress(100); // set progress to 100 or -1 to indicate complete or error state
+
                 break;
 
             case R.id.btn_fb:
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "user_work_history", "user_location"));
 
-               /*btnSignUpFb.setIndeterminateProgressMode(true); // turn on indeterminate progress
-                btnSignUpFb.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress*/
+                if (ConnectivityController.isNetworkAvailable(RegistrationActivity.this)) {
+
+                    LoginManager.getInstance().logOut();
+                    LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile", "user_work_history", "user_location"));
+
+                } else {
+
+                    Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.no_internet_warning), Toast.LENGTH_SHORT).show();
+                }
 
                 break;
             case R.id.txt_sign_in:
+
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
                 finish();
+
                 break;
         }
 
@@ -264,22 +296,88 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     private void performSignUpEmail() {
 
-        String email = edtEmail.getText().toString().trim();
-        String password = edtPassword.getText().toString();
+        boolean isRequiredFieldsFilled = AppUtils.isRequiredFieldsFilled(new TextInputLayout[]{txtInputEmail, txtInputPassword, txtInputRePassword},
+                getResources().getStringArray(R.array.registration_errors));
 
-        if (email.isEmpty() || !AndroidUtils.isValidEmailAddress(email)) {
-            txtWarning.setVisibility(View.VISIBLE);
-            txtWarning.setText(getResources().getString(R.string.provide_valid_email));
-        } else if (password.isEmpty()) {
-            txtWarning.setVisibility(View.VISIBLE);
-            txtWarning.setText(getResources().getString(R.string.provide_valid_password));
-        } else if (!password.equals(edtReEnterPassword.getText().toString())) {
-            txtWarning.setVisibility(View.VISIBLE);
-            txtWarning.setText(getResources().getString(R.string.password_mismatch));
-        } else {
-            txtWarning.setVisibility(View.GONE);
-            startActivity(new Intent(this, RegistrationDetailsActivity.class));
+        if (isRequiredFieldsFilled) {
+
+            // Validation is passed and password is also matching
+            if (edtPassword.getText().toString().equals(edtReEnterPassword.getText().toString())) {
+
+                if (ConnectivityController.isNetworkAvailable(RegistrationActivity.this)) {
+                    callUserSignUpApi();
+                } else {
+                    Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.no_internet_warning), Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+
+                txtInputRePassword.setError(getResources().getString(R.string.password_mismatch));
+
+            }
+
         }
+
+    }
+
+    private void callUserSignUpApi() {
+
+        AndroidUtils.hideKeyBoard(RegistrationActivity.this);
+
+        spotsDialog = new SpotsDialog(RegistrationActivity.this);
+        spotsDialog.show();
+        spotsDialog.setCancelable(false);
+
+        UserEmailSignUpRequest userEmailSignUpRequest = new UserEmailSignUpRequest(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
+
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        final Call<UserEmailSignUpResponse> response = apiService.userSignUpViaEmail(userEmailSignUpRequest);
+
+        response.enqueue(new Callback<UserEmailSignUpResponse>() {
+            @Override
+            public void onResponse(Call<UserEmailSignUpResponse> call, retrofit2.Response<UserEmailSignUpResponse> rawResponse) {
+                try {
+
+                    if (spotsDialog != null && spotsDialog.isShowing()) {
+                        spotsDialog.cancel();
+                    }
+
+                    if (rawResponse.code() == 200 && rawResponse.body() != null) {
+
+                        editor.putBoolean(ConstantUtils.PREF_IS_LOGIN, true);
+                        editor.putString(ConstantUtils.PREF_TOKEN, rawResponse.body().getToken());
+                        editor.putString(ConstantUtils.PREF_USER_ID, rawResponse.body().getId());
+                        editor.putString(ConstantUtils.PREF_USER_EMAIL, edtEmail.getText().toString());
+                        editor.putString(ConstantUtils.PREF_USER_PASSWORD, edtPassword.getText().toString());
+                        editor.putBoolean(ConstantUtils.PREF_IS_EMAIL_LOGIN, true);
+
+                        editor.apply();
+
+                        startActivity(new Intent(RegistrationActivity.this, RegistrationDetailsActivity.class));
+                        finish();
+
+                    } else if (rawResponse.code() == 409) {
+
+                        JSONObject jObjError = new JSONObject(rawResponse.errorBody().string());
+                        txtInputEmail.setError(jObjError.getString("message"));
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserEmailSignUpResponse> call, Throwable throwable) {
+
+                if (spotsDialog != null && spotsDialog.isShowing()) {
+                    spotsDialog.cancel();
+                }
+
+            }
+        });
+
     }
 
     @Override
@@ -298,11 +396,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onTextChange(String text, View view) {
 
-        if (txtWarning.getVisibility() == View.VISIBLE)
-            txtWarning.setVisibility(View.GONE);
+        EditText editText = (EditText) view;
+
+        if (!text.trim().isEmpty()) {
+            ((TextInputLayout) editText.getParentForAccessibility()).setError(null);
+            ((TextInputLayout) editText.getParentForAccessibility()).setErrorEnabled(false);
+        }
+
 
         switch (view.getId()) {
+
             case R.id.edt_email:
+
                 if (AndroidUtils.isValidEmailAddress(text)) {
                     imgValidEmail.setVisibility(View.VISIBLE);
                 } else {

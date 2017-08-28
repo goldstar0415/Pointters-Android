@@ -200,14 +200,20 @@
 
     <string name="add_crdt_card">Add Credit Card</string>
     <string name="payment_method">Payment Methods</string>
-    
+
     <!--Invite Friends-->
     <string name="invite_friend">Invite Friend</string>
     <string name="qr_code">Qr Code</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="my_qr_code">My QR Code</string>
     <string name="scan_from_galley">Scan from Gallery</string>
-    
+
     <!--Current Updates-->
+
+    <!--Send Service Screen-->
+    <string name="send_service">Send Service</string>
+    <string name="your_services">Your Services</string>
+    <string name="link_service">Link Service</string>
+    <string name="link">Link</string>
 
 </resources>

@@ -76,9 +76,6 @@
             android:name=".activity.ProfileScreenActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ChatActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.BecomeASellerActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -121,7 +118,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".activity.CustomOfferDetailActivity" />
-        <activity android:name=".activity.InviteFriendActivity"></activity>
+        <activity android:name=".activity.InviteFriendActivity" />
+        <activity android:name=".activity.SendServiceActivity" />
+        <activity android:name=".activity.SendCustomOfferChatLinkServiceActivity"></activity>
     </application>
 
 </manifest>

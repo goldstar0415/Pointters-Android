@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F8F9"
+    android:layout_height="match_parent"
+   >
+
+ <include layout="@layout/common_toolbar"/>
+
+ <RelativeLayout
+     android:id="@+id/add_a_payment_view"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_gravity="center"
+     android:layout_marginTop="@dimen/_10sdp"
+     android:layout_marginBottom="@dimen/_10sdp">
+
+
+     <ImageView
+         android:id="@+id/img_add"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:src="@drawable/add_payment_icon"
+         android:layout_centerVertical="true"
+         android:layout_marginRight="@dimen/_5sdp"/>
+
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Add Payment"
+         android:textColor="@color/color_black_info"
+         android:textSize="@dimen/text_size_medium"
+         android:layout_centerVertical="true"
+         android:textStyle="bold"
+         android:layout_toRightOf="@+id/img_add"
+         android:id="@+id/mAddPayment"
+         android:layout_centerHorizontal="true"/>
+
+ </RelativeLayout>
+
+<android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/_5sdp"
+    android:layout_marginLeft="@dimen/_5sdp"
+    android:id="@+id/mPaymentMethodGridView">
+
+</android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

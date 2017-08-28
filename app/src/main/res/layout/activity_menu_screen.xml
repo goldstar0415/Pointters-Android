@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <include
+        android:id="@+id/toolbar_add_price_option"
+        layout="@layout/common_toolbar_with_shadow" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_add_price_option"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:padding="@dimen/_15sdp">
+
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:src="@drawable/user_avatar_placeholder"
+                    app:riv_mutate_background="true"
+                    app:riv_oval="true"
+                    app:riv_tile_mode="clamp" />
+
+                <ImageView
+                    android:id="@+id/online_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/img_profile"
+                    android:layout_alignTop="@+id/img_profile"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:src="@drawable/green_ellipse" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toRightOf="@+id/img_profile"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_view_name"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mary Jane"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/txt_view_verified"
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Verified"
+                        android:textColor="#AFAFB0"
+                        android:textSize="@dimen/text_size_tiny" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/image_go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/menu_chevron_icon" />
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/light_gray" />
+
+            <TextView
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F8F8F8"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:text="PURCHASES"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_small" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/light_gray" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_purchases"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F8F8F8"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:text="SALES"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_small" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/light_gray" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_sales"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F8F8F8"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:text="GENERAL"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_small" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/light_gray" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_general"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

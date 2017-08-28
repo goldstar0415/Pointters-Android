@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pointters.activity.CancelOrderScreenActivity">
+
+    <include layout="@layout/common_toolbar"
+        android:id="@+id/mCommonToolbar"/>
+
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/mCancelOrder"
+       android:layout_below="@+id/mCommonToolbar"
+       android:layout_marginTop="@dimen/_5sdp"
+       android:layout_marginLeft="@dimen/_5sdp"
+       android:layout_marginRight="@dimen/_5sdp"
+       android:paddingBottom="@dimen/_10sdp"
+       android:background="@drawable/bg_service"
+       android:orientation="vertical"
+       android:elevation="1dp">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:maxLines="1"
+          android:text="Reason to cancel order"
+          android:textSize="@dimen/text_size_medium"
+          fontPath="fonts/Montserrat-Regular.ttf"
+          tools:ignore="MissingPrefix"
+          android:textColor="@color/color_black_info"
+          android:layout_marginLeft="@dimen/_10sdp"
+          android:layout_marginTop="@dimen/_10sdp"/>
+
+       <android.support.v7.widget.RecyclerView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/mReasonToCancelRecyclerView">
+
+       </android.support.v7.widget.RecyclerView>
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/mCancelOrder"
+       android:layout_marginTop="@dimen/_5sdp"
+       android:layout_marginLeft="@dimen/_5sdp"
+       android:background="@drawable/bg_service"
+       android:layout_marginRight="@dimen/_5sdp"
+       android:orientation="vertical"
+       android:elevation="1dp">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/mMessageToSeller"
+           android:layout_marginLeft="@dimen/_10sdp"
+           android:layout_marginTop="@dimen/_10sdp"
+           android:text="Message to seller"
+           fontPath="fonts/Montserrat-Regular.ttf"
+           tools:ignore="MissingPrefix"
+           android:textColor="@color/color_black_info"
+           android:textSize="@dimen/text_size_small"/>
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:padding="@dimen/_8sdp"
+           android:background="@drawable/racta_border_seller"
+           android:layout_marginLeft="@dimen/_10sdp"
+           android:layout_marginTop="@dimen/_10sdp"
+           android:layout_marginRight="@dimen/_10sdp">
+       <EditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/mMsgBoxSeller"
+           android:layout_centerHorizontal="true"
+           android:background="@android:color/transparent"
+           android:layout_gravity="center"
+           fontPath="fonts/Montserrat-Light.ttf"
+           tools:ignore="MissingPrefix"
+           android:layout_marginRight="@dimen/_10sdp"
+           android:textColorHint="@color/text_color_dark_gray"
+           android:hint="Lorem Ipsum is location within the Royal Borough of Kensington and Chelsea    Set prefreances below on how you want to recive notifications"
+           android:textColor="@color/text_color_dark_gray"
+           android:textSize="@dimen/text_size_tiny"/>
+
+       </RelativeLayout>
+       <Button
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Submit"
+           android:textSize="@dimen/text_size_small"
+           android:textColor="@color/colorWhite"
+           android:layout_marginTop="@dimen/_10sdp"
+           android:background="@drawable/roundedbutton"/>
+   </LinearLayout>
+
+</RelativeLayout>

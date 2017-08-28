@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:elevation="2dp"
+        android:paddingTop="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        tools:ignore="MissingPrefix">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/common_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/toolbar_lft_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:src="@drawable/menu_icon" />
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_toLeftOf="@+id/toolbar_right_img"
+                    android:layout_toRightOf="@+id/toolbar_lft_img"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_big" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/toolbar_right_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_8sdp"
+                    app:riv_mutate_background="true"
+                    app:riv_oval="true"
+                    android:src="@drawable/avatar_icon_small"
+
+                    app:riv_tile_mode="clamp" />
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <com.pointters.utils.CustomTabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorHeight="@dimen/fix_3dp"
+        app:tabSelectedTextColor="#1D1D28"
+        android:textAlignment="center"
+        app:tabTextColor="#1D1D28"
+        app:tabMode="fixed"
+        android:background="@android:color/white" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_my_orders"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

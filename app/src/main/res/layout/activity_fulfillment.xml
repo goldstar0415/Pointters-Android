@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.pointters.activity.FulfillmentActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_service"
+                android:elevation="1dp"
+                android:orientation="vertical">
+
+                <TextView
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="Status: Order pending please accepts"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="MissingPrefix" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_service"
+                android:elevation="1dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_8sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="Delivered Files"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/mDeliveredFile"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_toLeftOf="@+id/mTotal"
+                        android:text="6"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/mTotal"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="Totals"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mDeliveredFilesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="Add Download"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp">
+
+                <TextView
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="See previous revisions"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="MissingPrefix" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/move_to_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:background="@drawable/bg_service"
+                android:elevation="@dimen/_1sdp"
+                android:orientation="horizontal"
+                android:padding="@dimen/_15sdp"
+                android:weightSum="3">
+
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_profile"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/user_avatar_placeholder"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
+
+
+            <RelativeLayout
+                android:id="@+id/rl_txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_toRightOf="@+id/img_profile">
+
+                <TextView
+                    android:id="@+id/txt_view_name"
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alan Walker"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="MissingPrefix" />
+
+                <TextView
+                    android:id="@+id/txt_view_verified"
+                    fontPath="fonts/Montserrat-Light.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_view_name"
+                    android:text="Verified"
+                    android:textColor="#a3a3a3"
+                    android:textSize="@dimen/text_size_tiny"
+                    tools:ignore="MissingPrefix" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true">
+
+                    <ImageView
+                        android:id="@+id/img_call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:src="@drawable/call_icon" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img_call"
+                        android:src="@drawable/chat_icon" />
+                </RelativeLayout>
+            </RelativeLayout>
+</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_service"
+                android:elevation="1dp"
+                android:orientation="vertical">
+
+                <TextView
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="Delivery Method"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="MissingPrefix" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/map_bg_pattern">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_toLeftOf="@+id/mGetDirection"
+                        android:text="Servicing locally at store location"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/mGetDirection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/get_directions_btn"
+                        android:textColor="@android:color/black" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp">
+
+
+                    <fragment
+                        android:id="@+id/mapId"
+                        android:name="com.google.android.gms.maps.MapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+                <TextView
+                    fontPath="fonts/Montserrat-Light.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="2200 Wilshine Blud Los Angeles CA 9100?"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_small"
+                    tools:ignore="MissingPrefix" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_8sdp">
+
+                    <ImageView
+                        android:id="@+id/mMapIdTick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/plus_icon" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_toRightOf="@+id/mMapIdTick"
+                        android:text="Location accepted by seller"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/roundedbutton"
+                    android:text="Change Location"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_service"
+                android:elevation="1dp"
+                android:orientation="vertical">
+
+                <TextView
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="Shipment Tracking"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="MissingPrefix" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:text="Package Shipped on:"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="07-09"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:text="Courier:"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Fedex"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:text="Tracking:"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="#123456"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:text="Expected Arrival:"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="07-11"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_pattern"
+                        android:text="Revise"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                    <Button
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_pattern_two"
+                        android:text="Complete"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

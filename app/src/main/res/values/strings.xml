@@ -190,7 +190,7 @@
     <string name="linked_service">Linked Service</string>
     <string name="custom_price">Custom Price</string>
     <string name="offer_description">Offer Description</string>
-    <string name="service_locally_map">servicing locally at store locations</string>
+    <string name="service_locally_map">servicing locally at store \nlocations</string>
     <string name="get_direction">get Direction</string>
     <string name="accept">Accept</string>
     <string name="view">View</string>
@@ -214,6 +214,6 @@
     <string name="send_service">Send Service</string>
     <string name="your_services">Your Services</string>
     <string name="link_service">Link Service</string>
-    <string name="link">LINK</string>
+    <string name="link">Link</string>
 
 </resources>

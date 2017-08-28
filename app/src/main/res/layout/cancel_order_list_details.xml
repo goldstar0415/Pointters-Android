@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seller did not complete on time"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:maxLines="2"
+        fontPath="fonts/Montserrat-Light.ttf"
+        tools:ignore="MissingPrefix"
+        android:layout_toLeftOf="@+id/mCheckSellerCancelOrder"
+        android:textSize="@dimen/text_size_tiny"
+        android:textColor="@color/color_black_info"
+        android:layout_marginLeft="@dimen/_10sdp"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mCheckSellerCancelOrder"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:button="@drawable/custom_checkbox"/>
+
+</RelativeLayout>

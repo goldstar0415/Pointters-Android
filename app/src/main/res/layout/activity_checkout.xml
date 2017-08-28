@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F7"
+    android:orientation="vertical"
+    tools:context="com.pointters.activity.CheckoutActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/_8sdp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/bg_service"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_8sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_service"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3">
+
+                    <ImageView
+                        android:id="@+id/img_service_provider"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/service_thumb_big" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:paddingLeft="@dimen/_8sdp">
+
+                    <TextView
+                        android:id="@+id/txt_service_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerHorizontal="true"
+
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_toLeftOf="@+id/txt_service_type"
+                        android:maxLines="2"
+                        android:text="IT service lorem ipsum dummy text"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <ImageView
+                        android:id="@+id/txt_service_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:src="@drawable/right_arrow" />
+
+                    <RelativeLayout
+                        android:id="@+id/txt_price_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_service_name"
+                        android:layout_marginTop="@dimen/_2sdp">
+
+                        <TextView
+                            android:id="@+id/txt_service_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="$50"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/txt_service_actual_price"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_toRightOf="@+id/txt_service_price"
+                            android:text="$100"
+                            android:textColor="@color/color_service_actual_price"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignLeft="@+id/txt_service_actual_price"
+                            android:layout_alignRight="@+id/txt_service_actual_price"
+                            android:layout_centerVertical="true"
+                            android:background="@color/color_service_actual_price" />
+
+
+                        <TextView
+                            android:id="@+id/txt_service_time"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_toRightOf="@+id/txt_service_actual_price"
+                            android:text="For 2 hr"
+                            android:textColor="@color/color_service_actual_price"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            android:id="@+id/txt_service_provider_name"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:maxWidth="@dimen/_60sdp"
+                            android:layout_centerVertical="true"
+
+                            android:text="Jhons"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/txt_service_provider_name"
+                            android:text="@string/by"
+                            android:layout_centerVertical="true"
+
+                            android:textColor="#666666"
+                            android:textSize="@dimen/text_size_small" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_price_name"
+                        android:layout_marginTop="@dimen/_8sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Paid of 5/9"
+                            android:textColor="#666666"
+                            android:textSize="@dimen/text_size_tiny" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:background="#F6F6F7" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/_31sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="Qty"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/text_size_medium" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="$10/1hour- price decriction"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/mPlusToInc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:src="@drawable/add_payment_icon" />
+
+                <TextView
+                    android:id="@+id/mCountNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/mPlusToInc"
+                    android:text="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <ImageView
+                    android:id="@+id/mMinusToInc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_toLeftOf="@+id/mCountNumber"
+                    android:src="@drawable/minus_icon" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/mAddOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="$15 Add on"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/mPlusToInc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:src="@drawable/add_payment_icon" />
+
+                <TextView
+                    android:id="@+id/mCountNumber1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/mPlusToInc1"
+                    android:text="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <ImageView
+                    android:id="@+id/mMinusToInc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_toLeftOf="@+id/mCountNumber1"
+                    android:src="@drawable/minus_icon" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Tax"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:text="$1.0"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/text_size_small" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+
+                android:background="#F6F6F7" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Transection Fee"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:text="$0.5"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/text_size_small" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+
+                android:background="#F6F6F7" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Total"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:text="$40"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/text_size_small" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+
+                android:background="#F6F6F7" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="# of days to complete work"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:text="3"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+
+                android:background="#F6F6F7" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Payment Method"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:text="Paypal"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/change_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_service"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:paddingTop="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:layout_toLeftOf="@+id/mPaymentMethod"
+                    android:text="Change Payment Method"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <ImageView
+                    android:id="@+id/mPaymentMethod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:src="@drawable/chevron_small_blue" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/_5sdp"
+
+                android:background="#F6F6F7" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_service"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:text="Shipping Address"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:src="@drawable/right_arrow" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_service"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_1sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingTop="@dimen/_1sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:maxLines="2"
+                    android:text="123,Lake Shore,Chicago.IL "
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_small" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/roundedbutton"
+                android:gravity="center"
+                android:text="Pay"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_small" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

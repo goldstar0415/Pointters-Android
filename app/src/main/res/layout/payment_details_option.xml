@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_4sdp"
+    android:background="@drawable/bg_service">
+
+ <LinearLayout
+     android:layout_width="@dimen/_80sdp"
+     android:layout_height="@dimen/_70sdp"
+     android:background="@drawable/payment_bg"
+     android:layout_margin="@dimen/_8sdp"
+     android:layout_gravity="center"
+     android:layout_weight="1"
+     android:elevation="2dp">
+
+     <RelativeLayout
+         android:layout_width="wrap_content"
+         android:layout_height="@dimen/_70sdp"
+         android:background="@drawable/bg_service"
+         android:elevation="1dp">
+
+       <ImageView
+           android:layout_width="@dimen/_50sdp"
+           android:layout_height="@dimen/_30sdp"
+           android:src="@drawable/mastercard"
+           android:id="@+id/mCardImg"
+           android:scaleType="centerCrop"
+           android:layout_marginLeft="@dimen/_15sdp"
+           android:layout_marginTop="@dimen/_15sdp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mCardImg"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorAccent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default"
+                android:id="@+id/mPaymentCardName"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/mPaymentImg"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_tiny"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/edit_icon_white"
+                android:id="@+id/mPaymentImg"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+
+     </RelativeLayout>
+
+</LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:background="@drawable/payment_bg"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_gravity="center"
+        android:elevation="2dp"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_service"
+            android:elevation="1dp">
+
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/mastercard"
+                android:id="@+id/mCardImg1"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mCardImg1"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Default"
+                    android:id="@+id/mPaymentCardName1"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/mPaymentImg1"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_tiny"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit_icon_white"
+                    android:id="@+id/mPaymentImg1"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:background="@drawable/payment_bg"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_gravity="center"
+        android:elevation="2dp"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_service"
+            android:elevation="1dp">
+
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/mastercard"
+                android:id="@+id/mCardImg2"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mCardImg2"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Default"
+                    android:id="@+id/mPaymentCardName2"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/mPaymentImg2"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_tiny"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit_icon_white"
+                    android:id="@+id/mPaymentImg2"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

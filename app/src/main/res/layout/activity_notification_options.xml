@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    tools:context="com.pointters.activity.NotificationOptionsActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F8F8F8"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp">
+
+
+        <RelativeLayout
+            android:id="@+id/left_portion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_prefreances_below_on_how"
+                android:textColor="#65656B"
+                android:textSize="@dimen/text_size_tiny"
+                tools:ignore="MissingPrefix" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_10sdp">
+
+
+            <TextView
+                android:id="@+id/push"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:textColor="#65656B"
+                android:text="@string/push"
+                android:textSize="@dimen/text_size_tiny" />
+
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/push"
+                android:text="@string/email_small"
+                android:textColor="#65656B"
+                android:textSize="@dimen/text_size_tiny" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_notification_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_15sdp"
+        android:paddingLeft="@dimen/_15sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:paddingTop="@dimen/_15sdp">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/right_portion">
+
+
+            <TextView
+                android:id="@+id/title"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email Status"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_small"
+                tools:ignore="MissingPrefix" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/right_portion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <RelativeLayout
+                android:id="@+id/first_choice_rl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_28sdp">
+
+                <TextView
+                    android:id="@+id/txt_daily"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/daily"
+                    android:textColor="@color/text_color_dark_gray"
+                    android:textSize="@dimen/text_size_tiny"/>
+
+
+                <ImageView
+                    android:id="@+id/first_choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_daily"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:src="@drawable/ellipse_unchecked_grey" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/first_choice_rl">
+
+                <TextView
+                    android:id="@+id/txt_wkly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weekly"
+                    android:textColor="@color/text_color_dark_gray"
+                    android:textSize="@dimen/text_size_tiny"/>
+
+
+                <ImageView
+                    android:id="@+id/second_choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_wkly"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:src="@drawable/ellipse_unchecked_grey" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fix_0.5dp"
+        android:background="@drawable/divider_option"/>
+</LinearLayout>

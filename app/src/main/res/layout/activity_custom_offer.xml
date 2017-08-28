@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.pointters.activity.CustomOfferDetailActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/move_to_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:background="@drawable/bg_service"
+        android:elevation="@dimen/_1sdp"
+        android:padding="@dimen/_15sdp">
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/img_profile"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:src="@drawable/user_avatar_placeholder"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"
+            app:riv_tile_mode="clamp" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/img_profile">
+
+            <TextView
+                android:id="@+id/txt_view_name"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Service Description text text text text text text text text text text text text"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_medium"
+                tools:ignore="MissingPrefix" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:background="@drawable/bg_service"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_custom_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_price"
+                android:textColor="#2C2C33"
+                android:textSize="@dimen/text_size_big" />
+
+            <View
+                android:id="@+id/view_btw_custom_dollr"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignLeft="@+id/txt_custom_price"
+                android:layout_alignRight="@+id/txt_custom_price"
+                android:layout_below="@+id/txt_custom_price"
+                android:background="#00ACE3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_btw_custom_dollr"
+                android:text="$ 60"
+                android:textColor="#1D1D26"
+                android:textSize="@dimen/text_size_huge" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/offer_description"
+            android:textColor="#3F3F3F"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DespacitoQuiero respirar tu cuello despacitoDeja que te diga cosas al oído Para que te acuerdes si no estás conmigo Despacito"
+            android:textColor="#656566"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Work can be done in 3 days after starting "
+            android:textColor="#656566"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delivery_method"
+            android:textColor="#3F3F3F"
+            android:textSize="@dimen/text_size_medium" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/map_bg_pattern">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/img_get_direction"
+                android:paddingLeft="@dimen/_15sdp"
+                android:text="@string/service_locally_map"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_small" />
+
+            <ImageView
+                android:id="@+id/img_get_direction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/get_directions_btn" />
+
+        </RelativeLayout>
+
+
+        <fragment
+            android:id="@+id/mapId"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp" />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="#00ABE2"
+            android:text="@string/accept"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</LinearLayout>

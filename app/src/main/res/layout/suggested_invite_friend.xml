@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_8sdp"
+    android:layout_marginLeft="@dimen/_5sdp"
+    android:layout_marginRight="@dimen/_5sdp"
+    android:elevation="@dimen/fix_1dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_service"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_10sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_profile"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/user_avatar_placeholder"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
+
+
+            <LinearLayout
+                android:id="@+id/mUserDetailsInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_toRightOf="@+id/img_profile"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/mUserNameLiveOffer"
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Milam Tora"
+                    android:textColor="@color/color_black_info"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:ignore="MissingPrefix" />
+
+                <TextView
+                    fontPath="fonts/Montserrat-Light.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mUserNameLiveOffer"
+                    android:layout_centerVertical="true"
+                    android:text="Facebook"
+                    android:textColor="@color/text_color_dark_gray"
+                    android:textSize="@dimen/text_size_small"
+                    tools:ignore="MissingPrefix" />
+            </LinearLayout>
+
+            <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/follow_btn_pattern"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_6sdp"
+
+                android:paddingLeft="@dimen/_16sdp"
+                android:paddingRight="@dimen/_16sdp"
+                android:paddingTop="@dimen/_6sdp"
+                android:text="Follow"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_tiny"
+                tools:ignore="MissingPrefix" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="#e8e8e9"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/mFlagInviteFriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/invite_friend_flag_icon_blue" />
+
+                <TextView
+                    android:id="@+id/mFlagTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:text="90 K"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/text_size_small" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:id="@+id/mServiceImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:src="@drawable/invite_friend_service_icon" />
+
+                <TextView
+                    android:id="@+id/mServiceDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/mServiceImg"
+                    android:text="10 Service"
+                    android:textColor="#F2BD06"
+                    android:textSize="@dimen/text_size_small" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:id="@+id/mSochaHai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:src="@drawable/invite_friend_tick_icon_green" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/mSochaHai"
+                    android:text="100"
+                    android:textColor="#27D65D"
+                    android:textSize="@dimen/text_size_small" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_toLeftOf="@+id/mTimeIconText"
+                    android:src="@drawable/invite_friend_time_icon" />
+
+                <TextView
+                    android:id="@+id/mTimeIconText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="90%"
+                    android:textColor="#F18E2D"
+                    android:textSize="@dimen/text_size_small" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="#e8e8e9"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/thumb_small_one" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/thumb_small_one" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/thumb_small_one" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/thumb_small_one" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_user"
+                    android:layout_alignLeft="@+id/img_user"
+                    android:layout_alignRight="@+id/img_user"
+                    android:layout_alignTop="@+id/img_user"
+                    android:alpha="0.5"
+                    android:background="#100f13">
+
+
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="+ 25"
+                    android:gravity="center"
+                    android:layout_alignBottom="@+id/img_user"
+                    android:layout_alignLeft="@+id/img_user"
+                    android:layout_alignRight="@+id/img_user"
+                    android:layout_alignTop="@+id/img_user"
+                    android:textColor="@android:color/white" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:text="Offer dog walk, Cat care service, etc.."
+            android:textColor="@color/color_black_info"
+            android:textSize="@dimen/text_size_small"
+            tools:ignore="MissingPrefix" />
+
+
+    </LinearLayout>
+</LinearLayout>

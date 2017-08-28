@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingPrefix">
+
+    <include
+        android:id="@+id/toolbar_add_price_option"
+        layout="@layout/common_toolbar" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_add_price_option">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_price_option_descn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:background="@drawable/bg_service"
+                android:elevation="@dimen/elevation"
+                app:layout_constraintHorizontal_bias="0.368"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <EditText
+                    android:id="@+id/edt_price_amount"
+                    fontPath="assets/Montserrat-Regular.ttf"
+                    android:layout_width="@dimen/_170sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginBottom="@dimen/_17sdp"
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:background="@drawable/bg_light_gray_border"
+                    android:gravity="center"
+                    android:hint="$60"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/_6sdp"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_huge"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txt_price_option_descn"
+                    android:layout_width="wrap_content"
+                    fontPath="assets/Montserrat-Regular.ttf"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:text="@string/price_option_description"
+                    android:textColor="@color/color_time_to_deliver"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_price_amount" />
+
+                <EditText
+                    android:id="@+id/edt_price_option_descn"
+                    fontPath="assets/Montserrat-Light.ttf"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_marginBottom="@dimen/_17sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:background="@drawable/bg_light_gray_border"
+                    android:gravity="top"
+                    android:hint="@string/type_your_price_option_descn"
+                    android:inputType="textCapSentences|textNoSuggestions|textMultiLine"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/color_sub_categories"
+                    android:textSize="@dimen/text_size_small"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_price_option_descn" />
+
+                <TextView
+                    android:id="@+id/time_to_complete"
+                    fontPath="assets/Montserrat-Light.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/time_to_complete"
+                    android:textColor="@color/color_time_to_deliver"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_price_option_descn" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/constraint_service_amount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/time_to_complete">
+
+                    <EditText
+                        android:id="@+id/edt_how_many_days"
+                        fontPath="assets/Montserrat-Regular.ttf"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:gravity="center|center_vertical"
+                        android:padding="@dimen/_3sdp"
+                        android:background="@drawable/bg_light_gray_border"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/text_size_medium"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txt_in_date_format"
+                        fontPath="assets/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:text="Day(s)"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_large"
+                        app:layout_constraintBottom_toBottomOf="@+id/edt_how_many_days"
+                        app:layout_constraintLeft_toRightOf="@+id/edt_how_many_days"
+                        app:layout_constraintTop_toTopOf="@+id/edt_how_many_days" />
+
+                    <ImageView
+                        android:id="@+id/drop_down_format"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/txt_in_date_format"
+                        app:layout_constraintLeft_toRightOf="@+id/txt_in_date_format"
+                        app:layout_constraintTop_toTopOf="@+id/txt_in_date_format" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/save_pricing_btn"
+                    fontPath="assets/Montserrat-Light.ttf"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:background="@drawable/bg_bottom_corner_color_accent"
+                    android:gravity="center"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/add"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraint_service_amount" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingPrefix">
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:id="@+id/img_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/slider_img"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        fontPath="fonts/Montserrat-SemiBold.ttf"
+        android:id="@+id/txt_category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_11sdp"
+        android:text="Home Services"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintLeft_toLeftOf="@id/img_category"
+        app:layout_constraintTop_toTopOf="@id/img_category" />
+
+    <TextView
+        fontPath="fonts/Montserrat-Light.ttf"
+        android:id="@+id/txt_local_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:text="100 Local"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintLeft_toLeftOf="@id/txt_category_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_category_name" />
+
+    <View
+        android:id="@+id/view_separator"
+        android:layout_width="@dimen/fix_1dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        app:layout_constraintLeft_toRightOf="@id/txt_local_users"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@id/txt_local_users"
+        app:layout_constraintTop_toTopOf="@id/txt_local_users" />
+
+    <TextView
+        fontPath="fonts/Montserrat-Light.ttf"
+        android:id="@+id/txt_online_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:text="100 Online"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_small"
+        android:layout_marginLeft="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/txt_category_name"
+        app:layout_constraintLeft_toRightOf="@id/view_separator"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.pointters.activity.AddCreditCardActivity">
+
+    <include
+        android:id="@+id/mCommonToolbarAddCreditCard"
+        layout="@layout/common_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mCommonToolbarAddCreditCard"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+
+                android:scrollbars="none">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:background="@drawable/bg_service"
+                    android:elevation="1dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:maxLines="1"
+                        android:text="Card Number"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+
+                    <EditText
+                        android:id="@+id/mMsgBoxSeller"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@drawable/racta_border_seller"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:drawableRight="@drawable/camera_icon_blue"
+                        android:hint="1234567890"
+                        android:inputType="number"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="@color/color_black_info"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:maxLines="1"
+                        android:text="Expiration Date"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+
+                    <EditText
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@drawable/racta_border_seller"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:hint="2017/07/17"
+                        android:maxLines="1"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="@color/color_black_info"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:maxLines="1"
+                        android:text="CVV"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+
+                    <EditText
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@drawable/racta_border_seller"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:hint="123"
+                        android:inputType="numberPassword"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="@color/color_black_info"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:maxLines="1"
+                        android:text="Country"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+
+                    <EditText
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@drawable/racta_border_seller"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:drawableRight="@drawable/down_arrow"
+                        android:hint="Choose country"
+                        android:maxLines="1"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="#616165"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:maxLines="1"
+                        android:text="Zip Code"
+                        android:textColor="@color/color_black_info"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
+
+                    <EditText
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@drawable/racta_border_seller"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:hint="123456"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:maxLines="1"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="@color/color_black_info"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@drawable/roundedbutton"
+                        android:gravity="center"
+                        android:text="ADD"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_medium" />
+                </LinearLayout>
+
+
+            </ScrollView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_below="@+id/scroll_view"
+                android:background="@android:color/transparent" />
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

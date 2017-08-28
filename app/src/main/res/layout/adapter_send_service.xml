@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_8sdp"
+    android:layout_marginRight="@dimen/_8sdp"
+    android:layout_marginBottom="@dimen/_8sdp"
+    android:elevation="2dp"
+    android:background="@drawable/bg_service"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_15sdp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/img_profile"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:src="@drawable/user_avatar_placeholder"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"
+            app:riv_tile_mode="clamp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_profile"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Seller Name"
+            android:textColor="#1A1A1A"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/img_profile"
+            android:layout_alignTop="@id/img_profile"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_toRightOf="@+id/img_profile"
+            android:gravity="center_vertical"
+            android:maxLines="3"
+            android:text="Service Description Text Text Text Text Text Text Text Text Text Text Text"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_medium" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/divider_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fix_0.5dp"
+        android:layout_below="@+id/middle_view"
+        android:background="@drawable/bg_light_gray_divider" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider_view">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:text="Start at $20/hr"
+            android:textColor="#96A4BA"
+            android:textSize="@dimen/text_size_small" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/img_curve"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@+id/img_curve"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/curve_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_20sdp"
+            android:text="@string/send"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@drawable/bg_service"
+        android:elevation="@dimen/_1sdp"
+        android:paddingTop="@dimen/_10sdp">
+
+        <RelativeLayout
+            android:id="@+id/upper_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/img_service_provider"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="@dimen/_68sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+
+                android:src="@drawable/service_thumb_big" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_toRightOf="@+id/img_service_provider"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_8sdp">
+
+
+                <TextView
+                    android:id="@+id/txt_offer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_toLeftOf="@+id/txt_service_type"
+                    android:includeFontPadding="false"
+                    android:maxLines="2"
+                    android:text="Looking for dog walk and take care of Dog"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+
+                <RelativeLayout
+                    android:id="@+id/paid_of"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:text="Posted on 05-11-2017 05.20 PM"
+                        android:textColor="#666666"
+                        android:textSize="@dimen/text_size_small" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/middle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/upper_view"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_green_tick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/tick_icon_green_small" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_toRightOf="@+id/img_green_tick"
+                    android:text="10 Offers received"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/text_size_small" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_notification_bell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/notification_bell_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_toRightOf="@+id/img_notification_bell"
+                    android:text="02 New Offers"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/text_size_small" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_dollar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/dollar_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_toRightOf="@+id/img_dollar"
+                    android:text="Price range: $50-$100"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/text_size_small" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/divider_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fix_0.5dp"
+            android:layout_below="@+id/middle_view"
+            android:background="@drawable/bg_light_gray_divider" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider_view">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:text="Expires in 3 days"
+                android:textColor="#31B8E3"
+                android:textSize="@dimen/text_size_small" />
+
+            <ImageView
+                android:id="@+id/img_curve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/curve_btn_bg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/img_curve"
+                android:layout_alignRight="@+id/img_curve"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:gravity="center"
+                android:text="@string/view"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

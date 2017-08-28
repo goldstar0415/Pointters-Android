@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:orientation="vertical"
+    tools:context="com.pointters.activity.BecomeASellerActivity">
+
+   <include layout="@layout/common_toolbar"/>
+
+ <ScrollView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginBottom="@dimen/_8sdp"
+     android:scrollbars="none">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_10sdp"
+    android:background="#F8F8F8">
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Want to become a seller? Go thru couple steps"
+      android:gravity="center"
+      android:textColor="#616165"
+      android:textSize="@dimen/text_size_small"
+      android:id="@+id/mWantToBecomeASeller"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="below based on the type of services"
+        android:gravity="center"
+        android:textColor="#616165"
+        android:textSize="@dimen/text_size_small"
+        android:layout_below="@+id/mWantToBecomeASeller"/>
+</RelativeLayout>
+
+   <android.support.v7.widget.RecyclerView
+       android:layout_width="match_parent"
+       android:layout_marginTop="@dimen/_10sdp"
+       android:layout_height="wrap_content"
+       android:id="@+id/mBecomeSellerRecyclerView">
+
+   </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:background="#F8F8F8">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Congraltulation! See your eligibility below"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:textColor="#616165"
+            android:textSize="@dimen/text_size_small"
+            android:id="@+id/mWantToBecomeASeller1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="on service type to start selling"
+            android:textColor="#616165"
+            android:textSize="@dimen/text_size_small"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_below="@+id/mWantToBecomeASeller1"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_service"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_10sdp">
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Service Method"
+        android:background="@drawable/bg_service"
+        android:textColor="#616165"
+        android:textSize="@dimen/text_size_medium"
+        android:layout_marginLeft="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@drawable/bg_service">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Online"
+            android:textColor="#AFAFB0"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:textSize="@dimen/text_size_small"
+            android:id="@+id/mAddService"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_35sdp"
+            android:text="Eligible seller"
+            android:layout_centerVertical="true"
+            android:id="@+id/mStatus"
+            android:textColor="#1D1D26"
+            android:textSize="@dimen/text_size_small"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tick_icon_blue"
+            android:id="@+id/mSellerImg"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_toLeftOf="@+id/mStatus"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/bg_service">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="At customer location"
+            android:textColor="#AFAFB0"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:textSize="@dimen/text_size_small"
+            android:id="@+id/mAddService1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_35sdp"
+            android:text="Not eligible"
+            android:layout_centerVertical="true"
+            android:id="@+id/mStatus1"
+            android:textColor="#AFAFB0"
+            android:textSize="@dimen/text_size_small"/>
+</RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_service">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="At store location"
+            android:textColor="#AFAFB0"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:textSize="@dimen/text_size_small"
+            android:id="@+id/mAddService2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_35sdp"
+            android:text="Not eligible"
+            android:layout_centerVertical="true"
+            android:id="@+id/mStatus2"
+            android:textColor="#AFAFB0"
+            android:textSize="@dimen/text_size_small"/>
+    </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>
+ </ScrollView>
+</LinearLayout>

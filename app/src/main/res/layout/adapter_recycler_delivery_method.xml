@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingPrefix">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_3sdp"
+        android:paddingTop="@dimen/_3sdp">
+
+        <TextView
+            android:id="@+id/delivery_method_name"
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="@dimen/_3sdp"
+            android:layout_toLeftOf="@+id/img_checkbox"
+
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/color_delivery_method"
+            android:textSize="@dimen/text_size_small" />
+
+        <ImageView
+            android:id="@+id/img_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/checkbox_unchecked" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

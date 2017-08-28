@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingPrefix">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/move_to_service_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@drawable/bg_service"
+        android:elevation="@dimen/elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_service_provider"
+            android:layout_width="@dimen/_68sdp"
+            android:layout_height="@dimen/_68sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/service_thumb_big"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_service_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_9sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="IT service lorem ipsum dummy text"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintLeft_toRightOf="@id/img_service_provider"
+            app:layout_constraintRight_toLeftOf="@+id/txt_service_type"
+            app:layout_constraintTop_toTopOf="@id/img_service_provider" />
+
+        <TextView
+            android:id="@+id/txt_service_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:text="Promoted"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/img_service_provider" />
+
+        <TextView
+            android:id="@+id/txt_service_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_4sdp"
+            android:layout_marginLeft="@dimen/_9sdp"
+            android:text="$50"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="@id/img_service_provider"
+            app:layout_constraintLeft_toRightOf="@id/img_service_provider" />
+
+        <TextView
+            android:id="@+id/txt_service_actual_price"
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:text="$100"
+            android:textColor="@color/color_service_actual_price"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintBaseline_toBaselineOf="@id/txt_service_price"
+            app:layout_constraintLeft_toRightOf="@id/txt_service_price" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/fix_0.5dp"
+            android:background="@color/color_service_actual_price"
+            app:layout_constraintBottom_toBottomOf="@id/txt_service_actual_price"
+            app:layout_constraintLeft_toLeftOf="@id/txt_service_actual_price"
+            app:layout_constraintRight_toRightOf="@id/txt_service_actual_price"
+            app:layout_constraintTop_toTopOf="@id/txt_service_actual_price" />
+
+        <TextView
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:text="For 2 hours of service"
+            android:textColor="@color/color_service_rate_time"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txt_service_price"
+            app:layout_constraintLeft_toRightOf="@+id/relativeLayout" />
+
+        <ImageView
+            android:id="@+id/img_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/location_pin_grey_small"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_distance"
+            app:layout_constraintLeft_toLeftOf="@id/img_service_provider"
+            app:layout_constraintTop_toTopOf="@+id/txt_distance" />
+
+        <TextView
+            android:id="@+id/txt_distance"
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:text="2.2 KM"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_tiny"
+            app:layout_constraintLeft_toRightOf="@+id/img_location"
+            app:layout_constraintTop_toBottomOf="@id/img_service_provider" />
+
+        <TextView
+            android:id="@+id/txt_address"
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:maxWidth="@dimen/_150sdp"
+            android:text="Deman 123, USA"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_tiny"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txt_distance"
+            app:layout_constraintLeft_toRightOf="@+id/txt_distance" />
+
+        <TextView
+            android:id="@+id/txt_service_provider_name"
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:maxWidth="@dimen/_60sdp"
+            android:text="Jhons"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txt_distance"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/by"
+            android:textColor="#666666"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txt_distance"
+            app:layout_constraintRight_toLeftOf="@id/txt_service_provider_name" />
+
+        <RelativeLayout
+            android:id="@+id/divider_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/fix_1dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_light_gray_divider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_location" />
+
+        <RelativeLayout
+            android:id="@+id/layout_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/layout_tick"
+            app:layout_constraintTop_toBottomOf="@id/divider_view">
+
+            <ImageView
+                android:id="@+id/flag_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/flag_icon" />
+
+            <TextView
+                android:id="@+id/txt_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_toRightOf="@+id/flag_img"
+                android:includeFontPadding="false"
+                android:text="90"
+                android:textColor="#666666"
+                android:textSize="@dimen/text_size_medium" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_tick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintLeft_toRightOf="@id/layout_flag"
+            app:layout_constraintRight_toLeftOf="@+id/layout_time"
+            app:layout_constraintTop_toBottomOf="@id/divider_view">
+
+            <ImageView
+                android:id="@+id/img_tick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/tick_icon_grey" />
+
+            <TextView
+                android:id="@+id/txt_tick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_toRightOf="@+id/img_tick"
+                android:text="100"
+                android:textColor="#666666"
+                android:textSize="@dimen/text_size_medium" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintLeft_toRightOf="@id/layout_tick"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_view">
+
+            <ImageView
+                android:id="@+id/img_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/time_icon" />
+
+            <TextView
+                android:id="@+id/txt_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_toRightOf="@+id/img_time"
+                android:text="90%"
+                android:textColor="#666666"
+                android:textSize="@dimen/text_size_small" />
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

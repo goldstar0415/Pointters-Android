@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/_20sdp"
+    app:elevation="0dp"
+    tools:ignore="MissingPrefix">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentInsetStart="0dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_icon_grey"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_search_here"
+                app:layout_constraintTop_toTopOf="@+id/edt_search_here" />
+
+            <EditText
+                android:id="@+id/edt_search_here"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_search"
+                android:hint="@string/search_here"
+                android:inputType="textCapWords"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/_7sdp"
+                android:paddingLeft="@dimen/_35sdp"
+                android:paddingTop="@dimen/_7sdp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/black"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintLeft_toRightOf="@id/btn_back"
+                app:layout_constraintRight_toLeftOf="@+id/txt_apply"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/img_cross_search_here"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:padding="@dimen/fix_3dp"
+                android:src="@drawable/cross_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/edt_search_here"
+                app:layout_constraintRight_toRightOf="@id/edt_search_here"
+                app:layout_constraintTop_toTopOf="@id/edt_search_here" />
+
+            <TextView
+                android:id="@+id/txt_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/apply"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@id/edt_search_here"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/edt_search_here" />
+
+            <ImageView
+                android:id="@+id/img_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:src="@drawable/bg_search_selector"
+                app:layout_constraintBottom_toBottomOf="@id/edt_search_here"
+                app:layout_constraintLeft_toLeftOf="@id/edt_search_here"
+                app:layout_constraintTop_toTopOf="@id/edt_search_here" />
+
+
+            <EditText
+                android:id="@+id/edt_enter_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/bg_search"
+                android:hint="@string/enter_location"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/_7sdp"
+                android:paddingLeft="@dimen/_35sdp"
+                android:inputType="textCapWords"
+                android:paddingTop="@dimen/_7sdp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/black"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintLeft_toLeftOf="@id/edt_search_here"
+                app:layout_constraintRight_toRightOf="@id/edt_search_here"
+                app:layout_constraintTop_toBottomOf="@id/edt_search_here" />
+
+            <ImageView
+                android:id="@+id/img_location_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:src="@drawable/bg_location_selector"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_enter_location"
+                app:layout_constraintLeft_toLeftOf="@+id/edt_enter_location"
+                app:layout_constraintTop_toTopOf="@+id/edt_enter_location" />
+
+            <ImageView
+                android:id="@+id/img_cross_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:padding="@dimen/fix_3dp"
+                android:src="@drawable/cross_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/edt_enter_location"
+                app:layout_constraintRight_toRightOf="@id/edt_enter_location"
+                app:layout_constraintTop_toTopOf="@id/edt_enter_location" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.AppBarLayout>

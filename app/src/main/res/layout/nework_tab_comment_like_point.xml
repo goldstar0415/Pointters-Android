@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+    android:layout_marginBottom="@dimen/_8sdp"
+        android:paddingRight="@dimen/_10sdp">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/img_profile1"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/user_avatar_placeholder"
+        app:riv_mutate_background="true"
+        app:riv_oval="true"
+        app:riv_tile_mode="clamp" />
+
+
+    <LinearLayout
+        android:id="@+id/mUserDetailsInfo1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_toRightOf="@+id/img_profile1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/mUserNameLiveOffer1"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Milam Tora"
+                android:textColor="#010001"
+                android:textSize="@dimen/text_size_small"
+                tools:ignore="MissingPrefix" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/time_icon"
+                android:layout_toLeftOf="@+id/mDateCurrent"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_centerVertical="true"
+                android:text="April 10,2017"
+                android:id="@+id/mDateCurrent"
+                android:layout_alignParentRight="true"
+                android:textColor="#7E7D7E"
+                android:textSize="@dimen/text_size_small"
+                tools:ignore="MissingPrefix" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Service was excellent"
+                android:layout_alignParentLeft="true"
+                android:textColor="#7E7D7E"
+                android:textSize="@dimen/text_size_tiny"
+                tools:ignore="MissingPrefix" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

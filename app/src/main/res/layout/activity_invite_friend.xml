@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.pointters.activity.InviteFriendActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:paddingBottom="@dimen/_10sdp"
+        android:paddingTop="@dimen/_10sdp">
+
+        <include
+
+            android:id="@+id/toolbar_add_price_option"
+            layout="@layout/common_toolbar" />
+    </RelativeLayout>
+
+    <com.pointters.utils.CustomTabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        android:textAlignment="center"
+        app:tabMode="scrollable"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorHeight="@dimen/fix_3dp"
+        app:tabSelectedTextColor="#1D1D28"
+        app:tabTextColor="#1D1D28" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_invite_friend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

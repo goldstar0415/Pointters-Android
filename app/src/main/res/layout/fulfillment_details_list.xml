@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp">
+        <ImageView
+            android:layout_width="@dimen/_65sdp"
+            android:layout_height="@dimen/_65sdp"
+            android:id="@+id/mUserDpOfFulfillment"
+            android:scaleType="centerCrop"
+            android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/thumb_small_two"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mUserDpOfFulfillment"
+            android:textSize="@dimen/text_size_tiny"
+            android:text="Lorem ipsum"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/color_black_info"/>
+
+
+    </RelativeLayout>

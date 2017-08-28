@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:elevation="0dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentInsetStart="0dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp">
+
+            <TextView
+                android:id="@+id/txt_search_here_hint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_3sdp"
+                android:background="@drawable/bg_search"
+                android:paddingBottom="@dimen/_6sdp"
+                android:paddingLeft="@dimen/_35sdp"
+                android:paddingTop="@dimen/_6sdp"
+                android:text="@string/search_here"
+                android:textColor="@color/search_color_main_screen_hint"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:src="@drawable/search_icon_rounded_active"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_search_here_hint"
+                app:layout_constraintLeft_toLeftOf="@+id/txt_search_here_hint"
+                app:layout_constraintTop_toTopOf="@+id/txt_search_here_hint" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.AppBarLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_service"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/_10sdp"
+    android:paddingTop="@dimen/_10sdp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/mAddService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:text="Add Service"
+            android:textColor="#1D1D26"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/mStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/mAddService"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Status o Added"
+            android:textColor="#AFAFB0"
+            android:textSize="@dimen/text_size_tiny" />
+
+        <TextView
+            android:id="@+id/subheading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/mStatus"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="#AFAFB0"
+            android:textSize="@dimen/text_size_tiny" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:src="@drawable/right_arrow" />
+    </RelativeLayout>
+
+</LinearLayout>

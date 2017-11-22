@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     android:orientation="vertical"
+    tools:ignore="MissingPrefix"
+    android:background="@color/colorWhite"
     tools:context="com.pointters.activity.NotificationOptionsActivity">
 
-    <include layout="@layout/common_toolbar" />
+    <include android:id="@+id/toolbar"
+        layout="@layout/common_toolbar" />
 
     <RelativeLayout
+        android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F8F8F8"
-        android:paddingLeft="@dimen/_10sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_10sdp">
+        android:layout_below="@+id/toolbar"
+        android:paddingBottom="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_15sdp"
+        android:paddingTop="@dimen/_10sdp">
 
 
         <RelativeLayout
@@ -30,7 +34,7 @@
                 android:text="@string/set_prefreances_below_on_how"
                 android:textColor="#65656B"
                 android:textSize="@dimen/text_size_tiny"
-                tools:ignore="MissingPrefix" />
+             />
 
         </RelativeLayout>
 
@@ -39,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_10sdp">
+            android:layout_marginRight="@dimen/_12sdp">
 
 
             <TextView
@@ -47,8 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/_30sdp"
-                android:textColor="#65656B"
                 android:text="@string/push"
+                android:textColor="#65656B"
                 android:textSize="@dimen/text_size_tiny" />
 
 
@@ -67,21 +71,59 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_notification_option"
         android:layout_width="match_parent"
+        android:layout_below="@+id/layout_top"
         android:layout_height="wrap_content" />
 
     <RelativeLayout
+        android:id="@+id/layout_middle"
         android:layout_width="match_parent"
+        android:layout_below="@+id/rv_notification_option"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/_15sdp"
-        android:paddingLeft="@dimen/_15sdp"
-        android:paddingRight="@dimen/_10sdp"
-        android:paddingTop="@dimen/_15sdp">
+        android:layout_marginTop="@dimen/_15sdp">
 
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/right_portion">
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_12sdp">
+
+
+            <TextView
+                android:id="@+id/txt_push"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_27sdp"
+                android:text="@string/daily"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_tiny" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/txt_push"
+                android:text="@string/weekly"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_tiny" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_15sdp"
+        android:layout_below="@+id/layout_middle"
+        android:paddingBottom="@dimen/_5sdp">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/right_portion"
+            android:layout_marginBottom="@dimen/_10sdp">
 
 
             <TextView
@@ -100,31 +142,25 @@
             android:id="@+id/right_portion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_5sdp">
 
             <RelativeLayout
                 android:id="@+id/first_choice_rl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_28sdp">
-
-                <TextView
-                    android:id="@+id/txt_daily"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/daily"
-                    android:textColor="@color/text_color_dark_gray"
-                    android:textSize="@dimen/text_size_tiny"/>
+                android:layout_marginRight="@dimen/_20sdp">
 
 
                 <ImageView
-                    android:id="@+id/first_choice"
+                    android:id="@+id/img_daily"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txt_daily"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:src="@drawable/ellipse_unchecked_grey" />
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:src="@drawable/custom_checkbox" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -132,29 +168,38 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/first_choice_rl">
 
-                <TextView
-                    android:id="@+id/txt_wkly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/weekly"
-                    android:textColor="@color/text_color_dark_gray"
-                    android:textSize="@dimen/text_size_tiny"/>
-
 
                 <ImageView
-                    android:id="@+id/second_choice"
+                    android:id="@+id/img_weekly"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txt_wkly"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:src="@drawable/ellipse_unchecked_grey" />
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:paddingLeft="@dimen/_15sdp"
+                    android:paddingRight="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:src="@drawable/custom_checkbox" />
             </RelativeLayout>
         </RelativeLayout>
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/fix_0.5dp"
-        android:background="@drawable/divider_option"/>
-</LinearLayout>
+        android:background="@drawable/divider_option" />
+
+    <TextView
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:padding="@dimen/_10sdp"
+        android:background="@drawable/btn_seletor"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_small"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

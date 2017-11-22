@@ -5,92 +5,98 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:elevation="2dp"
-        android:paddingTop="@dimen/_15sdp"
-        android:paddingBottom="@dimen/_10sdp"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        tools:ignore="MissingPrefix">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/common_toolbar"
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_80sdp"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/toolbar_lft_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/_15sdp"
+            android:src="@drawable/menu_icon" />
+
+        <!--   <TextView
+               android:id="@+id/toolbar_title"
+               fontPath="fonts/Montserrat-Light.ttf"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:layout_gravity="left"
+               android:layout_marginLeft="@dimen/_5sdp"
+               android:layout_marginRight="@dimen/_5sdp"
+               android:layout_toLeftOf="@+id/toolbar_right_img"
+               android:layout_toRightOf="@+id/toolbar_lft_img"
+               android:ellipsize="end"
+               android:gravity="center_vertical"
+               android:maxLines="1"
+               android:textColor="#1d1d26"
+               android:textSize="@dimen/text_size_medium" />-->
+        <com.pointters.utils.CustomTabLayoutMediumFonts
+            android:id="@+id/tab_layout_buy_sell"
+            android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
-            app:contentInsetStart="0dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_toLeftOf="@+id/layout_right"
+            android:layout_toRightOf="@+id/toolbar_lft_img"
+            android:background="@android:color/white"
+            android:textAlignment="center"
+            app:tabBackground="@android:color/white"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorHeight="@dimen/fix_3dp"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#1D1D28"
+            app:tabTextAppearance="@style/customTabFontsSmallDark"
+            app:tabTextColor="#1D1D28" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/toolbar_lft_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/_8sdp"
-                    android:paddingRight="@dimen/_5sdp"
-                    android:src="@drawable/menu_icon" />
-
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    fontPath="fonts/Montserrat-Regular.ttf"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_toLeftOf="@+id/toolbar_right_img"
-                    android:layout_toRightOf="@+id/toolbar_lft_img"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/color_black_info"
-                    android:textSize="@dimen/text_size_big" />
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/toolbar_right_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                   android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:paddingLeft="@dimen/_5sdp"
-                    android:paddingRight="@dimen/_8sdp"
-                    app:riv_mutate_background="true"
-                    app:riv_oval="true"
-                    android:src="@drawable/avatar_icon_small"
-
-                    app:riv_tile_mode="clamp" />
+        <RelativeLayout
+            android:id="@+id/layout_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            >
 
 
-            </RelativeLayout>
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/toolbar_right_img"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+                android:src="@drawable/user_avatar_placeholder"
+                app:riv_mutate_background="true"
+                android:layout_marginRight="@dimen/_15sdp"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
+            <TextView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:text="10"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_tiny"
+                android:layout_marginTop="@dimen/_22sdp"
+                android:layout_alignRight="@+id/toolbar_right_img"
+                android:background="@drawable/drawbale_circle_orange"/>
 
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 
-    <com.pointters.utils.CustomTabLayout
-        android:id="@+id/tabs"
+    <com.pointters.utils.NonSwipeableViewPager
+        android:id="@+id/viewpager_buy_sell"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabIndicatorHeight="@dimen/fix_3dp"
-        app:tabSelectedTextColor="#1D1D28"
-        android:textAlignment="center"
-        app:tabTextColor="#1D1D28"
-        app:tabMode="fixed"
-        android:background="@android:color/white" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager_my_orders"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"></com.pointters.utils.NonSwipeableViewPager>
 
 
 </LinearLayout>

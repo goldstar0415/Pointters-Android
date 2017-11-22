@@ -9,6 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pointters.R;
+import com.pointters.model.SearchHint;
+
+import java.util.ArrayList;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * Created by vishalsharma on 2/8/17.
@@ -16,11 +21,13 @@ import com.pointters.R;
 
 public class SearchOptionsAdapter extends RecyclerView.Adapter<SearchOptionsAdapter.SearchOptionViewHolder> {
 
-    private String[] listOptions;
+    private ArrayList<String> listOptions;
     private Context context;
 
-    public SearchOptionsAdapter(String[] listOptions) {
+
+    public SearchOptionsAdapter(ArrayList<String> listOptions, Context context) {
         this.listOptions = listOptions;
+        this.context = context;
     }
 
     @Override
@@ -36,7 +43,7 @@ public class SearchOptionsAdapter extends RecyclerView.Adapter<SearchOptionsAdap
     @Override
     public void onBindViewHolder(SearchOptionViewHolder holder, int position) {
 
-        holder.txtOption.setText(listOptions[position]);
+        holder.txtOption.setText(listOptions.get(position));
 
         switch (position) {
             case 0:
@@ -54,7 +61,7 @@ public class SearchOptionsAdapter extends RecyclerView.Adapter<SearchOptionsAdap
 
     @Override
     public int getItemCount() {
-        return listOptions.length;
+        return listOptions.size();
     }
 
     public class SearchOptionViewHolder extends RecyclerView.ViewHolder {

@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/_15sdp">
+   >
 
 
     <RelativeLayout
         android:id="@+id/left_portion"
         android:layout_width="wrap_content"
+        android:padding="@dimen/_15sdp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -45,14 +46,18 @@
             android:id="@+id/first_choice_rl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/_45sdp">
+            android:layout_marginRight="@dimen/_20sdp">
 
 
             <ImageView
-                android:id="@+id/first_choice"
+                android:id="@+id/img_push"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ellipse_unchecked_grey" />
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_15sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_15sdp"
+                android:src="@drawable/custom_checkbox" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -62,10 +67,14 @@
 
 
             <ImageView
-                android:id="@+id/second_choice"
+                android:id="@+id/img_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ellipse_unchecked_grey" />
+                android:paddingTop="@dimen/_15sdp"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:src="@drawable/custom_checkbox" />
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

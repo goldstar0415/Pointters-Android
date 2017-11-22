@@ -1,6 +1,5 @@
 package com.pointters.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pointters.R;
-import com.pointters.activity.SendCustomOfferChatLinkServiceActivity;
-import com.pointters.activity.SendServiceActivity;
 import com.pointters.adapter.ChatAdapter;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 
@@ -65,18 +62,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener, OnRe
 
         switch (position)
         {
-            case 0:
-                startActivity(new Intent(getActivity(), SendServiceActivity.class));
-                break;
-            case 1:
-                startActivity(new Intent(getActivity(), SendCustomOfferChatLinkServiceActivity.class));
-                break;
-            case 2:
-                startActivity(new Intent(getActivity(), SendServiceActivity.class));
-                break;
-            case 3:
-                startActivity(new Intent(getActivity(), SendCustomOfferChatLinkServiceActivity.class));
-                break;
+
         }
 
 

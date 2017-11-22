@@ -4,14 +4,14 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_6sdp"
+        android:layout_marginRight="@dimen/_6sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/bg_service"
-        android:elevation="@dimen/_1sdp"
-        android:paddingTop="@dimen/_10sdp">
+        android:paddingTop="@dimen/_15sdp">
 
         <RelativeLayout
             android:id="@+id/upper_view"
@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/img_service_provider"
-                android:layout_width="@dimen/_68sdp"
-                android:layout_height="@dimen/_68sdp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
 
                 android:src="@drawable/service_thumb_big" />
@@ -49,7 +49,7 @@
                     android:maxLines="2"
                     android:text="Looking for dog walk and take care of Dog"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_small" />
 
 
                 <RelativeLayout
@@ -62,9 +62,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
-                        android:text="Posted on 05-11-2017 05.20 PM"
+                        android:text="Posted on 05-11-2017 05:20 PM"
                         android:textColor="#666666"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_tiny" />
 
                 </RelativeLayout>
 
@@ -82,7 +82,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
@@ -93,13 +93,41 @@
                     android:src="@drawable/tick_icon_green_small" />
 
                 <TextView
+                    android:id="@+id/txt_left_portion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_toRightOf="@+id/img_green_tick"
-                    android:text="10 Offers received"
+                    android:text="you sent an Offer 2d ago"
                     android:textColor="#666666"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_tiny" />
+
+                <RelativeLayout
+                    android:id="@+id/layout_edit_offer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_toRightOf="@+id/txt_left_portion"
+                    android:layout_alignParentRight="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:text="Edit offer"
+                        android:layout_toLeftOf="@+id/img_right_arrow"
+                        android:textColor="#31B8E3"
+                        android:textSize="@dimen/text_size_tiny" />
+
+                    <ImageView
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/img_right_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/right_arrow"/>
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -119,14 +147,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_toRightOf="@+id/img_notification_bell"
-                    android:text="02 New Offers"
+                    android:text="10 othere seller sent Offers"
                     android:textColor="#666666"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_tiny" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_1sdp">
 
                 <ImageView
                     android:id="@+id/img_dollar"
@@ -142,7 +171,7 @@
                     android:layout_toRightOf="@+id/img_dollar"
                     android:text="Price range: $50-$100"
                     android:textColor="#666666"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_tiny" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -166,12 +195,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/_10sdp"
-                android:text="Expires in 3 days"
+                android:text="Job Expires in 3 days"
                 android:textColor="#31B8E3"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_tiny" />
 
             <ImageView
-                android:id="@+id/img_curve"
+                android:id="@+id/img_view_job"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -180,13 +209,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/img_curve"
-                android:layout_alignRight="@+id/img_curve"
+                android:layout_alignLeft="@+id/img_view_job"
+                android:layout_alignRight="@+id/img_view_job"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:gravity="center"
-                android:text="@string/view"
+                android:text="@string/view_job"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white" />
 

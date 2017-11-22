@@ -17,6 +17,7 @@ import com.pointters.R;
 import com.pointters.model.BecomeASellerActivityDetails;
 import com.pointters.model.ChatServiceDetails;
 import com.pointters.utils.AppUtils;
+import com.pointters.utils.DividerItemDecorationVer;
 
 import java.util.ArrayList;
 
@@ -40,12 +41,12 @@ public class BecomeASellerActivity extends AppCompatActivity implements View.OnC
 
         BecomeASellerActivityDetails becomeASellerActivityDetails1=new BecomeASellerActivityDetails();
         becomeASellerActivityDetails1.setSellerHeading("Add Service");
-        becomeASellerActivityDetails1.setSellerSubHeading("Status: O Added");
+        becomeASellerActivityDetails1.setSellerSubHeading("Status: 0 Added");
         becomeASellerActivityDetailsArrayList.add(becomeASellerActivityDetails1);
 
 
         BecomeASellerActivityDetails becomeASellerActivityDetails2=new BecomeASellerActivityDetails();
-        becomeASellerActivityDetails2.setSellerHeading("Peyment Setup");
+        becomeASellerActivityDetails2.setSellerHeading("Payment Setup");
         becomeASellerActivityDetails2.setSellerSubHeading("Status: No payment method added yet");
         becomeASellerActivityDetailsArrayList.add(becomeASellerActivityDetails2);
 
@@ -74,8 +75,7 @@ public class BecomeASellerActivity extends AppCompatActivity implements View.OnC
         sellerAdapter=new SellerAdapter(BecomeASellerActivity.this,becomeASellerActivityDetailsArrayList);
         recyclerView.setAdapter(sellerAdapter);
 
-        DividerItemDecoration divider2 = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        divider2.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_option));
+        DividerItemDecorationVer divider2 = new DividerItemDecorationVer(ContextCompat.getDrawable(this, R.drawable.divider_option));
         recyclerView.addItemDecoration(divider2);
     }
     @Override
@@ -147,5 +147,7 @@ public class BecomeASellerActivity extends AppCompatActivity implements View.OnC
           }
       }
   }
+
+
 
 }

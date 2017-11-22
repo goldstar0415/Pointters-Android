@@ -20,7 +20,7 @@
             android:textSize="@dimen/text_size_tiny"
             android:text="Lorem ipsum"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/color_black_info"/>
+            android:textColor="#797879"/>
 
 
     </RelativeLayout>

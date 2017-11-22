@@ -2,23 +2,23 @@ package com.pointters.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.pointters.R;
-import com.pointters.adapter.DeliveryMethodsRecyclerViewAdapter;
-import com.pointters.model.DeliveryMethod;
-import com.pointters.utils.AppUtils;
-
-import java.util.ArrayList;
+import com.pointters.fragment.AddServiceFragment;
+import com.pointters.fragment.BlankFragment;
+import com.pointters.utils.ConstantUtils;
+import com.pointters.utils.CustomTabLayout;
+import com.pointters.utils.NonSwipeableViewPager;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -26,56 +26,59 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by vishalsharma on 2/8/17.
  */
 
-public class AddServiceActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddServiceActivity extends AppCompatActivity implements View.OnClickListener, TabLayout.OnTabSelectedListener {
 
-    private RecyclerView recyclerViewDelivery;
-    private ArrayList<DeliveryMethod> deliveryMethods;
-    private DeliveryMethodsRecyclerViewAdapter deliveryMethodsRecyclerViewAdapter;
-    private TextView addPriceBtn;
+    private CustomTabLayout tabLayout;
+    private ImageView imgClose;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private NonSwipeableViewPager viewPager;
+    private BlankFragment postUpdateFragment;
+    private AddServiceFragment addServiceFragment;
+    private int mCurCheckPosition = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_add_service);
-
-        initViews();
-
-        //set toolbar
-        AppUtils.setToolBarWithBothIcon(AddServiceActivity.this, getResources().getString(R.string.add_service),
-                R.drawable.back_icon_grey, 0);
-
-        setOnClick();
+        setContentView(R.layout.activity_add_services);
+        sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        tabLayout = (CustomTabLayout) findViewById(R.id.tab_layout);
+        imgClose = (ImageView) findViewById(R.id.img_close);
+        viewPager = (NonSwipeableViewPager) findViewById(R.id.view_pager);
 
 
-        // Delivery method
-        deliveryMethods = new ArrayList<>();
-        deliveryMethods.add(new DeliveryMethod("Online", false));
-        deliveryMethods.add(new DeliveryMethod("Shipment", false));
-        deliveryMethods.add(new DeliveryMethod("Local- anywhere in the city you service", true));
-        deliveryMethods.add(new DeliveryMethod("Local- at your store locations", false));
+        tabLayout.addTab(tabLayout.newTab().setText("Post Update"));
+        tabLayout.addTab(tabLayout.newTab().setText("Add Service"));
 
-        deliveryMethodsRecyclerViewAdapter = new DeliveryMethodsRecyclerViewAdapter(deliveryMethods);
-        RecyclerView.LayoutManager mLayoutManagerDelivery = new LinearLayoutManager(getApplicationContext());
-        recyclerViewDelivery.setLayoutManager(mLayoutManagerDelivery);
-        recyclerViewDelivery.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewDelivery.setAdapter(deliveryMethodsRecyclerViewAdapter);
+        tabLayout.addOnTabSelectedListener(this);
+
+      //  setupViewPager(viewPager);
 
 
-    }
 
-    private void setOnClick() {
+        imgClose.setOnClickListener(this);
+        if (!sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").isEmpty() && sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").equals("0"))
+        {
+            tabLayout.getTabAt(0).select();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new BlankFragment()).commit();
+        }else         if (!sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").isEmpty() && sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").equals("1"))
+        {
+            tabLayout.getTabAt(1).select();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new AddServiceFragment()).commit();
+        }
+        else {
+            tabLayout.getTabAt(0).select();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new BlankFragment()).commit();
+        }
+           // viewPager.setCurrentItem(Integer.parseInt(sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "")));
 
-        addPriceBtn.setOnClickListener(this);
 
-    }
-
-    private void initViews() {
-
-        recyclerViewDelivery = (RecyclerView) findViewById(R.id.recycler_delivery_method);
-        addPriceBtn = (TextView) findViewById(R.id.btn_add_price_button);
 
     }
+
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -89,18 +92,67 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
         switch ((view.getId())) {
 
 
-            case R.id.toolbar_lft_img:
+            case R.id.img_close:
 
                 onBackPressed();
 
                 break;
 
-            case R.id.btn_add_price_button:
-
-                startActivity(new Intent(AddServiceActivity.this, AddPriceOptionActivity.class));
-
-                break;
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Fragment fragment =getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if(fragment!=null) {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Fragment fragment =getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if(fragment!=null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch (tab.getPosition()) {
+
+            case 0:
+                editor.putString(ConstantUtils.LAST_SELECTED_TAB, "0").apply();
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new BlankFragment()).commit();
+                break;
+            case 1:
+                editor.putString(ConstantUtils.LAST_SELECTED_TAB, "1").apply();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new AddServiceFragment()).commit();
+                break;
+
+
+
+
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 }

@@ -5,14 +5,14 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_6sdp"
+        android:layout_marginRight="@dimen/_6sdp"
         android:background="@drawable/bg_service"
-        android:elevation="@dimen/_1sdp"
-        android:paddingTop="@dimen/_10sdp">
+        android:paddingTop="@dimen/_15sdp">
 
         <RelativeLayout
             android:id="@+id/upper_view"
@@ -21,21 +21,21 @@
 
 
             <ImageView
-                android:id="@+id/img_service_provider"
-                android:layout_width="@dimen/_68sdp"
-                android:layout_height="@dimen/_68sdp"
+                android:id="@+id/img_seller"
+                android:layout_width="@dimen/_62sdp"
+                android:layout_height="@dimen/_62sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
-
+                android:scaleType="centerCrop"
                 android:src="@drawable/service_thumb_big" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignBottom="@+id/img_service_provider"
-                android:layout_alignTop="@+id/img_service_provider"
+                android:layout_alignBottom="@+id/img_seller"
+                android:layout_alignTop="@+id/img_seller"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:layout_toRightOf="@+id/img_service_provider"
+                android:layout_toRightOf="@+id/img_seller"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/_8sdp">
 
@@ -46,7 +46,7 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/txt_offer_name"
+                        android:id="@+id/txt_service_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -56,7 +56,7 @@
                         android:maxLines="1"
                         android:text="Dalk walker service"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_small" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -81,14 +81,14 @@
 
 
                 <TextView
-                    android:id="@+id/txt_second_row"
+                    android:id="@+id/txt_second_service_desc"
                     fontPath="fonts/Montserrat-Light.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="I will walk dog"
-                    android:textColor="@color/color_service_actual_price"
+                    android:textColor="#9E9D9E"
                     android:textSize="@dimen/text_size_tiny"
                     tools:ignore="MissingPrefix" />
 
@@ -100,47 +100,60 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/txt_service_price"
+                        android:id="@+id/txt_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="$50"
+                        android:includeFontPadding="false"
+
                         android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_small" />
 
                     <TextView
-                        android:id="@+id/txt_service_actual_price"
+                        android:id="@+id/txt_actual_price"
                         fontPath="fonts/Montserrat-Light.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toRightOf="@+id/txt_service_price"
+                        android:layout_toRightOf="@+id/txt_price"
                         android:text="$100"
+                        android:visibility="gone"
+                        android:includeFontPadding="false"
                         android:textColor="@color/color_service_actual_price"
                         android:textSize="@dimen/text_size_small"
                         tools:ignore="MissingPrefix" />
 
-                    <View
+                    <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_alignLeft="@+id/txt_service_actual_price"
-                        android:layout_alignRight="@+id/txt_service_actual_price"
-                        android:layout_centerVertical="true"
-                        android:background="@color/color_service_actual_price" />
+                        android:layout_height="match_parent"
+                        android:layout_alignBottom="@+id/txt_actual_price"
+                        android:layout_alignLeft="@+id/txt_actual_price"
+                        android:layout_alignRight="@+id/txt_actual_price"
+                        android:layout_alignTop="@+id/txt_actual_price">
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_centerVertical="true"
+                            android:background="@color/color_service_actual_price" />
+                    </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/txt_service_time"
+                        android:id="@+id/txt_price_desc"
                         fontPath="fonts/Montserrat-Light.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toRightOf="@+id/txt_service_actual_price"
+                        android:layout_toRightOf="@+id/txt_actual_price"
                         android:text="For 2 hr"
                         android:textColor="@color/color_service_actual_price"
                         android:textSize="@dimen/text_size_small"
+                        android:includeFontPadding="false"
+
                         tools:ignore="MissingPrefix" />
                 </RelativeLayout>
 
@@ -153,10 +166,11 @@
                     android:gravity="bottom">
 
                     <TextView
+                        android:id="@+id/txt_offer_created_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
-                        android:text="Posted on 05-11-2017 05.20 PM"
+                        android:text="Offers sent on 05-11-2017 05:20 PM"
                         android:textColor="#666666"
                         android:textSize="@dimen/text_size_tiny" />
 
@@ -186,18 +200,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/_10sdp"
-
-                android:text="By: "
-                android:textSize="@dimen/text_size_small" />
+                android:text="Buyer: "
+                android:textSize="@dimen/text_size_tiny" />
 
             <TextView
+                android:id="@+id/txt_seller_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/txt_by"
                 android:text="Jhons@Chixago,Il"
                 android:textColor="#31B8E3"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_tiny" />
 
             <ImageView
                 android:id="@+id/img_curve"

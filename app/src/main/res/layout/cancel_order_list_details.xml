@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativeLayoutParent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Seller did not complete on time"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:maxLines="2"
-        fontPath="fonts/Montserrat-Light.ttf"
-        tools:ignore="MissingPrefix"
-        android:layout_toLeftOf="@+id/mCheckSellerCancelOrder"
-        android:textSize="@dimen/text_size_tiny"
-        android:textColor="@color/color_black_info"
-        android:layout_marginLeft="@dimen/_10sdp"/>
+        android:layout_marginBottom="@dimen/_8sdp">
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mCheckSellerCancelOrder"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:button="@drawable/custom_checkbox"/>
+        <TextView
+            android:id="@+id/cancel_order_reason_item_name"
+            fontPath="fonts/Montserrat-Regular.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toLeftOf="@+id/img_checkbox"
+            android:maxLines="2"
+            android:text="Seller did not complete on time"
+            android:textColor="#4C4C4C"
+            android:textSize="@dimen/text_size_small"
+            tools:ignore="MissingPrefix" />
 
+        <ImageView
+            android:id="@+id/img_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:src="@drawable/ellipse_unchecked_grey" />
+    </RelativeLayout>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pointters">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -13,6 +14,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -27,27 +29,19 @@
         <activity
             android:name=".activity.RegistrationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.RegistrationDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-
-            <!--
-           <intent-filter>
-               <action android:name="android.intent.action.MAIN" />
-
-               <category android:name="android.intent.category.LAUNCHER" />
-           </intent-filter>
-            -->
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait" />
@@ -59,10 +53,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AddServiceActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.AddPriceOptionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.NotificationOptionsActivity"
             android:screenOrientation="portrait" />
@@ -71,7 +67,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EditProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.ProfileScreenActivity"
             android:screenOrientation="portrait" />
@@ -82,13 +79,7 @@
             android:name=".activity.CheckoutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AddCreditCardActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.FulfillmentActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.CancelOrderScreenActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PaymentMethodsActivity"
@@ -107,20 +98,46 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <activity android:name=".activity.ServiceDetailActivity" />
+        <activity
+            android:name=".activity.ServiceDetailActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
 
         <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:name=".activity.BackgroundCheckActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".activity.CustomOfferDetailActivity" />
-        <activity android:name=".activity.InviteFriendActivity" />
-        <activity android:name=".activity.SendServiceActivity" />
-        <activity android:name=".activity.SendCustomOfferChatLinkServiceActivity"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.ChooseCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".activity.PlayVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:theme="@style/AppTheme">
+
+            <!--
+              <intent-filter>
+                  <action android:name="android.intent.action.MAIN" />
+
+                  <category android:name="android.intent.category.LAUNCHER" />
+              </intent-filter>
+            -->
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a7718166c0116a3bf5281ed207022bc1b3e7e9a1" />
+
     </application>
 
 </manifest>

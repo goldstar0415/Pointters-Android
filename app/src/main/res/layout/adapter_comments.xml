@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/_8sdp"
-        android:paddingRight="@dimen/_10sdp">
+    android:layout_marginTop="@dimen/_8sdp"
+    android:paddingLeft="@dimen/_10sdp"
+    android:paddingRight="@dimen/_10sdp">
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/img_profile1"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@drawable/user_avatar_placeholder"
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/mUserNameLiveOffer1"
+                android:id="@+id/txt_name"
                 fontPath="fonts/Montserrat-Regular.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,21 +48,22 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/time_icon"
-                android:layout_toLeftOf="@+id/mDateCurrent"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/txt_dateTime"
+                android:src="@drawable/time_icon" />
 
             <TextView
+
+                android:id="@+id/txt_dateTime"
                 fontPath="fonts/Montserrat-Light.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_6sdp"
-                android:layout_centerVertical="true"
-                android:text="April 10,2017"
-                android:id="@+id/mDateCurrent"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:text="April 10, 2017"
                 android:textColor="#7E7D7E"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_tiny"
                 tools:ignore="MissingPrefix" />
 
         </RelativeLayout>
@@ -72,12 +74,13 @@
 
 
             <TextView
+                android:id="@+id/txt_comment"
                 fontPath="fonts/Montserrat-Light.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="Service was excellent"
-                android:layout_alignParentLeft="true"
                 android:textColor="#7E7D7E"
                 android:textSize="@dimen/text_size_tiny"
                 tools:ignore="MissingPrefix" />

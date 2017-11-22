@@ -15,9 +15,17 @@
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_tiny">10sp</dimen>
+    <dimen name="text_size_mini_tiny">8sp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="map_dx">1dp</dimen>
+    <dimen name="map_dy">@dimen/_minus50sdp</dimen>
 
 
+    <dimen name="view_pager_width">250dp</dimen>
+    <dimen name="card_view_width">250dp</dimen>
+    <dimen name="pager_margin">-26dp</dimen>
+<dimen name="negative_margin">-1dp</dimen>
 </resources>

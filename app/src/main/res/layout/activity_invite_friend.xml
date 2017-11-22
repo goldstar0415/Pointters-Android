@@ -14,10 +14,79 @@
         android:paddingBottom="@dimen/_10sdp"
         android:paddingTop="@dimen/_10sdp">
 
-        <include
+        <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="2dp"
+            tools:ignore="MissingPrefix">
 
-            android:id="@+id/toolbar_add_price_option"
-            layout="@layout/common_toolbar" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/common_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/toolbar_lft_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingRight="@dimen/_8sdp"
+                        android:src="@drawable/back_icon_grey" />
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_toLeftOf="@+id/toolbar_right_img"
+                        android:layout_toRightOf="@+id/toolbar_lft_img"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="@string/invite_friend"
+                        android:textColor="#1d1d26"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <TextView
+                        android:id="@+id/toolbar_right_img"
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:background="@drawable/follow_btn_pattern"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/_6sdp"
+
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:paddingTop="@dimen/_6sdp"
+                        android:text="Invite"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
     </RelativeLayout>
 
     <com.pointters.utils.CustomTabLayout
@@ -25,11 +94,12 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
-        android:textAlignment="center"
-        app:tabMode="scrollable"
+        app:tabBackground="@android:color/white"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorHeight="@dimen/fix_3dp"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="#1D1D28"
+        app:tabTextAppearance="@style/customTabFontsStyle"
         app:tabTextColor="#1D1D28" />
 
     <android.support.v4.view.ViewPager

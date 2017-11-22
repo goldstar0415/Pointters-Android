@@ -1,1 +1,1 @@
-include ':app',':libs:mediaPickerLibrary'
+include ':app',':libs:mediaPickerLibrary',':libs:camerakit',':libs:zxing-android-embedded'

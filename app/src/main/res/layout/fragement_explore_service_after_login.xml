@@ -10,16 +10,19 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
         android:elevation="0dp"
+        app:tabBackground="@android:color/white"
+        app:tabTextAppearance="@style/customTabFontsStyle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorHeight="@dimen/fix_3dp"
+        app:tabMaxWidth="0dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="#1D1D28"
         app:tabTextColor="#1D1D28"
-        app:tabTextAppearance="@style/customTabFontsStyle" />
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_services"

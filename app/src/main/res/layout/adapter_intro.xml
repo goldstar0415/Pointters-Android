@@ -11,8 +11,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+       />
 
 
 

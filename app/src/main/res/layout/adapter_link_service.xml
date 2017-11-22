@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginLeft="@dimen/_8sdp"
     android:layout_marginRight="@dimen/_8sdp"
     android:layout_marginBottom="@dimen/_8sdp"
-    android:elevation="2dp"
     android:background="@drawable/bg_service"
     android:orientation="vertical">
 
@@ -17,23 +17,25 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/img_profile"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_70sdp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:src="@drawable/user_avatar_placeholder"
             app:riv_mutate_background="true"
             app:riv_oval="true"
             app:riv_tile_mode="clamp" />
 
         <TextView
+            fontPath="fonts/Montserrat-Regular.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_profile"
             android:layout_marginTop="@dimen/_5sdp"
             android:text="Seller Name"
             android:textColor="#1A1A1A"
-            android:textSize="@dimen/text_size_medium" />
-
+            android:textSize="@dimen/text_size_tiny"
+            tools:ignore="MissingPrefix" />
         <TextView
+            fontPath="fonts/Montserrat-Regular.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/img_profile"
@@ -45,36 +47,39 @@
             android:maxLines="3"
             android:text="Service Description Text Text Text Text Text Text Text Text Text Text Text"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_small"
+            tools:ignore="MissingPrefix" />
+
 
     </RelativeLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/divider_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/fix_0.5dp"
-        android:layout_below="@+id/middle_view"
-        android:background="@drawable/bg_light_gray_divider" />
+
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FCFCFC"
+
         android:layout_below="@+id/divider_view">
 
 
         <TextView
+            fontPath="fonts/Montserrat-Regular.ttf"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_20sdp"
             android:text="Start at $20/hr"
             android:textColor="#96A4BA"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_small"
+            tools:ignore="MissingPrefix" />
 
 
         <TextView
+            android:id="@+id/txt_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/img_curve"

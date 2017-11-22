@@ -9,8 +9,9 @@
     <string name="welcome">Welcome</string>
     <string name="app_intro">Lorem Ipsum is dummy text\nyou\'ll ever need</string>
     <string name="sign_up">Signup</string>
+    <string name="sign_up_caps">SIGN UP</string>
     <string name="login">Login</string>
-    <string name="skip">Skip</string>
+    <string name="skip">Skip and start exploring</string>
 
     <!--Registration-->
     <string name="create_account">Create Account</string>
@@ -25,7 +26,7 @@
     <string name="sign_in">SIGN IN</string>
     <string name="success">SUCCESS</string>
     <string name="error">Error</string>
-    <string name="password_mismatch">Password not matching.</string>
+    <string name="password_mismatch">Passwords are not matching.</string>
     <string name="provide_valid_email">Please provide a valid Email.</string>
     <string name="email_does_not_exist">Email does not exist</string>
     <string name="provide_valid_password">Please provide a valid password.</string>
@@ -64,7 +65,7 @@
     <string name="reset_password">Reset Password</string>
     <string name="enter_verification_code">ENTER VERIFICATION CODE SENT IN EMAIL</string>
     <string name="provide_verification_code">Please provide a verification code.</string>
-    <string name="invalid_verification_code">Invalid verification code</string>
+    <string name="invalid_verification_code">Invalid verification code.</string>
     <string name="forgot_password_heading">Forgot Password</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
@@ -91,21 +92,24 @@
 
     <!--Add Service-->
     <string name="add_service">Add Service</string>
-    <string name="choose_category">CHOOSE CATEGORY</string>
+    <string name="choose_category">Choose Category</string>
     <string name="upload_photo_or_video">Upload photo or video</string>
     <string name="service_description">Service Description</string>
     <string name="pricing">Pricing</string>
-    <string name="add_price_option">Add price option</string>
+    <string name="add_price_option">Add Price Option</string>
     <string name="delivery_method">Delivery Method</string>
-    <string name="your_local_services_wont_be_updated">Your local services will not be posted until you have passed background check</string>
+    <string name="your_local_services_wont_be_updated">Your local service will not be posted until you have passed background check</string>
     <string name="add">ADD</string>
     <string name="type_service_descn">Type your Service Description</string>
 
     <!--Add price otion-->
     <string name="price_option_description">Price Option Description</string>
-    <string name="type_your_price_option_descn">Type your price option Description</string>
+    <string name="type_your_price_option_descn">Type your Price Option Description</string>
+    <string name="type_your_offer_descn">Type your Offer Description</string>
+
     <string name="time_to_complete">Time to complete after job starts</string>
     <string name="add_price_option_header">Add Price Option</string>
+    <string name="edit_price_option_header">Edit Price Option</string>
 
 
     <!--Bottom tab text-->
@@ -122,12 +126,14 @@
     <string name="about_me">About Me</string>
     <string name="education">Education</string>
     <string name="insurance">Insurance</string>
-    <string name="license">Licences</string>
+    <string name="license">Licence</string>
     <string name="awards">Awards</string>
     <string name="phone">Phone</string>
     <string name="location_edit">Location</string>
     <string name="save">Save</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="coose_img_text">Upload Profile background images \nor videos</string>
+    <string name="coose_img_text_without_profile">Upload images or videos</string>
 
 
     <!--notification option-->
@@ -136,11 +142,18 @@
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
     <string name="set_prefreances_below_on_how">Set preferences below on how \nyou want to receive notifications</string>
+
     <string name="push">Push</string>
     <string name="you_want_to_recive_notification">you want to receive notifications</string>
     <string name="email_small">Email</string>
 
-
+    <!-- user Settings-->
+    <string name="user_settings">User Settings</string>
+    <string name="set_your_privacy">Set your privacy settings below</string>
+    <string name="who_can_view_my_location">Who can view my location</string>
+    <string name="who_can_view_my_phone">Who can view my phone number</string>
+    <string name="txt_public">Public</string>
+    <string name="only_me">Only Me</string>
     <!--internet warning-->
     <string name="no_internet_warning">Please check your internet connection</string>
 
@@ -151,24 +164,50 @@
 
 
     <!--Menu screen-->
-
     <string name="menu_header">Menu</string>
+    <string name="order">Orders (10 Active)</string>
+    <string name="wathcing">Watching</string>
+    <string name="offers_sent">Offers Sent</string>
+    <string name="job_oppotunities">Job Opportunities</string>
+    <string name="premium_membership">Premium Membership</string>
+    <string name="background_check">Background Check</string>
+    <string name="business_verification">Business Verification</string>
+    <string name="edt_store_location">Edit Store Locations</string>
+    <string name="edt_profile">Edit Profile</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="edit_user_settings">Edit User Settings</string>
+    <string name="paymemt_method">Payment Methods</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="invite_frnd">Invite Friends"</string>
+    <string name="leave_feedback">Leave Feedback</string>
+    <string name="terms_condition">Terms of Conditions</string>
+    <string name="terms_and_condition">Terms and Conditions</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="logout">Logout</string>
+    <string name="start_selling">Start Selling</string>
+
 
     <!--Profile Screen-->
-    <string name="avg_response">Avg. response\ntime</string>
+    <string name="avg_response">Avg. response</string>
     <string name="service_detail">Service Details</string>
     <string name="profile">Profile</string>
     <string name="servic_description">Service description text text text text text  \ntext text text text text text text text \ntext text text text text text text text \ntext text text text text text text text    \ntext text text text text text text text \ntext text text text text text text text</string>
-    <string name="great_experience">Had a great experience and will \nservive again</string>
+    <string name="great_experience">Had a great experience and will buy \nservice again</string>
     <string name="checkout">Checkout</string>
     <string name="become_a_seller">Become a Seller</string>
 
     <!-- My order Screen-->
     <string name="my_order">My Orders</string>
     <string name="orders">Orders</string>
+    <string name="orders_caps">ORDERS</string>
     <string name="offers">Offers</string>
     <string name="pending_delivery">Pending Delivery</string>
+    <string name="buy">Buy</string>
+    <string name="sell">Sell</string>
     <string name="paid_of">Paid Of </string>
+    <string name="custom_offer">Custom Offers</string>
+    <string name="live_offer_req">Live Offer Requests</string>
 
     <!--Chat Screen-->
     <string name="search_conversations">Search conversations or users</string>
@@ -181,6 +220,7 @@
     <string name="comments">Comments</string>
     <string name="points">Points</string>
     <string name="likes">Likes</string>
+    <string name="liked">Liked</string>
     <string name="see_more">See More</string>
     <string name="write_comment">Write Comment</string>
     <string name="send">Send</string>
@@ -190,19 +230,20 @@
     <string name="linked_service">Linked Service</string>
     <string name="custom_price">Custom Price</string>
     <string name="offer_description">Offer Description</string>
-    <string name="service_locally_map">servicing locally at store \nlocations</string>
+    <string name="service_locally_map">Servicing locally at store \nlocations</string>
     <string name="get_direction">get Direction</string>
     <string name="accept">Accept</string>
+    <string name="view_job">View Job</string>
     <string name="view">View</string>
 
     <!--Order fulfillment Scree-->
-    <string name="fulfillment">Fullfillment</string>
+    <string name="fulfillment">Fulfillment</string>
 
     <string name="add_crdt_card">Add Credit Card</string>
     <string name="payment_method">Payment Methods</string>
 
     <!--Invite Friends-->
-    <string name="invite_friend">Invite Friend</string>
+    <string name="invite_friend">Invite Friends</string>
     <string name="qr_code">Qr Code</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="my_qr_code">My QR Code</string>
@@ -216,4 +257,38 @@
     <string name="link_service">Link Service</string>
     <string name="link">Link</string>
 
+    <!--Become A Seller-->
+
+    <string name="want_to_become_seller">Want to become a seller? Go thru couple steps below based on the types of services</string>
+    <string name="congo_see_your">Congraltulation! See your eligibility below \non service types to start selling</string>
+
+    <!--Background check-->
+    <string name="first_name_small">First Name</string>
+    <string name="middle_name">Middle Name</string>
+    <string name="last_name_small">Last Name</string>
+    <string name="social_security_no">Social Security Number</string>
+    <string name="postal_code">Postal code</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="driver_license_no">Driver License Number</string>
+    <string name="driver_license_state">Driver License State</string>
+    <string name="submit">Submit</string>
+
+
+    <string name="back_check">Background \nCheck</string>
+    <string name="insurence">Insurance</string>
+    <string name="lincense">License</string>
+    <string name="businedd_veri">Business \nVerification</string>
+
+    <string name="send_custom_offer">Send Custom Offer</string>
+    <string name="req_seller_cancle_ordr">Request Seller to Cancel Order</string>
+
+    <string name="review_order">Review Order</string>
+    <string name="categories">Categories</string>
+
+    <string name="image">image</string>
+    <string name="video">video</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
+
+    <string name="tag_a_service_or_seller">Tag a service or seller</string>
 </resources>

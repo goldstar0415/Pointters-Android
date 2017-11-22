@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pointters.R;
-import com.pointters.model.CurrentPageDetails;
+import com.pointters.model.CommentsModel;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class PointFragment extends Fragment {
     RecyclerView recyclerView;
     View view;
-    private ArrayList<CurrentPageDetails> currentPageDetailsArrayList = new ArrayList<>();
+    private ArrayList<CommentsModel> currentPageDetailsArrayList = new ArrayList<>();
 
 
     @Nullable

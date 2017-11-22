@@ -77,7 +77,7 @@
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_1sdp"
                 android:text="@string/profile_image_required"
-                android:textColor="@android:color/holo_red_dark"
+                android:textColor="@color/color_red_for_warning"
                 android:textSize="@dimen/text_size_tiny"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
@@ -90,22 +90,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-
+                android:layout_marginTop="@dimen/_25sdp"
+                app:errorTextAppearance="@style/error_appearance"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toLeftOf="@+id/text_input_last_name"
                 app:layout_constraintTop_toBottomOf="@+id/txt_error_profile">
 
                 <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
                     android:id="@+id/edt_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/first_name"
-                    android:imeOptions="actionNext"
                     android:backgroundTint="#e8e8e9"
+                    android:hint="@string/first_name"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
                     android:inputType="textCapWords|textNoSuggestions"
                     android:textColor="@color/color_black_info"
-                     android:textColorHint="#ABABAD"
+                    android:textColorHint="#ABABAD"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
@@ -114,21 +116,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                app:errorTextAppearance="@style/error_appearance"
                 app:layout_constraintLeft_toRightOf="@+id/text_input_first_name"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@id/txt_error_profile">
 
                 <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
                     android:id="@+id/edt_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
                     android:hint="@string/last_name"
+                    android:paddingBottom="@dimen/_15sdp"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords|textNoSuggestions"
                     android:textColor="@color/color_black_info"
                     android:textColorHint="#ABABAD"
-                    android:backgroundTint="#e8e8e9"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
@@ -137,17 +142,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_7sdp"
+                app:errorTextAppearance="@style/error_appearance"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@id/text_input_first_name">
 
                 <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
                     android:id="@+id/edt_company_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/company_name"
-                    android:imeOptions="actionNext"
                     android:backgroundTint="#e8e8e9"
+                    android:hint="@string/company_name"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
                     android:inputType="textCapWords|textNoSuggestions"
                     android:textColor="@color/color_black_info"
                     android:textColorHint="#ABABAD"
@@ -196,19 +204,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_7sdp"
+                app:errorTextAppearance="@style/error_appearance"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@id/text_input_company_name">
 
                 <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
                     android:id="@+id/edt_text_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/location"
-                    android:imeOptions="actionNext"
-                    android:focusableInTouchMode="false"
                     android:backgroundTint="#e8e8e9"
                     android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/location"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
                     android:inputType="textNoSuggestions"
                     android:textColor="@color/color_black_info"
                     android:textColorHint="#ABABAD"
@@ -246,18 +257,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_7sdp"
+                app:errorTextAppearance="@style/error_appearance"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@id/text_input_location">
 
                 <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
                     android:id="@+id/edt_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
                     android:hint="@string/phone_number"
+                    android:paddingBottom="@dimen/_15sdp"
                     android:imeOptions="actionNext"
                     android:inputType="number"
-                    android:backgroundTint="#e8e8e9"
                     android:textColor="@color/color_black_info"
                     android:textColorHint="#ABABAD"
                     android:textSize="@dimen/text_size_small" />
@@ -267,23 +281,26 @@
                 android:id="@+id/text_input_about_you"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/error_appearance"
                 android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@id/text_input_phone_number">
 
                 <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
                     android:id="@+id/edt_about_you"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
                     android:gravity="top"
                     android:hint="@string/about_you"
+                    android:paddingBottom="@dimen/_15sdp"
                     android:imeOptions="actionDone"
-                    android:backgroundTint="#e8e8e9"
                     android:inputType="textCapSentences|textNoSuggestions|textMultiLine"
                     android:textColor="@color/color_black_info"
                     android:textColorHint="#ABABAD"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_small"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button

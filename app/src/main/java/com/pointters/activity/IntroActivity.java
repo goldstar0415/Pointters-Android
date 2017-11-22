@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,6 +27,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import dmax.dialog.SpotsDialog;
+import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -45,13 +47,17 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
 
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
 
-        // For testing get request
-        //callGetUserSettingsApi();
 
         if (sharedPreferences.getBoolean(ConstantUtils.PREF_IS_LOGIN, false)) {
 
-            startActivity(new Intent(IntroActivity.this, HomeActivity.class));
-            finish();
+            if(sharedPreferences.getBoolean(ConstantUtils.IS_ON_REGISTRATION_SCREEN,false)) {
+                startActivity(new Intent(this, RegistrationDetailsActivity.class));
+                finish();
+
+            }else {
+                startActivity(new Intent(IntroActivity.this, HomeActivity.class));
+                finish();
+            }
 
         }
 
@@ -64,37 +70,6 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    private void callGetUserSettingsApi() {
-
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<GetUserSettingsResponse> response = apiService.getUserSettings("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5ODI4N2EyMDUyYjA0MzNmMjc2MWVjZiIsImlhdCI6MTUwMjM0MzUyOCwiZXhwIjozMzAzODM0MzUyOH0.f3L2bF2-P1kgQPaIK9zo5BbywrIB2CuhXoOF1uqZUgY");
-
-        response.enqueue(new Callback<GetUserSettingsResponse>() {
-            @Override
-            public void onResponse(Call<GetUserSettingsResponse> call, retrofit2.Response<GetUserSettingsResponse> rawResponse) {
-                try {
-
-                    //Getting response here....
-                    if (rawResponse.code() == 200 && rawResponse.body() != null) {
-
-                    } else if (rawResponse.code() == 401) {
-
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetUserSettingsResponse> call, Throwable throwable) {
-
-                Log.d("Splash", throwable.getMessage());
-
-            }
-        });
-
-    }
 
     private void setOnClick() {
 
@@ -113,7 +88,7 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
         IntroViewPagerAdapter introViewPagerAdapter = new IntroViewPagerAdapter(IntroActivity.this, imgArray);
         viewPagerIntro.setAdapter(introViewPagerAdapter);
         viewPagerIntro.setPageMargin((int) getResources().getDimension(R.dimen._5sdp));
-
+        //CircleIndicator indicatorViewPager = (CircleIndicator) findViewById(R.id.indicator_view_pager);
         CirclePageIndicator indicatorViewPager = (CirclePageIndicator) findViewById(R.id.indicator_view_pager);
         indicatorViewPager.setViewPager(viewPagerIntro);
 
@@ -121,7 +96,8 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onResume() {
-        enableAutoScrollViewPager();
+     //   enableAutoScrollViewPager();
+
         super.onResume();
     }
 
@@ -184,7 +160,9 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
             case R.id.txt_skip:
                 getSharedPreferences(ConstantUtils.APP_PREF, MODE_PRIVATE).edit()
                         .putBoolean(ConstantUtils.PREF_IS_LOGIN, false).apply();
-                startActivity(new Intent(this, HomeActivity.class));
+
+                    startActivity(new Intent(this, HomeActivity.class));
+
                 break;
         }
     }

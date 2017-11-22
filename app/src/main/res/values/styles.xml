@@ -10,6 +10,7 @@
         <item name="colorControlNormal">#AFAFB1</item>
         <item name="colorControlActivated">#AFAFB1</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowDisablePreview">true</item>
         <item name="android:windowBackground">@color/window_bg</item>
     </style>
 
@@ -31,14 +32,18 @@
         <item name="radius">@dimen/_4sdp</item>
         <item name="strokeWidth">@dimen/fix_1dp</item>
         <item name="pageColor">@android:color/white</item>
+
     </style>
 
     <style name="customTabFontsStyle" parent="TextAppearance.Design.Tab">
-
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_size_tiny</item>
+    </style>
+    <style name="customTabFontsSmallDark" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">@dimen/text_size_small</item>
     </style>
-
     <style name="ProgressDialog" parent="android:Theme.DeviceDefault.Dialog">
         <item name="DialogTitleAppearance">@android:style/TextAppearance.Small</item>
         <item name="DialogTitleText">@string/loading</item>
@@ -47,4 +52,14 @@
     </style>
 
 
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/color_red_for_warning</item>
+        <item name="android:textSize">@dimen/text_size_tiny</item>
+    </style>
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/colorAccent</item>
+    </style>
 </resources>

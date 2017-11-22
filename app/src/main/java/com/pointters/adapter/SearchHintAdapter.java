@@ -1,8 +1,8 @@
 package com.pointters.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pointters.R;
-import com.pointters.model.SearchHint;
 import com.pointters.listener.OnRecycleItemClickListener;
 import com.pointters.listener.OnSearchItemClickListener;
+import com.pointters.model.SearchHint;
 import com.pointters.utils.DividerItemDecorationVer;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class SearchHintAdapter extends RecyclerView.Adapter<SearchHintAdapter.Se
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         holder.recyclerViewOptions.setLayoutManager(linearLayoutManager);
-        SearchOptionsAdapter searchOptionsAdapter = new SearchOptionsAdapter(hintArrayList.get(position).getHintsList());
+        SearchOptionsAdapter searchOptionsAdapter = new SearchOptionsAdapter(hintArrayList.get(position).getHintsList(), context);
 
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorationVer(ContextCompat.getDrawable(context, R.drawable.bg_light_gray_divider));
         holder.recyclerViewOptions.addItemDecoration(dividerItemDecoration);
@@ -59,10 +59,13 @@ public class SearchHintAdapter extends RecyclerView.Adapter<SearchHintAdapter.Se
         holder.recyclerViewOptions.addOnItemTouchListener(new OnRecycleItemClickListener(context, new OnRecycleItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-                onSearchItemClickListener.searchItemClicked(hintArrayList.get(position).getHintsList()[i]);
+                onSearchItemClickListener.searchItemClicked(hintArrayList.get(position).getHintsList().get(i));
             }
         }));
-
+        if (position == 0) {
+            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._12sdp), (int) context.getResources().getDimension(R.dimen._8sdp), (int) context.getResources().getDimension(R.dimen._12sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
+            holder.layoutParent.setLayoutParams(holder.layoutParams);
+        }
     }
 
     @Override
@@ -78,11 +81,15 @@ public class SearchHintAdapter extends RecyclerView.Adapter<SearchHintAdapter.Se
 
         private TextView txtTitle;
         private RecyclerView recyclerViewOptions;
+        private ConstraintLayout layoutParent;
+        private ConstraintLayout.LayoutParams layoutParams;
 
         public SearchHintViewHolder(View itemView) {
             super(itemView);
             txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
             recyclerViewOptions = (RecyclerView) itemView.findViewById(R.id.recycler_search_options);
+            layoutParent = (ConstraintLayout) itemView.findViewById(R.id.layout_parent);
+            layoutParams = (ConstraintLayout.LayoutParams) layoutParent.getLayoutParams();
         }
     }
 }

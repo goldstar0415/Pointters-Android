@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.pointters.activity.FulfillmentActivity">
 
@@ -11,494 +11,1331 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/top_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_service"
-                android:elevation="1dp"
-                android:orientation="vertical">
-
-                <TextView
-                    fontPath="fonts/Montserrat-Regular.ttf"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    android:layout_marginRight="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:text="Status: Order pending please accepts"
-                    android:textColor="@color/color_black_info"
-                    android:textSize="@dimen/text_size_medium"
-                    tools:ignore="MissingPrefix" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginRight="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/bg_service"
-                android:elevation="1dp"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/_8sdp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp">
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Regular.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:text="Delivered Files"
-                        android:textColor="@color/color_black_info"
-                        android:textSize="@dimen/text_size_medium"
-                        tools:ignore="MissingPrefix" />
-
-                    <TextView
-                        android:id="@+id/mDeliveredFile"
-                        fontPath="fonts/Montserrat-Regular.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_toLeftOf="@+id/mTotal"
-                        android:text="6"
-                        android:textColor="@color/color_black_info"
-                        android:textSize="@dimen/text_size_medium"
-                        tools:ignore="MissingPrefix" />
-
-                    <TextView
-                        android:id="@+id/mTotal"
-                        fontPath="fonts/Montserrat-Regular.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:text="Totals"
-                        android:textColor="@color/color_black_info"
-                        android:textSize="@dimen/text_size_medium"
-                        tools:ignore="MissingPrefix" />
-                </RelativeLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/mDeliveredFilesRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    android:layout_marginRight="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_8sdp">
-
-                </android.support.v7.widget.RecyclerView>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Regular.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:text="Add Download"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_medium"
-                        tools:ignore="MissingPrefix" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp">
-
-                <TextView
-                    fontPath="fonts/Montserrat-Regular.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:text="See previous revisions"
-                    android:textColor="@color/color_black_info"
-                    android:textSize="@dimen/text_size_medium"
-                    tools:ignore="MissingPrefix" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/move_to_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:background="@drawable/bg_service"
-                android:elevation="@dimen/_1sdp"
-                android:orientation="horizontal"
-                android:padding="@dimen/_15sdp"
-                android:weightSum="3">
-
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/img_profile"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:src="@drawable/user_avatar_placeholder"
-                app:riv_mutate_background="true"
-                app:riv_oval="true"
-                app:riv_tile_mode="clamp" />
-
-
-            <RelativeLayout
-                android:id="@+id/rl_txt_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_toRightOf="@+id/img_profile">
-
-                <TextView
-                    android:id="@+id/txt_view_name"
-                    fontPath="fonts/Montserrat-Regular.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Alan Walker"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
-                    tools:ignore="MissingPrefix" />
-
-                <TextView
-                    android:id="@+id/txt_view_verified"
-                    fontPath="fonts/Montserrat-Light.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txt_view_name"
-                    android:text="Verified"
-                    android:textColor="#a3a3a3"
-                    android:textSize="@dimen/text_size_tiny"
-                    tools:ignore="MissingPrefix" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true">
-
-                    <ImageView
-                        android:id="@+id/img_call"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:src="@drawable/call_icon" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/img_call"
-                        android:src="@drawable/chat_icon" />
-                </RelativeLayout>
-            </RelativeLayout>
-</RelativeLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/bg_service"
-                android:elevation="1dp"
                 android:orientation="vertical">
-
-                <TextView
-                    fontPath="fonts/Montserrat-Regular.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:text="Delivery Method"
-                    android:textColor="@color/color_black_info"
-                    android:textSize="@dimen/text_size_medium"
-                    tools:ignore="MissingPrefix" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@drawable/map_bg_pattern">
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_toLeftOf="@+id/mGetDirection"
-                        android:text="Servicing locally at store location"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                    <TextView
-                        android:id="@+id/mGetDirection"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/get_directions_btn"
-                        android:textColor="@android:color/black" />
-
-                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_service"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/_10sdp">
 
-
-                    <fragment
-                        android:id="@+id/mapId"
-                        android:name="com.google.android.gms.maps.MapFragment"
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:text="Status: Order pending please accept"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+
+                    <!--<include layout="@layout/fulfillment_stepwise_view" />-->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_15sdp"
+                        android:paddingRight="@dimen/_15sdp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center_vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical">
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/_5sdp"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorAccent" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/_5sdp"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorAccent" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/_5sdp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/view_selector" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/_5sdp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/view_selector" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <RelativeLayout
+                                        android:id="@+id/mNumber1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_alignParentLeft="true">
+
+                                        <TextView
+                                            android:id="@+id/mStepViewtxt1"
+                                            fontPath="fonts/Montserrat-Regular.ttf"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/fullfillment_circle_view"
+                                            android:gravity="center"
+                                            android:text="1"
+                                            android:visibility="gone"
+                                            android:textColor="@color/colorAccent"
+                                            android:textSize="@dimen/text_size_small"
+                                            tools:ignore="MissingPrefix" />
+
+                                        <ImageView
+                                            android:id="@+id/mCircleViewNumberReplacement"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/completed_stage"
+                                            android:gravity="center"
+                                            android:background="@drawable/fullfillment_circle_view"/>
+
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toLeftOf="@+id/mNumber3"
+                                        android:layout_toRightOf="@+id/mNumber1"
+                                        android:layout_centerVertical="true"
+
+                                        android:gravity="center">
+
+                                        <TextView
+                                            android:id="@+id/mStepViewtxt2"
+                                            fontPath="fonts/Montserrat-Regular.ttf"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/fullfillment_circle_view"
+                                            android:gravity="center"
+                                            android:text="2"
+                                            android:visibility="gone"
+                                            android:textColor="@color/colorAccent"
+                                            android:textSize="@dimen/text_size_small"
+                                            tools:ignore="MissingPrefix" />
+
+                                        <ImageView
+                                            android:id="@+id/mCircleViewNumberReplacement2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/completed_stage"
+                                            android:gravity="center"
+                                            android:background="@drawable/fullfillment_circle_view"/>
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/mNumber3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true">
+
+                                        <TextView
+                                            fontPath="fonts/Montserrat-Regular.ttf"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/fullfillment_selected_view"
+                                            android:gravity="center"
+                                            android:text="3"
+                                            android:layout_centerInParent="true"
+                                            android:textColor="@color/colorWhite"
+                                            android:textSize="@dimen/text_size_tiny"
+                                            tools:ignore="MissingPrefix" />
+
+                                        <ImageView
+                                            android:id="@+id/mCircleViewNumberReplacement3"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/current_stage_outer_ring"
+                                            android:visibility="visible"
+                                           />
+
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toLeftOf="@+id/mNumber5"
+                                        android:layout_toRightOf="@+id/mNumber3"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="center">
+
+                                        <TextView
+                                            fontPath="fonts/Montserrat-Regular.ttf"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/fullfillment_circle_view"
+                                            android:gravity="center"
+                                            android:text="4"
+                                            android:textColor="@color/colorAccent"
+                                            android:textSize="@dimen/text_size_tiny"
+                                            tools:ignore="MissingPrefix" />
+
+                                        <ImageView
+                                            android:id="@+id/mCircleViewNumberReplacement4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/tick_icon_blue"
+                                            android:gravity="center"
+                                            android:visibility="gone" />
+
+                                    </RelativeLayout>
+
+
+                                    <RelativeLayout
+                                        android:id="@+id/mNumber5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_alignParentRight="true">
+
+                                        <TextView
+                                            fontPath="fonts/Montserrat-Regular.ttf"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/fullfillment_circle_view"
+                                            android:gravity="center"
+                                            android:text="5"
+                                            android:textColor="@color/colorAccent"
+                                            android:textSize="@dimen/text_size_tiny"
+                                            tools:ignore="MissingPrefix" />
+
+                                        <ImageView
+                                            android:id="@+id/mCircleViewNumberReplacement5"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/tick_icon_blue"
+                                            android:gravity="center"
+                                            android:visibility="gone" />
+
+                                    </RelativeLayout>
+
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal">
+
+                            <TextView
+                                android:id="@+id/mPaid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Paid"
+                                android:includeFontPadding="false"
+                                android:textColor="#A7A7A7"
+                                android:textSize="@dimen/_9sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/mPaid"
+                                android:gravity="center"
+                                android:text="07/17"
+                                android:includeFontPadding="false"
+                                android:textColor="#A7A7A7"
+                                android:textSize="@dimen/_9sdp" />
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/mPaid1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="Scheduled"
+                                android:includeFontPadding="false"
+                                android:textColor="#A7A7A7"
+                                android:textSize="@dimen/_9sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/mPaid1"
+                                android:layout_centerHorizontal="true"
+                                android:text="07/17"
+                                android:includeFontPadding="false"
+                                android:textColor="#A7A7A7"
+                                android:textSize="@dimen/_9sdp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/mPaid2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="Started"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="@dimen/_9sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/mPaid2"
+                                android:layout_centerHorizontal="true"
+                                android:text="07/17"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="@dimen/_9sdp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/mPaid3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="Completed"
+                                android:includeFontPadding="false"
+                                android:textColor="#A7A7A7"
+                                android:textSize="@dimen/_9sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/mPaid3"
+                                android:layout_centerHorizontal="true"
+                                android:text="07/17"
+                                android:includeFontPadding="false"
+                                android:textColor="#A7A7A7"
+                                android:textSize="@dimen/_9sdp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/mPaid5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="Acceytonce"
+                                android:includeFontPadding="false"
+                                android:textColor="#A7A7A7"
+                                android:textSize="@dimen/_9sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/mPaid5"
+                                android:layout_centerHorizontal="true"
+                                android:text="07/17"
+                                android:includeFontPadding="false"
+                                android:textColor="#A7A7A7"
+                                android:textSize="@dimen/_9sdp" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <TextView
-                    fontPath="fonts/Montserrat-Light.ttf"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:text="2200 Wilshine Blud Los Angeles CA 9100?"
-                    android:textColor="@color/color_black_info"
-                    android:textSize="@dimen/text_size_small"
-                    tools:ignore="MissingPrefix" />
+                    android:background="@drawable/bg_service"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/_8sdp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp">
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="Delivered Files"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            android:id="@+id/mDeliveredFile"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_toLeftOf="@+id/mTotal"
+                            android:text="6"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            android:id="@+id/mTotal"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="Totals"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/mDeliveredFilesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Regular.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="Add Download"
+                            android:textColor="#03BBFF"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+                    </RelativeLayout>
+
+                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_8sdp">
-
-                    <ImageView
-                        android:id="@+id/mMapIdTick"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/plus_icon" />
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_10sdp">
 
                     <TextView
                         fontPath="fonts/Montserrat-Light.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_toRightOf="@+id/mMapIdTick"
-                        android:text="Location accepted by seller"
-                        android:textColor="@color/color_black_info"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="See previous revisions"
+                        android:textColor="#000000"
                         android:textSize="@dimen/text_size_small"
                         tools:ignore="MissingPrefix" />
                 </RelativeLayout>
 
-                <Button
+                <RelativeLayout
+                    android:id="@+id/move_to_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:background="@drawable/roundedbutton"
-                    android:text="Change Location"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/text_size_small" />
+                    android:background="@drawable/bg_service"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_15sdp">
+
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_45sdp"
+                        android:src="@drawable/user_avatar_placeholder"
+                        app:riv_mutate_background="true"
+                        app:riv_oval="true"
+                        app:riv_tile_mode="clamp" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/rl_txt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_toRightOf="@+id/img_profile">
+
+                        <TextView
+                            android:id="@+id/txt_view_name"
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Alan Walker"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/text_size_medium"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            android:id="@+id/txt_view_verified"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txt_view_name"
+                            android:text="Verified"
+                            android:textColor="#838283"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:id="@+id/img_call"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/_8sdp"
+                                android:src="@drawable/call_icon" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/img_call"
+                                android:src="@drawable/chat_icon" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:background="@drawable/bg_service"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/_15sdp">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="IT service"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingRight="@dimen/_8sdp">
+
+                        <at.blogc.android.views.ExpandableTextView
+                            android:id="@+id/expandableTextView"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:ellipsize="end"
+                            android:maxLines="3"
+                            android:padding="@dimen/_2sdp"
+                            android:text="Lorem Ipsum is location within the Royal Borough of Kensington and Chelsea"
+                            android:textColor="#414141"
+                            android:textSize="@dimen/text_size_tiny"
+                            app:animation_duration="1000"
+                            tools:ignore="MissingPrefix" />
+
+
+                        <TextView
+                            android:id="@+id/button_toggle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@android:color/transparent"
+                            android:padding="@dimen/_2sdp"
+                            android:text="more"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:textSize="@dimen/text_size_small"
+                            android:visibility="gone" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp">
+
+                        <TextView
+                            android:id="@+id/mFullfilmentNum"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:text="$10"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+
+                        <RelativeLayout
+                            android:id="@+id/mFullfilmentNum2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_toRightOf="@+id/mFullfilmentNum">
+
+                            <TextView
+                                android:id="@+id/mFullfilmentNum3"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$20"
+                                android:textColor="#989898"
+                                android:textSize="@dimen/text_size_tiny"                                tools:ignore="MissingPrefix" />
+
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_alignLeft="@+id/mFullfilmentNum3"
+                                android:layout_alignRight="@+id/mFullfilmentNum3"
+                                android:layout_centerVertical="true"
+                                android:background="#989898" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/mNormalFullfilmentTxt1"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_toRightOf="@+id/mFullfilmentNum2"
+                            android:text="For 1 hour of week"
+                            android:textSize="@dimen/text_size_tiny"
+                            android:textColor="#989898"
+                            tools:ignore="MissingPrefix" />
+
+                        <ImageView
+                            android:id="@+id/mPlusToInc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:src="@drawable/add_payment_icon" />
+
+                        <TextView
+                            android:id="@+id/mCountNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/mPlusToInc"
+                            android:padding="@dimen/_1sdp"
+                            android:text="1"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <ImageView
+                            android:id="@+id/mMinusToInc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/mCountNumber"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:src="@drawable/minus_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingRight="@dimen/_8sdp">
+
+                        <TextView
+                            android:id="@+id/mFullfilmentNumber"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:text="$10"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+
+                        <RelativeLayout
+                            android:id="@+id/mFullfilmentNumber2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_toRightOf="@+id/mFullfilmentNumber">
+
+                            <TextView
+                                android:id="@+id/mFullfilmentNumber3"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$20"
+                                android:textColor="#989898"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
+
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_alignLeft="@+id/mFullfilmentNumber3"
+                                android:layout_alignRight="@+id/mFullfilmentNumber3"
+                                android:layout_centerVertical="true"
+                                android:background="#989898" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/mNormalFullfilmentTxt"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_toRightOf="@+id/mFullfilmentNumber2"
+                            android:text="For additional service"
+                            android:textSize="@dimen/text_size_tiny"
+                            android:textColor="#989898"
+                            tools:ignore="MissingPrefix" />
+
+                        <ImageView
+                            android:id="@+id/mPlusToInc1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:src="@drawable/add_payment_icon" />
+
+                        <TextView
+                            android:id="@+id/mCountNumber1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/mPlusToInc1"
+                            android:padding="@dimen/_1sdp"
+                            android:text="1"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <ImageView
+                            android:id="@+id/mMinusToInc1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/mCountNumber1"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:src="@drawable/minus_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_8sdp">
+
+                        <TextView
+                            android:id="@+id/mTotalPrice"
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="Total: $30"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_toRightOf="@id/mTotalPrice"
+                            android:text="Paid On: 05-11"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_service"
+                    android:orientation="vertical">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Service Schedule"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/mQuality"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="Start"
+                                android:textColor="#1d1d1d"
+                                android:textSize="@dimen/text_size_small"
+                                tools:ignore="MissingPrefix" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="@dimen/_1sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:background="#a3a3a3" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/mOnTime"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="07-12"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/text_size_small"
+                                tools:ignore="MissingPrefix" />
+
+                            <ImageView
+                                android:id="@+id/mOnTimeImg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_toRightOf="@+id/mOnTime"
+                                android:src="@drawable/tick_icon_blue" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="@dimen/_1sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:background="#a3a3a3" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:id="@+id/mBuyAgain"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/mBuyAgainImg"
+                                android:text="08:00 PM"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
+
+                            <ImageView
+                                android:id="@+id/mBuyAgainImg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:src="@drawable/tick_icon_blue" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp">
+
+                        <View
+                            android:id="@+id/mAvgRating"
+                            android:layout_width="@dimen/_10sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_centerVertical="true"
+                            android:background="#50D2C2" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:layout_toRightOf="@+id/mAvgRating"
+                            android:text="work to complete 3 days after start"
+                            android:textColor="#666666"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_5sdp">
+
+                        <ImageView
+                            android:id="@+id/mAvgRating1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/tick_icon_blue" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:layout_toRightOf="@+id/mAvgRating1"
+                            android:text="Schedule accepted by seller"
+                            android:textColor="#666666"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/roundedbutton"
+                        android:text="Start Now"
+                        android:textAllCaps="true"
+                        android:padding="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_service"
+                    android:orientation="vertical">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="Delivery Method"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@drawable/map_bg_pattern">
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:layout_toLeftOf="@+id/mGetDirection"
+                            android:text="@string/service_locally_map"
+                            android:textColor="#1d1d1d"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            android:id="@+id/mGetDirection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/get_directions_btn"
+                            android:textColor="@android:color/black" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp">
+
+
+                        <fragment
+                            android:id="@+id/mapId"
+                            android:name="com.google.android.gms.maps.MapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="2200 Wilshine Blud Los Angeles CA 9100?"
+                        android:textColor="#1d1d1d"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_8sdp">
+
+                        <ImageView
+                            android:id="@+id/mMapIdTick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/tick_icon_blue" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:layout_toRightOf="@+id/mMapIdTick"
+                            android:text="Location accepted by seller"
+                            android:textColor="#1d1d1d"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+                    </RelativeLayout>
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/roundedbutton"
+                        android:gravity="center"
+                        android:padding="@dimen/_10sdp"
+                        android:textAllCaps="true"
+                        android:text="Change Location"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_service"
+                    android:orientation="vertical">
+
+                    <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="Shipment Tracking"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="@dimen/_120sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:text="Package Shipped on:"
+                            android:textColor="#a3a3a3"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="07-09"
+                            android:textColor="@color/color_black_info"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="@dimen/_120sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:text="Courier:"
+                            android:textColor="#a3a3a3"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Fedex"
+                            android:textColor="@color/color_black_info"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="@dimen/_120sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:text="Tracking:"
+                            android:textColor="#a3a3a3"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="#123456"
+                            android:textColor="@color/color_black_info"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="@dimen/_120sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:text="Expected Arrival:"
+                            android:textColor="#a3a3a3"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="07-11"
+                            android:textColor="@color/color_black_info"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Regular.ttf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_pattern"
+                            android:gravity="center"
+                            android:padding="@dimen/_10sdp"
+                            android:text="Revise"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+
+                        <TextView
+                            fontPath="fonts/Montserrat-Regular.ttf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_pattern_two"
+                            android:gravity="center"
+                            android:padding="@dimen/_10sdp"
+                            android:text="Complete"
+                            android:textAllCaps="true"
+
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/bg_service"
-                android:elevation="1dp"
-                android:orientation="vertical">
+                android:layout_height="@dimen/_6sdp"
+                android:layout_below="@+id/top_layout"
+                android:background="@android:color/transparent" />
 
-                <TextView
-                    fontPath="fonts/Montserrat-Regular.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:text="Shipment Tracking"
-                    android:textColor="@color/color_black_info"
-                    android:textSize="@dimen/text_size_medium"
-                    tools:ignore="MissingPrefix" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="@dimen/_120sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:text="Package Shipped on:"
-                        android:textColor="@color/text_color_gray"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="07-09"
-                        android:textColor="@color/color_black_info"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="@dimen/_120sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:text="Courier:"
-                        android:textColor="@color/text_color_gray"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Fedex"
-                        android:textColor="@color/color_black_info"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="@dimen/_120sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:text="Tracking:"
-                        android:textColor="@color/text_color_gray"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="#123456"
-                        android:textColor="@color/color_black_info"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="@dimen/_120sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:text="Expected Arrival:"
-                        android:textColor="@color/text_color_gray"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                    <TextView
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="07-11"
-                        android:textColor="@color/color_black_info"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        fontPath="fonts/Montserrat-Regular.ttf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_pattern"
-                        android:text="Revise"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_small"
-                        tools:ignore="MissingPrefix" />
-
-                    <Button
-                        fontPath="fonts/Montserrat-Regular.ttf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_pattern_two"
-                        android:text="Complete"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_small"
-                        tools:ignore="MissingPrefix" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

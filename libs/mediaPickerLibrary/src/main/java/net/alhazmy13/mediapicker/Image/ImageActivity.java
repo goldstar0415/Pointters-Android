@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -27,9 +26,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Alhazmy13 on 10/26/15.
@@ -87,7 +84,7 @@ public class ImageActivity extends AppCompatActivity {
 
     private void showFromCameraOrGalleryAlert() {
         new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.media_picker_select_from))
+                .setTitle("Select from:")
                 .setPositiveButton(getString(R.string.media_picker_camera), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -142,13 +139,13 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void startActivityFromCamera() {
-        mImgConfig.isImgFromCamera = true;
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        mImageUri = Uri.fromFile(destination);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), ImageTags.IntentCode.CAMERA_REQUEST);
+        mImgConfig.isImgFromCamera = false;
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        photoPickerIntent.setType("video/*");
+        startActivityForResult(photoPickerIntent, ImageTags.IntentCode.REQUEST_CODE_SELECT_PHOTO);
         if (mImgConfig.debug)
-            Log.d(ImageTags.Tags.TAG, "Camera Start");
+            Log.d(ImageTags.Tags.TAG, "Gallery Start with Single Image mode");
     }
 
     @Override
@@ -216,36 +213,34 @@ public class ImageActivity extends AppCompatActivity {
 
     private void pickImageWrapper() {
         if (Build.VERSION.SDK_INT >= 23) {
-            List<String> permissionsNeeded = new ArrayList<String>();
+           /* List<String> permissionsNeeded = new ArrayList<String>();
 
             final List<String> permissionsList = new ArrayList<String>();
-            if (!addPermission(permissionsList, Manifest.permission.CAMERA))
-                permissionsNeeded.add(getString(R.string.media_picker_camera));
+           *//* if (!addPermission(permissionsList, Manifest.permission.CAMERA))
+                permissionsNeeded.add(getString(R.string.media_picker_camera));*//*
             if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 permissionsNeeded.add(getString(R.string.media_picker_read_Write_external_storage));
 
-            if (permissionsList.size() > 0) {
-                if (permissionsNeeded.size() > 0) {
+            if (permissionsList.size() > 0) {*/
+               /* if (permissionsNeeded.size() > 0) {
                     // Need Rationale
                     String message = getString(R.string.media_picker_you_need_to_grant_access_to) + permissionsNeeded.get(0);
                     for (int i = 1; i < permissionsNeeded.size(); i++)
                         message = message + ", " + permissionsNeeded.get(i);
-                    showMessageOKCancel(message,
-                            new DialogInterface.OnClickListener() {
+                    showMessageOKCancel(message, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ActivityCompat.requestPermissions(ImageActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
-                                            ImageTags.IntentCode.REQUEST_CODE_ASK_PERMISSIONS);
+                                    ActivityCompat.requestPermissions(ImageActivity.this, permissionsList.toArray(new String[permissionsList.size()]), ImageTags.IntentCode.REQUEST_CODE_ASK_PERMISSIONS);
                                 }
                             });
                     return;
-                }
-                ActivityCompat.requestPermissions(ImageActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
+                }*/
+                ActivityCompat.requestPermissions(ImageActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         ImageTags.IntentCode.REQUEST_CODE_ASK_PERMISSIONS);
-                return;
+          /*      return;
             }
 
-            pickImage();
+            pickImage();*/
         } else {
             pickImage();
         }
@@ -280,24 +275,21 @@ public class ImageActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case ImageTags.IntentCode.REQUEST_CODE_ASK_PERMISSIONS: {
-                Map<String, Integer> perms = new HashMap<String, Integer>();
-                // Initial
-                perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-                // Fill with results
-                for (int i = 0; i < permissions.length; i++)
-                    perms.put(permissions[i], grantResults[i]);
-                // Check for ACCESS_FINE_LOCATION
-                if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                        && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    // All Permissions Granted
-                    pickImage();
-                } else {
-                    // Permission Denied
-                    Toast.makeText(ImageActivity.this, getString(R.string.media_picker_some_permission_is_denied), Toast.LENGTH_SHORT)
-                            .show();
-                    finish();
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        pickImage();
+                    } else  {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(ImageActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            //Show permission explanation dialog...
+                            finish();
+                        } else {
+                            Toast.makeText(ImageActivity.this, "Go to Settings and Grant the permission to use this feature.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
                 }
+
             }
             break;
             default:

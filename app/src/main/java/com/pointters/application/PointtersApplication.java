@@ -2,13 +2,16 @@ package com.pointters.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
+import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.pointters.R;
 
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -16,21 +19,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 
 public class PointtersApplication extends Application {
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        /*For Calligraphy initialization*/
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Montserrat-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build());
-
-         /*For UIL SDK initialization*/
-        initImageLoader(getApplicationContext());
-
-    }
+    private static PointtersApplication sInstance = null;
+    private String userAgent;
 
     public static void initImageLoader(Context context) {
         // This configuration tuning is custom. You can tune every option, you may tune some of them,
@@ -47,5 +37,31 @@ public class PointtersApplication extends Application {
 
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config.build());
+    }
+
+    public static PointtersApplication getInstance() {
+        return PointtersApplication.getInstance();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Fabric.with(this, new Crashlytics());
+        /*For Calligraphy initialization*/
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Montserrat-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
+        sInstance = this;
+         /*For UIL SDK initialization*/
+        initImageLoader(getApplicationContext());
+
+
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

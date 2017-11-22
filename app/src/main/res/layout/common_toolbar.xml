@@ -27,13 +27,13 @@
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
                 android:paddingLeft="@dimen/_8sdp"
-                android:paddingRight="@dimen/_5sdp"
+                android:paddingRight="@dimen/_8sdp"
                 android:src="@drawable/back_icon_grey" />
 
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
-                fontPath="fonts/Montserrat-Regular.ttf"
+                fontPath="fonts/Montserrat-Light.ttf"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
                 android:gravity="center_vertical"
@@ -44,7 +44,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/color_black_info"
-                android:textSize="@dimen/text_size_big" />
+                android:textSize="@dimen/text_size_medium" />
 
             <ImageView
                 android:id="@+id/toolbar_right_img"

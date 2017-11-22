@@ -1,5 +1,9 @@
 package com.pointters.model.request;
 
+import com.pointters.model.Media;
+
+import java.util.ArrayList;
+
 /**
  * Created by prashantkumar on 17/8/17.
  */
@@ -9,19 +13,85 @@ public class UserPutRequest {
     private String description;
     private String firstName;
     private String lastName;
-    private Location location;
+    private LocationRequestModel location;
     private String phone;
     private String profilePic;
+    private String education;
+    private String insurance;
+    private String license;
+    private String awards;
+    private ArrayList<Media> profileBackgroundMedia;
+    private Boolean completedRegistration;
+    private String completedRegistrationDate;
 
-    public UserPutRequest(String companyName, String description, String firstName, String lastName, Location location, String phone, String profilePic) {
+    public UserPutRequest(String companyName, String description, String firstName, String lastName, LocationRequestModel location, String phone, String profilePic, String education, String insurance, String license, String awards, ArrayList<Media> profileBackgroundMedia, Boolean completedRegistration, String completedRegistrationDate) {
+        if(!companyName.isEmpty())
         this.companyName = companyName;
+
+        if (!description.isEmpty())
         this.description = description;
+
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.location = location;
-        this.phone = phone;
+
+        if (!phone.isEmpty())
+            this.phone = phone;
+
+
         this.profilePic = profilePic;
+
+        if (!education.isEmpty())
+        this.education = education;
+
+        if (!insurance.isEmpty())
+        this.insurance = insurance;
+
+        if (!license.isEmpty())
+        this.license = license;
+
+        if (!awards.isEmpty())
+        this.awards = awards;
+
+
+        this.profileBackgroundMedia = profileBackgroundMedia;
+
+        this.completedRegistration = completedRegistration;
+        this.completedRegistrationDate = completedRegistrationDate;
     }
+
+    /*public UserPutRequest(String companyName, String description, String firstName, String lastName, LocationRequestModel location, String phone, String profilePic, String education, String insurance, String license, String awards, Boolean completedRegistration, String completedRegistrationDate) {
+        if(!companyName.isEmpty())
+        this.companyName = companyName;
+
+       if (!description.isEmpty())
+        this.description = description;
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.location = location;
+
+        if (!phone.isEmpty())
+            this.phone = phone;
+
+        this.profilePic = profilePic;
+
+        if (!education.isEmpty())
+        this.education = education;
+
+        if (!insurance.isEmpty())
+        this.insurance = insurance;
+
+        if (!license.isEmpty())
+        this.license = license;
+
+        if (!awards.isEmpty())
+        this.awards = awards;
+
+        this.completedRegistration = completedRegistration;
+        this.completedRegistrationDate = completedRegistrationDate;
+    }*/
 
     public String getCompanyName() {
         return companyName;
@@ -55,11 +125,11 @@ public class UserPutRequest {
         this.lastName = lastName;
     }
 
-    public Location getLocation() {
+    public LocationRequestModel getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(LocationRequestModel location) {
         this.location = location;
     }
 
@@ -77,5 +147,61 @@ public class UserPutRequest {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getInsurance() {
+        return insurance;
+    }
+
+    public void setInsurance(String insurance) {
+        this.insurance = insurance;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
+    public void setLicense(String license) {
+        this.license = license;
+    }
+
+    public String getAwards() {
+        return awards;
+    }
+
+    public void setAwards(String awards) {
+        this.awards = awards;
+    }
+
+    public ArrayList<Media> getProfileBackgroundMedia() {
+        return profileBackgroundMedia;
+    }
+
+    public void setProfileBackgroundMedia(ArrayList<Media> profileBackgroundMedia) {
+        this.profileBackgroundMedia = profileBackgroundMedia;
+    }
+
+    public Boolean getCompletedRegistration() {
+        return completedRegistration;
+    }
+
+    public void setCompletedRegistration(Boolean completedRegistration) {
+        this.completedRegistration = completedRegistration;
+    }
+
+    public String getCompletedRegistrationDate() {
+        return completedRegistrationDate;
+    }
+
+    public void setCompletedRegistrationDate(String completedRegistrationDate) {
+        this.completedRegistrationDate = completedRegistrationDate;
     }
 }

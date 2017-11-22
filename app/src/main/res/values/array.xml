@@ -4,6 +4,7 @@
     <string-array name="registration_details_errors">
         <item>@string/first_name_required</item>
         <item>@string/last_name_required</item>
+        <item>@string/location_required</item>
         <!--<item>@string/company_name_required</item>-->
        <!-- <item>@string/phone_no_required</item>-->
        <!-- <item>@string/about_you_required</item>-->
@@ -22,5 +23,46 @@
         <item>@string/password_mismatch</item>
 
     </string-array>
+    <string-array name="purchases">
+        <item>@string/order</item>
+        <item>@string/custom_offer</item>
+        <item>@string/live_offer_req</item>
+        <item>@string/wathcing</item>
+        <item>@string/likes</item>
+    </string-array>
 
+    <string-array name="sales">
+        <item>@string/order</item>
+        <item>@string/become_a_seller</item>
+        <item>@string/offers_sent</item>
+        <item>@string/job_oppotunities</item>
+        <item>@string/premium_membership</item>
+        <item>@string/background_check</item>
+        <item>@string/business_verification</item>
+        <item>@string/edt_store_location</item>
+    </string-array>
+
+    <string-array name="general">
+        <item>@string/following</item>
+        <item>@string/followers</item>
+        <item>@string/invite_friend</item>
+        <item>@string/leave_feedback</item>
+        <item>@string/terms_condition</item>
+        <item>@string/privacy_policy</item>
+        <item>@string/logout</item>
+
+    </string-array>
+    <string-array name="user_settings">
+        <item>@string/edt_profile</item>
+        <item>@string/edit_user_settings</item>
+        <item>@string/notification_settings</item>
+        <item>@string/paymemt_method</item>
+
+
+
+    </string-array>
+    <string-array name="user_settings_arry">
+        <item>@string/who_can_view_my_location</item>
+        <item>@string/who_can_view_my_phone</item>
+    </string-array>
 </resources>

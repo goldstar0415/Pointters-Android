@@ -6,6 +6,10 @@
     <!--<include
         android:id="@+id/main_toolbar_home"
         layout="@layout/toolbar_home" />-->
+    <RelativeLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <com.pointters.utils.NonSwipeableViewPager
         android:id="@+id/view_pager"
@@ -25,14 +29,15 @@
         android:id="@+id/bottom_horizontal_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/_7sdp">
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp">
 
             <RelativeLayout
                 android:id="@+id/img_flag_relative"
@@ -55,11 +60,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_flag"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_centerHorizontal="true"
                     android:text="@string/update"
-
-                    android:textSize="@dimen/text_size_small" />
+                    android:textColor="#999999"
+                    android:textSize="@dimen/text_size_tiny" />
 
             </RelativeLayout>
 
@@ -85,9 +90,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_service"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:text="@string/explore"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textColor="#999999"
+                    android:textSize="@dimen/text_size_tiny" />
 
             </RelativeLayout>
 
@@ -113,10 +119,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_camera"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_centerHorizontal="true"
                     android:text="@string/post"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textColor="#999999"
+                    android:textSize="@dimen/text_size_tiny" />
 
             </RelativeLayout>
 
@@ -143,9 +150,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_chat"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:text="@string/chat"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textColor="#999999"
+                    android:textSize="@dimen/text_size_tiny" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -160,7 +168,7 @@
                     android:id="@+id/img_user_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/drawable_profile" />
 
@@ -172,9 +180,10 @@
                     android:layout_below="@+id/img_user_profile"
                     android:layout_centerHorizontal="true"
                     android:text="@string/me"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textColor="#999999"
+                    android:textSize="@dimen/text_size_tiny" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
-
+    </RelativeLayout>
 </RelativeLayout>

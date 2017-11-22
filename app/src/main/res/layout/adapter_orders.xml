@@ -5,14 +5,14 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_6sdp"
+        android:layout_marginRight="@dimen/_6sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/bg_service"
-        android:elevation="@dimen/_1sdp"
-        android:paddingTop="@dimen/_10sdp">
+        android:paddingTop="@dimen/_15sdp">
 
         <RelativeLayout
             android:id="@+id/upper_view"
@@ -22,9 +22,10 @@
 
             <ImageView
                 android:id="@+id/img_service_provider"
-                android:layout_width="@dimen/_68sdp"
-                android:layout_height="@dimen/_68sdp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/service_thumb_big" />
 
 
@@ -47,7 +48,7 @@
                     android:maxLines="2"
                     android:text="IT service lorem ipsum dummy text"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_small" />
 
                 <ImageView
                     android:id="@+id/txt_service_type"
@@ -74,7 +75,7 @@
                         android:layout_centerVertical="true"
                         android:text="$50"
                         android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_tiny" />
 
                     <TextView
                         android:id="@+id/txt_service_actual_price"
@@ -86,7 +87,7 @@
                         android:layout_toRightOf="@+id/txt_service_price"
                         android:text="$100"
                         android:textColor="@color/color_service_actual_price"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_tiny"
                         tools:ignore="MissingPrefix" />
 
                     <View
@@ -99,7 +100,7 @@
 
 
                     <TextView
-                        android:id="@+id/txt_service_time"
+                        android:id="@+id/txt_price_desc"
                         fontPath="fonts/Montserrat-Light.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -108,7 +109,7 @@
                         android:layout_toRightOf="@+id/txt_service_actual_price"
                         android:text="For 2 hr"
                         android:textColor="@color/color_service_actual_price"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_tiny"
                         tools:ignore="MissingPrefix" />
 
                     <TextView
@@ -125,10 +126,12 @@
 
                         android:text="Jhons"
                         android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_tiny"
                         tools:ignore="MissingPrefix" />
 
                     <TextView
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        tools:ignore="MissingPrefix"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -136,7 +139,7 @@
                         android:text="@string/by"
 
                         android:textColor="#666666"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_tiny" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -146,12 +149,13 @@
                     android:layout_alignParentBottom="true">
 
                     <TextView
+                        android:id="@+id/txt_paidof"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
                         android:text="Paid of 5/9"
                         android:textColor="#666666"
-                        android:textSize="@dimen/text_size_tiny" />
+                        android:textSize="@dimen/text_size_mini_tiny" />
 
                 </RelativeLayout>
 
@@ -182,7 +186,7 @@
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:text="@string/pending_delivery"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_tiny" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

@@ -11,13 +11,13 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:text="ffff"
-       fontPath="fonts/Montserrat-Light.ttf"
+       fontPath="fonts/Montserrat-Regular.ttf"
        android:paddingTop="@dimen/_10sdp"
        android:paddingLeft="@dimen/_16sdp"
        android:paddingBottom="@dimen/_10sdp"
        android:id="@+id/mMenu_option"
-       android:textSize="@dimen/text_size_small"
-       android:textColor="@color/color_black_info"
+       android:textSize="@dimen/text_size_tiny"
+       android:textColor="#3A3A41"
        tools:ignore="MissingPrefix" />
 
 </LinearLayout>

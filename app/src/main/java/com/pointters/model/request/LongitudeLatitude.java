@@ -1,31 +1,33 @@
 package com.pointters.model.request;
 
+import java.util.List;
+
 /**
  * Created by prashantkumar on 17/8/17.
  */
 
 public class LongitudeLatitude {
-    private Double longitude;
-    private Double latitude;
+    private List<Double> coordinates;
+    private String type;
 
-    public LongitudeLatitude(Double longitude, Double latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+    public LongitudeLatitude(List<Double> coordinates, String type) {
+        this.coordinates = coordinates;
+        this.type = type;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public List<Double> getCoordinates() {
+        return coordinates;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setCoordinates(List<Double> coordinates) {
+        this.coordinates = coordinates;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public String getType() {
+        return type;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setType(String type) {
+        this.type = type;
     }
 }

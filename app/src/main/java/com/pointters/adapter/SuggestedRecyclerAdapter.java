@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pointters.R;
@@ -18,11 +19,11 @@ import java.util.ArrayList;
 
 public class SuggestedRecyclerAdapter extends RecyclerView.Adapter<SuggestedRecyclerAdapter.MyViewHolder> {
 
-    private ArrayList<InviteAurSuggestedDetails> seller_options;
     private Context context;
 
-
-
+    public SuggestedRecyclerAdapter(Context context) {
+        this.context = context;
+    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -33,7 +34,10 @@ public class SuggestedRecyclerAdapter extends RecyclerView.Adapter<SuggestedRecy
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+        if (position == 0) {
+            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp), (int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
+            holder.layoutRoot.setLayoutParams(holder.layoutParams);
+        }
     }
 
     @Override
@@ -42,12 +46,14 @@ public class SuggestedRecyclerAdapter extends RecyclerView.Adapter<SuggestedRecy
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
         TextView user_name_inviteFriend;
+        private LinearLayout layoutRoot;
+        private LinearLayout.LayoutParams layoutParams;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-
+            layoutRoot = (LinearLayout) itemView.findViewById(R.id.layout_root);
+            layoutParams = (LinearLayout.LayoutParams) layoutRoot.getLayoutParams();
             user_name_inviteFriend = (TextView) itemView.findViewById(R.id.mUserNameLiveOffer);
 
 

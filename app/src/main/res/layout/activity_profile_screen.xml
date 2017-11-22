@@ -7,26 +7,99 @@
     android:background="#F2F2F3"
     android:orientation="vertical">
 
-    <include layout="@layout/common_toolbar" />
+<!--    <include layout="@layout/common_toolbar" />-->
+    <android.support.design.widget.AppBarLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:elevation="2dp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        tools:ignore="MissingPrefix">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:contentInsetStart="0dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/toolbar_lft_img"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
+                android:src="@drawable/back_icon_grey" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                fontPath="fonts/Montserrat-Light.ttf"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_toLeftOf="@+id/toolbar_right_img"
+                android:layout_toRightOf="@+id/toolbar_lft_img"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_medium" />
+            
+            <TextView
+                android:id="@+id/txt_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:layout_toLeftOf="@+id/toolbar_right_img"
+                android:layout_centerVertical="true"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+
+            <ImageView
+                android:id="@+id/toolbar_right_img"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
+                android:src="@drawable/more_icon_horizontal" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_2sdp"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/_10sdp">
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/view_pager_suggested_services"
+                    android:id="@+id/profile_bg_viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_180sdp" />
 
@@ -50,8 +123,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginRight="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:orientation="vertical">
 
@@ -60,9 +133,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/bg_service"
-                    android:elevation="1dp"
                     android:orientation="vertical"
-                    android:paddingBottom="@dimen/_8sdp">
+                    android:paddingBottom="@dimen/_15sdp">
 
 
                     <RelativeLayout
@@ -76,11 +148,12 @@
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/img_profile"
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
+                            android:layout_width="@dimen/_45sdp"
+                            android:layout_height="@dimen/_45sdp"
                             android:src="@drawable/user_avatar_placeholder"
                             app:riv_mutate_background="true"
                             app:riv_oval="true"
+                            android:scaleType="centerCrop"
                             app:riv_tile_mode="clamp" />
 
 
@@ -90,7 +163,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignRight="@+id/img_profile"
                             android:layout_alignTop="@+id/img_profile"
-                            android:paddingRight="@dimen/_10sdp"
+                            android:paddingRight="@dimen/_8sdp"
                             android:src="@drawable/green_ellipse" />
 
 
@@ -103,23 +176,23 @@
                             android:layout_toRightOf="@+id/img_profile">
 
                             <TextView
-                                android:id="@+id/txt_view_name"
+                                android:id="@+id/txt_name"
                                 fontPath="fonts/Montserrat-Regular.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Alan Walker"
-                                android:textColor="@android:color/black"
+                                android:textColor="#010001"
                                 android:textSize="@dimen/text_size_medium"
                                 tools:ignore="MissingPrefix" />
 
                             <TextView
-                                android:id="@+id/txt_view_verified"
+                                android:id="@+id/txt_verified"
                                 fontPath="fonts/Montserrat-Light.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/txt_view_name"
+                                android:layout_below="@+id/txt_name"
                                 android:text="Verified"
-                                android:textColor="#a3a3a3"
+                                android:textColor="#888788"
                                 android:textSize="@dimen/text_size_tiny"
                                 tools:ignore="MissingPrefix" />
 
@@ -149,129 +222,150 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:orientation="vertical">
+
 
                             <TextView
-                                android:layout_width="@dimen/_80sdp"
-                                android:layout_height="wrap_content"
-                                android:text="Company:"
-                                android:textColor="#a3a3a3"
-                                android:textSize="@dimen/text_size_small" />
-
-                            <TextView
+                                fontPath="fonts/Montserrat-Light.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:maxLines="1"
-                                android:text="ABC Company"
-                                android:textColor="@color/color_black_info"
-                                android:textSize="@dimen/text_size_small" />
+                                android:text="Company:"
+                                android:textColor="#999999"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
 
-
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/location_title"
-                                android:layout_width="@dimen/_80sdp"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:text="Location:"
-                                android:textColor="#a3a3a3"
-                                android:textSize="@dimen/text_size_small" />
+                                android:layout_marginTop="@dimen/_1sdp"
+                                android:textColor="#999999"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
 
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_toRightOf="@+id/location_title"
-                                android:maxLines="1"
-                                android:text="Street 123 chicago,IL"
-                                android:textColor="@color/color_black_info"
-                                android:textSize="@dimen/text_size_small" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:paddingRight="@dimen/_8sdp"
-                                android:src="@drawable/location_icon" />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/phone_title"
-                                android:layout_width="@dimen/_80sdp"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:text="Phone:"
-                                android:textColor="#a3a3a3"
-                                android:textSize="@dimen/text_size_small" />
+                                android:layout_marginTop="@dimen/_1sdp"
+                                android:textColor="#999999"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
 
 
                             <TextView
-                                android:id="@+id/txt_phone"
+                                fontPath="fonts/Montserrat-Light.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_toRightOf="@+id/phone_title"
-                                android:text="123456789"
-                                android:textColor="@color/color_black_info"
-                                android:textSize="@dimen/text_size_small" />
+                                android:text="Description:"
+                                android:textColor="#999999"
+                                android:layout_marginTop="@dimen/_1sdp"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:paddingRight="@dimen/_8sdp"
-                                android:src="@drawable/call_icon_small_rec" />
-                        </RelativeLayout>
+
+                        </LinearLayout>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:orientation="vertical">
+
 
                             <TextView
-                                android:layout_width="@dimen/_80sdp"
-                                android:layout_height="wrap_content"
-
-                                android:text="Description:"
-                                android:textColor="#a3a3a3"
-                                android:textSize="@dimen/text_size_small" />
-
-                            <TextView
+                                android:id="@+id/txt_company"
+                                fontPath="fonts/Montserrat-Light.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_marginRight="@dimen/_25sdp"
                                 android:maxLines="1"
-                                android:text="Lorem lpsum is dummey text."
-                                android:textColor="@color/color_black_info"
-                                android:textSize="@dimen/text_size_small" />
+                                android:text="ABC Company"
+                                android:textColor="#010001"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_1sdp">
+
+                                <TextView
+                                    android:id="@+id/txt_location"
+                                    fontPath="fonts/Montserrat-Light.ttf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:maxLines="1"
+                                    android:text="Street 123 chicago,IL"
+                                    android:textColor="#010001"
+                                    android:textSize="@dimen/text_size_tiny"
+                                    tools:ignore="MissingPrefix" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:paddingRight="@dimen/_10sdp"
+                                    android:src="@drawable/location_icon" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_1sdp">
+
+                                <TextView
+                                    android:id="@+id/txt_phone"
+                                    fontPath="fonts/Montserrat-Light.ttf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="123456789"
+                                    android:textColor="#010001"
+                                    android:textSize="@dimen/text_size_tiny"
+                                    tools:ignore="MissingPrefix" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:paddingRight="@dimen/_10sdp"
+                                    android:src="@drawable/call_icon_small_rec" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/txt_descrption"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:layout_marginTop="@dimen/_1sdp"
+                                android:text="Lorem lpsum is dummey."
+                                android:textColor="#010001"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
+
 
                         </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
 
@@ -280,10 +374,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/bg_service"
-                    android:elevation="1dp"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_10sdp">
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -294,13 +385,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:paddingBottom="@dimen/_15sdp"
+                            android:paddingTop="@dimen/_15sdp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_15sdp"
                                 android:background="@drawable/square_shape" />
 
                             <TextView
@@ -308,40 +400,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_2sdp"
-                                android:text="Background"
-                                android:textColor="@color/color_black_info"
+                                android:gravity="center"
+                                android:text="@string/back_check"
+                                android:textColor="#010001"
                                 android:textSize="@dimen/text_size_tiny" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Check"
-                                android:textColor="@color/color_black_info"
-                                android:textSize="@dimen/text_size_tiny" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_15sdp"
-                                android:background="@drawable/square_shape" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_2sdp"
-                                android:text="Insurance"
-                                android:textColor="@color/color_black_info"
-                                android:textSize="@dimen/text_size_tiny" />
 
                         </LinearLayout>
 
@@ -349,13 +412,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:paddingBottom="@dimen/_15sdp"
+                            android:paddingTop="@dimen/_15sdp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_15sdp"
                                 android:background="@drawable/square_shape" />
 
                             <TextView
@@ -363,8 +427,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_2sdp"
-                                android:text="License"
-                                android:textColor="@color/color_black_info"
+                                android:text="@string/insurance"
+                                android:textColor="#010001"
                                 android:textSize="@dimen/text_size_tiny" />
 
                         </LinearLayout>
@@ -373,13 +437,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:paddingBottom="@dimen/_15sdp"
+                            android:paddingTop="@dimen/_15sdp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/_15sdp"
                                 android:background="@drawable/square_shape" />
 
                             <TextView
@@ -387,18 +452,35 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_2sdp"
-                                android:text="Business"
-                                android:textColor="@color/color_black_info"
+                                android:text="@string/license"
+                                android:textColor="#010001"
                                 android:textSize="@dimen/text_size_tiny" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingBottom="@dimen/_15sdp"
+                            android:paddingTop="@dimen/_15sdp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Verification"
-                                android:textColor="@color/color_black_info"
-                                android:textSize="@dimen/text_size_tiny" />
+                                android:background="@drawable/square_shape" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:gravity="center"
+                                android:text="@string/businedd_veri"
+                                android:textColor="#010001"
+                                android:textSize="@dimen/text_size_tiny" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -406,19 +488,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/bg_service"
-                    android:elevation="1dp"
                     android:orientation="vertical"
-                    android:paddingBottom="@dimen/_10sdp">
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_15sdp">
 
                     <TextView
+                        fontPath="fonts/Montserrat-Regular.ttf"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:text="Service Metrics"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_big" />
+                        android:textColor="#010001"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -438,29 +522,33 @@
 
                                 <TextView
                                     android:id="@+id/mOneTimeValue"
+                                    fontPath="fonts/Montserrat-Light.ttf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:text="99%"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="@dimen/text_size_small" />
+                                    android:textColor="#010001"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="MissingPrefix" />
 
                                 <TextView
+                                    fontPath="fonts/Montserrat-Regular.ttf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/mOneTimeValue"
                                     android:layout_centerHorizontal="true"
                                     android:gravity="center"
                                     android:text="On time"
-                                    android:textColor="#a3a3a3"
-                                    android:textSize="@dimen/text_size_tiny" />
+                                    android:textColor="#656566"
+                                    android:textSize="@dimen/text_size_tiny"
+                                    tools:ignore="MissingPrefix" />
                             </RelativeLayout>
 
                             <View
                                 android:layout_width="@dimen/_1sdp"
-                                android:layout_height="@dimen/_20sdp"
+                                android:layout_height="@dimen/_13sdp"
                                 android:layout_gravity="center"
-                                android:background="#a3a3a3" />
+                                android:background="#BBBBBC" />
 
                             <RelativeLayout
                                 android:layout_width="0dp"
@@ -469,29 +557,34 @@
 
                                 <TextView
                                     android:id="@+id/mQualityNum"
+                                    fontPath="fonts/Montserrat-Light.ttf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
-                                    android:text="4.5/s"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="@dimen/text_size_small" />
+                                    android:text="4.5/5"
+                                    android:textColor="#010001"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="MissingPrefix" />
 
                                 <TextView
+                                    fontPath="fonts/Montserrat-Regular.ttf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/mQualityNum"
                                     android:layout_centerHorizontal="true"
                                     android:gravity="center"
                                     android:text="Quality"
-                                    android:textColor="#a3a3a3"
-                                    android:textSize="@dimen/text_size_tiny" />
+                                    android:textColor="#656566"
+                                    android:textSize="@dimen/text_size_tiny"
+
+                                    tools:ignore="MissingPrefix" />
                             </RelativeLayout>
 
                             <View
                                 android:layout_width="@dimen/_1sdp"
-                                android:layout_height="@dimen/_20sdp"
+                                android:layout_height="@dimen/_13sdp"
                                 android:layout_gravity="center"
-                                android:background="#a3a3a3" />
+                                android:background="#BBBBBC" />
 
                             <RelativeLayout
                                 android:layout_width="0dp"
@@ -501,30 +594,79 @@
 
                                 <TextView
                                     android:id="@+id/mHour"
+                                    fontPath="fonts/Montserrat-Light.ttf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:text="1.2hr"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="@dimen/text_size_small" />
+                                    android:textColor="#010001"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:ignore="MissingPrefix" />
 
                                 <TextView
+                                    fontPath="fonts/Montserrat-Regular.ttf"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/mHour"
                                     android:layout_centerHorizontal="true"
                                     android:gravity="center"
                                     android:text="@string/avg_response"
-                                    android:textColor="#a3a3a3"
-                                    android:textSize="@dimen/text_size_tiny" />
+                                    android:textColor="#656566"
+                                    android:textSize="@dimen/text_size_tiny"
+
+                                    tools:ignore="MissingPrefix" />
                             </RelativeLayout>
                         </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1">
+
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1">
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+
+                            <TextView
+                                fontPath="fonts/Montserrat-Regular.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:gravity="center"
+                                android:includeFontPadding="false"
+                                android:text="time"
+                                android:textColor="#656566"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
+                        </RelativeLayout>
                     </LinearLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_10sdp">
 
                         <View
@@ -535,20 +677,23 @@
                             android:background="#50D2C2" />
 
                         <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_toRightOf="@+id/textView"
                             android:text="56 service order completed"
-                            android:textSize="@dimen/text_size_tiny" />
+                            android:textColor="#656566"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_3sdp">
 
                         <View
@@ -559,20 +704,23 @@
                             android:background="#FCAB53" />
 
                         <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_toRightOf="@+id/mAvgRating"
                             android:text="95% avg rating"
-                            android:textSize="@dimen/text_size_tiny" />
+                            android:textColor="#656566"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_3sdp">
 
                         <View
@@ -585,6 +733,7 @@
                             android:background="#BA77FF" />
 
                         <TextView
+                            fontPath="fonts/Montserrat-Light.ttf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -592,7 +741,9 @@
                             android:layout_toRightOf="@+id/mVline"
                             android:gravity="center"
                             android:text="90% of customers will buy this service again"
-                            android:textSize="@dimen/text_size_tiny" />
+                            android:textColor="#656566"
+                            android:textSize="@dimen/text_size_tiny"
+                            tools:ignore="MissingPrefix" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -601,20 +752,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
                     android:background="@drawable/bg_service"
-                    android:elevation="1dp"
                     android:orientation="vertical"
-                    android:paddingBottom="@dimen/_10sdp">
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_15sdp">
 
                     <TextView
+                        fontPath="fonts/Montserrat-Regular.ttf"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:text="Service Details"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_big" />
+                        android:textColor="#010001"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:ignore="MissingPrefix" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -629,29 +781,33 @@
 
                             <TextView
                                 android:id="@+id/mPointsValue"
+                                fontPath="fonts/Montserrat-Light.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:text="4,132"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/text_size_small" />
+                                android:textColor="#010001"
+                                android:textSize="@dimen/text_size_small"
+                                tools:ignore="MissingPrefix" />
 
                             <TextView
+                                fontPath="fonts/Montserrat-Regular.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/mPointsValue"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center"
                                 android:text="Points"
-                                android:textColor="#a3a3a3"
-                                android:textSize="@dimen/text_size_tiny" />
+                                android:textColor="#656566"
+                                android:textSize="@dimen/text_size_tiny"
+                                tools:ignore="MissingPrefix" />
                         </RelativeLayout>
 
                         <View
                             android:layout_width="@dimen/_1sdp"
-                            android:layout_height="@dimen/_20sdp"
+                            android:layout_height="@dimen/_13sdp"
                             android:layout_gravity="center"
-                            android:background="#a3a3a3" />
+                            android:background="#BBBBBC" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -660,29 +816,34 @@
 
                             <TextView
                                 android:id="@+id/mLikesNum"
+                                fontPath="fonts/Montserrat-Light.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:text="1,123"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/text_size_small" />
+                                android:textColor="#010001"
+                                android:textSize="@dimen/text_size_small"
+                                tools:ignore="MissingPrefix" />
 
                             <TextView
+                                fontPath="fonts/Montserrat-Regular.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/mLikesNum"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center"
                                 android:text="Likes"
-                                android:textColor="#a3a3a3"
-                                android:textSize="@dimen/text_size_tiny" />
+                                android:textColor="#656566"
+                                android:textSize="@dimen/text_size_tiny"
+
+                                tools:ignore="MissingPrefix" />
                         </RelativeLayout>
 
                         <View
                             android:layout_width="@dimen/_1sdp"
-                            android:layout_height="@dimen/_20sdp"
+                            android:layout_height="@dimen/_13sdp"
                             android:layout_gravity="center"
-                            android:background="#a3a3a3" />
+                            android:background="#BBBBBC" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -692,22 +853,27 @@
 
                             <TextView
                                 android:id="@+id/mWatchingValue"
+                                fontPath="fonts/Montserrat-Light.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:text="1,321"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/text_size_small" />
+                                android:textColor="#010001"
+                                android:textSize="@dimen/text_size_small"
+                                tools:ignore="MissingPrefix" />
 
                             <TextView
+                                fontPath="fonts/Montserrat-Regular.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/mWatchingValue"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center"
                                 android:text="Watching"
-                                android:textColor="#a3a3a3"
-                                android:textSize="@dimen/text_size_tiny" />
+                                android:textColor="#656566"
+                                android:textSize="@dimen/text_size_tiny"
+
+                                tools:ignore="MissingPrefix" />
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -722,28 +888,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_8sdp"
-                            android:layout_marginRight="@dimen/_8sdp"
-                            android:weightSum="3">
+                            android:layout_marginLeft="@dimen/_12sdp"
+                            android:layout_marginRight="@dimen/_12sdp">
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_weight="0.3"
                                 android:background="#999999"
                                 android:gravity="center"
-
                                 android:paddingBottom="@dimen/_3sdp"
                                 android:paddingTop="@dimen/_3sdp"
                                 android:text="Point"
-                                android:textColor="@color/colorWhite"
+                                android:textColor="#FFFFFF"
                                 android:textSize="@dimen/text_size_small" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_weight="1"
+                                android:layout_weight="0.4"
                                 android:orientation="vertical">
 
                                 <ImageView
@@ -756,13 +920,13 @@
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_weight="0.3"
                                 android:background="#999999"
                                 android:gravity="center"
                                 android:paddingBottom="@dimen/_3sdp"
                                 android:paddingTop="@dimen/_3sdp"
                                 android:text="Watch"
-                                android:textColor="@color/colorWhite"
+                                android:textColor="#FFFFFF"
                                 android:textSize="@dimen/text_size_small" />
 
                         </LinearLayout>
@@ -772,18 +936,21 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_12sdp">
+                    android:layout_marginBottom="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginRight="@dimen/_5sdp">
 
                     <TextView
+                        fontPath="fonts/Montserrat-Regular.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_3sdp"
                         android:layout_toLeftOf="@+id/mImgBlue"
-                        android:text=" Get Customer Offer"
-                        android:textColor="#2CB9E8"
-                        android:textSize="@dimen/text_size_small" />
+                        android:text=" Get Custom Offer"
+                        android:textColor="#00ACE3"
+                        android:textSize="@dimen/text_size_tiny"
+                        tools:ignore="MissingPrefix" />
 
                     <ImageView
                         android:id="@+id/mImgBlue"
@@ -796,9 +963,14 @@
                 </RelativeLayout>
 
 
+
             </LinearLayout>
 
-            <include layout="@layout/adapter_service" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_services"
+                android:layout_width="match_parent"
+                android:nestedScrollingEnabled="false"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

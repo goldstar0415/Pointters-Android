@@ -16,14 +16,13 @@ import java.util.ArrayList;
  * Created by prashantkumar on 16/8/17.
  */
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
-
-    private ArrayList<MenuScreenDetails> menu_options;
     private Context context;
+    private String [] menu_options;
 
-    public MenuAdapter(Context context, ArrayList<MenuScreenDetails> menu_options) {
+
+    public MenuAdapter(Context context, String[] menu_options) {
         this.context = context;
         this.menu_options = menu_options;
-
     }
 
     @Override
@@ -35,14 +34,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.menu_titiles.setText(menu_options.get(position).getMenuDetails());
+        holder.menu_titiles.setText(menu_options[position]);
     }
 
 
     @Override
     public int getItemCount() {
 
-        return menu_options.size();
+        return menu_options.length;
     }
 
 

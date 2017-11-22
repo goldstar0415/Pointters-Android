@@ -8,5 +8,7 @@
     <dimen name="text_size_medium">22sp</dimen>
     <dimen name="text_size_small">20sp</dimen>
     <dimen name="text_size_tiny">18sp</dimen>
+    <dimen name="text_size_mini_tiny">12sp</dimen>
+    <dimen name="negative_margin">-3dp</dimen>
 
 </resources>

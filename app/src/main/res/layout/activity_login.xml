@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:background="@android:color/white"
     tools:ignore="MissingPrefix">
 
@@ -18,19 +19,22 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:fillViewport="true"
+        android:paddingTop="@dimen/_45sdp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_login">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_login"
+        app:layout_constraintVertical_bias="0.0">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+
+            android:paddingBottom="@dimen/_15sdp">
 
             <android.support.constraint.Guideline
                 android:id="@+id/constraint_guide_left"
@@ -50,19 +54,24 @@
                 android:id="@+id/text_input_email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/error_appearance"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <EditText
                     android:id="@+id/edt_email"
+                    fontPath="fonts/Montserrat-Regular.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
                     android:hint="@string/email"
                     android:imeOptions="actionNext"
+                    android:focusableInTouchMode="true"
                     android:inputType="textEmailAddress"
-                    android:backgroundTint="#e8e8e9"
+                    android:paddingBottom="@dimen/_15sdp"
                     android:textColor="@color/color_black_info"
-                    android:textColorHint="#ABABAD"
+                    android:textColorHint="#a8a8aa"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
@@ -70,10 +79,10 @@
                 android:id="@+id/img_valid_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:src="@drawable/tick_icon_blue"
                 android:visibility="gone"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_4sdp"
                 app:layout_constraintRight_toRightOf="@+id/text_input_email"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,22 +91,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_11sdp"
+                app:errorTextAppearance="@style/error_appearance"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
-                app:layout_constraintTop_toBottomOf="@+id/text_input_email"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/text_input_email">
 
                 <EditText
                     android:id="@+id/edt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/password"
-                    android:gravity="top"
-                    android:imeOptions="actionDone"
                     android:backgroundTint="#e8e8e9"
+                    android:gravity="top"
+                    android:hint="@string/password"
+                    android:imeOptions="actionDone"
                     android:inputType="textPassword"
+                    android:focusableInTouchMode="true"
+                    android:paddingBottom="@dimen/_15sdp"
                     android:textColor="@color/color_black_info"
-                    android:textColorHint="#ABABAD"
+                    android:textColorHint="#a8a8aa"
                     android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
@@ -105,22 +116,22 @@
                 android:id="@+id/txt_forgot_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_24sdp"
+                android:layout_marginTop="@dimen/_28sdp"
                 android:text="@string/forgot_password"
                 android:textColor="#969699"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_tiny"
                 app:layout_constraintRight_toRightOf="@id/text_input_password"
                 app:layout_constraintTop_toBottomOf="@id/text_input_email" />
 
             <TextView
                 android:id="@+id/txt_warning"
-                fontPath="fonts/Montserrat-Light.ttf"
+                fontPath="fonts/Montserrat-Regular.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:textColor="@color/color_red_for_warning"
                 android:textSize="@dimen/text_size_tiny"
-                android:layout_marginLeft="@dimen/_4sdp"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/text_input_password"
                 app:layout_constraintTop_toBottomOf="@+id/text_input_password" />
@@ -162,8 +173,8 @@
                 android:id="@+id/txt_or"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/or"
                 android:padding="@dimen/_10sdp"
+                android:text="@string/or"
                 android:textColor="@color/color_black_info"
                 android:textSize="@dimen/text_size_medium"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -201,32 +212,41 @@
                 app:layout_constraintRight_toLeftOf="@+id/constraint_guide_right"
                 app:layout_constraintTop_toBottomOf="@+id/txt_or" />
 
-            <TextView
-                android:id="@+id/txt_dont_have_account"
-                fontPath="fonts/Montserrat-Light.ttf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/dont_have_account"
-                android:textColor="#909094"
-                android:textSize="@dimen/text_size_tiny"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/txt_sign_up"
-                app:layout_constraintTop_toBottomOf="@id/btn_fb" />
 
-            <TextView
-                android:id="@+id/txt_sign_up"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/sign_up"
-                android:textAllCaps="true"
-                android:textColor="#1D1D26"
-                android:textSize="@dimen/text_size_tiny"
-                app:layout_constraintLeft_toRightOf="@id/txt_dont_have_account"
+                android:paddingBottom="@dimen/_15sdp"
+                android:paddingTop="@dimen/_15sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_fb" />
+                app:layout_constraintTop_toBottomOf="@id/btn_fb">
+
+                <TextView
+                    android:id="@+id/txt_dont_have_account"
+                    fontPath="fonts/Montserrat-Light.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:text="@string/dont_have_account"
+                    android:textColor="#909094"
+                    android:textSize="@dimen/text_size_tiny"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/txt_sign_up" />
+
+                <TextView
+                    android:id="@+id/txt_sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_up_caps"
+                    android:textAllCaps="true"
+                    android:textColor="#1D1D26"
+                    android:textSize="@dimen/text_size_tiny"
+                    app:layout_constraintLeft_toRightOf="@id/txt_dont_have_account"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

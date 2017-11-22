@@ -26,7 +26,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -246,7 +245,7 @@ public class AndroidUtils {
     }
 
 
-    public static void openWebView(Context context, WebView webView, String url, final ProgressBar progressBar) {
+    public static void openWebView(Context context, WebView webView, String url) {
         webView.getSettings().setJavaScriptEnabled(true);
 
         webView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
@@ -257,7 +256,6 @@ public class AndroidUtils {
         webView.setWebViewClient(new WebViewClient() {
 
             public void onPageFinished(WebView webview, String url) {
-                progressBar.setVisibility(View.GONE);
 
             }
         });
@@ -277,6 +275,7 @@ public class AndroidUtils {
                     + (addresses.get(0).getAdminArea() == null ? "" : addresses.get(0).getAdminArea() + ", ")
                     + (addresses.get(0).getCountryName() == null ? "" : addresses.get(0).getCountryName());
 
+
             return locationName;
 
 
@@ -285,5 +284,101 @@ public class AndroidUtils {
             return "";
         }
     }
+    public static String getCityName(Context context, Location location) {
+        try {
+            String cityName = "";
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(context, Locale.getDefault());
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
+            cityName = (addresses.get(0).getLocality() == null ? "" : addresses.get(0).getLocality() );
+
+
+            return cityName;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String getCountryName(Context context, Location location) {
+        try {
+            String countryName = "";
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(context, Locale.getDefault());
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+            countryName = (addresses.get(0).getCountryName() == null ? "" : addresses.get(0).getCountryName() );
+
+
+            return countryName;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    public static String getPostalCode(Context context, Location location) {
+        try {
+            String postalCode = "";
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(context, Locale.getDefault());
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+            postalCode = (addresses.get(0).getPostalCode() == null ? "" : addresses.get(0).getPostalCode() );
+
+
+            return postalCode;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String getState(Context context, Location location) {
+        try {
+            String stateName = "";
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(context, Locale.getDefault());
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+            stateName = (addresses.get(0).getAdminArea() == null ? "" : addresses.get(0).getAdminArea() );
+
+
+            return stateName;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    public static  double getDistanceBwTwoLocation(double lat1, double lon1, double lat2, double lon2){
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private static double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
 }

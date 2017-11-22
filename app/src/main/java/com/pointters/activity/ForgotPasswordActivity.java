@@ -4,18 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.design.widget.TextInputLayout;
-import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,14 +20,13 @@ import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnEditTextChangeListener;
 import com.pointters.model.ResetPasswordModel;
 import com.pointters.model.request.UserEmailLoginRequest;
-import com.pointters.model.response.ResponseBySendOtpApi;
 import com.pointters.model.response.UserEmailLoginResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
-import com.pointters.utils.ConnectivityController;
 import com.pointters.utils.CallLoginApiIfFails;
+import com.pointters.utils.ConnectivityController;
 import com.pointters.utils.MyTextWatcher;
 
 import dmax.dialog.SpotsDialog;
@@ -46,20 +41,17 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener, OnEditTextChangeListener, TextView.OnEditorActionListener, OnApiFailDueToSessionListener {
 
-    private TextInputLayout txtInputEmail;
+    private final String SEND_OTP = "sendOtp";
     private EditText edtEmail;
     private EditText edtVerificationCode;
-    private TextInputLayout txtInputPassword,txtInputVerificationCode;
+    private TextInputLayout txtInputEmail, txtInputPassword, txtInputVerificationCode,txtInputReEnterPassword;
     private EditText edtPassword;
-    private TextInputLayout txtInputReEnterPassword;
     private EditText edtReEnterPassword;
     private ImageView imgValidEmail;
-    private ConstraintSet applyConstraintSet = new ConstraintSet();
-    private ConstraintLayout constraintLayout;
+    private RelativeLayout layoutForgotPassword,layoutResetPassword;
     private SpotsDialog spotsDialog;
-    private final String SEND_OTP = "sendOtp";
     private TextView txtRunTimeForgot;
-private String otp;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,17 +60,15 @@ private String otp;
         initViews();
 
         //set toolbar
-        AppUtils.setToolBarWithBothIcon(ForgotPasswordActivity.this, getResources().getString(R.string.app_name),
-                R.drawable.back_icon_grey, 0);
+        AppUtils.setToolBarWithBothIcon(ForgotPasswordActivity.this, getResources().getString(R.string.app_name), R.drawable.back_icon_grey, 0);
 
         setOnClick();
 
         //calligraphy library not applying fonts to text input layout hence done programmatically
-        AppUtils.applyFontsToTextInputLayout(this, new TextInputLayout[]{txtInputEmail});
+        AppUtils.applyFontsToTextInputLayout(this, new TextInputLayout[]{txtInputEmail,txtInputVerificationCode,txtInputPassword,txtInputReEnterPassword});
 
         setEditTextListener();
 
-        AndroidUtils.showKeyBoard(ForgotPasswordActivity.this);
 
 
     }
@@ -94,8 +84,10 @@ private String otp;
         edtPassword = (EditText) findViewById(R.id.edt_password);
         txtInputReEnterPassword = (TextInputLayout) findViewById(R.id.text_input_re_enter_password);
         edtReEnterPassword = (EditText) findViewById(R.id.edt_re_enter_password);
-        imgValidEmail = (ImageView) findViewById(R.id.img_valid_email);
-        constraintLayout = (ConstraintLayout) findViewById(R.id.main_layout);
+       // imgValidEmail = (ImageView) findViewById(R.id.img_valid_email);
+
+        layoutForgotPassword=(RelativeLayout)findViewById(R.id.layout_forgot_password);
+        layoutResetPassword=(RelativeLayout)findViewById(R.id.layout_reset_password);
         txtRunTimeForgot = (TextView) findViewById(R.id.txt_runtime_forgot);
 
 
@@ -126,7 +118,7 @@ private String otp;
         switch (view.getId()) {
 
             case R.id.toolbar_lft_img:
-
+AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
                 onBackPressed();
 
                 break;
@@ -170,68 +162,59 @@ private String otp;
 
         AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
 
-        spotsDialog = new SpotsDialog(ForgotPasswordActivity.this);
+       /* spotsDialog = new SpotsDialog(ForgotPasswordActivity.this);
         spotsDialog.show();
-        spotsDialog.setCancelable(false);
+        spotsDialog.setCancelable(false);*/
 
         UserEmailLoginRequest userEmailLoginRequest = new UserEmailLoginRequest(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBySendOtpApi> sendOtpApiCall = apiService.sendOtp(userEmailLoginRequest);
-        sendOtpApiCall.enqueue(new Callback<ResponseBySendOtpApi>() {
+        Call<Void> sendOtpApiCall = apiService.sendOtp(userEmailLoginRequest);
+        sendOtpApiCall.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<ResponseBySendOtpApi> call, Response<ResponseBySendOtpApi> response) {
-                if (response.code() == 200 && response.body() != null) {
-
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+/*
                     if (spotsDialog != null && spotsDialog.isShowing()) {
                         spotsDialog.dismiss();
-                    }
+                    }*/
 
-                    //make clone of constraint to make change once
-                    applyConstraintSet.clone(constraintLayout);
 
-                    //use to change visibility with fade animation
-                    setNextLayoutVisible(R.id.layout_email, R.id.layout_new_password);
 
-                    edtVerificationCode.requestFocus();
+                    //use to change visibility
+                    layoutForgotPassword.setVisibility(View.GONE);
+                    layoutResetPassword.setVisibility(View.VISIBLE);
+
 
                     txtRunTimeForgot.setText(getResources().getString(R.string.reset_password));
-                    if(response.body().getTempPassword()!=null && !response.body().getTempPassword().isEmpty()) {
-                        otp = response.body().getTempPassword();
-                        edtVerificationCode.setText(response.body().getTempPassword());
-                    }
 
-
-                }
-                else if (response.code() == 401) {
+                } else if (response.code() == 401) {
 
                     // We will have to call login api as session is expired
                     CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ForgotPasswordActivity.this, SEND_OTP);
                     callLoginApiIfFails.OnApiFailDueToSessionListener(ForgotPasswordActivity.this);
 
-                }
-                else if(response.code()==404)
-                {
-                    if (spotsDialog != null && spotsDialog.isShowing()) {
+                } else if (response.code() == 404) {
+                    /*if (spotsDialog != null && spotsDialog.isShowing()) {
                         spotsDialog.dismiss();
-                    }
+                    }*/
                     txtInputEmail.setError(getResources().getString(R.string.email_does_not_exist));
-                    imgValidEmail.setVisibility(View.GONE);
+                   /* imgValidEmail.setVisibility(View.GONE);*/
                 }
-                    else
+                 /*   else
                  {
 
                     if (spotsDialog != null && spotsDialog.isShowing()) {
                         spotsDialog.dismiss();
                     }
-                }
+                }*/
             }
 
             @Override
-            public void onFailure(Call<ResponseBySendOtpApi> call, Throwable t) {
-                if (spotsDialog != null && spotsDialog.isShowing()) {
+            public void onFailure(Call<Void> call, Throwable t) {
+             /*   if (spotsDialog != null && spotsDialog.isShowing()) {
                     spotsDialog.dismiss();
-                }
+                }*/
             }
         });
 
@@ -246,56 +229,57 @@ private String otp;
         String reEnterPassword = edtReEnterPassword.getText().toString().trim();
 
 
-        if (verificationCode.isEmpty() || !verificationCode.equals(otp)) {
-            txtInputVerificationCode.setError(getResources().getString(R.string.invalid_verification_code));
-        } else if (password.isEmpty()) {
-            txtInputPassword.setError(getResources().getString(R.string.provide_valid_password));
+        if (verificationCode.isEmpty()) {
+            txtInputVerificationCode.setError(getResources().getString(R.string.provide_verification_code));
+        }
+        if (password.isEmpty()) {
+            txtInputPassword.setError(getResources().getString(R.string.password_required));
         } else if (reEnterPassword.isEmpty() || !reEnterPassword.equals(password)) {
             txtInputReEnterPassword.setError(getResources().getString(R.string.password_mismatch));
-        } else {
+        }
+            else {
 
             // call reset password api here and send back to login screen
-            ResetPasswordModel resetPasswordModel=new ResetPasswordModel(edtEmail.getText().toString().trim(),verificationCode,password);
+            ResetPasswordModel resetPasswordModel = new ResetPasswordModel(edtEmail.getText().toString().trim(), verificationCode, password);
             AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
 
-            spotsDialog = new SpotsDialog(ForgotPasswordActivity.this);
+           /* spotsDialog = new SpotsDialog(ForgotPasswordActivity.this);
             spotsDialog.show();
-            spotsDialog.setCancelable(false);
+            spotsDialog.setCancelable(false);*/
 
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-            Call<UserEmailLoginResponse> resetPasswordCall=apiService.resetPassword(resetPasswordModel);
+            Call<UserEmailLoginResponse> resetPasswordCall = apiService.resetPassword(resetPasswordModel);
             resetPasswordCall.enqueue(new Callback<UserEmailLoginResponse>() {
                 @Override
                 public void onResponse(Call<UserEmailLoginResponse> call, Response<UserEmailLoginResponse> response) {
                     if (response.code() == 200 && response.body() != null) {
-                        if (spotsDialog != null && spotsDialog.isShowing()) {
-                            spotsDialog.dismiss();
-                            startActivity(new Intent(ForgotPasswordActivity.this,LoginActivity.class));
-                            finish();
-                        }
+                        /*if (spotsDialog != null && spotsDialog.isShowing()) {
+                            spotsDialog.dismiss();*/
+                        startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
+                        finish();
+                        //}
+                    }else if (response.code() == 404) {
+                    /*if (spotsDialog != null && spotsDialog.isShowing()) {
+                        spotsDialog.dismiss();
+                    }*/
+                        txtInputVerificationCode.setError(getResources().getString(R.string.invalid_verification_code));
+                   /* imgValidEmail.setVisibility(View.GONE);*/
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<UserEmailLoginResponse> call, Throwable t) {
-                    if (spotsDialog != null && spotsDialog.isShowing()) {
+                  /*  if (spotsDialog != null && spotsDialog.isShowing()) {
                         spotsDialog.dismiss();
-                    }
+                    }*/
                 }
             });
 
         }
     }
 
-    private void setNextLayoutVisible(int layoutGone, int layoutVisible) {
 
-        TransitionManager.beginDelayedTransition(constraintLayout);
-
-        applyConstraintSet.setVisibility(layoutGone, ConstraintSet.GONE);
-        applyConstraintSet.setVisibility(layoutVisible, ConstraintSet.VISIBLE);
-        applyConstraintSet.applyTo(constraintLayout);
-    }
 
     @Override
     public void onTextChange(String text, View view) {
@@ -303,6 +287,11 @@ private String otp;
         EditText editText = (EditText) view;
 
         if (!text.trim().isEmpty()) {
+            if(editText.hashCode()==edtPassword.hashCode()) {
+                txtInputReEnterPassword.setError(null);
+                txtInputReEnterPassword.setErrorEnabled(false);
+            }
+
             ((TextInputLayout) editText.getParentForAccessibility()).setError(null);
             ((TextInputLayout) editText.getParentForAccessibility()).setErrorEnabled(false);
         }
@@ -310,11 +299,11 @@ private String otp;
         switch (view.getId()) {
             case R.id.edt_email:
 
-                if (AndroidUtils.isValidEmailAddress(text)) {
+              /*  if (AndroidUtils.isValidEmailAddress(text)) {
                     imgValidEmail.setVisibility(View.VISIBLE);
                 } else {
                     imgValidEmail.setVisibility(View.GONE);
-                }
+                }*/
 
                 break;
         }

@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Pointters.iml" filepath="$PROJECT_DIR$/Pointters.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Pointters_50.iml" filepath="$PROJECT_DIR$/Pointters_50.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/camerakit/camerakit.iml" filepath="$PROJECT_DIR$/libs/camerakit/camerakit.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/libs.iml" filepath="$PROJECT_DIR$/libs/libs.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/mediaPickerLibrary/mediaPickerLibrary.iml" filepath="$PROJECT_DIR$/libs/mediaPickerLibrary/mediaPickerLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/zxing-android-embedded/zxing-android-embedded.iml" filepath="$PROJECT_DIR$/libs/zxing-android-embedded/zxing-android-embedded.iml" />
     </modules>
   </component>
 </project>

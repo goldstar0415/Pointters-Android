@@ -10,8 +10,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -101,21 +102,29 @@ public class AppUtils {
     public static void applyFontsToTextInputLayout(Context context, TextInputLayout[] textInputLayouts) {
 
         for (TextInputLayout textInputLayout : textInputLayouts) {
-            textInputLayout.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Regular.ttf"));
+            textInputLayout.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Medium.ttf"));
         }
 
     }
 
-    public static boolean isRequiredFieldsFilled(TextInputLayout[] textInputLayouts, String[] errorMessages) {
+    public static boolean isRequiredFieldsFilled(Context context, TextInputLayout[] textInputLayouts, String[] errorMessages) {
         boolean isRequiredFieldsFilled = true;
 
         for (int i = 0; i < textInputLayouts.length; i++) {
             if (textInputLayouts[i].getEditText().getText().toString().trim().isEmpty()) {
-                textInputLayouts[i].setError(errorMessages[i]);
+                SpannableString s = new SpannableString(errorMessages[i]);
+                Typeface font=Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Regular.ttf");
+                s.setSpan(new com.pointters.utils.TypefaceSpan(font), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                textInputLayouts[i].setError(s);
                 isRequiredFieldsFilled = false;
 
             } else if ((textInputLayouts[i].getEditText().getInputType() == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS || textInputLayouts[i].getEditText().getInputType() == 33) && !AndroidUtils.isValidEmailAddress(textInputLayouts[i].getEditText().getText().toString())) {
-                textInputLayouts[i].setError(errorMessages[i]);
+                SpannableString s = new SpannableString(errorMessages[i]);
+                Typeface font=Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Regular.ttf");
+                s.setSpan(new com.pointters.utils.TypefaceSpan(font), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                textInputLayouts[i].setError(s);
                 isRequiredFieldsFilled = false;
             }
         }

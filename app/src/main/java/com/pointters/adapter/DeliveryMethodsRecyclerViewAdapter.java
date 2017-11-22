@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,13 +44,20 @@ public class DeliveryMethodsRecyclerViewAdapter extends RecyclerView.Adapter<Del
         holder.deliveryItemName.setText(deliveryMethods.get(position).getTitle());
         if (deliveryMethods.get(position).isSelected()) {
             holder.deliveryCheckBox.setImageResource(R.drawable.checkbox_checked);
+            holder.deliveryCheckBox.setSelected(true);
         } else {
             holder.deliveryCheckBox.setImageResource(R.drawable.checkbox_unchecked);
+            holder.deliveryCheckBox.setSelected(false);
         }
 
         holder.relativeLayoutParent.setTag(position);
         holder.relativeLayoutParent.setOnClickListener(this);
 
+        if(position==2)
+        {
+            holder.layoutTemp.setVisibility(View.VISIBLE);
+        }else
+            holder.layoutTemp.setVisibility(View.GONE);
     }
 
     @Override
@@ -80,7 +88,8 @@ public class DeliveryMethodsRecyclerViewAdapter extends RecyclerView.Adapter<Del
 
         private ImageView deliveryCheckBox;
         private TextView deliveryItemName;
-        private RelativeLayout relativeLayoutParent;
+        private RelativeLayout relativeLayoutParent,layoutTemp;
+        private EditText editTextMiles;
 
         public MyViewHolder(View view) {
             super(view);
@@ -88,6 +97,8 @@ public class DeliveryMethodsRecyclerViewAdapter extends RecyclerView.Adapter<Del
             deliveryCheckBox = (ImageView) view.findViewById(R.id.img_checkbox);
             deliveryItemName = (TextView) view.findViewById(R.id.delivery_method_name);
             relativeLayoutParent = (RelativeLayout) view.findViewById(R.id.relativeLayoutParent);
+            layoutTemp=(RelativeLayout)view.findViewById(R.id.layout_temp);
+            editTextMiles=(EditText)view.findViewById(R.id.edt_miles);
         }
 
     }

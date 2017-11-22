@@ -5,29 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/_8sdp"
-    android:layout_marginLeft="@dimen/_5sdp"
-    android:layout_marginRight="@dimen/_5sdp"
-    android:elevation="@dimen/fix_1dp"
+    android:layout_marginLeft="@dimen/_6sdp"
+    android:layout_marginRight="@dimen/_6sdp"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_service"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/_10sdp">
+        android:paddingBottom="@dimen/_15sdp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:paddingLeft="@dimen/_15sdp"
             android:paddingRight="@dimen/_15sdp">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/img_profile"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/user_avatar_placeholder"
@@ -48,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/mUserNameLiveOffer"
-                    fontPath="fonts/Montserrat-Regular.ttf"
+                    fontPath="fonts/Montserrat-Medium.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -63,9 +63,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/mUserNameLiveOffer"
                     android:layout_centerVertical="true"
-                    android:text="Facebook"
-                    android:textColor="@color/text_color_dark_gray"
-                    android:textSize="@dimen/text_size_small"
+                    android:text="Facebook Friend"
+                    android:textColor="#AFAFB0"
+                    android:textSize="@dimen/text_size_tiny"
                     tools:ignore="MissingPrefix" />
             </LinearLayout>
 
@@ -220,7 +220,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/_15sdp"
-            android:paddingRight="@dimen/_15sdp">
+            android:paddingRight="@dimen/_10sdp">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -302,7 +302,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:paddingLeft="@dimen/_15sdp"
             android:paddingRight="@dimen/_15sdp"
-            android:text="Offer dog walk, Cat care service, etc.."
+            android:text="Offers dog walk, Cat care service, etc.."
             android:textColor="@color/color_black_info"
             android:textSize="@dimen/text_size_small"
             tools:ignore="MissingPrefix" />

@@ -2,30 +2,23 @@ package com.pointters.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pointters.R;
 import com.pointters.model.ChatServiceDetails;
-import com.pointters.model.SellerCancelOrderDetails;
 import com.pointters.utils.AppUtils;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class PaymentMethodsActivity extends AppCompatActivity implements View.OnClickListener{
@@ -47,16 +40,15 @@ public class PaymentMethodsActivity extends AppCompatActivity implements View.On
         addAPayment= (RelativeLayout) findViewById(R.id.add_a_payment_view);
        addAPayment.setOnClickListener(this);
 
-        Adapter obj = new Adapter(this, R.layout.payment_details_option,chatServiceDetailsArrayList );
+        Adapter obj = new Adapter(this, R.layout.adapter_payment_view,chatServiceDetailsArrayList );
         gridViewPaymentMethode.setLayoutManager(new LinearLayoutManager(this));
         gridViewPaymentMethode.setAdapter(obj);
-        /*GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 3);
-        gridViewPaymentMethode.setLayoutManager(mGridLayoutManager);*/
 
-        /*DividerItemDecoration divider2 = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        divider2.setDrawable(ContextCompat.getDrawable(this, R.drawable.bg_grid));
-        gridViewPaymentMethode.addItemDecoration(divider2);*/
 
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override
@@ -67,9 +59,7 @@ public class PaymentMethodsActivity extends AppCompatActivity implements View.On
 
                 onBackPressed();
                 break;
-            case R.id.add_a_payment_view:
-                startActivity(new Intent(PaymentMethodsActivity.this,AddCreditCardActivity.class));
-                break;
+
         }
     }
 //======================================PaymentAdapter============================================
@@ -112,7 +102,7 @@ public class PaymentMethodsActivity extends AppCompatActivity implements View.On
 
         @Override
         public int getItemCount() {
-            return 2;
+            return 1;
 
         }
 

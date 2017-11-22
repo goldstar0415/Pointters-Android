@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -7,7 +17,7 @@ android {
         applicationId "com.pointters.androiddevelopment"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 5
+        versionCode 23
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -16,12 +26,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            lintOptions {
+                disable 'MissingTranslation'
+            }
         }
     }
+
+
 }
 
 repositories {
     mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -43,18 +59,22 @@ dependencies {
 
     //media picker library
     compile project(':libs:mediaPickerLibrary')
+    compile project(':libs:camerakit')
+    compile project(':libs:zxing-android-embedded')
 
     compile "com.facebook.android:facebook-android-sdk:${rootProject.facebook}"
 
-    // Image loading using UIL
-
-    // Retrofit api call
-
-    // custom loading dialog
 
 
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'org.adw.library:discrete-seekbar:1.0.1'
+    compile 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
     compile 'com.intuit.sdp:sdp-android:1.0.4'
     compile 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
+    compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'com.makeramen:roundedimageview:2.3.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -62,11 +82,13 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.github.d-max:spots-dialog:0.7@aar'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
     compile 'at.blogc:expandabletextview:1.0.3'
-    compile 'com.google.android.gms:play-services:10.2.1'
-    compile 'com.amazonaws:aws-android-sdk-core:2.2.+'
     compile 'com.amazonaws:aws-android-sdk-s3:2.2.+'
-    compile 'com.amazonaws:aws-android-sdk-ddb:2.2.+'
+    // google play services
+    compile 'com.google.android.gms:play-services-maps:10.2.1'
+    compile 'com.afollestad:easyvideoplayer:0.3.0'
+    compile 'com.kaopiz:kprogresshud:1.1.0'
+    compile 'com.writingminds:FFmpegAndroid:0.3.2'
+
     testCompile 'junit:junit:4.12'
 }

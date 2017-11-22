@@ -8,6 +8,9 @@ public class NotificationOption {
 
     private String header;
     private String subHeader;
+    private String selectedItmes;
+
+
 
     public String getHeader() {
         return header;
@@ -23,5 +26,13 @@ public class NotificationOption {
 
     public void setSubHeader(String subHeader) {
         this.subHeader = subHeader;
+    }
+
+    public String getSelectedItmes() {
+        return selectedItmes;
+    }
+
+    public void setSelectedItmes(String selectedItmes) {
+        this.selectedItmes = selectedItmes;
     }
 }

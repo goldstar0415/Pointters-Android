@@ -1,5 +1,7 @@
 package com.pointters.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.pointters.R;
 import com.pointters.adapter.ExploreServiceAdapter;
+import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.CustomTabLayout;
 
 /**
@@ -17,19 +20,25 @@ import com.pointters.utils.CustomTabLayout;
  */
 
 public class ExploreServiceAfterLoginFragment extends Fragment {
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     private View view;
     private ViewPager viewPager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        sharedPreferences = getActivity().getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         view = inflater.inflate(R.layout.fragement_explore_service_after_login, container, false);
 
         initViews();
 
         setupViewPager(viewPager);
+        if (!sharedPreferences.getString(ConstantUtils.SELECTED_TAB,"").isEmpty() && sharedPreferences.getString(ConstantUtils.SELECTED_TAB, "").equals(getResources().getString(R.string.get_live_offer)))
+            viewPager.setCurrentItem(1);
+
+        editor.putString(ConstantUtils.SELECTED_TAB, "").apply();
 
         return view;
 
@@ -46,13 +55,13 @@ public class ExploreServiceAfterLoginFragment extends Fragment {
 
         ServiceFragment serviceFragment = new ServiceFragment();
 
-        ServiceFragment liveOffersFragment = new ServiceFragment();
 
-        ServiceFragment jobsFragment = new ServiceFragment();
+
+        //JobsFragment jobsFragment = new JobsFragment();
 
         exploreServiceAdapter.addFrag(serviceFragment, getResources().getString(R.string.services));
-        exploreServiceAdapter.addFrag(liveOffersFragment, getResources().getString(R.string.live_offers));
-        exploreServiceAdapter.addFrag(jobsFragment, getResources().getString(R.string.jobs));
+        exploreServiceAdapter.addFrag(new BlankFragment(), getResources().getString(R.string.live_offers));
+        exploreServiceAdapter.addFrag(new BlankFragment(), getResources().getString(R.string.jobs));
         viewPager.setAdapter(exploreServiceAdapter);
 
         CustomTabLayout tabLayout = (CustomTabLayout) view.findViewById(R.id.tabs);

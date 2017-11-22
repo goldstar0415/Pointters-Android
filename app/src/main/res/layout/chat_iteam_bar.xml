@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
 
     >
@@ -25,8 +26,8 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/img_profile"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
                 android:src="@drawable/user_avatar_placeholder"
                 app:riv_mutate_background="true"
                 app:riv_oval="true"
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/img_profile"
                 android:layout_alignRight="@+id/img_profile"
-                android:layout_marginBottom="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:src="@drawable/green_ellipse" />
 
         </RelativeLayout>
@@ -56,9 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="Milan Tora"
+                android:text="Milam Tora"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:id="@+id/mDate"
@@ -66,18 +67,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="Friday"
-                android:textColor="#7F7E7E"
-                android:textSize="@dimen/text_size_medium" />
+                android:textColor="#858484"
+                android:textSize="@dimen/text_size_tiny" />
 
             <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                tools:ignore="MissingPrefix"
                 android:id="@+id/mChatNotification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/mUserName"
                 android:text="3 New msg: How are you?"
-                android:textColor="#A3A3A3"
-                android:textSize="@dimen/text_size_small" />
+                android:textColor="#AEAEAE"
+                android:textSize="@dimen/text_size_tiny" />
 
         </RelativeLayout>
     </RelativeLayout>

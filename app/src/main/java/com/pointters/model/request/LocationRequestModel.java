@@ -4,18 +4,18 @@ package com.pointters.model.request;
  * Created by prashantkumar on 17/8/17.
  */
 
-public class Location {
+public class LocationRequestModel {
     private String city;
     private String country;
-    private LongitudeLatitude location;
-    private int postalCode;
+    private LongitudeLatitude geoJson;
+    private String postalCode;
     private String province;
     private String state;
 
-    public Location(String city, String country, LongitudeLatitude location, int postalCode, String province, String state) {
+    public LocationRequestModel(String city, String country, LongitudeLatitude geoJson, String postalCode, String province, String state) {
         this.city = city;
         this.country = country;
-        this.location = location;
+        this.geoJson = geoJson;
         this.postalCode = postalCode;
         this.province = province;
         this.state = state;
@@ -37,19 +37,19 @@ public class Location {
         this.country = country;
     }
 
-    public LongitudeLatitude getLocation() {
-        return location;
+    public LongitudeLatitude getGeoJson() {
+        return geoJson;
     }
 
-    public void setLocation(LongitudeLatitude location) {
-        this.location = location;
+    public void setGeoJson(LongitudeLatitude geoJson) {
+        this.geoJson = geoJson;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 

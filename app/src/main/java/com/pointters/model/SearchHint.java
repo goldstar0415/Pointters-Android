@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class SearchHint {
 
     private String title;
-    private String[] hintsList;
+    private ArrayList<String> hintsList;
 
-    public SearchHint(String title, String[] hintsList) {
+    public SearchHint(String title, ArrayList<String> hintsList) {
         this.title = title;
         this.hintsList = hintsList;
     }
@@ -20,7 +20,15 @@ public class SearchHint {
         return title;
     }
 
-    public String[] getHintsList() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public ArrayList<String> getHintsList() {
         return hintsList;
+    }
+
+    public void setHintsList(ArrayList<String> hintsList) {
+        this.hintsList = hintsList;
     }
 }

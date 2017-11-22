@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_4sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
     android:background="@drawable/bg_service">
 
  <LinearLayout

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/layout_tag_service">
+
+
+        <VideoView
+            android:id="@+id/crosswall_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+           />
+        <RelativeLayout
+            android:id="@+id/temp_view"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"/>
+
+        <RelativeLayout
+            android:id="@+id/first_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_first_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="@dimen/_3sdp"
+                app:riv_mutate_background="false"
+                app:riv_oval="false" />
+
+            <ImageView
+                android:id="@+id/play_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/play_button" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/negative_margin"
+            android:layout_marginTop="@dimen/negative_margin"
+            android:elevation="@dimen/_9sdp"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/cross_icon_blue" />
+
+        <ImageView
+            android:id="@+id/btn_full_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:elevation="@dimen/_9sdp"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/fullscreen_icon" />
+    </RelativeLayout>
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/img_upload"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:layout_above="@+id/layout_tag_service"
+        app:riv_corner_radius="@dimen/_3sdp"
+        app:riv_mutate_background="false"
+        android:background="@drawable/upload_img_video_placeholder"
+        app:riv_oval="false" />
+
+
+
+    <RelativeLayout
+        android:id="@+id/layout_tag_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/_5sdp"
+        android:background="#F8F8F9">
+        <TextView
+            android:id="@+id/txt_tag_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tag_a_service_or_seller"
+            android:textSize="@dimen/text_size_small"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txt_tag_service"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right_arrow"
+            />
+    </RelativeLayout>
+</RelativeLayout>

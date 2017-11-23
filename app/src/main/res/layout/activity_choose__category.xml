@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:elevation="0.5dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_service">
+
+        <TextView
+            fontPath="fonts/Montserrat-Regular.ttf"
+            android:id="@+id/txt_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/categories"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_12sdp"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="@android:color/black"
+            tools:ignore="MissingPrefix" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#F3F3F4"/>
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_below="@+id/txt_category"
+            android:layout_width="match_parent"
+            android:nestedScrollingEnabled="false"
+            android:scrollbars="none"
+            android:layout_height="match_parent"
+            android:dividerHeight="0.5dp"
+            android:cacheColorHint="@android:color/white"
+            android:childDivider="@drawable/divider_option"
+            android:divider="#F3F3F4"
+            android:groupIndicator="@null" />
+    </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

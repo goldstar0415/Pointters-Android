@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:focusableInTouchMode="true"
+    tools:ignore="MissingPrefix"
+    tools:context="com.pointters.activity.BackgroundCheckActivity">
+
+    <include
+        android:id="@+id/background_check_toolbar"
+        layout="@layout/common_toolbar"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/background_check_toolbar"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@android:color/white">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp">
+
+                <EditText
+                    android:id="@+id/edt_first_name"
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/first_name_small"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|textEmailAddress"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_middle_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_first_name"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt_middle_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/middle_name"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|textEmailAddress"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_middle_name"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/last_name_small"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords|text"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_last_name"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/email_small"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_email"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/phone"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_social_security_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_phone_number"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt__social_security_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/social_security_no"
+                    android:imeOptions="actionNext"
+                    android:inputType="date"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_date_of_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_social_security_number"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt_date_of_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/date_of_birth"
+                    android:imeOptions="actionNext"
+                    android:inputType="date"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_postal_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_date_of_birth"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt_postal_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:drawableRight="@drawable/location_icon"
+                    android:hint="@string/postal_code"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small"
+                  />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_driver_license_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_postal_code"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt_driver_license_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/driver_license_no"
+                    android:imeOptions="actionNext"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:inputType="number"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_driver_license_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_driver_license_number"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt_driver_license_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/driver_license_state"
+                    android:imeOptions="actionDone"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:inputType="textCapWords|text"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/text_input_driver_license_state"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_100sdp"
+                android:background="@drawable/btn_seletor"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/submit"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

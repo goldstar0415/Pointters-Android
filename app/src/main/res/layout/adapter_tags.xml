@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginLeft="@dimen/_6sdp"
+        android:layout_marginRight="@dimen/_6sdp"
+        android:layout_marginBottom="@dimen/_6sdp"
+        android:background="@drawable/bg_service"
+
+        android:paddingBottom="@dimen/_15sdp">
+
+        <RelativeLayout
+            android:id="@+id/rl_img"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp">
+            <ImageView
+                android:id="@+id/img_user"
+                android:layout_width="@dimen/_45sdp"
+                android:visibility="gone"
+                android:layout_height="@dimen/_45sdp"
+                android:src="@drawable/service_thumb_big"/>
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_service"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:src="@drawable/user_avatar_placeholder"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_toRightOf="@id/rl_img">
+
+            <TextView
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:id="@+id/mUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Milam Tora"
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_size_small"
+                tools:ignore="MissingPrefix" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_below="@+id/mUserName">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/location_icon"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/mLocation_service_seller"/>
+
+            <TextView
+                fontPath="fonts/Montserrat-Regular.ttf"
+                tools:ignore="MissingPrefix"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:id="@+id/mChatNotification"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/mLocation_service_seller"
+                android:text="2.4km@chicago,IL"
+                android:textColor="#7F7F7F"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size_tiny" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cross_icon_blue"
+            android:padding="@dimen/_8sdp"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

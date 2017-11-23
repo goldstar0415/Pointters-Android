@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:ignore="MissingPrefix"
+    tools:context="com.pointters.activity.UserSettingsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/common_toolbar" />
+
+    <TextView
+        android:id="@+id/txt_title"
+        fontPath="fonts/Montserrat-Regular.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:background="#F8F8F8"
+        android:padding="@dimen/_15sdp"
+        android:text="@string/set_your_privacy"
+        android:textColor="#65656B"
+        android:textSize="@dimen/text_size_tiny"
+        tools:ignore="MissingPrefix" />
+
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_user_settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/txt_save"
+        android:layout_below="@+id/txt_title"/>
+
+    <TextView
+        android:id="@+id/txt_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:padding="@dimen/_10sdp"
+        android:background="@drawable/btn_seletor"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_small"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

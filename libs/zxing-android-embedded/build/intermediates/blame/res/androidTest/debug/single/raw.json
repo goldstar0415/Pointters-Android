@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\prashant\\Desktop\\Projects\\Pointters_50\\libs\\zxing-android-embedded\\build\\intermediates\\res\\merged\\androidTest\\debug\\raw\\zxing_beep.ogg",
+        "source": "C:\\Users\\prashant\\Desktop\\Projects\\Pointters_50\\libs\\zxing-android-embedded\\build\\intermediates\\bundles\\debug\\res\\raw\\zxing_beep.ogg"
+    },
+    {
+        "merged": "C:\\Users\\prashant\\Desktop\\pointters_app\\Pointters\\libs\\zxing-android-embedded\\build\\intermediates\\res\\merged\\androidTest\\debug\\raw\\zxing_beep.ogg",
+        "source": "C:\\Users\\prashant\\Desktop\\pointters_app\\Pointters\\libs\\zxing-android-embedded\\build\\intermediates\\bundles\\debug\\res\\raw\\zxing_beep.ogg"
+    }
+]

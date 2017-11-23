@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_minus50sdp"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/mMapID"
+        android:layout_width="@dimen/_140sdp"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:background="@drawable/callout_big"
+        android:paddingBottom="@dimen/_15sdp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingTop="@dimen/_10sdp">
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/mMapPopUpUserImg"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/user_avatar_placeholder" />
+
+            <LinearLayout
+                android:id="@+id/mMapIDInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_toRightOf="@+id/mMapPopUpUserImg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mMapPopUpUserName"
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="John Smith"
+                    android:textColor="#18B4E6"
+                    android:textSize="@dimen/_10sdp"
+                    tools:ignore="MissingPrefix" />
+
+                <TextView
+                    fontPath="fonts/Montserrat-Medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/location_icon"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:text="2Km"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_8sdp"
+                    tools:ignore="MissingPrefix" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            fontPath="fonts/Montserrat-Medium.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_top"
+            android:padding="@dimen/_5sdp"
+            android:text="Walkdrg for 1hr for 10$"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_8sdp"
+            tools:ignore="MissingPrefix" />
+    </RelativeLayout>
+</LinearLayout>

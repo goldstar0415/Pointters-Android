@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingTop="@dimen/_12sdp"
+      android:paddingLeft="@dimen/_15sdp"
+      android:paddingBottom="@dimen/_15sdp"
+      >
+     <!-- <View
+          android:id="@+id/txtView"
+          android:layout_width="@dimen/_10sdp"
+          android:layout_height="@dimen/_10sdp"
+          android:layout_centerVertical="true"
+          android:background="#50D2C2" />-->
+    <TextView
+        fontPath="fonts/Montserrat-Regular.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home Services"
+        android:textColor="@android:color/black"
+        android:layout_centerVertical="true"
+        android:id="@+id/mHomeService"
+        android:textStyle="normal"
+        android:textSize="@dimen/text_size_tiny"
+        tools:ignore="MissingPrefix" />
+  </RelativeLayout>
+</RelativeLayout>

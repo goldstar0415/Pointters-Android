@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:elevation="@dimen/_10sdp"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/card_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_above="@+id/layout_tag_service">
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/crosswall_images"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="@dimen/_3sdp"
+            app:riv_mutate_background="false"
+            android:src="@drawable/placeholder_grey"
+            app:riv_oval="false" />
+
+
+        <ImageView
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/cross_icon_blue" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/layout_tag_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+      android:padding="@dimen/_5sdp"
+        android:background="#F8F8F9">
+        <TextView
+            android:id="@+id/txt_tag_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tag_a_service_or_seller"
+            android:textSize="@dimen/text_size_small"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txt_tag_service"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right_arrow"
+            />
+    </RelativeLayout>
+</RelativeLayout>

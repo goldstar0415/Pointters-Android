@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1efef">
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFF">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Request Seller to Canel Order"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/head"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:padding="7dp"
+        card_view:cardCornerRadius="3dp">
+
+    <RelativeLayout
+        android:id="@+id/reason"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+
+        android:background="#FFF">
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reason to Cancel order"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/notontime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seller did not complete on Time"
+            android:textSize="17dp"
+            android:layout_below="@+id/heading"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="poor Quality of service"
+            android:textSize="17dp"
+            android:layout_below="@+id/notontime"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"/>
+
+        <RadioButton
+            android:id="@+id/rb_notontime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#00ace3"
+            android:layout_below="@+id/heading"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"/>
+
+        <RadioButton
+            android:id="@+id/rb_poor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#00ace3"
+            android:layout_below="@+id/rb_notontime"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="1dp"/>
+
+    </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/card_view"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:padding="7dp"
+        card_view:cardCornerRadius="3dp">
+
+    <RelativeLayout
+        android:id="@+id/messahe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:background="#FFF">
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message To Seller"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"/>
+
+
+
+            <EditText
+                android:id="@+id/ed_message"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Hey i am not satified with the prodouct"
+                android:textSize="17dp"
+                android:textColor="#6e6e6e"
+                android:background="@drawable/editstyle"
+                android:layout_below="@+id/message"
+                android:gravity="center"
+                android:layout_margin="20dp"/>
+
+
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#00ace3"
+        android:layout_below="@+id/card_view1"
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="10dp"
+        android:text="submit"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:textColor="#FFf"
+        android:layout_marginBottom="30dp"/>
+
+
+</RelativeLayout>

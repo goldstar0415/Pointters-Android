@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="#f1efef"
+    tools:context="com.window10.frontend.MainActivity">
+    
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFF">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Add Credit Card"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head">
+
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFF"
+            android:layout_margin="7dp">
+
+            <TextView
+                android:id="@+id/cardno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Card Number"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#1d1d26"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:layout_marginTop="5dp"
+                android:padding="7dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/cardno"
+                card_view:cardCornerRadius="3dp">
+
+
+            <EditText
+                android:id="@+id/et_cardno"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="7dp"
+                android:background="@drawable/editstyle"
+                android:hint="    12345678"
+                android:drawableRight="@drawable/ic_photo_camera_black_24dp"
+                android:drawableTint="#00ace3"/>
+
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/expdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expiration Date"
+                android:textSize="20dp"
+                android:textColor="#1d1d26"
+                android:textStyle="bold"
+                android:layout_below="@+id/card_view"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:padding="7dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/expdate"
+                card_view:cardCornerRadius="3dp">
+
+            <EditText
+                android:id="@+id/et_expdate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/editstyle"
+                android:hint="    12-02-2017"
+                android:layout_below="@+id/expdate"/>
+
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/cvv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cvv"
+                android:textSize="20dp"
+                android:textColor="#1d1d26"
+                android:textStyle="bold"
+                android:layout_below="@+id/card_view1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:padding="7dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/cvv"
+                card_view:cardCornerRadius="3dp">
+
+            <EditText
+                android:id="@+id/et_cvv"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/editstyle"
+                android:hint="    1234"
+                android:layout_below="@+id/cvv"/>
+
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Country"
+                android:textColor="#1d1d26"
+                android:textSize="20dp"
+                android:layout_below="@+id/card_view2"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+
+            <Spinner
+                android:id="@+id/et_country"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:hint="    12345678"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/country"/>
+
+            <TextView
+                android:id="@+id/zip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zip Code"
+                android:textColor="#1d1d26"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@+id/et_country"
+                android:layout_marginTop="20dp"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:padding="7dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/zip"
+                card_view:cardCornerRadius="3dp">
+
+            <EditText
+                android:id="@+id/et_zip"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/editstyle"
+                android:hint="    25000"
+                android:layout_below="@+id/zip"/>
+
+            </android.support.v7.widget.CardView>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#00ace3"
+                android:layout_below="@+id/card_view3"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="ADD"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:textColor="#FFf"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="40dp"/>
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

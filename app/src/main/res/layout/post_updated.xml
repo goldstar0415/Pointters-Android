@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#FFF">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:id="@+id/tabs"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/order"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Post Update"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:textSize="17dp"
+                android:gravity="center"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/customoffer"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Add Service"
+                android:textStyle="bold"
+                android:textSize="17dp"
+                android:textColor="#000"
+                android:gravity="center"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="80dp"
+            android:layout_height="2dp"
+            android:layout_below="@+id/tabs"
+            android:layout_marginLeft="65dp"
+            android:background="@color/blue"/>
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/tabs1"
+                android:background="#FFF"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/order1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="UPLOAD"
+                    android:textColor="#7b7b7b"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/customoffer1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="SNAP PICTURE"
+                    android:textStyle="bold"
+                    android:textColor="#7b7b7b"
+                    android:gravity="center"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/liveoffer"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="#7b7b7b"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="TAKE VIDEO"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+            <View
+                android:id="@+id/view1"
+                android:layout_width="80dp"
+                android:layout_height="2dp"
+                android:layout_below="@+id/tabs1"
+                android:layout_marginLeft="25dp"
+                android:background="@color/blue"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="3dp"
+                android:id="@+id/clicktoupload"
+                android:textSize="16dp"
+                android:text="Upload Profile background images or videos"
+                android:gravity="center"
+                android:layout_below="@+id/view1"/>
+
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clicktoupload"
+                android:text="Message"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+
+
+
+            <EditText
+                android:id="@+id/ed_message"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="Hey i am not satified with the prodouct"
+                android:textSize="17dp"
+                android:textColor="#797979"
+                android:background="@drawable/editstyle"
+                android:layout_below="@+id/comment"
+                android:gravity="center"
+                android:layout_margin="20dp"/>
+
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#00ace3"
+                android:layout_below="@+id/ed_message"
+                android:layout_marginRight="7dp"
+                android:layout_marginLeft="7dp"
+                android:text="post"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:textColor="#FFf"
+                android:layout_marginBottom="20dp"/>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

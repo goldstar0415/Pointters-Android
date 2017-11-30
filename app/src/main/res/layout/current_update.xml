@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="#f1efef">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFF">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:text="Current Update"
+            android:gravity="center"
+            android:padding="3dp"
+            android:drawableRight="@drawable/ic_search_black_24dp"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/suggestion"
+        android:background="#FFF"
+        android:layout_below="@+id/head">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SUGGESTED"
+            android:textColor="#000"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GO TO INVITE >"
+            android:textColor="@color/blue"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:layout_below="@+id/suggestion">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/listview_horizantal"
+        android:background="@drawable/profile"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:layout_below="@+id/listview_horizantal"
+                android:layout_margin="7dp"
+                android:padding="7dp"
+                card_view:cardCornerRadius="3dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF">
+
+        <RelativeLayout
+            android:id="@+id/intro"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <ImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/cartoon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/profession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_pic"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text="IT Service"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="27 April 2017"
+                android:id="@+id/person_desp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/profession"
+                android:layout_toRightOf="@+id/profile_pic"
+                android:layout_marginLeft="10dp"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/heart2"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_below="@+id/intro"
+            android:layout_width="match_parent"
+            android:background="#f1efef"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/desp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:layout_below="@+id/view"
+            android:text="Hey i am Android apps developer.i can develop native and hybrid apps."/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Starting from 10$ per hr"
+            android:id="@+id/price"
+            android:textColor="#000"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/desp"
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:id="@+id/pic_info_rate"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#FFF"
+            android:src="@drawable/background"
+            android:layout_below="@+id/price"/>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_below="@+id/pic_info_rate"
+            android:layout_width="match_parent"
+            android:background="#f1efef"
+            android:layout_marginTop="10dp"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view2"
+            android:textSize="20dp"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Activites From my Network"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/tabs1"
+            android:background="#FFF"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/info"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/order1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Comments(101)"
+                android:textColor="#7b7b7b"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/customoffer1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Points"
+                android:textStyle="bold"
+                android:textColor="#7b7b7b"
+                android:gravity="center"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/liveoffer"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textColor="#7b7b7b"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Likes(56)"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+        <View
+            android:id="@+id/view11"
+            android:layout_width="80dp"
+            android:layout_height="2dp"
+            android:layout_below="@+id/tabs1"
+            android:layout_marginLeft="25dp"
+            android:background="@color/blue"/>
+
+
+        <RelativeLayout
+            android:id="@+id/p1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#FFF"
+            android:layout_below="@+id/view11">
+
+            <ImageView
+                android:id="@+id/profile_pic1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="7dp"
+                android:background="@drawable/cartoon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="29-02-2017"
+                android:id="@+id/date1"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/profession1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_pic1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text="James Albert"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Excellent Experine!!"
+                android:id="@+id/person_desp1"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/profession1"
+                android:layout_toRightOf="@+id/profile_pic1"
+                android:layout_marginLeft="10dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/p2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#FFF"
+            android:layout_below="@+id/p1">
+
+            <ImageView
+                android:id="@+id/profile_pic2"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="7dp"
+                android:background="@drawable/cartoon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/profession2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_pic2"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text="Mike Rick"/>
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Good Job."
+            android:id="@+id/person_desp2"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/profession2"
+            android:layout_toRightOf="@+id/profile_pic2"
+            android:layout_marginLeft="10dp"/>
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="21-02-2017"
+            android:id="@+id/date2"
+                android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See More >"
+            android:id="@+id/detail"
+            android:textSize="17dp"
+            android:textColor="@color/blue"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/p2"
+            android:layout_marginLeft="10dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_below="@+id/detail">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFF"
+                android:hint="    Type comment"
+                android:textColorHint="#636363"></EditText>
+
+            <Button
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/send"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <ImageView
+        android:background="@drawable/bottom"
+        android:layout_width="match_parent"
+        android:id="@+id/bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_height="62dp" />
+
+</RelativeLayout>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1efef">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFF">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Link Services"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/search"
+                android:layout_margin="7dp"
+                android:background="#FFF">
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_arrow_back_black_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search Here"
+                    android:drawableTint="#b5b5b6"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/back"
+                    android:drawableRight="@drawable/ic_search_black_24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="#b5b5b6"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/yourservices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Services"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/search"
+                android:gravity="center"
+                android:textColor="#414141"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:layout_below="@+id/yourservices"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                card_view:cardCornerRadius="3dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="#FFF"
+                android:id="@+id/profiles">
+
+                <ImageView
+                    android:id="@+id/profile_pic"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/cartoon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seller Name"
+                    android:textStyle="bold"
+                    android:id="@+id/person_name"
+                    android:textColor="#000"
+                    android:layout_below="@+id/profile_pic"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/price"
+                    android:text="Starts at $20/hr"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hey i will make a beautiful app for you."
+                    android:id="@+id/person_desp"
+                    android:textColor="#585858"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/profile_pic"
+                    android:layout_marginTop="18dp"
+                    android:textSize="17dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <Button
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/link"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:layout_below="@+id/card_view"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                card_view:cardCornerRadius="3dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="#FFF"
+                android:id="@+id/profiles1">
+
+                <ImageView
+                    android:id="@+id/profile_pic1"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/cartoon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seller Name"
+                    android:id="@+id/person_name1"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:layout_below="@+id/profile_pic1"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/price1"
+                    android:text="Starts at $20/hr"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hey i will make a beautiful app for you."
+                    android:id="@+id/person_desp1"
+                    android:textColor="#585858"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/profile_pic1"
+                    android:layout_marginTop="18dp"
+                    android:textSize="17dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <Button
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/link"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="7dp"
+                android:layout_below="@+id/card_view1"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                card_view:cardCornerRadius="3dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="#FFF"
+                android:id="@+id/profiles2">
+
+                <ImageView
+                    android:id="@+id/profile_pic2"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/cartoon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seller Name"
+                    android:id="@+id/person_name2"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:layout_below="@+id/profile_pic2"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/price2"
+                    android:text="Starts at $20/hr"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hey i will make a beautiful app for you."
+                    android:id="@+id/person_desp2"
+                    android:textColor="#585858"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/profile_pic2"
+                    android:layout_marginTop="18dp"
+                    android:textSize="17dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <Button
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/link"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

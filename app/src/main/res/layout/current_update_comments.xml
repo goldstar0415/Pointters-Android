@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="#f1efef"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFF">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Current Update"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/menu"
+            android:layout_width="30dp"
+            android:layout_height="7dp" />
+        <ImageView
+            android:id="@+id/fav"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/fav"
+            android:layout_toLeftOf="@+id/menu"
+            android:layout_width="25dp"
+            android:layout_height="28dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/tabs1"
+        android:layout_below="@+id/head"
+        android:background="#FFF"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/order1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Comments(10)"
+            android:textColor="#7b7b7b"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/customoffer1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Points(20)"
+            android:textStyle="bold"
+            android:textColor="#7b7b7b"
+            android:gravity="center"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/liveoffer"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textColor="#7b7b7b"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Likes(40)"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <View
+        android:id="@+id/view1"
+        android:layout_width="80dp"
+        android:layout_height="2dp"
+        android:layout_below="@+id/tabs1"
+        android:layout_marginLeft="25dp"
+        android:background="@color/blue"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/view1"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="7dp"
+        card_view:cardCornerRadius="3dp">
+
+        <RelativeLayout
+            android:id="@+id/intro"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#FFF">
+
+            <ImageView
+                android:id="@+id/time"
+                android:background="@drawable/date"
+                android:layout_width="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:layout_height="15dp" />
+
+            <ImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="7dp"
+                android:background="@drawable/cartoon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/profession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_pic"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text="Aley Adam"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Good Work"
+                android:id="@+id/person_desp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/profession"
+                android:layout_toRightOf="@+id/profile_pic"
+                android:layout_marginLeft="10dp"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/card_view"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="7dp"
+        card_view:cardCornerRadius="3dp">
+        <RelativeLayout
+            android:id="@+id/intro1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#FFF">
+
+            <ImageView
+                android:id="@+id/time1"
+                android:background="@drawable/date"
+                android:layout_width="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:layout_height="15dp" />
+
+            <ImageView
+                android:id="@+id/profile_pic1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="7dp"
+                android:background="@drawable/cartoon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/profession1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_pic1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text="Micke Jane"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Excellent service"
+                android:id="@+id/person_desp1"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/profession1"
+                android:layout_toRightOf="@+id/profile_pic1"
+                android:layout_marginLeft="10dp"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/card_view1"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="7dp"
+        card_view:cardCornerRadius="3dp">
+        <RelativeLayout
+            android:id="@+id/intro2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#FFF">
+
+            <ImageView
+                android:id="@+id/time2"
+                android:background="@drawable/date"
+                android:layout_width="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:layout_height="15dp" />
+
+            <ImageView
+                android:id="@+id/profile_pic2"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="7dp"
+                android:background="@drawable/cartoon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/profession2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_pic2"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text="Jhon Roberts"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Excellent service"
+                android:id="@+id/person_desp2"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/profession2"
+                android:layout_toRightOf="@+id/profile_pic2"
+                android:layout_marginLeft="10dp"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/card_view2"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="7dp"
+        card_view:cardCornerRadius="3dp">
+        <RelativeLayout
+            android:id="@+id/intro3"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#FFF">
+
+            <ImageView
+                android:id="@+id/time3"
+                android:background="@drawable/date"
+                android:layout_width="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:layout_height="15dp" />
+
+            <ImageView
+                android:id="@+id/profile_pic3"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="7dp"
+                android:background="@drawable/cartoon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/profession3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_pic3"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text="Jimmy Skot"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Excellent service"
+                android:id="@+id/person_desp3"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/profession3"
+                android:layout_toRightOf="@+id/profile_pic3"
+                android:layout_marginLeft="10dp"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

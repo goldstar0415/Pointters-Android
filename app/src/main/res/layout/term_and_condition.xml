@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1efef">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFF">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Terms and Conditions"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/t1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="fill"
+        android:text="Please read the following Terms and Conditions, they govern our business relationship. When you access and use our website, app, or services, you acknowledge and agree to all of these conditions. For the purpose of this agreement (i.e. “agreement”, or “terms”)"
+        android:layout_below="@+id/head"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/h1"
+        android:text="1.Terms"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/t1"
+        android:layout_alignLeft="@+id/t2"
+        android:layout_alignStart="@+id/t2" />
+
+    <TextView
+        android:id="@+id/t2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="fill"
+        android:text="These terms are legally binding. If you are under the age of eighteen (18) you may not access or use our website without consent of a legal guardian or parent. You are also restricted from accessing or using our website.."
+        android:layout_below="@+id/h1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/h2"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/t2"
+        android:layout_marginLeft="10dp"
+        android:text="2.Privacy"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/t3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="fill"
+        android:text="Please Review our"
+        android:layout_below="@+id/h2"/>
+
+    <TextView
+        android:id="@+id/t5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/t3"
+        android:gravity="fill"
+        android:textColor="@color/blue"
+        android:text=" Policy Privacy."
+        android:layout_below="@+id/h2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/h3"
+        android:layout_below="@+id/t3"
+        android:layout_marginLeft="10dp"
+        android:text="3.To Be Added"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:textColor="#000"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/t4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="fill"
+        android:text="It will be updated Soon"
+        android:layout_below="@+id/h3"/>
+</RelativeLayout>

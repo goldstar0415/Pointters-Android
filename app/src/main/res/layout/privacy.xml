@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1efef">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFF">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Privacy Policy"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/t1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="fill"
+        android:text="Our Privacy Policy governs what information we collect from you, and how we use that information. (The policies of Amazon Services also supplement this Policy)."
+        android:layout_below="@+id/head"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/h1"
+        android:text="1.Data Collection"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/t1"
+        android:layout_alignLeft="@+id/t2"
+        android:layout_alignStart="@+id/t2" />
+
+    <TextView
+        android:id="@+id/t2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="fill"
+        android:text="When you register for an account, we collect your username, password, email address, location, and contact information. When you contact us through social media, we will be collecting your username, and may collect available public data. We also may collect: browser settings; operating systems; location/region; and clickstream data. This does not give us access to your computer or personally identifiable information at any time."
+        android:layout_below="@+id/h1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/h2"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/t2"
+        android:layout_marginLeft="10dp"
+        android:text="2.Cookies"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/t3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="fill"
+        android:layout_marginRight="10dp"
+        android:text="Cookies. A “cookie” is a small file stored within your computer’s hard drive that allows companies to track a visitor or customer’s browsing habits. Cookies also remember visitors’ personal preferences. We are currently implementing cookies because it helps our company identify how our website is being used by customers for marketing purposes. By tracking your viewing habits, we can modify our app and services to improve your overall experience."
+        android:layout_below="@+id/h2"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/h3"
+        android:layout_below="@+id/t3"
+        android:layout_marginLeft="10dp"
+        android:text="3.To Be Added"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:textColor="#000"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/t4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="fill"
+        android:text="It will be updated Soon"
+        android:layout_below="@+id/h3"/>
+</RelativeLayout>

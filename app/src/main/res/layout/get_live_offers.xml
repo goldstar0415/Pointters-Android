@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="#f1efef"
+    tools:context="com.window10.frontend.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/search"
+        android:background="#FFF">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search Here"
+            android:drawableTint="#b5b5b6"
+            android:layout_marginTop="5dp"
+            android:padding="7dp"
+            android:layout_toRightOf="@+id/back"
+            android:drawableRight="@drawable/ic_search_black_24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:textColor="#b5b5b6"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/tabs1"
+        android:layout_below="@+id/search"
+        android:background="#FFF"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/order1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Services"
+            android:textColor="#7b7b7b"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/customoffer1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Live Offers"
+            android:textStyle="bold"
+            android:textColor="#7b7b7b"
+            android:gravity="center"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/liveoffer"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textColor="#7b7b7b"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Shop Corner"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <View
+        android:id="@+id/view1"
+        android:layout_width="80dp"
+        android:layout_height="2dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tabs1"
+        android:background="@color/blue"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view1">
+
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:padding="7dp"
+        card_view:cardCornerRadius="3dp">
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/reason"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFF">
+
+          <ImageView
+              android:layout_width="150dp"
+              android:layout_height="24dp"
+              android:layout_margin="10dp"
+              android:background="@drawable/request"/>
+            <ImageView
+                android:id="@+id/multi"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/multi"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/multi"
+                android:background="@drawable/location_icon"/>
+
+            <RelativeLayout
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_below="@+id/multi"
+                android:layout_marginLeft="3dp"
+                android:background="@drawable/nearby">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/view"
+                android:background="@drawable/info"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:id="@+id/view"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/cat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category: Dog Walker"
+                android:textColor="#252525"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/info"
+                android:textSize="17dp"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/info"
+                android:layout_toRightOf="@+id/cat"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/dropdown"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:id="@+id/desp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What are you Looking for:Dog Walker"
+                android:textColor="@color/blue"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/cat"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/cat"
+                android:layout_marginLeft="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/seetime"/>
+
+            <TextView
+                android:id="@+id/live"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Live Offers"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/desp"/>
+
+            <ImageView
+                android:id="@+id/mcg"
+                android:layout_width="32dp"
+                android:layout_height="30dp"
+                android:layout_margin="18dp"
+                android:layout_below="@+id/desp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/message"/>
+            <ImageView
+                android:id="@+id/bell"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/desp"
+                android:layout_toLeftOf="@+id/multi"
+                android:background="@drawable/bell"/>
+
+            <RelativeLayout
+                android:id="@+id/intro"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/live"
+                android:layout_marginTop="10dp"
+                android:background="#FFF">
+
+                <ImageView
+                    android:id="@+id/no"
+                    android:layout_width="32dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/no"/>
+
+                <ImageView
+                    android:id="@+id/profile_pic"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/no"
+                    android:background="@drawable/cartoon"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/profession"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/profile_pic"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:text="Milam Tora"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Walk Dog for 1hr"
+                    android:id="@+id/person_desp"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/profession"
+                    android:layout_toRightOf="@+id/profile_pic"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$10 >"
+                    android:id="@+id/price"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="18dp"
+                    android:textColor="@color/blue"
+                    android:layout_marginRight="20dp"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#00ace3"
+                android:layout_below="@+id/intro"
+                android:text="Change Location"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:textColor="#FFf"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"/>
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

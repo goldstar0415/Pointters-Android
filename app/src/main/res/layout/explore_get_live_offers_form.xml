@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#f1efef"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFF">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Get Live Offers"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head">
+
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/head"
+            android:background="#FFF"
+            android:layout_margin="7dp">
+
+    <TextView
+        android:id="@+id/cat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category: Dog Walker"
+        android:textColor="#252525"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/head"
+        android:layout_toRightOf="@+id/cat"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/dropdown"
+        android:layout_marginTop="10dp"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/cat"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:padding="7dp"
+        card_view:cardCornerRadius="3dp">
+
+        <RelativeLayout
+            android:id="@+id/messahe_layout"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="#FFF">
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Whar are You Looking For"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+
+
+
+            <EditText
+                android:id="@+id/ed_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="I walk to walk my dog for 1hr"
+                android:textSize="17dp"
+                android:textColor="#6e6e6e"
+                android:layout_marginLeft="20dp"
+                android:background="#FFF"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/message"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/card_view1"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:padding="7dp"
+        card_view:cardCornerRadius="3dp">
+
+        <RelativeLayout
+            android:id="@+id/messahe_layout1"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#FFF">
+
+            <TextView
+                android:id="@+id/message1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Schedule"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"/>
+
+
+
+            <TextView
+                android:id="@+id/ed_message1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7/12  08:00 PM "
+                android:textSize="17dp"
+                android:textColor="#6e6e6e"
+                android:layout_marginLeft="20dp"
+                android:background="#FFF"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/message1"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/message1"
+                android:layout_toRightOf="@+id/ed_message1"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/dropdown"
+                android:layout_marginTop="4dp"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/card_view2"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:padding="7dp"
+        card_view:cardCornerRadius="3dp">
+
+        <RelativeLayout
+            android:id="@+id/messahe_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="#FFF">
+
+            <TextView
+                android:id="@+id/message2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Snap Photo"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+
+
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@drawable/img"
+                android:layout_marginTop="10dp"
+
+                android:layout_below="@+id/message2"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/card_view3"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:padding="7dp"
+        card_view:cardCornerRadius="3dp">
+
+        <RelativeLayout
+            android:id="@+id/messahe_layout3"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#FFF">
+
+            <TextView
+                android:id="@+id/message3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price Range"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"/>
+
+
+
+            <TextView
+                android:id="@+id/ed_message3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Min: 10$"
+                android:textSize="17dp"
+                android:textColor="@color/blue"
+                android:layout_marginLeft="20dp"
+                android:textStyle="bold"
+                android:background="#FFF"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/message3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/message3"
+                android:text="        Max: 50$"
+                android:textStyle="bold"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_toRightOf="@+id/ed_message3"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:layout_below="@+id/card_view4"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:padding="7dp"
+        card_view:cardCornerRadius="3dp">
+
+        <RelativeLayout
+            android:id="@+id/messahe_layout6"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#FFF">
+
+            <TextView
+                android:id="@+id/message6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"/>
+
+
+
+            <TextView
+                android:id="@+id/ed_message6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123 Lake Shore chicago"
+                android:textSize="17dp"
+                android:textColor="#6e6e6e"
+                android:layout_marginLeft="20dp"
+                android:background="#FFF"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/message6"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="15dp"
+                android:background="@drawable/details"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#00ace3"
+                android:layout_below="@+id/card_view5"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Submit"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:textColor="#FFf"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"/>
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

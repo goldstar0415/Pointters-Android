@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1efef">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFF">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Invite Friends"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/invite"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/tabs"
+        android:layout_below="@+id/head"
+        android:background="#FFF"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/order"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Suggested"
+            android:textColor="#000"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/customoffer"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="QR Code"
+            android:textColor="#000"
+            android:gravity="center"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:layout_below="@+id/tabs">
+        <View
+            android:id="@+id/view2"
+            android:layout_width="80dp"
+            android:layout_height="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="58dp"
+            android:background="@color/blue"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="MY QR CODE"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:background="@drawable/qr"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:background="@drawable/scaning"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/gallery"
+        android:layout_margin="20dp"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="16dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/mycode"
+        android:layout_margin="20dp"/>
+
+
+</RelativeLayout>

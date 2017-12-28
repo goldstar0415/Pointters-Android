@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pointters.utils.ConstantUtils;
 
+import java.net.ContentHandler;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -24,10 +25,19 @@ public class ApiClient {
             .create();
 
 
-    public static Retrofit getClient() {
+    public static Retrofit getClient(boolean isSearch) {
+        String baseURL = null;
+        retrofit = null;
+
+        if (isSearch) {
+            baseURL = ConstantUtils.SEARCH_URL;
+        } else {
+            baseURL = ConstantUtils.BASE_URL;
+        }
+
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(ConstantUtils.BASE_URL)
+                    .baseUrl(baseURL)
                     .client(okClient())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
@@ -57,9 +67,5 @@ public class ApiClient {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
     }
-
-
-
-
 
 }

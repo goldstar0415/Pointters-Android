@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.pointters.R;
 import com.pointters.fragment.AddServiceFragment;
-import com.pointters.fragment.BlankFragment;
+import com.pointters.fragment.PostUpdateFragment;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.CustomTabLayout;
 import com.pointters.utils.NonSwipeableViewPager;
@@ -33,9 +33,7 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private NonSwipeableViewPager viewPager;
-    private BlankFragment postUpdateFragment;
-    private AddServiceFragment addServiceFragment;
-    private int mCurCheckPosition = 0;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,69 +42,53 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_add_services);
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
         tabLayout = (CustomTabLayout) findViewById(R.id.tab_layout);
         imgClose = (ImageView) findViewById(R.id.img_close);
         viewPager = (NonSwipeableViewPager) findViewById(R.id.view_pager);
-
 
         tabLayout.addTab(tabLayout.newTab().setText("Post Update"));
         tabLayout.addTab(tabLayout.newTab().setText("Add Service"));
 
         tabLayout.addOnTabSelectedListener(this);
-
-      //  setupViewPager(viewPager);
-
-
-
         imgClose.setOnClickListener(this);
-        if (!sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").isEmpty() && sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").equals("0"))
-        {
+
+        if (!sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").isEmpty() && sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").equals("0")) {
             tabLayout.getTabAt(0).select();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new BlankFragment()).commit();
-        }else         if (!sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").isEmpty() && sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").equals("1"))
-        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new PostUpdateFragment()).commit();
+        }
+        else if (!sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").isEmpty() && sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").equals("1")) {
             tabLayout.getTabAt(1).select();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new AddServiceFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new AddServiceFragment()).commit();
         }
         else {
             tabLayout.getTabAt(0).select();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new BlankFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new PostUpdateFragment()).commit();
         }
-           // viewPager.setCurrentItem(Integer.parseInt(sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "")));
-
-
-
     }
-
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-
     @Override
     public void onClick(View view) {
-
         switch ((view.getId())) {
-
-
             case R.id.img_close:
-
                 onBackPressed();
-
                 break;
-
+            default:
+                break;
         }
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         Fragment fragment =getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if(fragment!=null) {
+        if (fragment != null) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
@@ -115,8 +97,8 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Fragment fragment =getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if(fragment!=null) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -124,32 +106,24 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         switch (tab.getPosition()) {
-
             case 0:
                 editor.putString(ConstantUtils.LAST_SELECTED_TAB, "0").apply();
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new BlankFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new PostUpdateFragment()).commit();
                 break;
             case 1:
                 editor.putString(ConstantUtils.LAST_SELECTED_TAB, "1").apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,new AddServiceFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new AddServiceFragment()).commit();
                 break;
-
-
-
-
+            default:
+                break;
         }
     }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
+    public void onTabUnselected(TabLayout.Tab tab) {}
 
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
+    public void onTabReselected(TabLayout.Tab tab) {}
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {

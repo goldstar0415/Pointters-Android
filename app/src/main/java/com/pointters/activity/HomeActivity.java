@@ -1,12 +1,17 @@
 package com.pointters.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +21,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.flurgle.camerakit.CameraKit;
+import com.flurgle.camerakit.CameraView;
 import com.pointters.R;
 import com.pointters.adapter.HomeViewPagerAdapter;
 import com.pointters.model.BottomTabSeletedModel;
 import com.pointters.utils.ConstantUtils;
+import com.pointters.utils.GPSTracker;
 import com.pointters.utils.NonSwipeableViewPager;
 
 import java.util.ArrayList;
@@ -49,6 +57,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TextView searchBar;
     private List<BottomTabSeletedModel> bottomTabSeletedModels = new ArrayList<>(5);
     private NonSwipeableViewPager viewPager;
+    private CameraView mCamera;
+    private GPSTracker mTrackGPS;
     private boolean doubleBackToExitPressedOnce = false;
 
 
@@ -61,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setUpToolBar();
 
         initViews();
+        getLocation();
 
         setUpViewPager();
 
@@ -81,6 +92,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         updateSelectedPage(1);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+    }
+
     private void setUpViewPager() {
         HomeViewPagerAdapter homeViewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(homeViewPagerAdapter);
@@ -91,15 +109,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setOnClick() {
-
         imgFlagRelative.setOnClickListener(this);
         imgServiceRelative.setOnClickListener(this);
         imgCameraRelative.setOnClickListener(this);
         imgChatRelative.setOnClickListener(this);
         imgProfileRelative.setOnClickListener(this);
-
         // searchBar.setOnClickListener(this);
-
     }
 
     private void initViews() {
@@ -123,8 +138,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         txtChat = (TextView) findViewById(R.id.txt_chat);
         txtMe = (TextView) findViewById(R.id.txt_me);
         txtFlag = (TextView) findViewById(R.id.txt_flag);
-
-
     }
 
     private void setUpToolBar() {
@@ -238,4 +251,43 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             super.onBackPressed();
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case GPSTracker.PERMISSION_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getLocation();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private boolean checkLocationPermission() {
+        if ( Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, GPSTracker.PERMISSION_LOCATION);
+            return false;
+
+        }
+        return true;
+    }
+
+    private void getLocation() {
+        if (checkLocationPermission()) {
+            mTrackGPS = new GPSTracker(this);
+            if (mTrackGPS.canGetLocation()) {
+                String latitude = String.valueOf(mTrackGPS.getLatitude());
+                String longitude = String.valueOf(mTrackGPS.getLongitude());
+
+                editor.putString(ConstantUtils.USER_LATITUDE, latitude).apply();
+                editor.putString(ConstantUtils.USER_LONGITUDE, longitude).apply();
+            } else {
+                mTrackGPS.showSettingsAlert();
+            }
+        }
+    }
+
 }

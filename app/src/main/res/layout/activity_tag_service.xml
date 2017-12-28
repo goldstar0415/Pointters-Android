@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1efef">
+
+    <RelativeLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFF">
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/txt_tag_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:hint="Search here"
+            android:drawableTint="#b5b5b6"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_toRightOf="@id/btn_back"
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="#b5b5b6"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_tag_services"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_search"/>
+
+    <TextView
+        android:id="@+id/tag_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_search_key"
+        android:layout_centerInParent="true"
+        android:textSize="@dimen/text_size_medium"
+        android:textColor="@android:color/black"/>
+
+</RelativeLayout>

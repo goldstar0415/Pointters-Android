@@ -43,8 +43,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private String json;
     private DisplayImageOptions options;
     private CustomTabLayoutMediumFonts tabLayoutBuySell;
-private  BuyFragment buyFragment;
-    private   SellFragment sellFragment;
+    private BuyFragment buyFragment;
+    private SellFragment sellFragment;
 
     @Nullable
     @Override

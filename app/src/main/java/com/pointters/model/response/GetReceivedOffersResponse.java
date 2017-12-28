@@ -14,6 +14,7 @@ public class GetReceivedOffersResponse {
     private int limit;
     private int page;
     private int pages;
+    private String lastDocId;
 
     public List<ReceivedOfferModel> getDocs() {
         return docs;
@@ -54,4 +55,8 @@ public class GetReceivedOffersResponse {
     public void setPages(int pages) {
         this.pages = pages;
     }
+
+    public String getLastDocId() { return lastDocId; }
+
+    public void setLastDocId(String lastDocId) { this.lastDocId = lastDocId; }
 }

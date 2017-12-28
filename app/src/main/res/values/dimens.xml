@@ -26,6 +26,6 @@
 
     <dimen name="view_pager_width">250dp</dimen>
     <dimen name="card_view_width">250dp</dimen>
-    <dimen name="pager_margin">-26dp</dimen>
+    <dimen name="pager_margin">-25dp</dimen>
 <dimen name="negative_margin">-1dp</dimen>
 </resources>

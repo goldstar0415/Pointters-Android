@@ -3,6 +3,7 @@ package com.pointters.utils;
 public interface ConstantUtils {
 
     String BASE_URL = "http://pointters-api-dev3.us-east-1.elasticbeanstalk.com:9000/";
+    String SEARCH_URL = "https://search-pointters-es-dev-cn37tjlkgx574lzojxb7esinzm.us-east-1.es.amazonaws.com/";
 
 String API_KEY_FOR_GOOGLE_PLACES="AIzaSyDqUe8tS5yOcv53S6B3K_sYngMAv2Dtk5c";
     String APP_PREF = "appPref";
@@ -53,5 +54,14 @@ String API_KEY_FOR_GOOGLE_PLACES="AIzaSyDqUe8tS5yOcv53S6B3K_sYngMAv2Dtk5c";
     String CATEGORY_LIST_Child="categoryListChild";
     String CHOOSED_CATEGORY="choosed_category";
 
+    String CHOOSE_TAG_ID = "choose_tag_id";
+    String CHOOSE_TAG_TYPE = "choose_tag_type";
+    String CHOOSE_TAG_NAME = "choose_tag_name";
+    String CHOOSE_TAG_POS = "choose_tag_pos";
+    String CHOOSE_TAG_PIC = "choose_tag_pic";
+
+    String FOLLOW_TYPE="follow_type";
+    String USER_LATITUDE="user_latitude";
+    String USER_LONGITUDE="user_longitude";
 
 }

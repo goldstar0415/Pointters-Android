@@ -27,6 +27,7 @@
     <color name="color_verified">#B1B1B1</color>
     <color name="color_sub_categories">#1D1D26</color>
     <color name="color_blue">#02ADE4</color>
+    <color name="blue">#02ADE4</color>
     <color name="disabled_btn_color">#AAAAAA</color>
 
 </resources>

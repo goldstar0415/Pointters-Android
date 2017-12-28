@@ -4,7 +4,7 @@ package com.pointters.rest;
 import com.pointters.model.ResetPasswordModel;
 import com.pointters.model.request.AddServiceRequest;
 import com.pointters.model.request.GetLiveOffersRequest;
-import com.pointters.model.request.PostUpadateRequest;
+import com.pointters.model.request.PostUpdateRequest;
 import com.pointters.model.request.SendCustomOfferRequest;
 import com.pointters.model.request.UserEmailLoginRequest;
 import com.pointters.model.request.UserEmailSignUpRequest;
@@ -14,17 +14,23 @@ import com.pointters.model.request.UserPutSettingsRequest;
 import com.pointters.model.response.FollowUnfollowResponse;
 import com.pointters.model.response.GetBuyOrderResponse;
 import com.pointters.model.response.GetCategoryResponse;
+import com.pointters.model.response.GetFollowersResponse;
+import com.pointters.model.response.GetFollowingResponse;
 import com.pointters.model.response.GetLiveOfferRequestsResponse;
 import com.pointters.model.response.GetReceivedOffersResponse;
 import com.pointters.model.response.GetRelatedServicesResponse;
+import com.pointters.model.response.GetSellJobsResponse;
 import com.pointters.model.response.GetSellOrdersResponse;
 import com.pointters.model.response.GetSentOfferResponse;
 import com.pointters.model.response.GetServiceDeatilResponse;
 import com.pointters.model.response.GetServicesReponse;
+import com.pointters.model.response.GetTagServiceSellerResponse;
 import com.pointters.model.response.ResponsePutUser;
 import com.pointters.model.response.UserEmailLoginResponse;
 import com.pointters.model.response.UserEmailSignUpResponse;
 import com.pointters.model.response.UserFacebookLoginResponse;
+
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -35,6 +41,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 
 /**
@@ -91,7 +98,7 @@ public interface ApiInterface {
     @POST("post")
     Call<Object>
     postUpdate(@Header("Authorization") String token,
-               @Body PostUpadateRequest params);
+               @Body PostUpdateRequest params);
 
     @GET("categories")
     Call<GetCategoryResponse>
@@ -106,6 +113,14 @@ public interface ApiInterface {
     Call<Object>
     followUser(@Header("Authorization") String token,
                @Path("id") String id);
+
+    @GET("user/followers")
+    Call<GetFollowersResponse>
+    userFollowers(@Header("Authorization") String token,  @Query("lt_id") String id);
+
+    @GET("user/following")
+    Call<GetFollowingResponse>
+    userFollowing(@Header("Authorization") String token,  @Query("lt_id") String id);
 
     @DELETE("user/{id}/follow")
     Call<Object>
@@ -122,7 +137,7 @@ public interface ApiInterface {
     @POST("offer")
     Call<Object>
     sendCustomOffers(@Header("Authorization") String token,
-                         @Body SendCustomOfferRequest params);
+                     @Body SendCustomOfferRequest params);
 
     @GET("services")
     Call<GetServicesReponse>
@@ -134,21 +149,27 @@ public interface ApiInterface {
 
     @GET("orders/sell")
     Call<GetSellOrdersResponse>
-    getSellOrder(@Header("Authorization") String token);
+    getSellOrder(@Header("Authorization") String token,  @Query("lt_id") String id);
 
     @GET("orders/buy")
     Call<GetBuyOrderResponse>
-    getBuyOrder(@Header("Authorization") String token);
+    getBuyOrder(@Header("Authorization") String token,  @Query("lt_id") String id);
 
     @GET("offers/sent")
     Call<GetSentOfferResponse>
-    getSentOffers(@Header("Authorization") String token);
+    getSentOffers(@Header("Authorization") String token,  @Query("lt_id") String id);
 
     @GET("offers/received")
     Call<GetReceivedOffersResponse>
-    getReceivedOffer(@Header("Authorization") String token);
+    getReceivedOffer(@Header("Authorization") String token,  @Query("lt_id") String id);
 
+    @GET("jobs")
+    Call<GetSellJobsResponse>
+    getSellJobs(@Header("Authorization") String token,  @Query("lt_id") String id);
 
+    @GET("requests")
+    Call<GetLiveOfferRequestsResponse>
+    getLiveOfferRequests(@Header("Authorization") String token,  @Query("lt_id") String id);
 
 
 
@@ -193,8 +214,10 @@ public interface ApiInterface {
     getRelatedService(@Header("Authorization") String token,
                      @Path("id") String id);
 
-    @GET("requests")
-    Call<GetLiveOfferRequestsResponse>
-    getLiveOfferRequests(@Header("Authorization") String token);
+
+    @GET("users,services/_search")
+    Call<GetTagServiceSellerResponse>
+    getTagServiceSeller(@QueryMap Map<String, String> params);
+
 }
 

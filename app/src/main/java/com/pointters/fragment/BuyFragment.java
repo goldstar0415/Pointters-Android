@@ -29,6 +29,8 @@ public class BuyFragment extends Fragment {
     private View view;
     private CustomTabLayout tabLayoutBuy;
     private BuyOrdersFragment buyOrdersFragment;
+    private CustomOffersFragment customOffersFragment;
+    private LiveOfferRequestFragment liveOfferRequestFragment;
 
     @Nullable
     @Override
@@ -65,26 +67,23 @@ public class BuyFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ExploreServiceAdapter exploreServiceAdapter = new ExploreServiceAdapter(getChildFragmentManager());
 
-        buyOrdersFragment=new BuyOrdersFragment();
-
-        CustomOffersFragment customOffersFragment = new CustomOffersFragment();
-
+        buyOrdersFragment = new BuyOrdersFragment();
+        customOffersFragment = new CustomOffersFragment();
+        liveOfferRequestFragment = new LiveOfferRequestFragment();
 
         exploreServiceAdapter.addFrag(buyOrdersFragment, "");
         exploreServiceAdapter.addFrag(customOffersFragment, getResources().getString(R.string.custom_offer));
-        exploreServiceAdapter.addFrag(new BlankFragment(), getResources().getString(R.string.live_offer_req));
+        exploreServiceAdapter.addFrag(liveOfferRequestFragment, getResources().getString(R.string.live_offer_req));
         viewPager.setAdapter(exploreServiceAdapter);
         CustomTabLayout tabLayout = (CustomTabLayout) view.findViewById(R.id.tab_layout_buy);
         tabLayout.setupWithViewPager(viewPager);
-
-
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(buyOrdersFragment!=null)
+        if (buyOrdersFragment != null)
             buyOrdersFragment.setUserVisibleHint(isVisibleToUser);
-
     }
 
 }

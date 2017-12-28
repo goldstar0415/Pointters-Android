@@ -726,7 +726,7 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
 
         userPutRequest = new UserPutRequest(txtInputCompanyName.getEditText().getText().toString().trim(), txtInputAboutYou.getEditText().getText().toString().trim(), txtInputFirstName.getEditText().getText().toString().trim(), txtInputLastName.getEditText().getText().toString().trim(), location, txtInputPhoneNo.getEditText().getText().toString(), imageUrl + OBJECT_KEY, "", "", "", "",bgFiles, true, completedRegistrationDate);
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<ResponsePutUser> responsePutUserCall = apiService.putUser(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), userPutRequest);
         responsePutUserCall.enqueue(new Callback<ResponsePutUser>() {
             @Override
@@ -813,7 +813,7 @@ public class RegistrationDetailsActivity extends AppCompatActivity implements Go
     }
 
     private void getUserDataApiCall() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
 
         Call<Object> getUserInformation = apiService.getUserInformation(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
         getUserInformation.enqueue(new Callback<Object>() {

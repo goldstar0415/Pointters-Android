@@ -112,7 +112,6 @@ public class RelatedServiceAdapter extends RecyclerView.Adapter<RelatedServiceAd
                {
                    Double distance=AndroidUtils.getDistanceBwTwoLocation(location.getLatitude(),location.getLongitude(),serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().get(1),serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().get(0));
                if(distance!=null)
-                 //  Math.round(distance);
                    holder.txtDistance.setText(String.valueOf( Math.round(distance) +" Km"));
                }else
                    holder.txtDistance.setText("NA");

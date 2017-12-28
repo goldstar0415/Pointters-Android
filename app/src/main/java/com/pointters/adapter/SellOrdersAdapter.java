@@ -58,7 +58,7 @@ public class SellOrdersAdapter extends RecyclerView.Adapter<SellOrdersAdapter.My
                 if (sellOrderModelList.get(position).getBuyer().getFirstName() != null && !sellOrderModelList.get(position).getBuyer().getFirstName().isEmpty())
                     holder.txtName.setText(sellOrderModelList.get(position).getBuyer().getFirstName());
                 else
-                    holder.txtName.setText("NA");
+                    holder.txtName.setText("");
 
                 if (sellOrderModelList.get(position).getBuyer().getProfilePic() != null && !sellOrderModelList.get(position).getBuyer().getProfilePic().isEmpty())
                     ImageLoader.getInstance().displayImage(sellOrderModelList.get(position).getBuyer().getProfilePic(), holder.imgProvider, options);

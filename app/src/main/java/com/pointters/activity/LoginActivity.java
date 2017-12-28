@@ -128,12 +128,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setOnClick() {
-
         btnLoginEmail.setOnClickListener(this);
         btnLoginFb.setOnClickListener(this);
         findViewById(R.id.txt_forgot_password).setOnClickListener(this);
         findViewById(R.id.layout_sign_up).setOnClickListener(this);
-
     }
 
 
@@ -222,7 +220,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 */
         UserFacebookLoginRequest userFacebookLoginRequest = new UserFacebookLoginRequest(fbAccessToken.getToken());
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<UserFacebookLoginResponse> response = apiService.userLoginViaFacebook(userFacebookLoginRequest);
 
         response.enqueue(new Callback<UserFacebookLoginResponse>() {
@@ -294,7 +292,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         UserEmailLoginRequest userEmailLoginRequest = new UserEmailLoginRequest(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<UserEmailLoginResponse> response = apiService.userLoginViaEmail(userEmailLoginRequest);
 
         response.enqueue(new Callback<UserEmailLoginResponse>() {
@@ -341,8 +339,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<UserEmailLoginResponse> call, Throwable throwable) {
-
-
                /* if (spotsDialog != null && spotsDialog.isShowing()) {
                     spotsDialog.dismiss();
                 }
@@ -351,11 +347,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
-
     }
 
     private void getUserDataApiCall() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
 
         Call<Object> getUserInformation = apiService.getUserInformation(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
         getUserInformation.enqueue(new Callback<Object>() {

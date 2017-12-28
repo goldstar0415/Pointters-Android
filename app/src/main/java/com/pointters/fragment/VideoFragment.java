@@ -41,10 +41,10 @@ import static com.pointters.R.string.video;
 public class VideoFragment extends Fragment implements View.OnClickListener {
 
     private RoundedImageView roundedImageView,uploadImageView;
-    private RelativeLayout relativeLayoutFirstFrame,layoutTagServiceSeller,tempVideoViewLayout;
+    private RelativeLayout relativeLayoutFirstFrame,layoutTagServiceSeller;
     private ImageView imagePlayBtn,imgDelete;
+    private Bitmap thumbImg;
     private VideoView videoView;
-    private  Bitmap thumbImg;
 
 
     @Nullable
@@ -62,7 +62,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         uploadImageView.setOnClickListener(this);
         layoutTagServiceSeller.setOnClickListener(this);
         videoView = (VideoView) view.findViewById(R.id.crosswall_video);
-        tempVideoViewLayout=(RelativeLayout)view.findViewById(R.id.temp_view);
 
        // videoView.setZOrderMediaOverlay(true);
         videoView.setZOrderOnTop(true);
@@ -71,11 +70,10 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         videoView.setVisibility(View.GONE);
         relativeLayoutFirstFrame.setVisibility(View.VISIBLE);
 
-        if(getArguments().getString("showImage").equals("yes"))
+        if (getArguments().getString("showImage").equals("yes"))
         {
             uploadImageView.setVisibility(View.VISIBLE);
-        }else
-        if(getArguments().getString("showImage").equals("no"))
+        } else if (getArguments().getString("showImage").equals("no"))
         {
             uploadImageView.setVisibility(View.GONE);
         }
@@ -103,8 +101,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             roundedImageView.setOnClickListener(null);
         }
 
-
-
         if (getArguments().getString(ConstantUtils.INTENT_BUNDLE_IMAGE_VIDEO) != null) {
             roundedImageView.setBackground(ContextCompat.getDrawable(getActivity(),R.color.color_black_info));
         }
@@ -113,15 +109,14 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-
                 relativeLayoutFirstFrame.setVisibility(View.VISIBLE);
                 videoView.setVisibility(View.GONE);
-
             }
         });
 
         return view;
     }
+
     private void saveCurrentFrame(String path) {
         thumbImg = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
 
@@ -129,6 +124,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         thumbImg.compress(Bitmap.CompressFormat.JPEG, 70, out);
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -167,5 +163,11 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
 
     }
 
-
+    public void stopPlayBack() {
+        if (videoView != null) {
+            videoView.stopPlayback();
+            videoView.setVisibility(View.GONE);
+            relativeLayoutFirstFrame.setVisibility(View.VISIBLE);
+        }
+    }
 }

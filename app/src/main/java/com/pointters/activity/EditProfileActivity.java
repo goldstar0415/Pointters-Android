@@ -487,7 +487,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 awardsEditText.getText().toString().trim(),bgFiles,
                 true, completedRegistrationDate);
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<ResponsePutUser> responsePutUserCall = apiService.putUser(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), userPutRequest);
         responsePutUserCall.enqueue(new Callback<ResponsePutUser>() {
             @Override

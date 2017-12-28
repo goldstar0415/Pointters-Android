@@ -80,7 +80,7 @@ expListView.setBackgroundResource(R.drawable.bg_bottom_corne);
 
     private void prepareListData() {
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<GetCategoryResponse> callGetCategoryApi = apiService.getCategories();
         callGetCategoryApi.enqueue(new Callback<GetCategoryResponse>() {
             @Override
@@ -94,10 +94,7 @@ expListView.setBackgroundResource(R.drawable.bg_bottom_corne);
                             for (int j = 0; j < getCategoryResponse.getCategories().get(i).getSubCategories().size(); j++) {
                                 CategoryModel categoryModel = new CategoryModel(getCategoryResponse.getCategories().get(i).getSubCategories().get(j).get_id(), getCategoryResponse.getCategories().get(i).getSubCategories().get(j).getName());
                                 childList.add(categoryModel);
-
                             }
-
-
                         }
                         listDataChild.put(listDataHeader.get(i), childList);
                     }

@@ -6,12 +6,14 @@ package com.pointters.model;
 
 public class ReceivedOfferModel {
     private ReceivedOfferSellerModel seller;
+    private Media media;
+    private LocationModel location;
     private String serviceId;
     private String workDurationUom;
     private Integer price;
     private Integer workDuration;
     private String createdAt;
-    private String serviceDescription;
+    private String description;
 
     public ReceivedOfferSellerModel getSeller() {
         return seller;
@@ -62,10 +64,26 @@ public class ReceivedOfferModel {
     }
 
     public String getServiceDescription() {
-        return serviceDescription;
+        return description;
     }
 
     public void setServiceDescription(String serviceDescription) {
-        this.serviceDescription = serviceDescription;
+        this.description = serviceDescription;
+    }
+
+    public Media getMedia() {
+        return media;
+    }
+
+    public void setMedia(Media media) {
+        this.media = media;
+    }
+
+    public LocationModel getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationModel location) {
+        this.location = location;
     }
 }

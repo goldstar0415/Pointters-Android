@@ -51,14 +51,16 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_toLeftOf="@+id/txt_service_type"
-                        android:includeFontPadding="false"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/layout_communicate"
                         android:maxLines="1"
+                        android:ellipsize="end"
                         android:text="Dalk walker service"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_small" />
 
                     <LinearLayout
+                        android:id="@id/layout_communicate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -79,19 +81,6 @@
 
                 </RelativeLayout>
 
-
-                <TextView
-                    android:id="@+id/txt_second_service_desc"
-                    fontPath="fonts/Montserrat-Light.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="I will walk dog"
-                    android:textColor="#9E9D9E"
-                    android:textSize="@dimen/text_size_tiny"
-                    tools:ignore="MissingPrefix" />
-
                 <RelativeLayout
                     android:id="@+id/txt_price_name"
                     android:layout_width="wrap_content"
@@ -106,7 +95,6 @@
                         android:layout_centerVertical="true"
                         android:text="$50"
                         android:includeFontPadding="false"
-
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/text_size_small" />
 
@@ -147,13 +135,39 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_3sdp"
                         android:layout_toRightOf="@+id/txt_actual_price"
-                        android:text="For 2 hr"
+                        android:text="for 2 hr"
                         android:textColor="@color/color_service_actual_price"
                         android:textSize="@dimen/text_size_small"
                         android:includeFontPadding="false"
 
+                        tools:ignore="MissingPrefix" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/img_service_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:src="@drawable/location_icon_grey" />
+
+                    <TextView
+                        android:id="@+id/txt_second_service_desc"
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/img_service_location"
+                        android:layout_centerVertical="true"
+                        android:text="I will walk dog"
+                        android:textColor="#9E9D9E"
+                        android:textSize="@dimen/text_size_tiny"
                         tools:ignore="MissingPrefix" />
                 </RelativeLayout>
 

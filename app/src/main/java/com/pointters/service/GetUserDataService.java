@@ -53,7 +53,7 @@ public class GetUserDataService extends Service implements OnApiFailDueToSession
 
     private void callGetUserDetailsApi() {
 
-        /*ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        /*ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         final Call<GetUserResponse> response = apiService.getUserInformation(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
 
         response.enqueue(new Callback<GetUserResponse>() {

@@ -14,6 +14,7 @@ public class GetFollowingResponse {
     private int limit;
     private int page;
     private int pages;
+    private String lastDocId;
 
     public List<FollowingModel> getDocs() {
         return docs;
@@ -54,4 +55,8 @@ public class GetFollowingResponse {
     public void setPages(int pages) {
         this.pages = pages;
     }
+
+    public String getLastDocId() { return lastDocId; }
+
+    public void setLastDocId(String lastDocId) { this.lastDocId = lastDocId; }
 }

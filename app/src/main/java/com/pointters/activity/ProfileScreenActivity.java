@@ -267,7 +267,7 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
     }
 
     void callFollowApi() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<Object> followuser = apiService.followUser(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "59a8f5a6e5c7c90929fc48d7");
         followuser.enqueue(new Callback<Object>() {
             @Override
@@ -287,7 +287,7 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
     }
 
     void callUnfollwApi() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<Object> unfollowuser = apiService.unFollowUser(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "59a8f5a6e5c7c90929fc48d7");
         unfollowuser.enqueue(new Callback<Object>() {
             @Override
@@ -308,13 +308,12 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
 
 
     void getFollowedUserApi() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         final Call<FollowUnfollowResponse> unfollowuser = apiService.getfollowedUser(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "59a8f5a6e5c7c90929fc48d7");
         unfollowuser.enqueue(new Callback<FollowUnfollowResponse>() {
             @Override
             public void onResponse(Call<FollowUnfollowResponse> call, Response<FollowUnfollowResponse> response) {
                 if (response.code() == 200 && response.body() != null) {
-
                     if (response.body().isFollowing()) {
                         txtFollow.setVisibility(View.VISIBLE);
                         txtFollow.setText(getResources().getString(R.string.unfollow));
@@ -326,7 +325,6 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
                     CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ProfileScreenActivity.this, "callGetFollowedUserApi");
                     callLoginApiIfFails.OnApiFailDueToSessionListener(ProfileScreenActivity.this);
                 }
-
             }
 
             @Override
@@ -336,7 +334,7 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
     }
 
     void getServices() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<GetServicesReponse> getServicesCall = apiService.getServicesByUserId(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""),userId);
         getServicesCall.enqueue(new Callback<GetServicesReponse>() {
             @Override
@@ -365,7 +363,6 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
             getServices();
         } else if (apiSource.equals("callGetFollowedUserApi")) {
             getFollowedUserApi();
-
         } else if (apiSource.equals("callUnfollowUserApi")) {
             callUnfollwApi();
         } else if (apiSource.equals("callFollowApi")) {
@@ -383,9 +380,6 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
 
     }
     private void turnOnLocation() {
-
-
-
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(30 * 1000);

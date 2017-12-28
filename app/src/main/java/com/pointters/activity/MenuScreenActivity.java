@@ -57,7 +57,7 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
 
     private void logOutCall() {
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<Object> logOutCall = apiService.logOut(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
 
         logOutCall.enqueue(new Callback<Object>() {
@@ -172,8 +172,6 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
                         editor.putString(ConstantUtils.SELECTED_TAB,getResources().getString(R.string.live_offer_req)).apply();
                         startActivity(liveOffersIntent);
                         break;
-
-
                 }
 
             }
@@ -247,6 +245,16 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onItemClick(View view, int position) {
                 switch (position) {
+                    case 0:
+                        Intent followingIntent = new Intent(MenuScreenActivity.this, UserFollowersActivity.class);
+                        editor.putString(ConstantUtils.FOLLOW_TYPE, getResources().getString(R.string.following)).apply();
+                        startActivity(followingIntent);
+                        break;
+                    case 1:
+                        Intent followersIntent = new Intent(MenuScreenActivity.this, UserFollowersActivity.class);
+                        editor.putString(ConstantUtils.FOLLOW_TYPE, getResources().getString(R.string.followers)).apply();
+                        startActivity(followersIntent);
+                        break;
 
 
 
@@ -269,7 +277,7 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void getUserDataApiCall() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
 
         Call<Object> getUserInformation = apiService.getUserInformation(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
         getUserInformation.enqueue(new Callback<Object>() {
@@ -392,11 +400,10 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar_lft_img:
-
                 onBackPressed();
                 break;
-            case R.id.layout_move_to_profile:
 
+            case R.id.layout_move_to_profile:
                 startActivity(new Intent(MenuScreenActivity.this, ProfileScreenActivity.class));
                 break;
 
@@ -404,8 +411,6 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
                 startActivity(new Intent(MenuScreenActivity.this, BecomeASellerActivity.class));
                 break;
         }
-
-
     }
 
     @Override

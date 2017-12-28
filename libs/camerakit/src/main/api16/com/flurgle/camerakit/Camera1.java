@@ -147,8 +147,6 @@ public class Camera1 extends CameraImpl {
                     mFlash = FLASH_OFF;
                 }
             }
-
-            mCamera.setParameters(mCameraParameters);
         } else {
             mFlash = flash;
         }
@@ -332,7 +330,7 @@ public class Camera1 extends CameraImpl {
     // https://github.com/sandrios/sandriosCamera/blob/master/sandriosCamera/src/main/java/com/sandrios/sandriosCamera/internal/manager/impl/Camera1Manager.java#L212
     void initResolutions() {
         List<Size> previewSizes = sizesFromList(mCameraParameters.getSupportedPreviewSizes());
-        List<Size> videoSizes = (Build.VERSION.SDK_INT > 10) ? sizesFromList(mCameraParameters.getSupportedVideoSizes()) : previewSizes;
+        List<Size> videoSizes = (Build.VERSION.SDK_INT > 10) ? sizesFromList(mCameraParameters.getSupportedPictureSizes()) : previewSizes;
 
         CamcorderProfile camcorderProfile = getCamcorderProfile(mVideoQuality);
 
@@ -431,6 +429,7 @@ public class Camera1 extends CameraImpl {
                 invertPreviewSizes? getPreviewResolution().getWidth() : getPreviewResolution().getHeight()
         );
 
+
         mCameraParameters.setPreviewSize(
                 getPreviewResolution().getWidth(),
                 getPreviewResolution().getHeight()
@@ -440,6 +439,7 @@ public class Camera1 extends CameraImpl {
                 getCaptureResolution().getWidth(),
                 getCaptureResolution().getHeight()
         );
+
         int rotation = calculateCaptureRotation();
         mCameraParameters.setRotation(rotation);
 

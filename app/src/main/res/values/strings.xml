@@ -90,6 +90,14 @@
     <!--Search Result-->
     <string name="get_live_offer">Get Live Offer</string>
 
+    <!--Post Update-->
+    <string name="message">Message</string>
+    <string name="write_here">Write here...</string>
+    <string name="tag_a_service_or_seller">Tag a service or seller</string>
+
+    <!--Search Tag Service-->
+    <string name="enter_search_key">Please enter the search key</string>
+
     <!--Add Service-->
     <string name="add_service">Add Service</string>
     <string name="choose_category">Choose Category</string>
@@ -290,5 +298,4 @@
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
 
-    <string name="tag_a_service_or_seller">Tag a service or seller</string>
 </resources>

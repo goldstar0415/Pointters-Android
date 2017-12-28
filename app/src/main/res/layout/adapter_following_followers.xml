@@ -34,7 +34,8 @@
             android:layout_toRightOf="@id/img_profile"
             android:text="Milam Tora"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_small"
+            android:layout_toEndOf="@id/img_profile" />
 
 
     </RelativeLayout>

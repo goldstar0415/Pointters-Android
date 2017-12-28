@@ -16,18 +16,11 @@
             android:id="@+id/crosswall_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_gravity="center"
-           />
-        <RelativeLayout
-            android:id="@+id/temp_view"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"/>
+            android:layout_alignParentBottom="true"
+        />
 
         <RelativeLayout
             android:id="@+id/first_frame_layout"
@@ -75,6 +68,7 @@
             android:padding="@dimen/_6sdp"
             android:src="@drawable/fullscreen_icon" />
     </RelativeLayout>
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/img_upload"
         android:layout_width="match_parent"
@@ -87,8 +81,6 @@
         app:riv_mutate_background="false"
         android:background="@drawable/upload_img_video_placeholder"
         app:riv_oval="false" />
-
-
 
     <RelativeLayout
         android:id="@+id/layout_tag_service"

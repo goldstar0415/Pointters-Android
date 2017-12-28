@@ -24,7 +24,7 @@
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
-
+                android:scaleType="centerCrop"
                 android:src="@drawable/service_thumb_big" />
 
 
@@ -59,6 +59,7 @@
                     android:layout_marginTop="@dimen/_10sdp">
 
                     <TextView
+                        android:id="@+id/txt_offer_created_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
@@ -143,6 +144,7 @@
                     android:src="@drawable/notification_bell_icon" />
 
                 <TextView
+                    android:id="@+id/img_notification_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
@@ -165,6 +167,7 @@
                     android:src="@drawable/dollar_icon" />
 
                 <TextView
+                    android:id="@+id/txt_price_range"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
@@ -191,6 +194,7 @@
 
 
             <TextView
+                android:id="@+id/txt_validity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

@@ -10,8 +10,10 @@ import java.io.Serializable;
  */
 
 public class Media implements Serializable {
+
     private String fileName;
     private String mediaType;
+
 
     public Media(String fileName, String mediaType) {
         this.fileName = fileName;
@@ -33,6 +35,4 @@ public class Media implements Serializable {
     public void setMediaType(String mediaType) {
         this.mediaType = mediaType;
     }
-
-
 }

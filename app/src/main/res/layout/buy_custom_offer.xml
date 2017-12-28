@@ -76,49 +76,49 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:id="@+id/tabs"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:weightSum="3">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/tabs"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:weightSum="3">
 
-        <TextView
-            android:id="@+id/order"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="ORDERS"
-            android:textColor="#000"
-            android:gravity="center"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/customoffer"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="CUSTOM OFFERS"
-            android:textColor="#000"
-            android:gravity="center"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:id="@+id/liveoffer"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:textColor="#000"
-            android:gravity="center"
-            android:text="LIVE OFFERS"
-            android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/order"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="ORDERS"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/customoffer"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="CUSTOM OFFERS"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/liveoffer"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:text="LIVE OFFERS"
+                    android:layout_height="match_parent"/>
 
-    </LinearLayout>
-    <View
-        android:id="@+id/view2"
-        android:layout_width="80dp"
-        android:layout_height="2dp"
-        android:layout_below="@+id/tabs"
-        android:layout_centerHorizontal="true"
-        android:background="@color/blue"/>
+            </LinearLayout>
+            <View
+                android:id="@+id/view2"
+                android:layout_width="80dp"
+                android:layout_height="2dp"
+                android:layout_below="@+id/tabs"
+                android:layout_centerHorizontal="true"
+                android:background="@color/blue"/>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_view"
@@ -131,98 +131,98 @@
                 android:layout_marginRight="7dp"
                 card_view:cardCornerRadius="3dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="#FFF"
-        android:id="@+id/profiles">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="#FFF"
+                    android:id="@+id/profiles">
 
-        <ImageView
-            android:id="@+id/msg"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/messages"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <ImageView
-            android:id="@+id/phne"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/phone"
-            android:layout_toLeftOf="@+id/msg"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
+                    <ImageView
+                        android:id="@+id/msg"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/messages"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <ImageView
+                        android:id="@+id/phne"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/phone"
+                        android:layout_toLeftOf="@+id/msg"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"/>
 
-        <ImageView
-            android:id="@+id/profile_pic"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/cartoon"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="I will walk your Dog"
-            android:id="@+id/person_desp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/person_servc"
-            android:layout_toRightOf="@+id/profile_pic"
-            android:layout_marginLeft="10dp"/>
+                    <ImageView
+                        android:id="@+id/profile_pic"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/cartoon"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="I will walk your Dog"
+                        android:id="@+id/person_desp"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/person_servc"
+                        android:layout_toRightOf="@+id/profile_pic"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/price"
-            android:text="Starts at $20/hr"
-            android:textColor="@color/blue"
-            android:layout_toRightOf="@+id/profile_pic"
-            android:layout_below="@+id/person_desp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/price"
+                        android:text="Starts at $20/hr"
+                        android:textColor="@color/blue"
+                        android:layout_toRightOf="@+id/profile_pic"
+                        android:layout_below="@+id/person_desp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dog Walker Service"
-            android:id="@+id/person_servc"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/profile_pic"
-            android:layout_marginTop="15dp"
-            android:textSize="18dp"
-            android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dog Walker Service"
+                        android:id="@+id/person_servc"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_toRightOf="@+id/profile_pic"
+                        android:layout_marginTop="15dp"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Posted on 5/02/2017 on 5:30pm"
-            android:id="@+id/person_date"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/price"
-            android:layout_toRightOf="@+id/profile_pic"
-            android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Posted on 5/02/2017 on 5:30pm"
+                        android:id="@+id/person_date"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/price"
+                        android:layout_toRightOf="@+id/profile_pic"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/name"
-            android:text="By: XYZ"
-            android:textSize="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/blue"
-            android:layout_marginLeft="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name"
+                        android:text="By: XYZ"
+                        android:textSize="16dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/blue"
+                        android:layout_marginLeft="15dp"/>
 
 
-        <Button
-            android:layout_width="130dp"
-            android:layout_height="40dp"
-            android:background="@drawable/accept"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
+                    <Button
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/accept"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"/>
 
-    </RelativeLayout>
+                </RelativeLayout>
             </android.support.v7.widget.CardView>
 
 
@@ -237,98 +237,98 @@
                 android:layout_marginRight="7dp"
                 card_view:cardCornerRadius="3dp">
 
-            <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="#FFF"
-        android:id="@+id/profiles1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="#FFF"
+                    android:id="@+id/profiles1">
 
-        <ImageView
-            android:id="@+id/msg1"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/messages"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <ImageView
-            android:id="@+id/phne1"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/phone"
-            android:layout_toLeftOf="@+id/msg1"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
+                    <ImageView
+                        android:id="@+id/msg1"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/messages"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <ImageView
+                        android:id="@+id/phne1"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/phone"
+                        android:layout_toLeftOf="@+id/msg1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"/>
 
-        <ImageView
-            android:id="@+id/profile_pic1"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/cartoon"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="I will walk your Dog"
-            android:id="@+id/person_desp1"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/person_servc1"
-            android:layout_toRightOf="@+id/profile_pic1"
-            android:layout_marginLeft="10dp"/>
+                    <ImageView
+                        android:id="@+id/profile_pic1"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/cartoon"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="I will walk your Dog"
+                        android:id="@+id/person_desp1"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/person_servc1"
+                        android:layout_toRightOf="@+id/profile_pic1"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/price1"
-            android:text="Starts at $20/hr"
-            android:textColor="@color/blue"
-            android:layout_toRightOf="@+id/profile_pic1"
-            android:layout_below="@+id/person_desp1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/price1"
+                        android:text="Starts at $20/hr"
+                        android:textColor="@color/blue"
+                        android:layout_toRightOf="@+id/profile_pic1"
+                        android:layout_below="@+id/person_desp1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dog Walker Service"
-            android:id="@+id/person_servc1"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/profile_pic1"
-            android:layout_marginTop="15dp"
-            android:textSize="18dp"
-            android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dog Walker Service"
+                        android:id="@+id/person_servc1"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_toRightOf="@+id/profile_pic1"
+                        android:layout_marginTop="15dp"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Posted on 5/02/2017 on 5:30pm"
-            android:id="@+id/person_date1"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/price1"
-            android:layout_toRightOf="@+id/profile_pic1"
-            android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Posted on 5/02/2017 on 5:30pm"
+                        android:id="@+id/person_date1"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/price1"
+                        android:layout_toRightOf="@+id/profile_pic1"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/name1"
-            android:text="By: XYZ"
-            android:textSize="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/blue"
-            android:layout_marginLeft="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name1"
+                        android:text="By: XYZ"
+                        android:textSize="16dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/blue"
+                        android:layout_marginLeft="15dp"/>
 
 
-        <Button
-            android:layout_width="130dp"
-            android:layout_height="40dp"
-            android:background="@drawable/accept"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
+                    <Button
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/accept"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"/>
 
-    </RelativeLayout>
+                </RelativeLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -345,99 +345,99 @@
                 android:layout_marginBottom="10dp"
                 card_view:cardCornerRadius="3dp">
 
-            <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
 
-        android:background="#FFF"
-        android:id="@+id/profiles2">
+                    android:background="#FFF"
+                    android:id="@+id/profiles2">
 
-        <ImageView
-            android:id="@+id/msg2"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/messages"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
-        <ImageView
-            android:id="@+id/phne2"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/phone"
-            android:layout_toLeftOf="@+id/msg2"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"/>
+                    <ImageView
+                        android:id="@+id/msg2"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/messages"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <ImageView
+                        android:id="@+id/phne2"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/phone"
+                        android:layout_toLeftOf="@+id/msg2"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"/>
 
-        <ImageView
-            android:id="@+id/profile_pic2"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/cartoon"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="I will walk your Dog"
-            android:id="@+id/person_desp2"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/person_servc2"
-            android:layout_toRightOf="@+id/profile_pic2"
-            android:layout_marginLeft="10dp"/>
+                    <ImageView
+                        android:id="@+id/profile_pic2"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/cartoon"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="I will walk your Dog"
+                        android:id="@+id/person_desp2"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/person_servc2"
+                        android:layout_toRightOf="@+id/profile_pic2"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/price2"
-            android:text="Starts at $20/hr"
-            android:textColor="@color/blue"
-            android:layout_toRightOf="@+id/profile_pic2"
-            android:layout_below="@+id/person_desp2"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/price2"
+                        android:text="Starts at $20/hr"
+                        android:textColor="@color/blue"
+                        android:layout_toRightOf="@+id/profile_pic2"
+                        android:layout_below="@+id/person_desp2"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dog Walker Service"
-            android:id="@+id/person_servc2"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/profile_pic2"
-            android:layout_marginTop="15dp"
-            android:textSize="18dp"
-            android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dog Walker Service"
+                        android:id="@+id/person_servc2"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_toRightOf="@+id/profile_pic2"
+                        android:layout_marginTop="15dp"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Posted on 5/02/2017 on 5:30pm"
-            android:id="@+id/person_date2"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/price2"
-            android:layout_toRightOf="@+id/profile_pic2"
-            android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Posted on 5/02/2017 on 5:30pm"
+                        android:id="@+id/person_date2"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/price2"
+                        android:layout_toRightOf="@+id/profile_pic2"
+                        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/name2"
-            android:text="By: XYZ"
-            android:textSize="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/blue"
-            android:layout_marginLeft="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name2"
+                        android:text="By: XYZ"
+                        android:textSize="16dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/blue"
+                        android:layout_marginLeft="15dp"/>
 
 
-        <Button
-            android:layout_width="130dp"
-            android:layout_height="40dp"
-            android:background="@drawable/accept"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
+                    <Button
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/accept"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"/>
 
-    </RelativeLayout>
+                </RelativeLayout>
             </android.support.v7.widget.CardView>
 
         </RelativeLayout>

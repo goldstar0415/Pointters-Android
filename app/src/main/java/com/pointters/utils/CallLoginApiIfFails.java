@@ -33,7 +33,7 @@ public class CallLoginApiIfFails {
 
             UserFacebookLoginRequest userFacebookLoginRequest = new UserFacebookLoginRequest(sharedPreferences.getString(ConstantUtils.PREF_USER_FB_AUTH_TOKEN, ""));
 
-            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
             Call<UserFacebookLoginResponse> response = apiService.userLoginViaFacebook(userFacebookLoginRequest);
 
             response.enqueue(new Callback<UserFacebookLoginResponse>() {
@@ -67,7 +67,7 @@ public class CallLoginApiIfFails {
 
             UserEmailLoginRequest userEmailLoginRequest = new UserEmailLoginRequest(sharedPreferences.getString(ConstantUtils.PREF_USER_EMAIL, ""), sharedPreferences.getString(ConstantUtils.PREF_USER_PASSWORD, ""));
 
-            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
             Call<UserEmailLoginResponse> response = apiService.userLoginViaEmail(userEmailLoginRequest);
 
             response.enqueue(new Callback<UserEmailLoginResponse>() {

@@ -15,6 +15,7 @@ public class GetSentOfferResponse {
     private int limit;
     private int page;
     private int pages;
+    private String lastDocId;
 
     public List<SentOfferModel> getDocs() {
         return docs;
@@ -32,9 +33,7 @@ public class GetSentOfferResponse {
         this.total = total;
     }
 
-    public int getLimit() {
-        return limit;
-    }
+    public int getLimit() { return limit; }
 
     public void setLimit(int limit) {
         this.limit = limit;
@@ -55,4 +54,8 @@ public class GetSentOfferResponse {
     public void setPages(int pages) {
         this.pages = pages;
     }
+
+    public String getLastDocId() { return lastDocId; }
+
+    public void setLastDocId(String lastDocId) { this.lastDocId = lastDocId; }
 }

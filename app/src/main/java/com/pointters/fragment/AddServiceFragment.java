@@ -136,8 +136,10 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     public static final String APP_DIR = "VideoCompressor";
     public static final String COMPRESSED_VIDEOS_DIR = "/Compressed Videos/";
     public static final String TEMP_DIR = "/Temp/";
+
     private final int REQUEST_CHECK_SETTINGS = 1000;
     private final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 2000;
+
     private View view;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
@@ -181,6 +183,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     private FFmpeg ffmpeg;
     private String timeUnitOfMeasure = "day";
 
+
     public static void try2CreateCompressDir() {
         File f = new File(Environment.getExternalStorageDirectory(), File.separator + APP_DIR);
         f.mkdirs();
@@ -202,6 +205,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
 
         setOnClickListners();
         prepareListData();
+
         tabLayout.addOnTabSelectedListener(this);
 
         loader = KProgressHUD.create(getActivity())
@@ -301,12 +305,8 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                         break;
                     case "pick":
                         showDiag();
-
                         break;
-
                 }
-
-
             }
         };
 
@@ -332,7 +332,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     }
 
     private void initViews() {
-
         //Tab Layout
         tabLayout = (CustomTabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("UPLOAD"));
@@ -347,7 +346,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         takeImage = (ImageView) view.findViewById(R.id.take_image);
         cameraPreview = (CameraView) view.findViewById(R.id.camera_preview);
         txtTimer = (TextView) view.findViewById(R.id.txt_timer);
-        //  txtTimer.setVisibility(View.GONE);
+
         //Crosswall Layout
         layoutCrossWall = (RelativeLayout) view.findViewById(R.id.layout_crosswall);
         containerViewPager = (ViewPager) view.findViewById(R.id.container_viewpager);
@@ -358,7 +357,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         //Recycler views
         recyclerViewDelivery = (RecyclerView) view.findViewById(R.id.recycler_delivery_method);
         recyclerViewPricing = (RecyclerView) view.findViewById(R.id.recycler_view_pricing);
-
 
         servicedescriptionEditText = (EditText) view.findViewById(R.id.edittext_service_description);
         servicedescriptionEditText.addTextChangedListener(this);
@@ -375,8 +373,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     }
 
     private void uploadFilesToAws(final String mediaType) {
-
-
         transferUtility = new TransferUtility(s3, getApplicationContext());
 
         TransferObserver observer = transferUtility.upload(ConstantUtils.MY_BUCKET, OBJECT_KEY, new File(filePath), CannedAccessControlList.PublicRead);
@@ -430,7 +426,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                     }
 
                     if (tabLayout != null) {
-
                         tabLayout.getTabAt(0).select();
                     }
 
@@ -441,33 +436,24 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
             }
 
             @Override
-            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-
-            }
+            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {}
 
             @Override
-            public void onError(int id, Exception ex) {
-
-            }
+            public void onError(int id, Exception ex) {}
         });
-
-
     }
 
     @Override
     public void onClick(View v) {
-
         switch ((v.getId())) {
             case R.id.btn_add:
-
                 callAddServiceApi();
                 break;
-            case R.id.layout_choose_category:
 
+            case R.id.layout_choose_category:
                 Intent intent = new Intent(getActivity(), ChooseCategoryActivity.class);
                 intent.putStringArrayListExtra(ConstantUtils.CATEGORY_LIST_HEADRES, listDataHeader);
                 intent.putExtra(ConstantUtils.CATEGORY_LIST_Child, listDataChild);
-
                 intent.putExtra(ConstantUtils.CATEGORY_MODEL, categoryModel);
                 intent.putExtra(ConstantUtils.GROUP_POSITION, groupPosition);
                 intent.putExtra(ConstantUtils.CHILD_POSITION, childPosition);
@@ -478,35 +464,28 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 startActivityForResult(new Intent(getActivity(), AddPriceOptionActivity.class), 0);
                 break;
 
-
             case R.id.take_image:
-
                 if (tabLayout.getSelectedTabPosition() == 1) {
                     // take snap and add in crosswall
                     capturePhoto();
-
-
-                } else if (tabLayout.getSelectedTabPosition() == 2) {
+                }
+                else if (tabLayout.getSelectedTabPosition() == 2) {
                     if (IS_RECORDING_START) {
                         if (countDownTimer != null)
                             countDownTimer.cancel();
                         takeImage.setImageResource(R.drawable.capture_button);
                         IS_RECORDING_START = false;
                         cameraPreview.stopRecordingVideo();
-
-
                         // cameraPreview.removeCallbacks(updateRecordingThread);
-
-
-                    } else {
+                    }
+                    else {
                         takeImage.setImageResource(R.drawable.video_capture_stop_button);
                         cameraPreview.startRecordingVideo();
                         IS_RECORDING_START = true;
                         takeImage.setVisibility(View.GONE);
                         CountDownTimer countDownTimerOneSec = new CountDownTimer(1000, 1000) {
                             @Override
-                            public void onTick(long millisUntilFinished) {
-                            }
+                            public void onTick(long millisUntilFinished) {}
 
                             @Override
                             public void onFinish() {
@@ -518,7 +497,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                             @Override
                             public void onTick(long millisUntilFinished) {
                                 txtTimer.setText("" + millisUntilFinished / 1000 + " Secs");
-
                             }
 
                             @Override
@@ -528,26 +506,20 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                                 cameraPreview.stopRecordingVideo();
                             }
                         }.start();
-
-
                         //   cameraPreview.postDelayed(updateRecordingThread, 10000);
                         captureVideo();
-
                     }
-
-
                 }
                 break;
+
             case R.id.img_choose_bg_images:
                 showDiag();
                 break;
         }
-
     }
 
     private void prepareListData() {
-
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<GetCategoryResponse> callGetCategoryApi = apiService.getCategories();
         callGetCategoryApi.enqueue(new Callback<GetCategoryResponse>() {
             @Override
@@ -561,26 +533,16 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                             for (int j = 0; j < getCategoryResponse.getCategories().get(i).getSubCategories().size(); j++) {
                                 CategoryModel categoryModel = new CategoryModel(getCategoryResponse.getCategories().get(i).getSubCategories().get(j).get_id(), getCategoryResponse.getCategories().get(i).getSubCategories().get(j).getName());
                                 childList.add(categoryModel);
-
                             }
-
-
                         }
                         listDataChild.put(listDataHeader.get(i), childList);
                     }
-
                 }
-
-
             }
 
             @Override
-            public void onFailure(Call<GetCategoryResponse> call, Throwable t) {
-
-            }
+            public void onFailure(Call<GetCategoryResponse> call, Throwable t) {}
         });
-
-
     }
     // Capturing Images and Video taken from camera
 
@@ -613,7 +575,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 AddServiceRequest addServiceRequest = new AddServiceRequest(categoryModel, servicedescriptionEditText.getText().toString().trim(), fulfillmentMethod, locations, files, pricesList);
 
 
-                ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
                 Call<Object> addServiceRequestCall = apiService.postService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), addServiceRequest);
                 addServiceRequestCall.enqueue(new Callback<Object>() {
                     @Override
@@ -621,13 +583,10 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                         if (response.code() == 200) {
                             getActivity().onBackPressed();
                         }
-
                     }
 
                     @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
-
-                    }
+                    public void onFailure(Call<Object> call, Throwable t) {}
                 });
             } else {
                 turnOnLocation();
@@ -640,24 +599,19 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         loader.show();
         cameraPreview.captureImage();
 
-
         // Here is callback of snap taken
         cameraPreview.setCameraListener(new CameraListener() {
             @Override
             public void onPictureTaken(byte[] jpeg) {
                 super.onPictureTaken(jpeg);
 
-
                 Bitmap bitmap = BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length);
                 new fileFromBitmap(bitmap, getActivity()).execute();
-
             }
         });
     }
 
     void captureVideo() {
-
-
         // Here is callback of video taken
         cameraPreview.setCameraListener(new CameraListener() {
             @Override
@@ -672,8 +626,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 loader.show();
 
                 uploadFilesToAws(getResources().getString(R.string.video));
-
-
             }
         });
     }
@@ -688,10 +640,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     }
 
     private void sendFile(File file) {
-
-
         saveBitmapToFile(file);
-
 
         filePath = file.getAbsolutePath();
         OBJECT_KEY = generateFileName();
@@ -700,15 +649,11 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
             cameraPreview.stop();
         }
 
-
         uploadFilesToAws(getResources().getString(R.string.image));
-
-
     }
 
     //Dialog Box
     private void showDiag() {
-
         final View dialogView = View.inflate(getActivity(), R.layout.dialog, null);
 
         final Dialog dialog = new Dialog(getActivity(), R.style.MyAlertDialogStyle);
@@ -725,7 +670,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         relativeLayoutFullPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 revealShow(dialogView, false, dialog);
             }
         });
@@ -741,7 +685,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
             @Override
             public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
                 if (i == KeyEvent.KEYCODE_BACK) {
-
                     revealShow(dialogView, false, dialog);
                     return true;
                 }
@@ -760,7 +703,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         linearImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 dialog.dismiss();
                 viewDialog.setVisibility(View.INVISIBLE);
 
@@ -772,14 +714,12 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                         .allowMultipleImages(false)
                         .enableDebuggingMode(true)
                         .build();
-
             }
         });
 
         linearVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 dialog.dismiss();
                 viewDialog.setVisibility(View.INVISIBLE);
 
@@ -788,17 +728,14 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                         .directory(VideoPicker.Directory.DEFAULT)
                         .extension(VideoPicker.Extension._MP4)
                         .build();
-
             }
         });
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
         dialog.show();
     }
 
     private void revealShow(View dialogView, boolean b, final Dialog dialog) {
-
         final View view = dialogView.findViewById(R.id.dialog);
 
         int w = view.getWidth();
@@ -816,7 +753,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         int cx = width / 2;
 
         if (b) {
-
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, endRadius);
                 view.setVisibility(View.VISIBLE);
@@ -825,7 +761,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
             } else {
                 view.setVisibility(View.VISIBLE);
             }
-
         } else {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, endRadius, 0);
@@ -843,9 +778,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
             } else {
                 view.setVisibility(View.INVISIBLE);
             }
-
         }
-
     }
 
     @Override
@@ -934,15 +867,12 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                     break;
             }
         }
-
     }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         switch (tab.getPosition()) {
-
             case 0:
-
                 if (files != null && files.size() > 0) {
                     layoutChooseFromGallery.setVisibility(View.GONE);
                     layoutCrossWall.setVisibility(View.VISIBLE);
@@ -957,15 +887,11 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                     cameraPreview.stop();
                     cameraPreview.stopRecordingVideoWithRecording();
                     IS_RECORDING_START = false;
-
-
                 }
-
                 break;
 
             case 1:
                 layoutCrossWall.setVisibility(View.GONE);
-
                 layoutChooseFromGallery.setVisibility(View.GONE);
                 layoutCamera.setVisibility(View.VISIBLE);
                 txtTimer.setVisibility(View.GONE);
@@ -975,9 +901,8 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                     countDownTimer.cancel();
                     cameraPreview.stopRecordingVideoWithRecording();
                     IS_RECORDING_START = false;
-
-
                 }
+
                 tabLayout.getTabAt(1).select();
                 if (cameraPreview != null && !cameraPreview.isStarted()) {
                     cameraPreview.start();
@@ -985,7 +910,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 break;
 
             case 2:
-
                 txtTimer.setText(10 + " Secs");
                 layoutChooseFromGallery.setVisibility(View.GONE);
                 layoutCamera.setVisibility(View.VISIBLE);
@@ -996,35 +920,24 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 if (cameraPreview != null && !cameraPreview.isStarted()) {
                     cameraPreview.start();
                 }
-
-
                 break;
-
         }
-
     }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
+    public void onTabUnselected(TabLayout.Tab tab) {}
 
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
+    public void onTabReselected(TabLayout.Tab tab) {}
 
     private String generateFileName() {
-
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-
         return simpleDateFormat.format(calendar.getTime());
     }
 
     public File saveBitmapToFile(File file) {
         try {
-
             // BitmapFactory options to downsize the image
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -1069,7 +982,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 file.createNewFile();
                 FileOutputStream out = new FileOutputStream(file);
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
-
             }
 
             return file;
@@ -1086,19 +998,15 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         if (cameraPreview != null)
             cameraPreview.start();
 
-
         if (!servicedescriptionEditText.getText().toString().isEmpty() && pricesList.size() > 0 && files.size() > 1 && !txtChooseCategory.getText().toString().equals(getResources().getString(R.string.choose_category))) {
             btnAdd.setSelected(true);
         } else {
             btnAdd.setSelected(false);
         }
-
-
     }
 
     @Override
     public void onPause() {
-
         if (cameraPreview != null) {
             //  cameraPreview.stop();
             if (IS_RECORDING_START) {
@@ -1110,7 +1018,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 txtTimer.setText("10 Secs");
             }
         }
-
 
         super.onPause();
     }
@@ -1125,39 +1032,27 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 if (countDownTimer != null)
                     countDownTimer.cancel();
                 cameraPreview.stopRecordingVideoWithRecording();
-
             }
         }
-
 
         if (message != null)
             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(message);
     }
 
+    @Override
+    public void onApiFail(String apiSource) {}
 
     @Override
-    public void onApiFail(String apiSource) {
-
-    }
-
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        //
-
         if (pricesList.size() > 0 && files.size() > 0 && !txtChooseCategory.getText().toString().equals(getResources().getString(R.string.choose_category)) && !s.toString().isEmpty()) {
             btnAdd.setSelected(true);
         } else {
             btnAdd.setSelected(false);
         }
-
     }
-
 
     public void loadFFMpegBinary() {
         try {
@@ -1221,27 +1116,18 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void afterTextChanged(Editable s) {
-
-    }
+    public void afterTextChanged(Editable s) {}
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
+    public void onConnected(@Nullable Bundle bundle) {}
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
 
     private void turnOnLocation() {
-
         googleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -1254,7 +1140,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         locationRequest.setFastestInterval(5 * 1000);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
-
 
         //**************************
         builder.setAlwaysShow(true); //this is the key ingredient
@@ -1269,9 +1154,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 final LocationSettingsStates state = result.getLocationSettingsStates();
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
-
                         requestCurrentLocation();
-
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         // LocationRequestModel settings are not satisfied. But could be fixed by showing the user
@@ -1296,12 +1179,9 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
 //For Getting Current LocationRequestModel
 
     private void requestCurrentLocation() {
-
         if (getActivity() != null) {
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_GET_LOCATION);
-
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_GET_LOCATION);
             } else {
                 getCurrentLocation();
             }
@@ -1309,16 +1189,11 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     }
 
     private void getCurrentLocation() {
-
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         }
         if (location == null) {
-
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-
         }
     }
 
@@ -1340,16 +1215,12 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                     }
                 }
 
-
                 break;
-
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
-
         if (googleApiClient != null && googleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
             googleApiClient.disconnect();
@@ -1367,7 +1238,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
 
     //Capture Image
     public class fileFromBitmap extends AsyncTask<Void, Integer, String> {
-
         Context context;
         Bitmap bitmap;
         File file;
@@ -1384,7 +1254,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
 
         @Override
         protected String doInBackground(Void... params) {
-
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             file = new File(getActivity().getExternalFilesDir(null), "background_" + System.currentTimeMillis() + "_image.jpeg");
@@ -1406,8 +1275,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
             super.onPostExecute(s);
 
             sendFile(file);
-
         }
     }
-
 }

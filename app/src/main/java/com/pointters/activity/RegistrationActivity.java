@@ -150,7 +150,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         UserFacebookLoginRequest userFacebookLoginRequest = new UserFacebookLoginRequest(fbAccessToken.getToken());
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<UserFacebookLoginResponse> response = apiService.userLoginViaFacebook(userFacebookLoginRequest);
 
         response.enqueue(new Callback<UserFacebookLoginResponse>() {
@@ -194,7 +194,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void getUserDataApiCall() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
 
         Call<Object> getUserInformation = apiService.getUserInformation(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
         getUserInformation.enqueue(new Callback<Object>() {
@@ -389,7 +389,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 */
         UserEmailSignUpRequest userEmailSignUpRequest = new UserEmailSignUpRequest(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         final Call<UserEmailSignUpResponse> response = apiService.userSignUpViaEmail(userEmailSignUpRequest);
 
         response.enqueue(new Callback<UserEmailSignUpResponse>() {

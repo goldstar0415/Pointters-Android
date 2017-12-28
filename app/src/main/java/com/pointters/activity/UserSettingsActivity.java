@@ -123,7 +123,7 @@ public class UserSettingsActivity extends AppCompatActivity implements View.OnCl
             case R.id.txt_save:
                 if(txtBtn.isSelected())
                 {   userPutSettingsRequest = new UserPutSettingsRequest(userSettingList.get(1).getSeletedItem(), userSettingList.get(0).getSeletedItem(), generalNotifications, orderNotifications, offerNotifications, summaryEmail);
-                    ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                    ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
                     Call<Object> putUserSetting = apiService.putUserSettings(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), userPutSettingsRequest);
                     putUserSetting.enqueue(new Callback<Object>() {
                         @Override

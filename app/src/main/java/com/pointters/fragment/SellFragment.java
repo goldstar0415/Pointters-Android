@@ -20,14 +20,18 @@ import com.pointters.utils.CustomTabLayout;
  */
 
 public class SellFragment extends Fragment {
+
     private ViewPager sellViewPager;
     private SharedPreferences sharedPreferences;
     private View view;
     private SellOrdersFragment sellOrdersFragment;
+    private OffersFragment offersFragment;
+    private SellJobsFragment sellJobsFragment;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment_sell, container, false);
+        view = inflater.inflate(R.layout.fragment_sell, container, false);
         sharedPreferences = getActivity().getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         sellViewPager = (ViewPager) view.findViewById(R.id.view_pager_my_orders);
         setupViewPager(sellViewPager);
@@ -43,28 +47,24 @@ public class SellFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ExploreServiceAdapter exploreServiceAdapter = new ExploreServiceAdapter(getChildFragmentManager());
-        sellOrdersFragment=new SellOrdersFragment();
 
-        OffersFragment OffersFragment = new OffersFragment();
-
-
+        sellOrdersFragment = new SellOrdersFragment();
+        offersFragment = new OffersFragment();
+        sellJobsFragment = new SellJobsFragment();
 
         exploreServiceAdapter.addFrag(sellOrdersFragment, getResources().getString(R.string.orders));
-        exploreServiceAdapter.addFrag(OffersFragment, getResources().getString(R.string.offers));
-        exploreServiceAdapter.addFrag(new BlankFragment(), getResources().getString(R.string.jobs));
+        exploreServiceAdapter.addFrag(offersFragment, getResources().getString(R.string.offers));
+        exploreServiceAdapter.addFrag(sellJobsFragment, getResources().getString(R.string.jobs));
         viewPager.setAdapter(exploreServiceAdapter);
 
         CustomTabLayout tabLayout = (CustomTabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(sellOrdersFragment!=null)
+        if (sellOrdersFragment!=null)
             sellOrdersFragment.setUserVisibleHint(isVisibleToUser);
-
     }
 }

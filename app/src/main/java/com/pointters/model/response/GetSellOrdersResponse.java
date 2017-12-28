@@ -14,6 +14,7 @@ public class GetSellOrdersResponse {
     private Integer limit;
     private Integer page;
     private Integer pages;
+    private String lastDocId;
 
     public List<SellOrderModel> getDocs() {
         return docs;
@@ -54,4 +55,8 @@ public class GetSellOrdersResponse {
     public void setPages(Integer pages) {
         this.pages = pages;
     }
+
+    public String getLastDocId() { return lastDocId; }
+
+    public void setLastDocId(String lastDocId) { this.lastDocId = lastDocId; }
 }

@@ -57,10 +57,11 @@ public class BuyOrderAdapter extends RecyclerView.Adapter<BuyOrderAdapter.MyView
                 if (buyOrderList.get(position).getSeller().getFirstName() != null && !buyOrderList.get(position).getSeller().getFirstName().isEmpty())
                     holder.txtName.setText(buyOrderList.get(position).getSeller().getFirstName());
                 else
-                    holder.txtName.setText("NA");
+                    holder.txtName.setText("");
 
                 if (buyOrderList.get(position).getSeller().getProfilePic() != null && !buyOrderList.get(position).getSeller().getProfilePic().isEmpty())
                     ImageLoader.getInstance().displayImage(buyOrderList.get(position).getSeller().getProfilePic(), holder.imgProvider, options);
+
                 holder.txtServiceDesc.setText("NA");
                 holder.txtPrice.setText("NA");
                 holder.txtPriceDesc.setText("NA");

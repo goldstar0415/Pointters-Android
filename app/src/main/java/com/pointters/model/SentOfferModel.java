@@ -7,12 +7,14 @@ package com.pointters.model;
 public class SentOfferModel {
 
     private SentOfferBuyerModel buyer;
+    private Media media;
+    private LocationModel location;
     private String serviceId;
     private String workDurationUom;
     private Integer price;
     private Integer workDuration;
     private String createdAt;
-    private String serviceDescription;
+    private String description;
 
     public SentOfferBuyerModel getBuyer() {
         return buyer;
@@ -34,9 +36,7 @@ public class SentOfferModel {
         return workDurationUom;
     }
 
-    public void setWorkDurationUom(String workDurationUom) {
-        this.workDurationUom = workDurationUom;
-    }
+    public void setWorkDurationUom(String workDurationUom) { this.workDurationUom = workDurationUom; }
 
     public Integer getPrice() {
         return price;
@@ -63,10 +63,26 @@ public class SentOfferModel {
     }
 
     public String getServiceDescription() {
-        return serviceDescription;
+        return description;
     }
 
-    public void setServiceDescription(String serviceDescription) {
-        this.serviceDescription = serviceDescription;
+    public void setServiceDescription(String description) {
+        this.description = description;
+    }
+
+    public Media getMedia() {
+        return media;
+    }
+
+    public void setMedia(Media media) {
+        this.media = media;
+    }
+
+    public LocationModel getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationModel location) {
+        this.location = location;
     }
 }

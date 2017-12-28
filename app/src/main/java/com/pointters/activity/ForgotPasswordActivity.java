@@ -168,7 +168,7 @@ AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
 
         UserEmailLoginRequest userEmailLoginRequest = new UserEmailLoginRequest(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<Void> sendOtpApiCall = apiService.sendOtp(userEmailLoginRequest);
         sendOtpApiCall.enqueue(new Callback<Void>() {
             @Override
@@ -247,7 +247,7 @@ AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
             spotsDialog.show();
             spotsDialog.setCancelable(false);*/
 
-            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
             Call<UserEmailLoginResponse> resetPasswordCall = apiService.resetPassword(resetPasswordModel);
             resetPasswordCall.enqueue(new Callback<UserEmailLoginResponse>() {
                 @Override

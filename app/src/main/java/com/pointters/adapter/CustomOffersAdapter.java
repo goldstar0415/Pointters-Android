@@ -1,6 +1,7 @@
 package com.pointters.adapter;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
+import com.pointters.model.GeoJsonModel;
 import com.pointters.model.ReceivedOfferModel;
 
 import java.text.DateFormat;
@@ -26,10 +28,14 @@ import java.util.TimeZone;
 
 public class CustomOffersAdapter extends RecyclerView.Adapter<CustomOffersAdapter.MyViewHolder> {
     private Context context;
+    private double userLat;
+    private double userLng;
     private List<ReceivedOfferModel> receivedOffersList;
 
-    public CustomOffersAdapter(Context context, List<ReceivedOfferModel> receivedOffersList) {
+    public CustomOffersAdapter(Context context, List<ReceivedOfferModel> receivedOffersList, double lat, double lng) {
         this.context = context;
+        this.userLat = lat;
+        this.userLng = lng;
         this.receivedOffersList = receivedOffersList;
     }
 
@@ -50,42 +56,49 @@ public class CustomOffersAdapter extends RecyclerView.Adapter<CustomOffersAdapte
                 .considerExifParams(true)
                 .build();
 
-        if(position==0) {
+        if (position == 0) {
             holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp),(int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
             holder.layoutParent.setLayoutParams(holder.layoutParams);
         }
-        if(receivedOffersList!=null && receivedOffersList.size()>0)
-        {
-            if(receivedOffersList.get(position).getSeller()!=null) {
-                if (receivedOffersList.get(position).getSeller().getProfilePic() != null && !receivedOffersList.get(position).getSeller().getProfilePic().isEmpty())
-                    ImageLoader.getInstance().displayImage(receivedOffersList.get(position).getSeller().getProfilePic(), holder.imgBuyer, options);
-
+        if (receivedOffersList != null && receivedOffersList.size() > 0) {
+            if (receivedOffersList.get(position).getMedia() != null) {
+                if (receivedOffersList.get(position).getMedia().getFileName() != null && !receivedOffersList.get(position).getMedia().getFileName().isEmpty()) {
+                    String strPic = receivedOffersList.get(position).getMedia().getFileName();
+                    if (!strPic.contains("https://s3.amazonaws.com")) {
+                        strPic = "https://s3.amazonaws.com" + strPic;
+                    }
+                    ImageLoader.getInstance().displayImage(strPic, holder.imgBuyer, options);
+                }
+            }
+            if (receivedOffersList.get(position).getSeller()!=null) {
                 if (receivedOffersList.get(position).getSeller().getFirstName() != null && !receivedOffersList.get(position).getSeller().getFirstName().isEmpty())
                     holder.txtBuyerName.setText(receivedOffersList.get(position).getSeller().getFirstName());
                 else
-                    holder.txtBuyerName.setText("NA");
+                    holder.txtBuyerName.setText("");
 
             }
-            if(receivedOffersList.get(position).getServiceDescription()!=null && !receivedOffersList.get(position).getServiceDescription().isEmpty() ) {
+            if (receivedOffersList.get(position).getServiceDescription() != null && !receivedOffersList.get(position).getServiceDescription().isEmpty() ) {
                 holder.txtServiceDesc.setText(receivedOffersList.get(position).getServiceDescription());
-                holder.txtSubServiceDesc.setText(receivedOffersList.get(position).getServiceDescription());
             }
             else {
-                holder.txtServiceDesc.setText("NA");
-                holder.txtSubServiceDesc.setText("NA");
+                holder.txtServiceDesc.setText("");
             }
 
-            if(receivedOffersList.get(position).getPrice()!=null)
+            if (receivedOffersList.get(position).getPrice() != null)
                 holder.txtPrice.setText("$"+String.valueOf(receivedOffersList.get(position).getPrice()));
             else
-                holder.txtPrice.setText("NA");
+                holder.txtPrice.setText("");
 
-            if(receivedOffersList.get(position).getWorkDuration()!=null && !receivedOffersList.get(position).getWorkDurationUom().isEmpty())
-            holder.txtPriceDesc.setText("For "+String.valueOf(receivedOffersList.get(position).getWorkDuration())+" "+receivedOffersList.get(position).getWorkDurationUom());
-            else
-                holder.txtPriceDesc.setText("NA");
+            if(receivedOffersList.get(position).getWorkDuration() != null && !receivedOffersList.get(position).getWorkDurationUom().isEmpty()) {
+                if (receivedOffersList.get(position).getWorkDuration() > 1) {
+                    holder.txtPriceDesc.setText("for " + String.valueOf(receivedOffersList.get(position).getWorkDuration()) + " " + receivedOffersList.get(position).getWorkDurationUom() + "s");
+                } else {
+                    holder.txtPriceDesc.setText("for " + String.valueOf(receivedOffersList.get(position).getWorkDuration()) + " " + receivedOffersList.get(position).getWorkDurationUom());
+                }
+            } else
+                holder.txtPriceDesc.setText("");
 
-            if(receivedOffersList.get(position).getCreatedAt()!=null && !receivedOffersList.get(position).getCreatedAt().isEmpty()) {
+            if(receivedOffersList.get(position).getCreatedAt() != null && !receivedOffersList.get(position).getCreatedAt().isEmpty()) {
                 TimeZone tz = TimeZone.getTimeZone("UTC");
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                 df.setTimeZone(tz);
@@ -99,10 +112,42 @@ public class CustomOffersAdapter extends RecyclerView.Adapter<CustomOffersAdapte
 
             }
             else
-                holder.txtCreateddate.setText("NA");
+                holder.txtCreateddate.setText("");
 
+            if (receivedOffersList.get(position).getLocation() != null) {
+                String strCity = "", strState = "", strPos="", strKm="NA";
+                if (receivedOffersList.get(position).getLocation().getCity() != null && !receivedOffersList.get(position).getLocation().getCity().equals(""))
+                    strCity = receivedOffersList.get(position).getLocation().getCity();
+                if (receivedOffersList.get(position).getLocation().getState() != null && !receivedOffersList.get(position).getLocation().getState().equals(""))
+                    strState = receivedOffersList.get(position).getLocation().getState();
+                if (receivedOffersList.get(position).getLocation().getGeoJson() != null) {
+                    GeoJsonModel geoJson = receivedOffersList.get(position).getLocation().getGeoJson();
+                    if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
+                        Location servicePos = new Location("");
+                        servicePos.setLatitude(geoJson.getCoordinates().get(1));
+                        servicePos.setLongitude(geoJson.getCoordinates().get(0));
+
+                        Location userPos = new Location("");
+                        userPos.setLatitude(userLat);
+                        userPos.setLongitude(userLng);
+
+                        strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
+                    }
+                }
+
+                if (strCity.equals("")) {
+                    if (!strState.equals("")) {
+                        strPos = strKm + "@" + strState;
+                    } else {
+                        strPos = strKm;
+                    }
+                } else {
+                    strPos = strKm + "@" + strCity + ", " + strState;
+                }
+
+                holder.txtPosition.setText(strPos);
+            }
         }
-
     }
 
     @Override
@@ -112,7 +157,7 @@ public class CustomOffersAdapter extends RecyclerView.Adapter<CustomOffersAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgBuyer;
-        private TextView txtServiceDesc,txtSubServiceDesc,txtPrice,txtPriceDesc,txtCreateddate,txtBuyerName;
+        private TextView txtServiceDesc,txtPosition,txtPrice,txtPriceDesc,txtCreateddate,txtBuyerName;
         private RelativeLayout layoutParent;
         private RelativeLayout.LayoutParams layoutParams;
         public MyViewHolder(View itemView) {
@@ -122,7 +167,7 @@ public class CustomOffersAdapter extends RecyclerView.Adapter<CustomOffersAdapte
 
             imgBuyer=(ImageView)itemView.findViewById(R.id.img_buyer);
             txtServiceDesc=(TextView)itemView.findViewById(R.id.txt_service_desc);
-            txtSubServiceDesc=(TextView)itemView.findViewById(R.id.txt_second_service_desc);
+            txtPosition=(TextView)itemView.findViewById(R.id.txt_second_service_desc);
             txtPrice=(TextView)itemView.findViewById(R.id.txt_price);
             txtPriceDesc=(TextView)itemView.findViewById(R.id.txt_price_desc);
             txtCreateddate=(TextView)itemView.findViewById(R.id.txt_offer_created_date);

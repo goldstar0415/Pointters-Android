@@ -250,7 +250,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void postLikeServiceApiCall() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<Object> likeServiceCall = apiService.likeService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), serviceId);
         likeServiceCall.enqueue(new Callback<Object>() {
             @Override
@@ -278,7 +278,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void postWatchServiceApiCall() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<Object> watchServiceCall = apiService.watchService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "5a029b03b37404568cb6f20e");
         watchServiceCall.enqueue(new Callback<Object>() {
             @Override
@@ -306,18 +306,18 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void getLikeService() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
 
     }
 
     private void getWatchService() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
 
 
     }
 
     private void unLikeService() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<Object> unLikeServiceResponse = apiService.UnlikeService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "5a029b03b37404568cb6f20e");
         unLikeServiceResponse.enqueue(new Callback<Object>() {
             @Override
@@ -345,7 +345,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void unWatchService() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<Object> unWatchServiceResponse = apiService.UnwatchService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "5a029b03b37404568cb6f20e");
         unWatchServiceResponse.enqueue(new Callback<Object>() {
             @Override
@@ -372,7 +372,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void getServiceDetailApi() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<GetServiceDeatilResponse> getServiceDetailCall = apiService.getServiceDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), serviceId);
         getServiceDetailCall.enqueue(new Callback<GetServiceDeatilResponse>() {
             @Override
@@ -443,7 +443,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     void getRelatedServiceApi() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<GetRelatedServicesResponse> getRelatedServicesResponseCall = apiService.getRelatedService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), serviceId);
         getRelatedServicesResponseCall.enqueue(new Callback<GetRelatedServicesResponse>() {
             @Override

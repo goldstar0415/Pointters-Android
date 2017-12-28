@@ -43,7 +43,7 @@
             android:layout_toRightOf="@+id/view"
             android:layout_marginLeft="5dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/blue"/>
+            android:background="@color/color_blue"/>
 
         <TextView
             android:layout_width="wrap_content"

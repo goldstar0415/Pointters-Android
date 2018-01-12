@@ -632,7 +632,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onItemClick(int position) {
-        prices = new Prices(pricesList.get(position).getDescription(), pricesList.get(position).getPrice(), pricesList.get(position).getTime(), pricesList.get(position).getTimeUnitOfMeasure());
+        prices = new Prices(pricesList.get(position).getDescription(), pricesList.get(position).getPrice(), pricesList.get(position).getTime(), pricesList.get(position).getTimeUnitOfMeasure(), "$");
         Intent intent = new Intent(getActivity(), AddPriceOptionActivity.class);
         intent.putExtra(ConstantUtils.PRICE, prices);
         intent.putExtra(ConstantUtils.POSITION, String.valueOf(position));

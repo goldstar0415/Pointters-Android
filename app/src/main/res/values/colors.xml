@@ -5,7 +5,7 @@
     <color name="colorAccent"> #00ace3</color>
     <color name="spots_dialog_color">@color/colorAccent</color>
     <color name="bottom_bar_text_color">#999999</color>
-<color name="gray">#777777</color>
+    <color name="gray">#777777</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="fb_color">#395692</color>
     <color name="light_gray">#ECECEC</color>
@@ -20,6 +20,7 @@
     <color name="color_option_1">#50D2C2</color>
     <color name="color_option_2">#E2B267</color>
     <color name="color_option_3">#AC85F3</color>
+    <color name="color_orange">#FFA500</color>
     <color name="color_view">#EFEFF0</color>
     <color name="text_color_dark_gray">#414141</color>
     <color name="color_delivery_method">#6B6B6B</color>

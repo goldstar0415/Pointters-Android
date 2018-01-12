@@ -9,11 +9,14 @@ import java.util.List;
  */
 
 public class GetServicesReponse {
-   private List<ServicesModel> docs;
+
+    private List<ServicesModel> docs;
     private int total;
     private int limit;
     private int page;
     private int pages;
+    private String lastDocId;
+
 
     public List<ServicesModel> getDocs() {
         return docs;
@@ -54,4 +57,8 @@ public class GetServicesReponse {
     public void setPages(int pages) {
         this.pages = pages;
     }
+
+    public String getLastDocId() { return lastDocId; }
+
+    public void setLastDocId(String lastDocId) { this.lastDocId = lastDocId; }
 }

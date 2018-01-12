@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
@@ -139,6 +140,8 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
                     if (inited && sellJobsList.size() == 0) {
                         txtNotFound.setVisibility(View.VISIBLE);
                         txtNotFound.setText("No job found");
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if(response.code() == 401) {
@@ -155,6 +158,7 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
             public void onFailure(Call<GetSellJobsResponse> call, Throwable t) {
                 refreshLayout.setRefreshing(false);
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(getActivity(), "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

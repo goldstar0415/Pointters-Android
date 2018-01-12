@@ -135,23 +135,23 @@ public class ProfileServicesAdapter extends RecyclerView.Adapter<ProfileServices
             else
                 holder.txtTime.setText("NA");
 
-            if(serviceArrayList.get(position).getService().getLocation()!=null)
-            { if(!serviceArrayList.get(position).getService().getLocation().get(0).getCity().isEmpty() && !serviceArrayList.get(position).getService().getLocation().get(0).getCountry().isEmpty() )
-                holder.txtAddress.setText(serviceArrayList.get(position).getService().getLocation().get(0).getCity()+", "+serviceArrayList.get(position).getService().getLocation().get(0).getCountry());
-            else
-                holder.txtAddress.setText("NA");
-
-                if(serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson()!=null && !serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().isEmpty()){
-                    if(location!=null)
-                    {
-                        Double distance= AndroidUtils.getDistanceBwTwoLocation(location.getLatitude(),location.getLongitude(),serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().get(1),serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().get(0));
-                        if(distance!=null)
-                            //  Math.round(distance);
-                            holder.txtDistance.setText(String.valueOf( Math.round(distance) +" Km"));
-                    }else
-                        holder.txtDistance.setText("NA");
-                }
-            }
+//            if(serviceArrayList.get(position).getService().getLocation()!=null)
+//            { if(!serviceArrayList.get(position).getService().getLocation().get(0).getCity().isEmpty() && !serviceArrayList.get(position).getService().getLocation().get(0).getCountry().isEmpty() )
+//                holder.txtAddress.setText(serviceArrayList.get(position).getService().getLocation().get(0).getCity()+", "+serviceArrayList.get(position).getService().getLocation().get(0).getCountry());
+//            else
+//                holder.txtAddress.setText("NA");
+//
+//                if(serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson()!=null && !serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().isEmpty()){
+//                    if(location!=null)
+//                    {
+//                        Double distance= AndroidUtils.getDistanceBwTwoLocation(location.getLatitude(),location.getLongitude(),serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().get(1),serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().get(0));
+//                        if(distance!=null)
+//                            //  Math.round(distance);
+//                            holder.txtDistance.setText(String.valueOf( Math.round(distance) +" Km"));
+//                    }else
+//                        holder.txtDistance.setText("NA");
+//                }
+//            }
         }
     }
 
@@ -176,14 +176,11 @@ public class ProfileServicesAdapter extends RecyclerView.Adapter<ProfileServices
             txtPriceDesc=(TextView)itemView.findViewById(R.id.txt_price_desc);
             txtName=(TextView)itemView.findViewById(R.id.txt_name);
             txtDistance=(TextView)itemView.findViewById(R.id.txt_distance);
-            txtAddress=(TextView)itemView.findViewById(R.id.txt_address);
             txtPromated=(TextView)itemView.findViewById(R.id.txt_service_type);
             imgUser=(ImageView)itemView.findViewById(R.id.img_user);
             txtFlag=(TextView)itemView.findViewById(R.id.txt_flag);
             txtTick=(TextView)itemView.findViewById(R.id.txt_tick);
             txtTime=(TextView)itemView.findViewById(R.id.txt_time);
-
         }
     }
-
 }

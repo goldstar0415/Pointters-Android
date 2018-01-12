@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
@@ -46,7 +47,7 @@ import retrofit2.Response;
  * Created by mac on 12/7/17.
  */
 
-public class TagServiceActivity  extends AppCompatActivity implements View.OnClickListener, OnApiFailDueToSessionListener {
+public class TagServiceActivity extends AppCompatActivity implements View.OnClickListener, OnApiFailDueToSessionListener {
 
     private RecyclerView recyclerTagServices;
     private SharedPreferences sharedPreferences;
@@ -55,8 +56,8 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
     private EditText editSearch;
     private KProgressHUD loader;
 
-    private Double mTagLat = 0.0;
-    private Double mTagLng = 0.0;
+    private Double mUserLat = 0.0;
+    private Double mUserLng = 0.0;
 
     private int limitCnt = 10;
     private int totalCnt = 0;
@@ -77,10 +78,10 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         editor = sharedPreferences.edit();
 
         if (!sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "").equals("")) {
-            mTagLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
+            mUserLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
         }
         if (!sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "").equals("")) {
-            mTagLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
+            mUserLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
         }
 
         findViewById(R.id.btn_back).setOnClickListener(this);
@@ -123,8 +124,8 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
                             servicePos.setLongitude(geoJson.getCoordinates().get(0));
 
                             Location userPos = new Location("");
-                            userPos.setLatitude(mTagLat);
-                            userPos.setLongitude(mTagLng);
+                            userPos.setLatitude(mUserLat);
+                            userPos.setLongitude(mUserLng);
 
                             strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
                         }
@@ -163,7 +164,7 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         recyclerTagServices.setLayoutManager(linearLayoutManager);
         recyclerTagServices.setItemAnimator(new DefaultItemAnimator());
 
-        tagServiceSellerAdapter = new TagServiceSellerAdapter(TagServiceActivity.this, arrTagServices, mTagLat, mTagLng);
+        tagServiceSellerAdapter = new TagServiceSellerAdapter(TagServiceActivity.this, arrTagServices, mUserLat, mUserLng);
         recyclerTagServices.setAdapter(tagServiceSellerAdapter);
 
         recyclerTagServices.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -219,7 +220,7 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    void getTagServicesApi(boolean inited, String searchKey, int lastNum) {
+    void getTagServicesApi(final boolean inited, String searchKey, int lastNum) {
         if (inited) {
             arrTagServices.clear();
             txtNotFound.setVisibility(View.GONE);
@@ -235,7 +236,7 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         params.put("from", "" + lastNum);
 
         ApiInterface apiService = ApiClient.getClient(true).create(ApiInterface.class);
-        final Call<GetTagServiceSellerResponse> tagServiceRequest = apiService.getTagServiceSeller(params);
+        final Call<GetTagServiceSellerResponse> tagServiceRequest = apiService.getSearchTagServiceSeller(params);
         tagServiceRequest.enqueue(new Callback<GetTagServiceSellerResponse>() {
             @Override
             public void onResponse(Call<GetTagServiceSellerResponse> call, Response<GetTagServiceSellerResponse> response) {
@@ -248,6 +249,17 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
 
                     arrTagServices.addAll(response.body().getUpHits().getHits());
                     tagServiceSellerAdapter.notifyItemRangeInserted(tagServiceSellerAdapter.getItemCount(), arrTagServices.size()-1);
+
+                    if (inited && arrTagServices.size() == 0) {
+                        if (isSearch) {
+                            txtNotFound.setText("No service or seller found");
+                        } else {
+                            txtNotFound.setText("Please enter the search key");
+                        }
+                        txtNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
+                    }
                 }
                 else if (response.code() == 401) {
                     CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(TagServiceActivity.this, "callGetTagServiceApi");
@@ -267,6 +279,7 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
             @Override
             public void onFailure(Call<GetTagServiceSellerResponse> call, Throwable t) {
                 if (loader.isShowing())     loader.dismiss();
+                Toast.makeText(TagServiceActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

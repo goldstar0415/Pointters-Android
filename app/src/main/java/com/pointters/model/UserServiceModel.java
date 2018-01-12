@@ -5,10 +5,13 @@ package com.pointters.model;
  */
 
 public class UserServiceModel {
+
     private String id;
     private String firstName;
     private String lastName;
     private String profilePic;
+    private String phone;
+
 
     public String getId() {
         return id;
@@ -40,5 +43,13 @@ public class UserServiceModel {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

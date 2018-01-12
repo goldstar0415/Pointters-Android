@@ -78,6 +78,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
 
     private final int REQUEST_CHECK_SETTINGS = 1000;
     private final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 2000;
+
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
     private Location location = null;
@@ -180,8 +181,6 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
-
-
     }
 
 

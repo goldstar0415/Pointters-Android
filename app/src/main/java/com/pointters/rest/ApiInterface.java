@@ -3,9 +3,9 @@ package com.pointters.rest;
 
 import com.pointters.model.ResetPasswordModel;
 import com.pointters.model.request.AddServiceRequest;
-import com.pointters.model.request.GetLiveOffersRequest;
 import com.pointters.model.request.PostUpdateRequest;
 import com.pointters.model.request.SendCustomOfferRequest;
+import com.pointters.model.request.SendServicesRequest;
 import com.pointters.model.request.UserEmailLoginRequest;
 import com.pointters.model.request.UserEmailSignUpRequest;
 import com.pointters.model.request.UserFacebookLoginRequest;
@@ -14,6 +14,9 @@ import com.pointters.model.request.UserPutSettingsRequest;
 import com.pointters.model.response.FollowUnfollowResponse;
 import com.pointters.model.response.GetBuyOrderResponse;
 import com.pointters.model.response.GetCategoryResponse;
+import com.pointters.model.response.GetChatHistoryResponse;
+import com.pointters.model.response.GetConversationsResponse;
+import com.pointters.model.response.GetCustomOfferDetailsResponse;
 import com.pointters.model.response.GetFollowersResponse;
 import com.pointters.model.response.GetFollowingResponse;
 import com.pointters.model.response.GetLiveOfferRequestsResponse;
@@ -21,11 +24,15 @@ import com.pointters.model.response.GetReceivedOffersResponse;
 import com.pointters.model.response.GetRelatedServicesResponse;
 import com.pointters.model.response.GetSellJobsResponse;
 import com.pointters.model.response.GetSellOrdersResponse;
+import com.pointters.model.response.GetSendServicesResponse;
 import com.pointters.model.response.GetSentOfferResponse;
+import com.pointters.model.response.GetServiceByIdResponse;
 import com.pointters.model.response.GetServiceDeatilResponse;
 import com.pointters.model.response.GetServicesReponse;
 import com.pointters.model.response.GetTagServiceSellerResponse;
 import com.pointters.model.response.ResponsePutUser;
+import com.pointters.model.response.SearchConversationsResponse;
+import com.pointters.model.response.SearchSendServicesResponse;
 import com.pointters.model.response.UserEmailLoginResponse;
 import com.pointters.model.response.UserEmailSignUpResponse;
 import com.pointters.model.response.UserFacebookLoginResponse;
@@ -49,6 +56,10 @@ import retrofit2.http.QueryMap;
  */
 
 public interface ApiInterface {
+
+    //********************************************************//
+    //                     General APIs                       //
+    //********************************************************//
 
     @POST("user/signup")
     Call<UserEmailSignUpResponse>
@@ -100,6 +111,12 @@ public interface ApiInterface {
     postUpdate(@Header("Authorization") String token,
                @Body PostUpdateRequest params);
 
+    @POST("send-service")
+    Call<Object>
+    sendService(@Header("Authorization") String token,
+                @Body SendServicesRequest params);
+
+
     @GET("categories")
     Call<GetCategoryResponse>
     getCategories();
@@ -116,32 +133,60 @@ public interface ApiInterface {
 
     @GET("user/followers")
     Call<GetFollowersResponse>
-    userFollowers(@Header("Authorization") String token,  @Query("lt_id") String id);
+    userFollowers(@Header("Authorization") String token,
+                  @Query("lt_id") String id);
 
     @GET("user/following")
     Call<GetFollowingResponse>
-    userFollowing(@Header("Authorization") String token,  @Query("lt_id") String id);
+    userFollowing(@Header("Authorization") String token,
+                  @Query("lt_id") String id);
 
     @DELETE("user/{id}/follow")
     Call<Object>
     unFollowUser(@Header("Authorization") String token,
                  @Path("id") String id);
 
-    @POST("request")
-    Call<Object>
-    getLiveOffersRequest(@Header("Authorization") String token,
-               @Body GetLiveOffersRequest params);
 
 
 
     @POST("offer")
-    Call<Object>
+    Call<GetCustomOfferDetailsResponse>
     sendCustomOffers(@Header("Authorization") String token,
                      @Body SendCustomOfferRequest params);
 
+    @PUT("offer/{id}")
+    Call<Object>
+    updateCustomOffers(@Header("Authorization") String token,
+                       @Path("id") String id,
+                       @Body SendCustomOfferRequest params);
+
+    @GET("offer/{id}")
+    Call<GetCustomOfferDetailsResponse>
+    getCustomOfferDetails(@Header("Authorization") String token,
+                          @Path("id") String id);
+
+    @GET("service/{id}")
+    Call<GetServiceByIdResponse>
+    getServiceById(@Header("Authorization") String token,
+                   @Path("id") String id);
+
+    @GET("conversations")
+    Call<GetConversationsResponse>
+    getConversations(@Header("Authorization") String token,
+                     @Query("lt_id") String id);
+
+    @GET("conversation/{id}/messages")
+    Call<GetChatHistoryResponse>
+    getChatHistory(@Header("Authorization") String token,
+                   @Path("id") String id,
+                   @Query("lt_id") String lt_id);
+
+
+
     @GET("services")
     Call<GetServicesReponse>
-    getServicesByUserId(@Header("Authorization") String token,  @Query("userId") String id );
+    getServicesByUserId(@Header("Authorization") String token,
+                        @Query("userId") String id );
 
     @GET("services")
     Call<GetServicesReponse>
@@ -149,27 +194,33 @@ public interface ApiInterface {
 
     @GET("orders/sell")
     Call<GetSellOrdersResponse>
-    getSellOrder(@Header("Authorization") String token,  @Query("lt_id") String id);
+    getSellOrder(@Header("Authorization") String token,
+                 @Query("lt_id") String id);
 
     @GET("orders/buy")
     Call<GetBuyOrderResponse>
-    getBuyOrder(@Header("Authorization") String token,  @Query("lt_id") String id);
+    getBuyOrder(@Header("Authorization") String token,
+                @Query("lt_id") String id);
 
     @GET("offers/sent")
     Call<GetSentOfferResponse>
-    getSentOffers(@Header("Authorization") String token,  @Query("lt_id") String id);
+    getSentOffers(@Header("Authorization") String token,
+                  @Query("lt_id") String id);
 
     @GET("offers/received")
     Call<GetReceivedOffersResponse>
-    getReceivedOffer(@Header("Authorization") String token,  @Query("lt_id") String id);
+    getReceivedOffer(@Header("Authorization") String token,
+                     @Query("lt_id") String id);
 
     @GET("jobs")
     Call<GetSellJobsResponse>
-    getSellJobs(@Header("Authorization") String token,  @Query("lt_id") String id);
+    getSellJobs(@Header("Authorization") String token,
+                @Query("lt_id") String id);
 
     @GET("requests")
     Call<GetLiveOfferRequestsResponse>
-    getLiveOfferRequests(@Header("Authorization") String token,  @Query("lt_id") String id);
+    getLiveOfferRequests(@Header("Authorization") String token,
+                         @Query("lt_id") String id);
 
 
 
@@ -203,21 +254,49 @@ public interface ApiInterface {
     UnwatchService(@Header("Authorization") String token,
                    @Path("id") String id);
 
+    @GET("services/watching")
+    Call<GetServicesReponse>
+    getWatchingServices(@Header("Authorization") String token,
+                        @Query("lt_id") String id);
+
+    @GET("services/liked")
+    Call<GetServicesReponse>
+    getLikedServices(@Header("Authorization") String token,
+                     @Query("lt_id") String id);
+
 
     @GET("service/{id}/detail")
     Call<GetServiceDeatilResponse>
     getServiceDetail(@Header("Authorization") String token,
-                @Path("id") String id);
+                     @Path("id") String id);
 
     @GET("service/{id}/related")
     Call<GetRelatedServicesResponse>
     getRelatedService(@Header("Authorization") String token,
-                     @Path("id") String id);
+                      @Path("id") String id);
 
+    @GET("services")
+    Call<GetSendServicesResponse>
+    getSendServices(@Header("Authorization") String token,
+                    @Query("page") String page,
+                    @Query("lt_id") String id);
+
+
+    //********************************************************//
+    //                      Search APIs                       //
+    //********************************************************//
 
     @GET("users,services/_search")
     Call<GetTagServiceSellerResponse>
-    getTagServiceSeller(@QueryMap Map<String, String> params);
+    getSearchTagServiceSeller(@QueryMap Map<String, String> params);
 
+    @GET("conversations/search")
+    Call<SearchConversationsResponse>
+    getSearchConversations(@Header("Authorization") String token,
+                           @QueryMap Map<String, String> params);
+
+    @GET("services/_search")
+    Call<SearchSendServicesResponse>
+    getSearchSendServices(@QueryMap Map<String, String> params);
 }
 

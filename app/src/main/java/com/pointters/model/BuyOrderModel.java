@@ -5,13 +5,22 @@ package com.pointters.model;
  */
 
 public class BuyOrderModel {
-    private ReceivedOfferSellerModel seller;
 
-    public ReceivedOfferSellerModel getSeller() {
+    private OrdersModel order;
+    private UserServiceModel seller;
+
+
+    public OrdersModel getOrder() { return order; }
+
+    public void setOrder(OrdersModel order) {
+        this.order = order;
+    }
+
+    public UserServiceModel getSeller() {
         return seller;
     }
 
-    public void setSeller(ReceivedOfferSellerModel seller) {
+    public void setSeller(UserServiceModel seller) {
         this.seller = seller;
     }
 }

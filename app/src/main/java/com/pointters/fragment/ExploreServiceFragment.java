@@ -30,9 +30,7 @@ public class ExploreServiceFragment extends Fragment implements View.OnClickList
         Fragment fragment;
         searchBar.setOnClickListener(this);
 
-        if (getActivity().getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE).
-                getBoolean(ConstantUtils.PREF_IS_LOGIN, false)) {
-
+        if (getActivity().getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE).getBoolean(ConstantUtils.PREF_IS_LOGIN, false)) {
             fragment = new ExploreServiceAfterLoginFragment();
         } else {
             fragment = new ExploreServiceWithoutLoginFragment();
@@ -48,10 +46,7 @@ public class ExploreServiceFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.txt_search_here_hint:
-
-
                 startActivity(new Intent(getActivity(), SearchServiceActivity.class));
-
                 break;
         }
     }

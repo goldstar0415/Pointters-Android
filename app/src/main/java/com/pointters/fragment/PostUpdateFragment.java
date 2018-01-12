@@ -531,7 +531,7 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 if (loader.isShowing()) { loader.dismiss(); }
-                Toast.makeText(getActivity(), "Update failed!", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "Update failed!", Toast.LENGTH_LONG).show();
             }
         });
     }

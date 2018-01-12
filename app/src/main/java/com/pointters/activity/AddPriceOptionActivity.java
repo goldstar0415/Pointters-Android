@@ -123,7 +123,7 @@ public class AddPriceOptionActivity extends AppCompatActivity implements View.On
                 AndroidUtils.hideKeyBoard(AddPriceOptionActivity.this);
                 if(addPriceButton.isSelected())
                 {
-                    prices = new Prices(editTextPriceOptionDescription.getText().toString(), Integer.parseInt(priceAmountEditText.getText().toString()),Integer.parseInt( editTextDays.getText().toString()), timeUnitOfMeasure);
+                    prices = new Prices(editTextPriceOptionDescription.getText().toString(), Integer.parseInt(priceAmountEditText.getText().toString()),Integer.parseInt( editTextDays.getText().toString()), timeUnitOfMeasure, "$");
                     Intent intent = new Intent();
                     intent.putExtra(ConstantUtils.DELETE, "no");
                     intent.putExtra(ConstantUtils.POSITION,getIntent().getStringExtra(ConstantUtils.POSITION));

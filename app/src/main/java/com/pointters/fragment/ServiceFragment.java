@@ -39,17 +39,14 @@ public class ServiceFragment extends Fragment {
 
         initViews();
 
-
         recyclerViewServices.addOnItemTouchListener(new RecyclerViewListener(getActivity(), new RecyclerViewListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
                 intent.putExtra(ConstantUtils.SERVICE_ID, "5a029b03b37404568cb6f20e");
                 startActivity(intent);
-
             }
         }));
-
 
         return view;
     }
@@ -66,8 +63,5 @@ public class ServiceFragment extends Fragment {
         recyclerViewServices.setLayoutManager(linearLayoutManager);
         serviceAdapter = new ProfileServicesAdapter(getActivity(), serviceArrayList);
         recyclerViewServices.setAdapter(serviceAdapter);
-
     }
-
-
 }

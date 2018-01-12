@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1efef">
+
+    <include layout="@layout/common_toolbar"
+        android:id="@+id/app_bar"/>
+
+    <TextView
+        android:id="@+id/txt_link_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:gravity="center_horizontal"
+        android:text="@string/linked_service"
+        android:textColor="@color/color_black_info"
+        android:textSize="@dimen/text_size_medium" />
+
+    <RelativeLayout
+        android:id="@+id/layout_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_link_service"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:background="@drawable/bg_service"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/img_linked_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_12sdp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_profile_round"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user_avatar_placeholder"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_toRightOf="@id/img_linked_layout">
+
+            <TextView
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:id="@+id/txt_linked_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="text"
+                android:maxLines="2"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_medium"
+                tools:ignore="MissingPrefix" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@id/layout_service"
+        android:layout_above="@+id/btn_accept"
+        android:fillViewport="true"
+        android:background="@drawable/bg_service">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txt_custom_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/custom_price"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_big"/>
+
+            <ImageView
+                android:id="@+id/underline_price"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="2dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/txt_custom_title"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@color/blue"/>
+
+            <TextView
+                android:id="@+id/txt_offer_price"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_38sdp"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/underline_price"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:gravity="center"
+                android:text="$"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_huge"/>
+
+            <TextView
+                android:id="@+id/txt_offer_desc_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_below="@id/txt_offer_price"
+                android:text="@string/offer_description"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_small"/>
+
+            <TextView
+                android:id="@+id/txt_offer_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_offer_desc_title"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:maxLines="10"
+                android:padding="@dimen/_5sdp"
+                android:text=""
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_small" />
+
+            <RelativeLayout
+                android:id="@+id/layout_worktime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_below="@id/txt_offer_desc">
+
+                <TextView
+                    android:id="@+id/txt_work_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:text="@string/work_can_done"
+                    android:textColor="@color/text_color_dark_gray"
+                    android:textSize="@dimen/text_size_small"/>
+
+                <TextView
+                    android:id="@+id/txt_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txt_work_done"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:text="1 day"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_small"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txt_work_time"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:text="@string/after_starting"
+                    android:textColor="@color/text_color_dark_gray"
+                    android:textSize="@dimen/text_size_small"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txt_delivery_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delivery Method"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_below="@id/layout_worktime"
+                android:textColor="@color/color_black_info"
+                android:textSize="@dimen/text_size_small"/>
+
+            <RelativeLayout
+                android:id="@+id/layout_delivery_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_delivery_title"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/map_bg_pattern"
+                android:orientation="horizontal">
+
+                <TextView
+                    fontPath="fonts/Montserrat-Light.ttf"
+                    android:id="@+id/txt_delivery_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toLeftOf="@+id/img_get_direction"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:text="@string/service_locally_map"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_tiny"
+                    tools:ignore="MissingPrefix" />
+
+                <ImageView
+                    android:id="@+id/img_get_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/get_directions_btn" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_delivery_method"
+                android:background="@drawable/bg_bottom_corne">
+                <fragment
+                    android:id="@+id/map_view"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@id/btn_accept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:background="@drawable/btn_seletor_rounded"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        android:text="@string/accept"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_small"/>
+
+</RelativeLayout>
+

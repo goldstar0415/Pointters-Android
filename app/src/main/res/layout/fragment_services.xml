@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
@@ -17,8 +16,8 @@
             android:scrollbars="none"
             android:animateLayoutChanges="false"
             />
-
     </android.support.v4.widget.SwipeRefreshLayout>
+
     <TextView
         android:id="@+id/txt_notfound"
         android:layout_width="wrap_content"
@@ -28,4 +27,5 @@
         android:visibility="gone"
         android:textSize="@dimen/text_size_medium"
         android:textColor="@android:color/black"/>
+
 </RelativeLayout>

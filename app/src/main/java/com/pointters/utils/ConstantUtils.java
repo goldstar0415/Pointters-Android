@@ -63,5 +63,30 @@ String API_KEY_FOR_GOOGLE_PLACES="AIzaSyDqUe8tS5yOcv53S6B3K_sYngMAv2Dtk5c";
     String FOLLOW_TYPE="follow_type";
     String USER_LATITUDE="user_latitude";
     String USER_LONGITUDE="user_longitude";
+    String WATCHING_LIKED_TYPE="watching_liked_type";
 
+    String SERVICE_TYPE="service_type";
+    String USER_VERIFIED="user_verified";
+    String CHAT_USER_ID = "chat_user_id";
+    String CHAT_USER_NAME = "chat_user_name";
+    String CHAT_USER_PIC = "chat_user_pic";
+    String CHAT_CONVERSATION_ID = "chat_conversation_id";
+
+    String CHAT_SEND_SERVICE = "chat_send_service";
+    String CHAT_CUSTOM_OFFER_ID = "chat_custom_offer_id";
+    String CHAT_CUSTOM_OFFER_INFO = "chat_custom_offer_info";
+    String CHAT_CUSTOM_OFFER_SERVICE = "chat_custom_offer_service";
+    String CHAT_CUSTOM_OFFER_LINKED = "chat_custom_offer_linked";
+    String CHAT_OFFER_DIRECTION = "chat_offer_direction";
+
+    String CHAT_TAP_PHOTO = "chat_tap_photo";
+    String CHAT_TAP_VIDEO = "chat_tap_video";
+
+    String LINK_SERVICE_ID = "link_service_id";
+    String LINK_SERVICE_DESC = "link_service_desc";
+    String LINK_SERVICE_PIC = "link_service_pic";
+    String LINK_SERVICE_INFO = "link_service_info";
+
+    String SELECT_OFFER_ID = "select_offer_id";
+    String CUSTOM_OFFER_UPDATE = "custom_offer_update";
 }

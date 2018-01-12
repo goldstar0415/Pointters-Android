@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
@@ -176,6 +177,8 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
 
                     if (inited && userFollowers.size() == 0) {
                         txtNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if (response.code() == 401) {
@@ -191,6 +194,7 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onFailure(Call<GetFollowersResponse> call, Throwable t) {
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(UserFollowersActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -219,6 +223,8 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
 
                     if (inited && userFollowings.size() == 0) {
                         txtNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if (response.code() == 401) {
@@ -234,6 +240,7 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onFailure(Call<GetFollowingResponse> call, Throwable t) {
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(UserFollowersActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

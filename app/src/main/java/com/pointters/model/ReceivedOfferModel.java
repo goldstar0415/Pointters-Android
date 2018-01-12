@@ -14,6 +14,8 @@ public class ReceivedOfferModel {
     private Integer workDuration;
     private String createdAt;
     private String description;
+    private String offerId;
+
 
     public ReceivedOfferSellerModel getSeller() {
         return seller;
@@ -85,5 +87,13 @@ public class ReceivedOfferModel {
 
     public void setLocation(LocationModel location) {
         this.location = location;
+    }
+
+    public String getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
     }
 }

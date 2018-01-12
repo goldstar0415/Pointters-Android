@@ -159,6 +159,5 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             buyFragment.setUserVisibleHint(isVisibleToUser);
         if(sellFragment!=null)
             sellFragment.setUserVisibleHint(isVisibleToUser);
-
     }
 }

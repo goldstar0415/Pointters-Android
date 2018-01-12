@@ -73,5 +73,4 @@ public class SellerModel {
     public void setVerified(Boolean verified) {
         this.verified = verified;
     }
-
 }

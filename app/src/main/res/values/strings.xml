@@ -119,7 +119,6 @@
     <string name="add_price_option_header">Add Price Option</string>
     <string name="edit_price_option_header">Edit Price Option</string>
 
-
     <!--Bottom tab text-->
     <string name="update">Updates</string>
     <string name="explore">Explore</string>
@@ -174,7 +173,6 @@
     <!--Menu screen-->
     <string name="menu_header">Menu</string>
     <string name="order">Orders (10 Active)</string>
-    <string name="wathcing">Watching</string>
     <string name="offers_sent">Offers Sent</string>
     <string name="job_oppotunities">Job Opportunities</string>
     <string name="premium_membership">Premium Membership</string>
@@ -187,6 +185,7 @@
     <string name="paymemt_method">Payment Methods</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
+    <string name="watching">Watching</string>
     <string name="invite_frnd">Invite Friends"</string>
     <string name="leave_feedback">Leave Feedback</string>
     <string name="terms_condition">Terms of Conditions</string>
@@ -238,9 +237,12 @@
     <string name="linked_service">Linked Service</string>
     <string name="custom_price">Custom Price</string>
     <string name="offer_description">Offer Description</string>
+    <string name="work_can_done">Work can be done in</string>
+    <string name="after_starting">after starting.</string>
     <string name="service_locally_map">Servicing locally at store \nlocations</string>
     <string name="get_direction">get Direction</string>
     <string name="accept">Accept</string>
+    <string name="review">Review</string>
     <string name="view_job">View Job</string>
     <string name="view">View</string>
 
@@ -261,12 +263,21 @@
 
     <!--Send Service Screen-->
     <string name="send_service">Send Service</string>
-    <string name="your_services">Your Services</string>
+    <string name="your_services">YOUR SERVICES</string>
     <string name="link_service">Link Service</string>
     <string name="link">Link</string>
 
-    <!--Become A Seller-->
+    <!--Send Custom Offer Screen-->
+    <string name="link_a_service">LINK A SERVICE (OPTIONAL)</string>
+    <string name="link_another_service">LINK ANOTHER SERVICE</string>
+    <string name="online">Online</string>
+    <string name="shipment">Shipment</string>
+    <string name="local_anywhere">Local - anywhere in the city you service</string>
+    <string name="local_store">Local - at your store service</string>
+    <string name="miles_within">Miles within your current location</string>
+    <string name="verified_alert">Your local service will not be posted until you have passed background check</string>
 
+    <!--Become A Seller-->
     <string name="want_to_become_seller">Want to become a seller? Go thru couple steps below based on the types of services</string>
     <string name="congo_see_your">Congraltulation! See your eligibility below \non service types to start selling</string>
 

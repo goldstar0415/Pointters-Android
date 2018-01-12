@@ -236,15 +236,16 @@
                 android:src="@drawable/curve_btn_bg" />
 
             <TextView
+                android:id="@+id/offer_btn_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/img_curve"
-                android:layout_alignRight="@+id/img_curve"
+                android:layout_alignLeft="@id/img_curve"
+                android:layout_alignRight="@id/img_curve"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/_25sdp"
                 android:gravity="center"
-                android:text="@string/accept"
+                android:text="@string/review"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white" />
 

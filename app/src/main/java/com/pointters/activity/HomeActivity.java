@@ -1,6 +1,7 @@
 package com.pointters.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +30,7 @@ import com.pointters.model.BottomTabSeletedModel;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.GPSTracker;
 import com.pointters.utils.NonSwipeableViewPager;
+import com.pointters.utils.SocketManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+
+    private final int CALL_PHONE_REQUEST = 3;
+    private final int READ_STORAGE_REQUEST = 4;
+    private final int WRITE_STORAGE_REQUEST = 5;
 
     private ImageView imgFlag;
     private ImageView imgService;
@@ -71,7 +77,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setUpToolBar();
 
         initViews();
-        getLocation();
+        enablePermissions();
+        SocketManager.getInstance().init(sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
 
         setUpViewPager();
 
@@ -81,7 +88,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         bottomTabSeletedModels.add(2, new BottomTabSeletedModel(imgCameraRelative, txtCamera));
         bottomTabSeletedModels.add(3, new BottomTabSeletedModel(imgChatRelative, txtChat));
         bottomTabSeletedModels.add(4, new BottomTabSeletedModel(imgProfileRelative, txtMe));
-
 
         if (getIntent() != null && getIntent().getStringExtra(ConstantUtils.SOURCE) != null) {
             if (getIntent().getStringExtra(ConstantUtils.SOURCE).equals(ConstantUtils.MENU_SCREEN))
@@ -95,8 +101,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
     }
 
     private void setUpViewPager() {
@@ -155,29 +159,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
 
             case R.id.img_flag_relative:
-
-             //   viewPager.setCurrentItem(0);
+               // viewPager.setCurrentItem(0);
                // updateSelectedPage(0);
 
                 break;
 
             case R.id.img_service_relative:
                 updateSelectedPage(1);
-
-
                 viewPager.setCurrentItem(1);
                 break;
 
             case R.id.img_camera_relative:
                 //   updateSelectedPage(2);
-
                 //   txtCamera.setTextColor(ContextCompat.getColor(HomeActivity.this, R.color.color_blue));
                 startActivity(new Intent(this, AddServiceActivity.class));
 
                 break;
             case R.id.img_chat_relative:
                 updateSelectedPage(3);
-
                 viewPager.setCurrentItem(3);
                 break;
 
@@ -258,9 +257,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (requestCode) {
             case GPSTracker.PERMISSION_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLocation();
+                    enablePermissions();
                 }
                 break;
+
+            case READ_STORAGE_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    enablePermissions();
+                }
+                break;
+
+            case WRITE_STORAGE_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    enablePermissions();
+                }
+                break;
+
+            case CALL_PHONE_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    enablePermissions();
+                }
+                break;
+
             default:
                 break;
         }
@@ -275,7 +293,46 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    private void getLocation() {
+    private boolean checkPhoneCallPermission() {
+        if ( Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission( this, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST);
+            return false;
+
+        } else {
+            return true;
+        }
+    }
+
+    private boolean checkExternalReadStoragePermission() {
+        if ( Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission( this, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, READ_STORAGE_REQUEST);
+            return false;
+
+        } else {
+            return true;
+        }
+    }
+
+    public boolean checkExternalStoragePermission() {
+        if ( Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_REQUEST);
+            return false;
+
+        } else {
+            return true;
+        }
+    }
+
+    private void enablePermissions() {
+        if (!checkExternalReadStoragePermission()) {
+            return;
+        }
+        if (!checkExternalStoragePermission()) {
+            return;
+        }
+        if (!checkPhoneCallPermission()) {
+            return;
+        }
         if (checkLocationPermission()) {
             mTrackGPS = new GPSTracker(this);
             if (mTrackGPS.canGetLocation()) {
@@ -290,4 +347,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SocketManager.getInstance().disconnectSocket();
+    }
 }

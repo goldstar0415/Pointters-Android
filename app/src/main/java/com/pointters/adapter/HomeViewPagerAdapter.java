@@ -27,7 +27,6 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
         Fragment fragment = null;
 
         switch (position) {
-
             case 0:
                 fragment = new BlankFragment();
                 break;
@@ -43,7 +42,6 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
             case 4:
                 fragment = new MeFragment();
                 break;
-
         }
 
         return fragment;

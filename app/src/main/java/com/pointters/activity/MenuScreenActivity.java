@@ -172,12 +172,21 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
                         editor.putString(ConstantUtils.SELECTED_TAB,getResources().getString(R.string.live_offer_req)).apply();
                         startActivity(liveOffersIntent);
                         break;
+                    case 3:
+                        Intent watchingIntent=new Intent(MenuScreenActivity.this, WatchingLikeActivity.class);
+                        editor.putString(ConstantUtils.WATCHING_LIKED_TYPE,getResources().getString(R.string.watching)).apply();
+                        startActivity(watchingIntent);
+                        break;
+                    case 4:
+                        Intent likedIntent = new Intent(MenuScreenActivity.this, WatchingLikeActivity.class);
+                        editor.putString(ConstantUtils.WATCHING_LIKED_TYPE, getResources().getString(R.string.liked)).apply();
+                        startActivity(likedIntent);
+                        break;
                 }
 
             }
         }
         ));
-
 
         salesRecyclerView.addOnItemTouchListener(new RecyclerViewListener(MenuScreenActivity.this, new RecyclerViewListener.OnItemClickListener() {
             @Override
@@ -209,7 +218,6 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
                         break;
                     case 5:
                         startActivity(new Intent(MenuScreenActivity.this, BackgroundCheckActivity.class));
-
                         break;
 
                 }
@@ -258,8 +266,6 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
 
 
 
-
-
                     case 6:
                         if (ConnectivityController.isNetworkAvailable(MenuScreenActivity.this)) {
                             logOutCall();
@@ -288,7 +294,7 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
                 if (response.code() == 200) {
                     try {
 
-                         json = new Gson().toJson(((LinkedTreeMap) response.body()).get("user"));
+                        json = new Gson().toJson(((LinkedTreeMap) response.body()).get("user"));
                         editor.putString(ConstantUtils.USER_DATA, json).commit();
                         JSONObject jsonObject = new JSONObject(json);
                         if (jsonObject.has("profilePic")) {
@@ -346,10 +352,7 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void loadUserData() {
-
-
         try {
-
             JSONObject jsonObject = new JSONObject(json);
             if (jsonObject.has("profilePic")) {
                 if (jsonObject.get("profilePic") != null && !jsonObject.get("profilePic").toString().isEmpty()) {

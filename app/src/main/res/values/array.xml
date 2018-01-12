@@ -27,7 +27,7 @@
         <item>@string/order</item>
         <item>@string/custom_offer</item>
         <item>@string/live_offer_req</item>
-        <item>@string/wathcing</item>
+        <item>@string/watching</item>
         <item>@string/likes</item>
     </string-array>
 

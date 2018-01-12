@@ -1,7 +1,9 @@
 package com.pointters.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,12 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
+import com.pointters.activity.ChatActivity;
+import com.pointters.activity.ProfileScreenActivity;
 import com.pointters.adapter.BuyOrderAdapter;
 import com.pointters.adapter.SellOrdersAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.SellOrderModel;
 import com.pointters.model.response.GetSellOrdersResponse;
 import com.pointters.rest.ApiClient;
@@ -84,9 +90,25 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         myOrderRecyclerView.setLayoutManager(linearLayoutManager);
         myOrderRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        sellOrdersAdapter = new SellOrdersAdapter(getActivity(), sellOrderModelList);
-        myOrderRecyclerView.setAdapter(sellOrdersAdapter);
+        sellOrdersAdapter = new SellOrdersAdapter(getActivity(), sellOrderModelList, new OnRecyclerViewButtonClickListener(){
+            @Override
+            public void onButtonClick(View v, int position) {
+                switch (v.getId()) {
+                    case R.id.btn_chat:
+                        moveToChat(position);
+                        break;
 
+                    case R.id.btn_phone:
+                        moveToCall(position);
+                        break;
+
+                    case R.id.txt_service_provider_name:
+                        moveToProfile(position);
+                        break;
+                }
+            }
+        });
+        myOrderRecyclerView.setAdapter(sellOrdersAdapter);
         myOrderRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -105,6 +127,73 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
                 getSellOrdersApi(true, "");
             }
         });
+    }
+
+    private void moveToChat(int position) {
+        if (sellOrderModelList.get(position).getBuyer() != null) {
+            String strFirst = "", strLast = "";
+            if (sellOrderModelList.get(position).getBuyer().getFirstName() != null && !sellOrderModelList.get(position).getBuyer().getFirstName().isEmpty()) {
+                strFirst = sellOrderModelList.get(position).getBuyer().getFirstName();
+            }
+            if (sellOrderModelList.get(position).getBuyer().getLastName() != null && !sellOrderModelList.get(position).getBuyer().getLastName().isEmpty()) {
+                strLast = sellOrderModelList.get(position).getBuyer().getLastName();
+            }
+            String strOtherName = strFirst + " " + strLast;
+
+            String strOtherPic = "";
+            if (sellOrderModelList.get(position).getBuyer().getProfilePic() != null && !sellOrderModelList.get(position).getBuyer().getProfilePic().isEmpty()) {
+                strOtherPic = sellOrderModelList.get(position).getBuyer().getProfilePic();
+                if (!strOtherPic.contains("https://s3.amazonaws.com")) {
+                    strOtherPic = "https://s3.amazonaws.com" + strOtherPic;
+                }
+            }
+
+            String strOtherId = "";
+            if (sellOrderModelList.get(position).getBuyer().getId() != null && !sellOrderModelList.get(position).getBuyer().getId().isEmpty()) {
+                strOtherId = sellOrderModelList.get(position).getBuyer().getId();
+            }
+
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            editor.putInt(ConstantUtils.USER_VERIFIED, 0).apply();
+            editor.putString(ConstantUtils.CHAT_USER_ID, strOtherId).apply();
+            editor.putString(ConstantUtils.CHAT_USER_NAME, strOtherName).apply();
+            editor.putString(ConstantUtils.CHAT_USER_PIC, strOtherPic).apply();
+            editor.putString(ConstantUtils.CHAT_CONVERSATION_ID, "");
+            startActivity(intent);
+        }
+    }
+
+    private void moveToCall(int position) {
+        if (sellOrderModelList.get(position).getBuyer() != null) {
+            String strPhone = "";
+            if (sellOrderModelList.get(position).getBuyer().getPhone() != null && !sellOrderModelList.get(position).getBuyer().getPhone().isEmpty()) {
+                strPhone = sellOrderModelList.get(position).getBuyer().getPhone();
+
+                if (strPhone.contains("+")) {
+                    strPhone = strPhone.substring(1);
+                }
+            }
+
+            if (!strPhone.equals("")) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + strPhone));
+                startActivity(callIntent);
+            }
+        }
+    }
+
+    private void moveToProfile(int position) {
+        if (sellOrderModelList.get(position).getBuyer() != null) {
+            String strId = "";
+            if (sellOrderModelList.get(position).getBuyer().getId() != null && !sellOrderModelList.get(position).getBuyer().getId().isEmpty()) {
+                strId = sellOrderModelList.get(position).getBuyer().getId();
+            }
+
+            if (!strId.equals("")) {
+                Intent intent = new Intent(getActivity(), ProfileScreenActivity.class);
+                startActivity(intent);
+            }
+        }
     }
 
     void getSellOrdersApi(final boolean inited, String lastId) {
@@ -136,6 +225,8 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
                     if (inited && sellOrderModelList.size() == 0) {
                         txtNotFound.setVisibility(View.VISIBLE);
                         txtNotFound.setText("No order found");
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if (response.code() == 401) {
@@ -152,6 +243,7 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
             public void onFailure(Call<GetSellOrdersResponse> call, Throwable t) {
                 refreshLayout.setRefreshing(false);
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(getActivity(), "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
 

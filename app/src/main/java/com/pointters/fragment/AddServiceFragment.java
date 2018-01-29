@@ -1,6 +1,5 @@
 package com.pointters.fragment;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
@@ -9,14 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -24,12 +23,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -69,30 +65,20 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
 import com.pointters.activity.AddPriceOptionActivity;
 import com.pointters.activity.ChooseCategoryActivity;
+import com.pointters.activity.TagServiceActivity;
 import com.pointters.adapter.AddFragmentsInCrosswallPagerAdapter;
 import com.pointters.adapter.DeliveryMethodsRecyclerViewAdapter;
 import com.pointters.adapter.PricingRvAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.CategoryModel;
 import com.pointters.model.DeliveryMethod;
-import com.pointters.model.FulfillmentMethod;
+import com.pointters.model.FulfillmentMethodForCustom1;
 import com.pointters.model.Media;
 import com.pointters.model.Prices;
 import com.pointters.model.request.AddServiceRequest;
@@ -132,18 +118,19 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by prashantkumar on 18/9/17.
  */
 
-public class AddServiceFragment extends Fragment implements View.OnClickListener, OnRecyclerViewItemClickListener, TabLayout.OnTabSelectedListener, OnApiFailDueToSessionListener, TextWatcher, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class AddServiceFragment extends Fragment implements View.OnClickListener, OnRecyclerViewItemClickListener, TabLayout.OnTabSelectedListener, OnApiFailDueToSessionListener, TextWatcher {
+
     public static final String APP_DIR = "VideoCompressor";
     public static final String COMPRESSED_VIDEOS_DIR = "/Compressed Videos/";
     public static final String TEMP_DIR = "/Temp/";
 
-    private final int REQUEST_CHECK_SETTINGS = 1000;
-    private final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 2000;
+    private final int REQUEST_ADD_PRICE = 0;
+    private final int REQUEST_EDIT_PRICE = 1;
+    private final int REQUEST_CHOOSE_CATEGORY = 2;
 
     private View view;
-    private LocationRequest locationRequest;
-    private GoogleApiClient googleApiClient;
-    private Location location = null;
+    private Geocoder geocoder;
+    private List<Address> addresses;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private CustomTabLayout tabLayout;
@@ -155,11 +142,13 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     private ArrayList<Media> files = new ArrayList<>();
     private AddFragmentsInCrosswallPagerAdapter addFragmentsInCrosswallPagerAdapter;
     private RelativeLayout layoutCamera, layoutCrossWall, layoutChooseFromGallery, layoutChooseCategory;
-    private EditText servicedescriptionEditText;
+    private EditText editServiceDesc;
+    private String serviceDesc = "";
     private TextView addPriceBtn, txtTimer, txtChooseCategory, btnAdd;
     private CameraView cameraPreview;
     private Boolean IS_RECORDING_START = false;
     private CountDownTimer countDownTimer;
+    private Boolean isCategory = false;
     private int groupPosition = -1, childPosition = -1;
     private ImageView takeImage;
     private ViewPager containerViewPager;
@@ -169,19 +158,22 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     private AmazonS3 s3;
     private TransferUtility transferUtility;
     private BroadcastReceiver message;
-    private CountDownTimer tenSecCountDownTimer;
     private Prices prices;
     private CategoryModel categoryModel;
-    private FulfillmentMethod fulfillmentMethod;
+    private FulfillmentMethodForCustom1 fulfillmentMethod;
     private Media media;
     private ArrayList<String> listDataHeader = new ArrayList<String>();
     private HashMap<String, List<CategoryModel>> listDataChild = new HashMap<String, List<CategoryModel>>();
     private GetCategoryResponse getCategoryResponse;
     private ArrayList<CategoryModel> childList;
-    private RelativeLayout layoutDropDown;
     private String uncompressedFilePath;
     private FFmpeg ffmpeg;
-    private String timeUnitOfMeasure = "day";
+
+    private Double mUserLat = 0.0;
+    private Double mUserLng = 0.0;
+    private int mServiceRadius = 15;
+    private String currencyCode = "USD";
+    private String currencySymbol = "$";
 
 
     public static void try2CreateCompressDir() {
@@ -201,8 +193,16 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         sharedPreferences = getActivity().getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        initViews();
+        if (!sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "").equals("")) {
+            mUserLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
+        }
+        if (!sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "").equals("")) {
+            mUserLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
+        }
 
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        initViews();
         setOnClickListners();
         prepareListData();
 
@@ -222,19 +222,26 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         deliveryMethods.add(new DeliveryMethod("Local- anywhere in the city you service", true));
         deliveryMethods.add(new DeliveryMethod("Local- at your store locations", false));
 
-        deliveryMethodsRecyclerViewAdapter = new DeliveryMethodsRecyclerViewAdapter(deliveryMethods);
+        deliveryMethodsRecyclerViewAdapter = new DeliveryMethodsRecyclerViewAdapter(getActivity(), deliveryMethods, new OnRecyclerViewButtonClickListener(){
+            @Override
+            public void onButtonClick(View v, int position) {
+                switch (v.getId()) {
+                    case R.id.img_checkbox:
+                        setDeliveryMethod(position);
+                        break;
+                }
+            }
+        });
         RecyclerView.LayoutManager mLayoutManagerDelivery = new LinearLayoutManager(getApplicationContext());
         recyclerViewDelivery.setLayoutManager(mLayoutManagerDelivery);
         recyclerViewDelivery.setItemAnimator(new DefaultItemAnimator());
         recyclerViewDelivery.setAdapter(deliveryMethodsRecyclerViewAdapter);
-
 
         //Set Up Add Price Recycler View
         pricingRvAdapter = new PricingRvAdapter(getActivity(), pricesList, this);
         recyclerViewPricing.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPricing.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewPricing.setAdapter(pricingRvAdapter);
-
 
         //Set Up Crosswall
         addFragmentsInCrosswallPagerAdapter = new AddFragmentsInCrosswallPagerAdapter(getChildFragmentManager(), files, getActivity(), "ADDSERVICE");
@@ -258,7 +265,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 .rotationY(0f)
                 .build();
 
-
         //Set Up Aws S3 Bucket
         BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(ConstantUtils.AWS_ACCESS_KEY, ConstantUtils.AWS_SECRATE_KEY);
         s3 = new AmazonS3Client(basicAWSCredentials);
@@ -274,17 +280,12 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                         if (files.size() > 0) {
                             files.remove(intent.getIntExtra(ConstantUtils.POSITION, 0));
 
-                            if (!servicedescriptionEditText.getText().toString().isEmpty() && pricesList.size() > 0 && files.size() > 1 && !txtChooseCategory.getText().toString().equals(getResources().getString(R.string.choose_category))) {
-                                btnAdd.setSelected(true);
-                            } else {
-                                btnAdd.setSelected(false);
-                            }
+                            allowAddService();
                             containerViewPager.setAdapter(null);
                             containerViewPager.setAdapter(addFragmentsInCrosswallPagerAdapter);
                             containerViewPager.setCurrentItem(addFragmentsInCrosswallPagerAdapter.getCount());
                             containerViewPager.setClipChildren(false);
                             containerViewPager.setOffscreenPageLimit(addFragmentsInCrosswallPagerAdapter.getCount());
-
 
                             new CoverFlow.Builder()
                                     .with(containerViewPager)
@@ -310,8 +311,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
             }
         };
 
-        turnOnLocation();
-
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("pick");
         intentFilter.addAction("delete");
@@ -323,7 +322,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 IS_RECORDING_START = false;
                 takeImage.setImageResource(R.drawable.capture_button);
                 cameraPreview.stopRecordingVideo();
-
             }
 
         };
@@ -358,8 +356,9 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         recyclerViewDelivery = (RecyclerView) view.findViewById(R.id.recycler_delivery_method);
         recyclerViewPricing = (RecyclerView) view.findViewById(R.id.recycler_view_pricing);
 
-        servicedescriptionEditText = (EditText) view.findViewById(R.id.edittext_service_description);
-        servicedescriptionEditText.addTextChangedListener(this);
+        editServiceDesc = (EditText) view.findViewById(R.id.edittext_service_description);
+        editServiceDesc.addTextChangedListener(this);
+
         addPriceBtn = (TextView) view.findViewById(R.id.btn_add_price_button);
         btnAdd = (TextView) view.findViewById(R.id.btn_add);
     }
@@ -372,17 +371,61 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         btnAdd.setOnClickListener(this);
     }
 
+    private void setDeliveryMethod(int position) {
+        for (int i = 0; i < deliveryMethods.size(); i++) {
+            if (i == position) {
+                deliveryMethods.get(i).setSelected(true);
+            } else {
+                deliveryMethods.get(i).setSelected(false);
+            }
+        }
+
+        if (position == 2) {
+            View view = recyclerViewDelivery.getChildAt(position);
+            EditText editMiles = (EditText) view.findViewById(R.id.edit_miles);
+            String strMiles = editMiles.getText().toString();
+            if (!strMiles.isEmpty() && Integer.parseInt(strMiles) > 0) {
+                mServiceRadius = Integer.parseInt(strMiles);
+            } else {
+                mServiceRadius = 0;
+            }
+        } else {
+            mServiceRadius = 0;
+        }
+
+        deliveryMethodsRecyclerViewAdapter.notifyDataSetChanged();
+        allowAddService();
+    }
+
+    private void allowAddService() {
+        if (!serviceDesc.equals("") && files.size() > 1 && pricesList.size() > 0 && isCategory) {
+            if (deliveryMethods.get(2).isSelected()) {
+                if (mServiceRadius > 0) {
+                    btnAdd.setSelected(true);
+                    btnAdd.setEnabled(true);
+                } else {
+                    btnAdd.setSelected(false);
+                    btnAdd.setEnabled(false);
+                }
+            } else {
+                btnAdd.setSelected(true);
+                btnAdd.setEnabled(true);
+            }
+        } else {
+            btnAdd.setSelected(false);
+            btnAdd.setEnabled(false);
+        }
+    }
+
     private void uploadFilesToAws(final String mediaType) {
         transferUtility = new TransferUtility(s3, getApplicationContext());
-
         TransferObserver observer = transferUtility.upload(ConstantUtils.MY_BUCKET, OBJECT_KEY, new File(filePath), CannedAccessControlList.PublicRead);
-
         observer.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
                 if (state.equals(TransferState.COMPLETED)) {
                     loader.dismiss();
-                    if (!servicedescriptionEditText.getText().toString().isEmpty() && pricesList.size() > 0 && !txtChooseCategory.getText().toString().equals(getResources().getString(R.string.choose_category))) {
+                    if (!editServiceDesc.getText().toString().isEmpty() && pricesList.size() > 0 && !txtChooseCategory.getText().toString().equals(getResources().getString(R.string.choose_category))) {
                         btnAdd.setSelected(true);
                     } else {
                         btnAdd.setSelected(false);
@@ -428,8 +471,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                     if (tabLayout != null) {
                         tabLayout.getTabAt(0).select();
                     }
-
-
+                    allowAddService();
                 } else if (state.equals(TransferState.FAILED)) {
                     //AndroidUtils.showToast(RegistrationDetailsActivity.this, "Uploading failed please try again");
                 }
@@ -447,6 +489,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch ((v.getId())) {
             case R.id.btn_add:
+                loader.show();
                 callAddServiceApi();
                 break;
 
@@ -457,11 +500,11 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                 intent.putExtra(ConstantUtils.CATEGORY_MODEL, categoryModel);
                 intent.putExtra(ConstantUtils.GROUP_POSITION, groupPosition);
                 intent.putExtra(ConstantUtils.CHILD_POSITION, childPosition);
-                startActivityForResult(intent, 2);
+                startActivityForResult(intent, REQUEST_CHOOSE_CATEGORY);
                 break;
 
             case R.id.btn_add_price_button:
-                startActivityForResult(new Intent(getActivity(), AddPriceOptionActivity.class), 0);
+                startActivityForResult(new Intent(getActivity(), AddPriceOptionActivity.class), REQUEST_ADD_PRICE);
                 break;
 
             case R.id.take_image:
@@ -544,55 +587,83 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
             public void onFailure(Call<GetCategoryResponse> call, Throwable t) {}
         });
     }
+
     // Capturing Images and Video taken from camera
-
     private void callAddServiceApi() {
-        if (btnAdd.isSelected()) {
-            if (location != null) {
+        if (files.size() > 0) {
+            files.remove(files.size() - 1);
+        }
 
-                if (files.size() > 0) {
-                    files.remove(files.size() - 1);
-                }
-                //SetUp LocationRequestModel Model
+        //SetUp fulFillment method
+        fulfillmentMethod = new FulfillmentMethodForCustom1(deliveryMethods.get(0).isSelected(), deliveryMethods.get(1).isSelected(), deliveryMethods.get(2).isSelected(), deliveryMethods.get(3).isSelected(), mServiceRadius, "mile");
+        AddServiceRequest addServiceRequest = new AddServiceRequest(categoryModel, serviceDesc, fulfillmentMethod, files, pricesList);
+
+        if (deliveryMethods.get(2).isSelected()) {
+            try {
                 List<Double> coordinates = new ArrayList<>();
-                coordinates.add(0, location.getLongitude());
-                coordinates.add(1, location.getLatitude());
+                coordinates.add(0, mUserLng);
+                coordinates.add(1, mUserLat);
                 LongitudeLatitude longitudeLatitude = new LongitudeLatitude(coordinates, "Point");
 
-                String cityName = AndroidUtils.getCityName(getActivity(), location);
-                String countryName = AndroidUtils.getCountryName(getActivity(), location);
-                String postalCode = AndroidUtils.getPostalCode(getActivity(), location);
-                String stateName = AndroidUtils.getState(getActivity(), location);
+                addresses = geocoder.getFromLocation(mUserLat, mUserLng, 1);// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                String city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
 
-                LocationRequestModel location = new LocationRequestModel(cityName, countryName, longitudeLatitude, postalCode, " ", stateName);
+                LocationRequestModel location = new LocationRequestModel(city, country, longitudeLatitude, postalCode, state, state);
                 ArrayList<LocationRequestModel> locations = new ArrayList<>();
                 locations.add(location);
-
-                //SetUp fulFillment method
-                fulfillmentMethod = new FulfillmentMethod(deliveryMethods.get(2).isSelected(), deliveryMethods.get(0).isSelected(), deliveryMethods.get(1).isSelected(), deliveryMethods.get(3).isSelected());
-
-
-                AddServiceRequest addServiceRequest = new AddServiceRequest(categoryModel, servicedescriptionEditText.getText().toString().trim(), fulfillmentMethod, locations, files, pricesList);
-
-
-                ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-                Call<Object> addServiceRequestCall = apiService.postService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), addServiceRequest);
-                addServiceRequestCall.enqueue(new Callback<Object>() {
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        if (response.code() == 200) {
-                            getActivity().onBackPressed();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {}
-                });
-            } else {
-                turnOnLocation();
+                addServiceRequest.setLocation(locations);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> addServiceRequestCall = apiService.postService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), addServiceRequest);
+        addServiceRequestCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (loader.isShowing()) {
+                    loader.dismiss();
+                }
+
+                if (response.code() == 200) {
+                    Toast.makeText(getActivity(), "Service added successfully!", Toast.LENGTH_SHORT).show();
+
+                    serviceDesc = "";
+                    editServiceDesc.setText("");
+
+                    isCategory = false;
+                    categoryModel = null;
+                    groupPosition = -1;
+                    childPosition = -1;
+                    txtChooseCategory.setText(getResources().getString(R.string.choose_category));
+
+                    setDeliveryMethod(2);
+
+                    pricesList.clear();
+                    pricingRvAdapter.notifyDataSetChanged();
+
+                    files.clear();
+                    containerViewPager.setAdapter(null);
+
+                    layoutCrossWall.setVisibility(View.GONE);
+                    layoutChooseFromGallery.setVisibility(View.VISIBLE);
+
+                    allowAddService();
+                } else {
+                    Toast.makeText(getActivity(), "Adding service failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (loader.isShowing())     loader.dismiss();
+                Toast.makeText(getActivity(), "Adding service failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     void capturePhoto() {
@@ -632,11 +703,11 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onItemClick(int position) {
-        prices = new Prices(pricesList.get(position).getDescription(), pricesList.get(position).getPrice(), pricesList.get(position).getTime(), pricesList.get(position).getTimeUnitOfMeasure());
+        prices = new Prices(pricesList.get(position).getDescription(), pricesList.get(position).getPrice(), pricesList.get(position).getTime(), pricesList.get(position).getTimeUnitOfMeasure(), currencySymbol, currencyCode);
         Intent intent = new Intent(getActivity(), AddPriceOptionActivity.class);
         intent.putExtra(ConstantUtils.PRICE, prices);
         intent.putExtra(ConstantUtils.POSITION, String.valueOf(position));
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_EDIT_PRICE);
     }
 
     private void sendFile(File file) {
@@ -786,23 +857,14 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_CHECK_SETTINGS:
-                    switch (resultCode) {
-                        case RESULT_OK:
-                            requestCurrentLocation();
-                            break;
-
-                        default:
-                            break;
-                    }
-                    break;
-                case 0:
+                case REQUEST_ADD_PRICE:
                     prices = (Prices) data.getSerializableExtra(ConstantUtils.PRICE);
                     pricesList.add(prices);
                     pricingRvAdapter.notifyDataSetChanged();
-
+                    allowAddService();
                     break;
-                case 1:
+
+                case REQUEST_EDIT_PRICE:
                     if (data.getSerializableExtra(ConstantUtils.DELETE).equals("yes")) {
                         pricesList.remove(Integer.parseInt(data.getStringExtra(ConstantUtils.POSITION)));
                         pricingRvAdapter.notifyDataSetChanged();
@@ -815,13 +877,18 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                         pricesList.get(Integer.parseInt(data.getStringExtra(ConstantUtils.POSITION))).setPrice(prices.getPrice());
                         pricingRvAdapter.notifyDataSetChanged();
                     }
+                    allowAddService();
                     break;
-                case 2:
+
+                case REQUEST_CHOOSE_CATEGORY:
+                    isCategory = true;
                     categoryModel = (CategoryModel) data.getSerializableExtra(ConstantUtils.CATEGORY_MODEL);
                     groupPosition = data.getIntExtra(ConstantUtils.GROUP_POSITION, -1);
                     childPosition = data.getIntExtra(ConstantUtils.CHILD_POSITION, -1);
-                    txtChooseCategory.setText(categoryModel.getName().toString());
+                    txtChooseCategory.setText(categoryModel.getName().toString().toUpperCase());
+                    allowAddService();
                     break;
+
                 case ImagePicker.IMAGE_PICKER_REQUEST_CODE:
                     if (resultCode == RESULT_OK) {
                         List<String> mPaths = (List<String>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PATH);
@@ -833,11 +900,10 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                             OBJECT_KEY = generateFileName();
                             fileUrl = "https://s3.amazonaws.com/pointters_dev/dev/" + OBJECT_KEY;
                             uploadFilesToAws(getResources().getString(R.string.image));
-
-
                         }
                     }
                     break;
+
                 case VideoPicker.VIDEO_PICKER_REQUEST_CODE:
                     if (resultCode == RESULT_OK) {
                         uncompressedFilePath = (String) data.getSerializableExtra(VideoPicker.EXTRA_VIDEO_PATH);
@@ -860,8 +926,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
                                 fileUrl = "https://s3.amazonaws.com/pointters_dev/dev/" + OBJECT_KEY;
                                 uploadFilesToAws(getResources().getString(R.string.video));*/
                             }
-
-
                         }
                     }
                     break;
@@ -998,11 +1062,7 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         if (cameraPreview != null)
             cameraPreview.start();
 
-        if (!servicedescriptionEditText.getText().toString().isEmpty() && pricesList.size() > 0 && files.size() > 1 && !txtChooseCategory.getText().toString().equals(getResources().getString(R.string.choose_category))) {
-            btnAdd.setSelected(true);
-        } else {
-            btnAdd.setSelected(false);
-        }
+        allowAddService();
     }
 
     @Override
@@ -1021,7 +1081,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
 
         super.onPause();
     }
-
 
     @Override
     public void onDestroy() {
@@ -1047,11 +1106,8 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (pricesList.size() > 0 && files.size() > 0 && !txtChooseCategory.getText().toString().equals(getResources().getString(R.string.choose_category)) && !s.toString().isEmpty()) {
-            btnAdd.setSelected(true);
-        } else {
-            btnAdd.setSelected(false);
-        }
+        serviceDesc = String.valueOf(s);
+        allowAddService();
     }
 
     public void loadFFMpegBinary() {
@@ -1076,8 +1132,8 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         } catch (Exception e) {
         }
     }
-    //FFmpeg
 
+    //FFmpeg
     public void execFFmpegBinary(final String[] command) {
         try {
             ffmpeg.execute(command, new ExecuteBinaryResponseHandler() {
@@ -1119,121 +1175,8 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
     public void afterTextChanged(Editable s) {}
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {}
-
-    @Override
-    public void onConnectionSuspended(int i) {}
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
-
-    private void turnOnLocation() {
-        googleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this).build();
-        googleApiClient.connect();
-
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(30 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
-
-        //**************************
-        builder.setAlwaysShow(true); //this is the key ingredient
-        //**************************
-
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(LocationSettingsResult result) {
-                final Status status = result.getStatus();
-                final LocationSettingsStates state = result.getLocationSettingsStates();
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        requestCurrentLocation();
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        // LocationRequestModel settings are not satisfied. But could be fixed by showing the user
-                        // a dialog.
-                        try {
-                            // Show the dialog by calling startResolutionForResult(),
-                            // and check the result in onActivityResult().
-                            status.startResolutionForResult(getActivity(), REQUEST_CHECK_SETTINGS);
-                        } catch (IntentSender.SendIntentException e) {
-                            // Ignore the error.
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        // LocationRequestModel settings are not satisfied. However, we have no way to fix the
-                        // settings so we won't show the dialog.
-                        break;
-                }
-            }
-        });
-
-    }
-//For Getting Current LocationRequestModel
-
-    private void requestCurrentLocation() {
-        if (getActivity() != null) {
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_GET_LOCATION);
-            } else {
-                getCurrentLocation();
-            }
-        }
-    }
-
-    private void getCurrentLocation() {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        }
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_GET_LOCATION:
-                if (grantResults.length > 0) {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        getCurrentLocation();
-                    } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                        // Should we show an explanation?
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-                            //Show permission explanation dialog...
-                        } else {
-                            Toast.makeText(getActivity(), "Go to Settings and Grant the permission to use this feature.", Toast.LENGTH_SHORT).show();
-                            getActivity().finish();
-                        }
-                    }
-                }
-
-                break;
-        }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        if (googleApiClient != null && googleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-            googleApiClient.disconnect();
-        }
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
-        if (googleApiClient != null && googleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-            googleApiClient.disconnect();
-        }
     }
 
     //Capture Image
@@ -1273,7 +1216,6 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
             sendFile(file);
         }
     }

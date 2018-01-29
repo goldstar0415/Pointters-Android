@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public class FollowersModel {
+
     private Followers followFrom;
     private List<String> categories;
 

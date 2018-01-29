@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="wrap_content" >
 
-   >
     <RelativeLayout
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
@@ -24,38 +23,15 @@
         android:textSize="@dimen/text_size_small"
         android:layout_toLeftOf="@+id/img_edit"
         tools:ignore="MissingPrefix" />
-<!--
-    <TextView
-        fontPath="fonts/Montserrat-Light.ttf"
-        android:id="@+id/txt_time_unit_of_measure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/txt_price"
-        android:text="1hour - "
-        android:textColor="@android:color/black"
-        android:layout_centerVertical="true"
-        android:textSize="@dimen/text_size_small"
-        tools:ignore="MissingPrefix"/>
-
-    <TextView
-        android:id="@+id/txt_price_option_descn"
-        fontPath="fonts/Montserrat-Light.ttf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/txt_time_unit_of_measure"
-        android:text="Price option description"
-        android:layout_centerVertical="true"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_small"
-        tools:ignore="MissingPrefix"/>-->
-
     <ImageView
-        android:id="@+id/img_edit"
+        android:id="@id/img_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/_5sdp"
         android:layout_alignParentRight="true"
         android:src="@drawable/edit_icon"
         android:layout_centerVertical="true"
         android:textSize="@dimen/text_size_small" />
+
     </RelativeLayout>
 </RelativeLayout>

@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:scrollbars="none">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_8sdp"
@@ -24,11 +24,12 @@
 
             <RelativeLayout
                 android:id="@+id/layout_edt_search"
-                android:layout_width="@dimen/_170sdp"
-                android:layout_height="@dimen/_55sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_17sdp"
-                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
                 android:background="@drawable/bg_light_gray_border">
 
                 <RelativeLayout
@@ -37,7 +38,6 @@
                     android:layout_centerInParent="true">
 
                     <TextView
-                        fontPath="fonts/Montserrat-Medium.ttf"
                         android:id="@+id/txt_dollr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -48,12 +48,13 @@
 
                     <EditText
                         android:id="@+id/edt_price_amount"
-                        fontPath="fonts/Montserrat-Medium.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/txt_dollr"
+                        android:layout_toRightOf="@id/txt_dollr"
                         android:background="@android:color/transparent"
-                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:digits="0123456789"
+                        android:inputType="number"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_huge"
                         tools:ignore="MissingPrefix"/>
@@ -63,18 +64,19 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/txt_price_option_descn"
+                android:id="@+id/txt_price_option_desc"
                 fontPath="fonts/Montserrat-Medium.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_below="@id/layout_edt_search"
                 android:text="@string/price_option_description"
                 android:textColor="@color/color_time_to_deliver"
                 android:textSize="@dimen/text_size_small"
                 tools:ignore="MissingPrefix"/>
 
             <EditText
-                android:id="@+id/edt_price_option_descn"
+                android:id="@+id/edit_price_option_desc"
                 fontPath="fonts/Montserrat-Light.ttf"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_90sdp"
@@ -82,6 +84,7 @@
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:layout_below="@id/txt_price_option_desc"
                 android:background="@drawable/bg_light_gray_border"
                 android:gravity="top"
                 android:hint="@string/type_your_price_option_descn"
@@ -96,11 +99,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_below="@id/edit_price_option_desc"
                 android:text="@string/time_to_complete"
                 android:textColor="#444444"
                 android:textSize="@dimen/text_size_small"
-                tools:ignore="MissingPrefix"
-                />
+                tools:ignore="MissingPrefix"/>
 
             <RelativeLayout
                 android:id="@+id/constraint_service_amount"
@@ -108,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                >
+                android:layout_below="@id/time_to_complete">
 
                 <EditText
                     android:id="@+id/edt_how_many_days"
@@ -121,8 +124,8 @@
                     android:inputType="numberDecimal"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/text_size_tiny"
-                    tools:ignore="MissingPrefix"
-                    />
+                    tools:ignore="MissingPrefix"/>
+
                 <RelativeLayout
                     android:id="@+id/layout_drop_down"
                     android:layout_width="wrap_content"
@@ -131,25 +134,26 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/edt_how_many_days">
 
-                <TextView
-                    android:id="@+id/txt_in_date_format"
-                    fontPath="fonts/Montserrat-Light.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Day(s)"
-                    android:layout_centerVertical="true"
-                    android:textColor="#656565"
-                    tools:ignore="MissingPrefix"
-                    android:textSize="@dimen/text_size_tiny"
-                />
+                    <TextView
+                        android:id="@+id/txt_in_date_format"
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Day(s)"
+                        android:layout_centerVertical="true"
+                        android:textColor="#656565"
+                        tools:ignore="MissingPrefix"
+                        android:textSize="@dimen/text_size_tiny" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/down_arrow"
-                  android:layout_toRightOf="@+id/txt_in_date_format" />
+                    <ImageView
+                        android:id="@+id/img_drop_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/down_arrow"
+                        android:layout_toRightOf="@id/txt_in_date_format" />
+
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -159,6 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_22sdp"
+                android:layout_below="@id/constraint_service_amount"
                 android:background="@drawable/btn_seletor_rounded"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
@@ -166,7 +171,102 @@
                 android:text="@string/add"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
-               />
-        </LinearLayout>
+                android:enabled="false"/>
+
+            <LinearLayout
+                android:id="@+id/layout_worktime_unit"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginLeft="@dimen/_60sdp"
+                android:layout_below="@id/constraint_service_amount"
+                android:orientation="vertical"
+                android:background="@drawable/bg_black_border"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/layout_hour_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_25sdp"
+                    android:weightSum="4"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Hour(s)"
+                        android:textColor="@color/color_black_info"/>
+                    <ImageView
+                        android:id="@+id/img_hour_item"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/check_icon"
+                        android:visibility="invisible"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/fix_1dp"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:background="@color/color_black_info"/>
+
+                <LinearLayout
+                    android:id="@+id/layout_day_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_25sdp"
+                    android:weightSum="4"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Day(s)"
+                        android:textColor="@color/color_black_info"/>
+                    <ImageView
+                        android:id="@+id/img_day_item"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/check_icon"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/fix_1dp"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:background="@color/color_black_info"/>
+
+                <LinearLayout
+                    android:id="@+id/layout_week_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_25sdp"
+                    android:weightSum="4"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Week(s)"
+                        android:textColor="@color/color_black_info"/>
+                    <ImageView
+                        android:id="@+id/img_week_item"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/check_icon"
+                        android:visibility="invisible"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
     </ScrollView>
 </LinearLayout>

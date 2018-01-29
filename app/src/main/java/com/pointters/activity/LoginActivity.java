@@ -98,13 +98,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 (TextInputLayout) findViewById(R.id.text_input_password)});
 
         setEditTextListener();
-
         loginFbCallBack();
-
     }
 
     private void setEditTextListener() {
-
         //listener for action done button click
         edtPassword.setOnEditorActionListener(this);
 
@@ -114,7 +111,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initViews() {
-
         btnLoginEmail = (Button) findViewById(R.id.btn_email_login);
         btnLoginFb = (Button) findViewById(R.id.btn_fb);
         edtEmail = (EditText) findViewById(R.id.edt_email);
@@ -123,8 +119,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtInputEmail = (TextInputLayout) findViewById(R.id.text_input_email);
         txtInputPassword = (TextInputLayout) findViewById(R.id.text_input_password);
         txtWarning = (TextView) findViewById(R.id.txt_warning);
-
-
     }
 
     private void setOnClick() {
@@ -134,82 +128,57 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.layout_sign_up).setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
-
             case R.id.toolbar_lft_img:
                 AndroidUtils.hideKeyBoard(LoginActivity.this);
                 onBackPressed();
-
                 break;
 
             case R.id.btn_email_login:
-
                 performLoginEmail();
-
                 break;
 
             case R.id.btn_fb:
-
                 if (ConnectivityController.isNetworkAvailable(LoginActivity.this)) {
-
                     LoginManager.getInstance().logOut();
                     LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile", "user_location"));
-
                 } else {
-
                     Toast.makeText(LoginActivity.this, getResources().getString(R.string.no_internet_warning), Toast.LENGTH_SHORT).show();
                 }
-
                 break;
 
             case R.id.txt_forgot_password:
-
                 startActivity(new Intent(this, ForgotPasswordActivity.class));
-
                 break;
 
             case R.id.layout_sign_up:
-
                 startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
-
                 break;
         }
-
     }
 
-
     private void loginFbCallBack() {
-
         callbackManager = CallbackManager.Factory.create();
-
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-
                         fbAccessToken = loginResult.getAccessToken();
                         AccessToken.setCurrentAccessToken(fbAccessToken);
-
                         doLoginAttemptUsingFacebook();
                     }
 
                     @Override
-                    public void onCancel() {
-                    }
+                    public void onCancel() {}
 
                     @Override
-                    public void onError(FacebookException exception) {
-                    }
+                    public void onError(FacebookException exception) {}
                 });
-
     }
 
     private void doLoginAttemptUsingFacebook() {
-
         if (fbAccessToken == null || TextUtils.isEmpty(fbAccessToken.getToken())) {
             return;
         }
@@ -219,21 +188,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         spotsDialog.setCancelable(false);
 */
         UserFacebookLoginRequest userFacebookLoginRequest = new UserFacebookLoginRequest(fbAccessToken.getToken());
-
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<UserFacebookLoginResponse> response = apiService.userLoginViaFacebook(userFacebookLoginRequest);
-
         response.enqueue(new Callback<UserFacebookLoginResponse>() {
             @Override
             public void onResponse(Call<UserFacebookLoginResponse> call, retrofit2.Response<UserFacebookLoginResponse> rawResponse) {
                 try {
-
                   /*  if (spotsDialog != null && spotsDialog.isShowing()) {
                         spotsDialog.cancel();
                     }
 */
                     if (rawResponse.code() == 200 && rawResponse.body() != null) {
-
                         editor.putBoolean(ConstantUtils.PREF_IS_LOGIN, true);
                         editor.putString(ConstantUtils.PREF_TOKEN, rawResponse.body().getToken());
                         editor.putString(ConstantUtils.PREF_ID, rawResponse.body().getId());
@@ -245,8 +210,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
 */
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -254,23 +217,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<UserFacebookLoginResponse> call, Throwable throwable) {
-
               /*  if (spotsDialog != null && spotsDialog.isShowing()) {
                     spotsDialog.cancel();
                 }*/
-
             }
         });
-
     }
 
     private void performLoginEmail() {
-
         boolean isRequiredFieldsFilled = AppUtils.isRequiredFieldsFilled(LoginActivity.this, new TextInputLayout[]{txtInputEmail, txtInputPassword},
                 getResources().getStringArray(R.array.login_details_errors));
 
         if (isRequiredFieldsFilled) {
-
             if (ConnectivityController.isNetworkAvailable(LoginActivity.this)) {
                 callUserLoginApi();
             } else {
@@ -278,12 +236,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
             startService(new Intent(LoginActivity.this, GetUserDataService.class));
-
         }
     }
 
     private void callUserLoginApi() {
-
         AndroidUtils.hideKeyBoard(LoginActivity.this);
 /*
         spotsDialog = new SpotsDialog(LoginActivity.this);
@@ -291,10 +247,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         spotsDialog.setCancelable(false);*/
 
         UserEmailLoginRequest userEmailLoginRequest = new UserEmailLoginRequest(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
-
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<UserEmailLoginResponse> response = apiService.userLoginViaEmail(userEmailLoginRequest);
-
         response.enqueue(new Callback<UserEmailLoginResponse>() {
             @Override
             public void onResponse(Call<UserEmailLoginResponse> call, retrofit2.Response<UserEmailLoginResponse> rawResponse) {
@@ -306,9 +260,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     //Getting response here....
                     if (rawResponse.code() == 200 && rawResponse.body() != null) {
-
                         txtWarning.setVisibility(View.GONE);
-
                         editor.putBoolean(ConstantUtils.PREF_IS_LOGIN, true);
                         editor.putString(ConstantUtils.PREF_TOKEN, rawResponse.body().getToken());
                         editor.putString(ConstantUtils.PREF_USER_EMAIL, edtEmail.getText().toString().trim());
@@ -324,14 +276,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             startActivity(intent);
                         } else
                             startActivity(new Intent(getApplicationContext(), RegistrationDetailsActivity.class));*/
-
-
                     } else if (rawResponse.code() == 401 || rawResponse.code() == 404) {
-
                         txtWarning.setVisibility(View.VISIBLE);
                         txtWarning.setText(getResources().getString(R.string.wrong_email_password));
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -344,31 +292,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
 */
                 txtWarning.setVisibility(View.GONE);
-
             }
         });
     }
 
     private void getUserDataApiCall() {
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-
         Call<Object> getUserInformation = apiService.getUserInformation(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
         getUserInformation.enqueue(new Callback<Object>() {
-
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-
                 if (response.code() == 200) {
                     try {
-
                         String json = new Gson().toJson(((LinkedTreeMap) response.body()).get("user"));
                         editor.putString(ConstantUtils.USER_DATA, json).commit();
                         JSONObject jsonObject = new JSONObject(json);
 
-
                         if (jsonObject.has("completedRegistration")) {
                             editor.putBoolean(ConstantUtils.IS_REGISTRATION_COMPLETED, (Boolean) jsonObject.get("completedRegistration")).commit();
-
                         }
                         if (sharedPreferences.getBoolean(ConstantUtils.IS_REGISTRATION_COMPLETED, false)) {
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -377,27 +318,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             startActivity(intent);
                         } else
                             startActivity(new Intent(getApplicationContext(), RegistrationDetailsActivity.class));
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else if (response.code() == 401) {
-
                     // We will have to call login api as session is expired
                     CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(LoginActivity.this, "callGetUserApi");
                     callLoginApiIfFails.OnApiFailDueToSessionListener(LoginActivity.this);
-
                 }
-
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-
             }
         });
-
     }
 
     @Override
@@ -415,29 +349,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onTextChange(String text, View view) {
-
-
         txtWarning.setVisibility(View.GONE);
 
         EditText editText = (EditText) view;
-
         if (!text.trim().isEmpty()) {
-
             ((TextInputLayout) editText.getParentForAccessibility()).setError(null);
             ((TextInputLayout) editText.getParentForAccessibility()).setErrorEnabled(false);
-
         }
 
         switch (view.getId()) {
-
             case R.id.edt_email:
-
                 /*if (AndroidUtils.isValidEmailAddress(text)) {
                     imgValidEmail.setVisibility(View.VISIBLE);
                 } else {
                     imgValidEmail.setVisibility(View.GONE);
                 }*/
-
                 break;
         }
     }
@@ -455,7 +381,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
        /* Intent intent = new Intent(LoginActivity.this, IntroActivity.class);
         finish();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
         startActivity(intent);*/
         super.onBackPressed();
     }
@@ -463,7 +388,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onApiFail(String apiSource) {
         if (apiSource.equals("callGetUserApi")) {
-
             getUserDataApiCall();
         }
     }

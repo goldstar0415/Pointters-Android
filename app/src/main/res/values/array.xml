@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string-array name="registration_details_errors">
         <item>@string/first_name_required</item>
         <item>@string/last_name_required</item>
@@ -13,7 +12,6 @@
     <string-array name="login_details_errors">
         <item>@string/email_required</item>
         <item>@string/password_required</item>
-
     </string-array>
 
 
@@ -21,13 +19,13 @@
         <item>@string/email_required</item>
         <item>@string/password_required</item>
         <item>@string/password_mismatch</item>
-
     </string-array>
+
     <string-array name="purchases">
         <item>@string/order</item>
         <item>@string/custom_offer</item>
         <item>@string/live_offer_req</item>
-        <item>@string/wathcing</item>
+        <item>@string/watching</item>
         <item>@string/likes</item>
     </string-array>
 
@@ -57,10 +55,8 @@
         <item>@string/edit_user_settings</item>
         <item>@string/notification_settings</item>
         <item>@string/paymemt_method</item>
-
-
-
     </string-array>
+
     <string-array name="user_settings_arry">
         <item>@string/who_can_view_my_location</item>
         <item>@string/who_can_view_my_phone</item>

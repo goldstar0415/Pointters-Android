@@ -60,8 +60,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by Vishal Sharma on 18-Jul-17.
  */
 
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener,
-        TextView.OnEditorActionListener, OnEditTextChangeListener, OnApiFailDueToSessionListener {
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener, OnEditTextChangeListener, OnApiFailDueToSessionListener {
 
     private static final String TAG = RegistrationActivity.class.getSimpleName();
     private Button btnSignUpEmail;
@@ -107,39 +106,29 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 , txtInputRePassword});
 
         setEditTextListener();
-
         registerFbCallBack();
-
     }
 
     private void registerFbCallBack() {
-
         callbackManager = CallbackManager.Factory.create();
-
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-
                         fbAccessToken = loginResult.getAccessToken();
                         AccessToken.setCurrentAccessToken(fbAccessToken);
-
                         doLoginAttemptUsingFacebook();
                     }
 
                     @Override
-                    public void onCancel() {
-                    }
+                    public void onCancel() {}
 
                     @Override
-                    public void onError(FacebookException exception) {
-                    }
+                    public void onError(FacebookException exception) {}
                 });
-
     }
 
     private void doLoginAttemptUsingFacebook() {
-
         if (fbAccessToken == null || TextUtils.isEmpty(fbAccessToken.getToken())) {
             return;
         }
@@ -149,21 +138,17 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         spotsDialog.setCancelable(false);*/
 
         UserFacebookLoginRequest userFacebookLoginRequest = new UserFacebookLoginRequest(fbAccessToken.getToken());
-
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<UserFacebookLoginResponse> response = apiService.userLoginViaFacebook(userFacebookLoginRequest);
-
         response.enqueue(new Callback<UserFacebookLoginResponse>() {
             @Override
             public void onResponse(Call<UserFacebookLoginResponse> call, retrofit2.Response<UserFacebookLoginResponse> rawResponse) {
                 try {
-
                     /*if (spotsDialog != null && spotsDialog.isShowing()) {
                         spotsDialog.cancel();
                     }
 */
                     if (rawResponse.code() == 200 && rawResponse.body() != null) {
-
                         editor.putBoolean(ConstantUtils.PREF_IS_LOGIN, true);
                         editor.putString(ConstantUtils.PREF_TOKEN, rawResponse.body().getToken());
                         editor.putBoolean(ConstantUtils.PREF_IS_EMAIL_LOGIN, false);
@@ -173,10 +158,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                        /* Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);*/
-
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -184,31 +166,24 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onFailure(Call<UserFacebookLoginResponse> call, Throwable throwable) {
-
                /* if (spotsDialog != null && spotsDialog.isShowing()) {
                     spotsDialog.cancel();
                 }*/
             }
         });
-
     }
 
     private void getUserDataApiCall() {
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-
         Call<Object> getUserInformation = apiService.getUserInformation(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
         getUserInformation.enqueue(new Callback<Object>() {
-
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-
                 if (response.code() == 200) {
                     try {
-
                         String json = new Gson().toJson(((LinkedTreeMap) response.body()).get("user"));
                         editor.putString(ConstantUtils.USER_DATA, json).commit();
                         JSONObject jsonObject = new JSONObject(json);
-
 
                         if (jsonObject.has("completedRegistration")) {
                             editor.putBoolean(ConstantUtils.IS_REGISTRATION_COMPLETED, (Boolean) jsonObject.get("completedRegistration")).commit();
@@ -221,44 +196,33 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             startActivity(intent);
                         } else
                             startActivity(new Intent(getApplicationContext(), RegistrationDetailsActivity.class));
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else if (response.code() == 401) {
-
                     // We will have to call login api as session is expired
                     CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(RegistrationActivity.this, "callGetUserApi");
                     callLoginApiIfFails.OnApiFailDueToSessionListener(RegistrationActivity.this);
-
                 }
-
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Object> call, Throwable t) {}
         });
 
     }
 
     private void setEditTextListener() {
-
         //listener for action done button click
         edtReEnterPassword.setOnEditorActionListener(this);
         edtPassword.setOnEditorActionListener(this);
-
         //Custom Edit text change listener with returning id of edit text
         edtEmail.addTextChangedListener(new MyTextWatcher(edtEmail, this));
         edtPassword.addTextChangedListener(new MyTextWatcher(edtPassword, this));
         edtReEnterPassword.addTextChangedListener(new MyTextWatcher(edtReEnterPassword, this));
     }
 
-
     private void initViews() {
-
         btnSignUpEmail = (Button) findViewById(R.id.btn_email);
         btnSignUpFb = (Button) findViewById(R.id.btn_fb);
         //txtTermsConditions = (TextView) findViewById(R.id.txt_agree_to_terms_conditions);
@@ -269,30 +233,23 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         txtInputPassword = (TextInputLayout) findViewById(R.id.text_input_password);
         txtInputRePassword = (TextInputLayout) findViewById(R.id.text_input_re_enter_password);
         txtInputEmail = (TextInputLayout) findViewById(R.id.text_input_email);
-
     }
 
-
     private void setOnClick() {
-
         btnSignUpEmail.setOnClickListener(this);
         btnSignUpFb.setOnClickListener(this);
         findViewById(R.id.layout_sign_in).setOnClickListener(this);
-
     }
 
     private void makeSpannableText() {
-
         //Spannable String builder for Terms & conditions and privacy
         SpannableStringBuilder spannableTermsConditions = new SpannableStringBuilder(getResources().getString(
                 R.string.agree_to_terms_conditions));
-
         ClickableSpan spanTerms = new ClickableSpan() {
             @Override
             public void onClick(View view) {
                 //Terms And Condition on Click
                 // Toast.makeText(RegistrationActivity.this, "term's & Conditions", Toast.LENGTH_SHORT).show();
-
             }
         };
 
@@ -301,7 +258,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             public void onClick(View view) {
                 //privacy onClick
                 //   Toast.makeText(RegistrationActivity.this, "Privacy Conditions", Toast.LENGTH_SHORT).show();
-
             }
         };
 
@@ -313,114 +269,82 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 */
     }
 
-
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
-
             case R.id.toolbar_lft_img:
                 AndroidUtils.hideKeyBoard(RegistrationActivity.this);
                 onBackPressed();
-
                 break;
 
             case R.id.btn_email:
-
                 performSignUpEmail();
-
                 break;
 
             case R.id.btn_fb:
-
                 if (ConnectivityController.isNetworkAvailable(RegistrationActivity.this)) {
-
                     LoginManager.getInstance().logOut();
                     LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile", "user_work_history", "user_location"));
-
                 } else {
-
                     Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.no_internet_warning), Toast.LENGTH_SHORT).show();
                 }
-
                 break;
+
             case R.id.layout_sign_in:
-
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
-
                 break;
         }
-
     }
 
     private void performSignUpEmail() {
-
         boolean isRequiredFieldsFilled = AppUtils.isRequiredFieldsFilled(RegistrationActivity.this, new TextInputLayout[]{txtInputEmail, txtInputPassword/*, txtInputRePassword*/},
                 getResources().getStringArray(R.array.registration_errors));
 
         if (isRequiredFieldsFilled) {
-
             // Validation is passed and password is also matching
             if (edtPassword.getText().toString().equals(edtReEnterPassword.getText().toString()) || edtReEnterPassword.getText().toString().equals(edtPassword.getText().toString())) {
-
                 if (ConnectivityController.isNetworkAvailable(RegistrationActivity.this)) {
                     callUserSignUpApi();
                 } else {
                     Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.no_internet_warning), Toast.LENGTH_SHORT).show();
                 }
-
             } else {
-
                 txtInputRePassword.setError(getResources().getString(R.string.password_mismatch));
-
             }
-
         }
-
     }
 
     private void callUserSignUpApi() {
-
         AndroidUtils.hideKeyBoard(RegistrationActivity.this);
-
       /*  spotsDialog = new SpotsDialog(RegistrationActivity.this);
         spotsDialog.show();
         spotsDialog.setCancelable(false);
 */
         UserEmailSignUpRequest userEmailSignUpRequest = new UserEmailSignUpRequest(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
-
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         final Call<UserEmailSignUpResponse> response = apiService.userSignUpViaEmail(userEmailSignUpRequest);
-
         response.enqueue(new Callback<UserEmailSignUpResponse>() {
             @Override
             public void onResponse(Call<UserEmailSignUpResponse> call, retrofit2.Response<UserEmailSignUpResponse> rawResponse) {
                 try {
-
               /*      if (spotsDialog != null && spotsDialog.isShowing()) {
                         spotsDialog.cancel();
                     }
 */
                     if (rawResponse.code() == 200 && rawResponse.body() != null) {
-
                         editor.putBoolean(ConstantUtils.PREF_IS_LOGIN, true);
                         editor.putString(ConstantUtils.PREF_TOKEN, rawResponse.body().getToken());
                         editor.putString(ConstantUtils.PREF_USER_ID, rawResponse.body().getId());
                         editor.putString(ConstantUtils.PREF_USER_EMAIL, edtEmail.getText().toString());
                         editor.putString(ConstantUtils.PREF_USER_PASSWORD, edtPassword.getText().toString());
                         editor.putBoolean(ConstantUtils.PREF_IS_EMAIL_LOGIN, true);
-
                         editor.apply();
 
                         startActivity(new Intent(RegistrationActivity.this, RegistrationDetailsActivity.class));
-
                     } else if (rawResponse.code() == 409) {
-
                         JSONObject jObjError = new JSONObject(rawResponse.errorBody().string());
                         txtInputEmail.setError(jObjError.getString("message"));
-
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -428,14 +352,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onFailure(Call<UserEmailSignUpResponse> call, Throwable throwable) {
-
            /*     if (spotsDialog != null && spotsDialog.isShowing()) {
                     spotsDialog.cancel();
                 }*/
-
             }
         });
-
     }
 
     @Override
@@ -453,9 +374,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onTextChange(String text, View view) {
-
         EditText editText = (EditText) view;
-
         if (!text.trim().isEmpty()) {
             if (editText.hashCode() == edtPassword.hashCode()) {
                 txtInputRePassword.setError(null);
@@ -466,11 +385,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             ((TextInputLayout) editText.getParentForAccessibility()).setErrorEnabled(false);
         }
 
-
         switch (view.getId()) {
-
             case R.id.edt_email:
-
             /*    if (AndroidUtils.isValidEmailAddress(text)) {
                     imgValidEmail.setVisibility(View.VISIBLE);
                 } else {
@@ -478,7 +394,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 }
 */
                 break;
-
         }
     }
 
@@ -493,7 +408,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onApiFail(String apiSource) {
         if (apiSource.equals("callGetUserApi")) {
-
             getUserDataApiCall();
         }
     }

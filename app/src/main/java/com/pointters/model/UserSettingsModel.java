@@ -5,7 +5,8 @@ package com.pointters.model;
  */
 
 public class UserSettingsModel {
-private String title;
+
+    private String title;
     private String seletedItem;
 
     public UserSettingsModel(String title, String seletedItem) {

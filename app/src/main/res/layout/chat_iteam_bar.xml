@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-
-    >
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <RelativeLayout
         android:id="@+id/rl_chat_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginLeft="@dimen/_6sdp"
+        android:layout_marginRight="@dimen/_6sdp"
+        android:paddingTop="@dimen/_8sdp"
         android:paddingBottom="@dimen/_8sdp"
-        android:paddingTop="@dimen/_8sdp">
+        android:background="@drawable/bg_service">
 
         <RelativeLayout
             android:id="@+id/rl_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-
-            >
-
+            android:layout_marginLeft="@dimen/_15sdp" >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/img_profile"
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"
                 android:src="@drawable/user_avatar_placeholder"
+                android:scaleType="centerCrop"
                 app:riv_mutate_background="true"
                 app:riv_oval="true"
                 app:riv_tile_mode="clamp" />
@@ -40,7 +39,8 @@
                 android:layout_alignBottom="@+id/img_profile"
                 android:layout_alignRight="@+id/img_profile"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:src="@drawable/green_ellipse" />
+                android:src="@drawable/green_ellipse"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
@@ -84,4 +84,4 @@
 
         </RelativeLayout>
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

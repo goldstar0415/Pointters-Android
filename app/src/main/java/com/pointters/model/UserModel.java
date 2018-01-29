@@ -7,6 +7,7 @@ import com.pointters.model.request.LocationRequestModel;
  */
 
 public class UserModel {
+
     private String _id;
     private String email;
     private Integer __v;

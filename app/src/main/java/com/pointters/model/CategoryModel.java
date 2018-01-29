@@ -7,20 +7,21 @@ import java.io.Serializable;
  */
 
 public class CategoryModel implements Serializable{
-    private String id;
+
+    private String _id;
     private String name;
 
     public CategoryModel(String id, String name) {
-        this.id = id;
+        this._id = id;
         this.name = name;
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getName() {

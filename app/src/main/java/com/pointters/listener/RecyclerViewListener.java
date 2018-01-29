@@ -14,16 +14,12 @@ import android.view.View;
 
 public class RecyclerViewListener implements RecyclerView.OnItemTouchListener {
 
-
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
     }
 
-
     OnItemClickListener itemClickListener;
-
     GestureDetector mGestureDetector;
-
 
     public RecyclerViewListener(Context context, OnItemClickListener listener) {
         itemClickListener = listener;
@@ -38,9 +34,6 @@ public class RecyclerViewListener implements RecyclerView.OnItemTouchListener {
 
         });
     }
-
-
-
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {

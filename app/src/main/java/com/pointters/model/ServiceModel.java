@@ -5,6 +5,7 @@ package com.pointters.model;
  */
 
 public class ServiceModel {
+
     private LikedWatchingServiceModel service;
     private UserServiceModel user;
     private int numOrders;
@@ -12,6 +13,7 @@ public class ServiceModel {
     private int ratingCount;
     private int pointValue;
     private boolean promoted;
+
 
     public boolean isPromoted() {
         return promoted;

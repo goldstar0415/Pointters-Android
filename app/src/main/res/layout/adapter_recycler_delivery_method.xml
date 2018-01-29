@@ -8,9 +8,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayoutParent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        >
+        android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/delivery_method_name"
@@ -26,81 +24,55 @@
             android:layout_centerVertical="true"
             android:maxLines="1"
             android:textColor="#777777"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_tiny" />
 
-        <ImageView
+       <RadioButton
             android:id="@+id/img_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_7sdp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingRight="@dimen/_15sdp"
-            android:paddingLeft="@dimen/_15sdp"
             android:paddingTop="@dimen/_3sdp"
             android:paddingBottom="@dimen/_3sdp"
-            android:src="@drawable/checkbox_unchecked" />
-
+            android:buttonTint="#00ace3" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/layout_temp"
-        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginLeft="@dimen/_35sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:layout_below="@+id/relativeLayoutParent">
+        android:layout_below="@id/relativeLayoutParent">
         <EditText
             fontPath="fonts/Montserrat-Medium.ttf"
-            android:id="@+id/edt_miles"
-            android:backgroundTint="@color/colorAccent"
+            android:id="@+id/edit_miles"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
             android:paddingTop="0dp"
             android:paddingBottom="@dimen/_7sdp"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_small"
             android:inputType="number"
             android:text="15"
             android:textColor="@color/colorAccent"
-            android:layout_height="wrap_content" />
-
-       <!-- <RelativeLayout
-            android:id="@+id/layout_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                fontPath="fonts/Montserrat-Medium.ttf"
-                android:id="@+id/txt_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15"
-                android:includeFontPadding="false"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/text_size_big" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/txt_distance"
-                android:layout_alignRight="@id/txt_distance"
-                android:layout_below="@id/txt_distance"
-                android:background="@color/colorAccent" />
-        </RelativeLayout>-->
-
+            android:backgroundTint="@color/colorAccent"/>
         <TextView
             fontPath="fonts/Montserrat-Regular.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_3sdp"
             android:includeFontPadding="false"
-            android:layout_toRightOf="@+id/edt_miles"
+            android:layout_toRightOf="@id/edit_miles"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:text="Miles within your current location "
             android:textColor="#777777"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_tiny" />
 
     </RelativeLayout>
 </RelativeLayout>

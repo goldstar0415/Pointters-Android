@@ -24,6 +24,7 @@ import java.util.List;
  */
 
 public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSellerAdapter.MyViewHolder> {
+
     private Context context;
     private double userLat;
     private double userLng;

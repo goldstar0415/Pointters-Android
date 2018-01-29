@@ -18,7 +18,7 @@
             android:layout_marginLeft="@dimen/_8sdp"
             android:layout_marginRight="@dimen/_8sdp">
 
-            <TextView
+            <EditText
                 fontPath="fonts/Montserrat-Regular.ttf"
                 android:id="@+id/txt_search_here_hint"
                 android:layout_width="0dp"
@@ -28,9 +28,12 @@
                 android:paddingBottom="@dimen/_6sdp"
                 android:paddingLeft="@dimen/_35sdp"
                 android:paddingTop="@dimen/_6sdp"
-                android:text="@string/search_here"
+                android:hint="@string/search_here"
                 android:textColor="#A7A7A7"
                 android:textSize="@dimen/text_size_tiny"
+                android:inputType="text"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

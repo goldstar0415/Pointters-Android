@@ -446,7 +446,6 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="#C2C0C2"
                         android:drawableRight="@drawable/location_icon"
-                        android:editable="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:hint="@string/location_edit"
@@ -457,7 +456,6 @@
                         android:textColorHint="#C2C0C2"
                         android:textSize="@dimen/text_size_small" />
                 </android.support.design.widget.TextInputLayout>
-
 
                 <Button
                     android:id="@+id/btn_save"

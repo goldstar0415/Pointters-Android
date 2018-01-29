@@ -19,11 +19,10 @@ import java.util.List;
  */
 
 public class PricingRvAdapter extends RecyclerView.Adapter<PricingRvAdapter.MyViewHolder> {
+
     private Context context;
     private List<Prices> pricesList;
     private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
-
-
 
     public PricingRvAdapter(Context context, List<Prices> pricesList, OnRecyclerViewItemClickListener onRecyclerViewItemClickListener) {
         this.context = context;
@@ -39,7 +38,33 @@ public class PricingRvAdapter extends RecyclerView.Adapter<PricingRvAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.txtPrice.setText("$" + pricesList.get(position).getPrice() + "/" + pricesList.get(position).getTime() + "" + pricesList.get(position).getTimeUnitOfMeasure() + " - " + pricesList.get(position).getDescription());
+        if (pricesList != null && pricesList.size() > 0) {
+            Integer valPrice = 0, valTime = 0;
+            String strSymbol = "$", strUnit = "", strDesc = "";
+
+            if (pricesList.get(position).getPrice() != null && pricesList.get(position).getPrice() > 0) {
+                valPrice = pricesList.get(position).getPrice();
+            }
+            if (pricesList.get(position).getCurrencySymbol() != null && !pricesList.get(position).getCurrencySymbol().isEmpty())  {
+                strSymbol = pricesList.get(position).getCurrencySymbol();
+            }
+            if (pricesList.get(position).getTime() != null && pricesList.get(position).getTime() > 0) {
+                valTime = pricesList.get(position).getTime();
+            }
+            if (pricesList.get(position).getTimeUnitOfMeasure() != null && !pricesList.get(position).getTimeUnitOfMeasure().isEmpty()) {
+                strUnit = pricesList.get(position).getTimeUnitOfMeasure();
+            }
+            if (pricesList.get(position).getDescription() != null && !pricesList.get(position).getDescription().isEmpty()) {
+                strDesc = pricesList.get(position).getDescription();
+            }
+
+            if (valTime > 1) {
+                holder.txtPrice.setText(strSymbol + String.valueOf(valPrice) + "/" + String.valueOf(valTime) + strUnit + "s - " + strDesc);
+            } else {
+                holder.txtPrice.setText(strSymbol + String.valueOf(valPrice) + "/" + String.valueOf(valTime) + strUnit + " - " + strDesc);
+            }
+        }
+
         holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

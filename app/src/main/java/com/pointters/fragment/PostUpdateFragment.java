@@ -334,7 +334,6 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
 
     private void uploadFilesToAws(final String mediaType) {
         transferUtility = new TransferUtility(s3, getApplicationContext());
-
         TransferObserver observer = transferUtility.upload(ConstantUtils.MY_BUCKET, OBJECT_KEY, new File(filePath), CannedAccessControlList.PublicRead);
         observer.setTransferListener(new TransferListener() {
             @Override
@@ -516,7 +515,6 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                     backgroundMedia.clear();
                     containerViewPager.setAdapter(null);
 
-
                     layoutCrossWall.setVisibility(View.GONE);
                     layoutChooseTag.setVisibility(View.GONE);
                     layoutChooseFromGallery.setVisibility(View.VISIBLE);
@@ -531,7 +529,7 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 if (loader.isShowing()) { loader.dismiss(); }
-                Toast.makeText(getActivity(), "Update failed!", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "Update failed!", Toast.LENGTH_LONG).show();
             }
         });
     }

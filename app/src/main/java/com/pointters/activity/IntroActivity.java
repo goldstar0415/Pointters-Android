@@ -54,7 +54,7 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(new Intent(this, RegistrationDetailsActivity.class));
                 finish();
 
-            }else {
+            } else {
                 startActivity(new Intent(IntroActivity.this, HomeActivity.class));
                 finish();
             }

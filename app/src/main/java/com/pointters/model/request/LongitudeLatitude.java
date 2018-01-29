@@ -7,8 +7,10 @@ import java.util.List;
  */
 
 public class LongitudeLatitude {
+
     private List<Double> coordinates;
     private String type;
+
 
     public LongitudeLatitude(List<Double> coordinates, String type) {
         this.coordinates = coordinates;

@@ -9,12 +9,14 @@ import java.util.List;
  */
 
 public class GetReceivedOffersResponse {
+
     private List<ReceivedOfferModel> docs;
     private int total;
     private int limit;
     private int page;
     private int pages;
     private String lastDocId;
+
 
     public List<ReceivedOfferModel> getDocs() {
         return docs;

@@ -1,7 +1,9 @@
 package com.pointters.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,11 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
+import com.pointters.activity.ChatActivity;
+import com.pointters.activity.CustomOfferDetailsActivity;
+import com.pointters.activity.ProfileScreenActivity;
 import com.pointters.adapter.CustomOffersAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.ReceivedOfferModel;
 import com.pointters.model.response.GetReceivedOffersResponse;
 import com.pointters.rest.ApiClient;
@@ -49,8 +56,8 @@ public class CustomOffersFragment extends Fragment implements OnApiFailDueToSess
     private SwipeRefreshLayout refreshLayout;
     private KProgressHUD loader;
 
-    private Double mTagLat = 0.0;
-    private Double mTagLng = 0.0;
+    private Double mUserLat = 0.0;
+    private Double mUserLng = 0.0;
 
     private String lastDocId = "";
     private int limitCnt = 0;
@@ -72,13 +79,13 @@ public class CustomOffersFragment extends Fragment implements OnApiFailDueToSess
                 .setDimAmount(0.5f);
 
         if (!sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "").equals("")) {
-            mTagLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
+            mUserLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
         }
         if (!sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "").equals("")) {
-            mTagLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
+            mUserLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
         }
 
-        txtNotFound= (TextView)view.findViewById(R.id.txt_notfound);
+        txtNotFound = (TextView)view.findViewById(R.id.txt_notfound);
         txtNotFound.setVisibility(View.GONE);
 
         offersRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_services);
@@ -94,7 +101,32 @@ public class CustomOffersFragment extends Fragment implements OnApiFailDueToSess
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         offersRecyclerView.setLayoutManager(linearLayoutManager);
         offersRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        customOffersAdapter = new CustomOffersAdapter(getActivity(), receivedOffersList, mTagLat, mTagLng);
+        customOffersAdapter = new CustomOffersAdapter(getActivity(), receivedOffersList, mUserLat, mUserLng, new OnRecyclerViewButtonClickListener(){
+            @Override
+            public void onButtonClick(View v, int position) {
+                switch (v.getId()) {
+                    case R.id.upper_view:
+                        detailOffer(position);
+                        break;
+
+                    case R.id.offer_btn_accept:
+                        detailOffer(position);
+                        break;
+
+                    case R.id.img_call_btn:
+                        moveToCall(position);
+                        break;
+
+                    case R.id.img_chat_btn:
+                        moveToChat(position);
+                        break;
+
+                    case R.id.txt_buyer_name:
+                        moveToProfile(position);
+                        break;
+                }
+            }
+        });
         offersRecyclerView.setAdapter(customOffersAdapter);
 
         offersRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -115,6 +147,87 @@ public class CustomOffersFragment extends Fragment implements OnApiFailDueToSess
                 getOffersReceivedApiCall(true, "");
             }
         });
+    }
+
+    private void detailOffer(int position) {
+        if (receivedOffersList.get(position).getOfferId() != null && !receivedOffersList.get(position).getOfferId().isEmpty()) {
+            String offerId = receivedOffersList.get(position).getOfferId();
+
+            Intent intent = new Intent(getActivity(), CustomOfferDetailsActivity.class);
+            intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offerId);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getActivity(), "Can't get the detail info", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void moveToChat(int position) {
+        if (receivedOffersList.get(position).getSeller() != null) {
+            String strFirst = "", strLast = "";
+            if (receivedOffersList.get(position).getSeller().getFirstName() != null && !receivedOffersList.get(position).getSeller().getFirstName().isEmpty()) {
+                strFirst = receivedOffersList.get(position).getSeller().getFirstName();
+            }
+            if (receivedOffersList.get(position).getSeller().getLastName() != null && !receivedOffersList.get(position).getSeller().getLastName().isEmpty()) {
+                strLast = receivedOffersList.get(position).getSeller().getLastName();
+            }
+            String strOtherName = strFirst + " " + strLast;
+
+            String strOtherPic = "";
+            if (receivedOffersList.get(position).getSeller().getProfilePic() != null && !receivedOffersList.get(position).getSeller().getProfilePic().isEmpty()) {
+                strOtherPic = receivedOffersList.get(position).getSeller().getProfilePic();
+                if (!strOtherPic.contains("https://s3.amazonaws.com")) {
+                    strOtherPic = "https://s3.amazonaws.com" + strOtherPic;
+                }
+            }
+
+            String strOtherId = "";
+            if (receivedOffersList.get(position).getSeller().getSellerId() != null && !receivedOffersList.get(position).getSeller().getSellerId().isEmpty()) {
+                strOtherId = receivedOffersList.get(position).getSeller().getSellerId();
+            }
+
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            editor.putInt(ConstantUtils.USER_VERIFIED, 0).apply();
+            editor.putString(ConstantUtils.CHAT_USER_ID, strOtherId).apply();
+            editor.putString(ConstantUtils.CHAT_USER_NAME, strOtherName).apply();
+            editor.putString(ConstantUtils.CHAT_USER_PIC, strOtherPic).apply();
+            editor.putString(ConstantUtils.CHAT_CONVERSATION_ID, "");
+            startActivity(intent);
+        }
+    }
+
+    private void moveToCall(int position) {
+        if (receivedOffersList.get(position).getSeller() != null) {
+            String strPhone = "";
+            if (receivedOffersList.get(position).getSeller().getPhone() != null && !receivedOffersList.get(position).getSeller().getPhone().isEmpty()) {
+                strPhone = receivedOffersList.get(position).getSeller().getPhone();
+
+                if (strPhone.contains("+")) {
+                    strPhone = strPhone.substring(1);
+                }
+            }
+
+            if (!strPhone.equals("")) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + strPhone));
+                startActivity(callIntent);
+            }
+        }
+    }
+
+    private void moveToProfile(int position) {
+        if (receivedOffersList.get(position).getSeller() != null) {
+            String strId = "";
+            if (receivedOffersList.get(position).getSeller().getSellerId() != null && !receivedOffersList.get(position).getSeller().getSellerId().isEmpty()) {
+                strId = receivedOffersList.get(position).getSeller().getSellerId();
+            }
+
+            if (!strId.equals("")) {
+                Intent intent = new Intent(getActivity(), ProfileScreenActivity.class);
+                intent.putExtra(ConstantUtils.PROFILE_LOGINUSER, false);
+                intent.putExtra(ConstantUtils.PROFILE_USERID, strId);
+                startActivity(intent);
+            }
+        }
     }
 
     private void getOffersReceivedApiCall(final boolean inited, String lastId) {
@@ -146,6 +259,8 @@ public class CustomOffersFragment extends Fragment implements OnApiFailDueToSess
                     if (inited && receivedOffersList.size() == 0) {
                         txtNotFound.setText("No offer found");
                         txtNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if (response.code() == 401) {
@@ -162,6 +277,7 @@ public class CustomOffersFragment extends Fragment implements OnApiFailDueToSess
             public void onFailure(Call<GetReceivedOffersResponse> call, Throwable t) {
                 refreshLayout.setRefreshing(false);
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(getActivity(), "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

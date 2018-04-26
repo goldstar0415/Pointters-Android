@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:ignore="MissingPrefix">
 
-
-
-
     <com.pointters.utils.VerticalScrollview
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -1,48 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="@dimen/_120sdp"
+    android:layout_margin="@dimen/_6sdp"
+    android:layout_centerInParent="true"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false">
 
-        <RelativeLayout
-            android:id="@+id/card_view_layout"
-            android:layout_width="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_height="match_parent">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/crosswall_images"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="@dimen/_3sdp"
+        android:visibility="visible"
+        android:src="@drawable/image_placeholder1"
+        app:riv_mutate_background="false"
+        app:riv_oval="false" />
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardview"
-                android:layout_width="@dimen/card_view_width"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="false">
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/crosswall_images"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    app:riv_corner_radius="@dimen/_3sdp"
-                    android:visibility="visible"
-                    app:riv_mutate_background="false"
-                    app:riv_oval="false" />
-
-                <com.afollestad.easyvideoplayer.EasyVideoPlayer
-                    android:id="@+id/player"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></com.afollestad.easyvideoplayer.EasyVideoPlayer>
-                <ImageView
-                    android:id="@+id/img_cross"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/cross_icon_blue"/>
-            </android.support.v7.widget.CardView>
+    <!--<com.afollestad.easyvideoplayer.EasyVideoPlayer-->
+    <!--android:id="@+id/player"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+    <ImageView
+        android:id="@+id/img_cross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="@dimen/_5sdp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/cross_icon"/>
 
 
-        </RelativeLayout>
 
-</RelativeLayout>
+</android.support.v7.widget.CardView>

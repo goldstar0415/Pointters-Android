@@ -8,7 +8,7 @@ public class NotificationOption {
 
     private String header;
     private String subHeader;
-    private String selectedItmes;
+    private int selectedItmes;
 
 
 
@@ -28,11 +28,11 @@ public class NotificationOption {
         this.subHeader = subHeader;
     }
 
-    public String getSelectedItmes() {
+    public int getSelectedItmes() {
         return selectedItmes;
     }
 
-    public void setSelectedItmes(String selectedItmes) {
+    public void setSelectedItmes(int selectedItmes) {
         this.selectedItmes = selectedItmes;
     }
 }

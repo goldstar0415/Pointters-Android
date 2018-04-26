@@ -4,328 +4,382 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-
-    <com.pointters.utils.CustomTabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        android:textAlignment="center"
-        app:tabBackground="@android:color/white"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabIndicatorHeight="@dimen/fix_3dp"
-        app:tabMaxWidth="0dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="#1D1D28"
-        app:tabTextAppearance="@style/customTabFontsStyle"
-        app:tabTextColor="#1D1D28" />
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
+        android:layout_above="@+id/btn_next"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_add"
-        android:layout_below="@+id/tab_layout">
-
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/layout_choose_category"
+            <TextView
+                android:id="@+id/txt_choose_categories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:text="Choose a category"
+                android:layout_margin="@dimen/_10sdp"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                android:textColor="@color/card_title_text_color"/>
 
-                <TextView
-                    android:id="@+id/txt_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:ellipsize="end"
-                    android:maxLength="20"
-                    android:padding="@dimen/_10sdp"
-                    android:text="@string/choose_category"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_small" />
+            <!--<ExpandableListView-->
+                <!--android:id="@+id/lvExp"-->
+                <!--android:layout_below="@+id/txt_category"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:nestedScrollingEnabled="false"-->
+                <!--android:scrollbars="none"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:dividerHeight="0.5dp"-->
+                <!--android:cacheColorHint="@android:color/white"-->
+                <!--android:childDivider="@drawable/divider_option"-->
+                <!--android:divider="#F3F3F4"-->
+                <!--android:groupIndicator="@null" />-->
 
-                <ImageView
-                    android:id="@+id/img_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/txt_category"
-                    android:src="@drawable/down_arrow" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RelativeLayout
-                    android:id="@+id/layout_choose_gallery"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_160sdp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_upload_options"
-                        fontPath="fonts/Montserrat-Medium.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
-                        android:text="@string/coose_img_text_without_profile"
-                        android:textColor="#7A7A7A"
-                        android:textSize="@dimen/text_size_small"
-                        tools:ignore="MissingPrefix" />
-
-                    <ImageView
-                        android:id="@+id/img_choose_bg_images"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txt_upload_options"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:src="@drawable/add_hero_img_video_icon" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layout_camera"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_160sdp"
-                    android:layout_marginBottom="@dimen/_6sdp"
-                    android:layout_marginLeft="@dimen/_6sdp"
-                    android:layout_marginRight="@dimen/_6sdp"
-                    android:elevation="1dp"
-                    android:visibility="gone">
-
-                    <com.flurgle.camerakit.CameraView
-                        android:id="@+id/camera_preview"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true" />
-
-                    <ImageView
-                        android:id="@+id/take_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:src="@drawable/capture_button" />
-
-                    <!--   <ProgressBar
-                           android:id="@+id/progress_bar"
-                           android:layout_width="@dimen/_23sdp"
-                           android:layout_height="@dimen/_23sdp"
-                           android:layout_alignParentBottom="true"
-                           android:layout_centerHorizontal="true"
-                           android:layout_marginBottom="@dimen/_8sdp" />
-   -->
-                    <TextView
-                        android:id="@+id/txt_timer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:text="10 Secs"
-                        android:textColor="@android:color/white" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layout_crosswall"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_175sdp"
-                    android:visibility="gone">
-
-                    <me.crosswall.lib.coverflow.core.PagerContainer
-                        android:id="@+id/pager_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <android.support.v4.view.ViewPager
-                            android:id="@+id/container_viewpager"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/_25sdp"
-                            android:layout_marginRight="@dimen/_25sdp">
-
-
-                        </android.support.v4.view.ViewPager>
-
-                    </me.crosswall.lib.coverflow.core.PagerContainer>
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/layout_price_option_descn"
+            <com.pointters.adapter.ExpandableRecyclerView
+                android:id="@+id/recycler_view_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
-                android:background="@drawable/bg_service">
-
-                <TextView
-                    android:id="@+id/txt_service_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_17sdp"
-                    android:text="@string/service_description"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_small" />
-
-                <EditText
-                    android:id="@+id/edittext_service_description"
-                    fontPath="assets/Montserrat-Light.ttf"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_80sdp"
-                    android:layout_below="@+id/txt_service_desc"
-                    android:layout_marginBottom="@dimen/_17sdp"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_17sdp"
-                    android:background="@drawable/bg_light_gray_border"
-                    android:gravity="top"
-                    android:hint="@string/type_service_descn"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:overScrollMode="always"
-                    android:padding="@dimen/_5sdp"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbars="vertical"
-                    android:textColor="@color/text_color_dark_gray"
-                    android:textSize="@dimen/text_size_small"
-                    tools:ignore="MissingPrefix" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layout_pricing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
-                android:background="@drawable/bg_service">
-
-                <RelativeLayout
-                    android:id="@+id/layout_add_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp">
-
-                    <TextView
-                        android:id="@+id/txt_pricing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:text="@string/pricing"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/btn_add_price_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@drawable/bg_intro_login_ripple"
-                        android:gravity="center"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:paddingLeft="@dimen/_10sdp"
-                        android:paddingRight="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:text="@string/add_price_option"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_small" />
-                </RelativeLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view_pricing"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_below="@+id/layout_add_price"
-                    android:layout_marginBottom="@dimen/_12sdp"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_15sdp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layout_delivery_method"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_8sdp"
-                android:background="@drawable/bg_top_rounded_corner"
-                android:paddingBottom="@dimen/_8sdp">
-
-                <TextView
-                    android:id="@+id/txt_delivery_method"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_17sdp"
-                    android:text="@string/delivery_method"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_small" />
-
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_delivery_method"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_below="@+id/txt_delivery_method"
-                    app:layout_constraintTop_toBottomOf="@id/txt_delivery_method" />
-
-                <TextView
-                    android:id="@+id/txt_warning"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/recycler_delivery_method"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_17sdp"
-                    android:text="@string/your_local_services_wont_be_updated"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_tiny" />
-
-            </RelativeLayout>
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/adapter_user_setting_group"
+                tools:targetApi="lollipop" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <TextView
-        android:id="@+id/btn_add"
-
+    <Button
+        android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:background="@drawable/btn_seletor_rounded"
-        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:text="Next"
+        android:textColor="@color/colorWhite"
+        android:gravity="end|center_vertical"
         android:padding="@dimen/_10sdp"
-        android:text="@string/add"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_small"
-        />
+        android:layout_alignParentBottom="true"/>
+
+    <!--<com.pointters.utils.CustomTabLayout-->
+        <!--android:id="@+id/tab_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:background="@android:color/white"-->
+        <!--android:textAlignment="center"-->
+        <!--app:tabBackground="@android:color/white"-->
+        <!--app:tabGravity="fill"-->
+        <!--app:tabIndicatorColor="@color/colorAccent"-->
+        <!--app:tabIndicatorHeight="@dimen/fix_3dp"-->
+        <!--app:tabMaxWidth="0dp"-->
+        <!--app:tabMode="fixed"-->
+        <!--app:tabSelectedTextColor="#1D1D28"-->
+        <!--app:tabTextAppearance="@style/customTabFontsStyle"-->
+        <!--app:tabTextColor="#1D1D28" />-->
+
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/btn_add"-->
+        <!--android:layout_below="@+id/tab_layout">-->
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_choose_category"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txt_category"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLength="20"-->
+                    <!--android:padding="@dimen/_10sdp"-->
+                    <!--android:text="@string/choose_category"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/text_size_small" />-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_down"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_toRightOf="@+id/txt_category"-->
+                    <!--android:src="@drawable/down_arrow" />-->
+            <!--</RelativeLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/layout_choose_gallery"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/_160sdp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/txt_upload_options"-->
+                        <!--fontPath="fonts/Montserrat-Medium.ttf"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/coose_img_text_without_profile"-->
+                        <!--android:textColor="#7A7A7A"-->
+                        <!--android:textSize="@dimen/text_size_small"-->
+                        <!--tools:ignore="MissingPrefix" />-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/img_choose_bg_images"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/txt_upload_options"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/_20sdp"-->
+                        <!--android:src="@drawable/add_hero_img_video_icon" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/layout_camera"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/_160sdp"-->
+                    <!--android:layout_marginBottom="@dimen/_6sdp"-->
+                    <!--android:layout_marginLeft="@dimen/_6sdp"-->
+                    <!--android:layout_marginRight="@dimen/_6sdp"-->
+                    <!--android:elevation="1dp"-->
+                    <!--android:visibility="gone">-->
+
+                    <!--<com.flurgle.camerakit.CameraView-->
+                        <!--android:id="@+id/camera_preview"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:adjustViewBounds="true" />-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/take_image"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentBottom="true"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginBottom="@dimen/_5sdp"-->
+                        <!--android:src="@drawable/capture_button" />-->
+
+                    <!--&lt;!&ndash;   <ProgressBar-->
+                           <!--android:id="@+id/progress_bar"-->
+                           <!--android:layout_width="@dimen/_23sdp"-->
+                           <!--android:layout_height="@dimen/_23sdp"-->
+                           <!--android:layout_alignParentBottom="true"-->
+                           <!--android:layout_centerHorizontal="true"-->
+                           <!--android:layout_marginBottom="@dimen/_8sdp" />-->
+   <!--&ndash;&gt;-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/txt_timer"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentBottom="true"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_marginBottom="@dimen/_10sdp"-->
+                        <!--android:layout_marginRight="@dimen/_15sdp"-->
+                        <!--android:text="10 Secs"-->
+                        <!--android:textColor="@android:color/white" />-->
+
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/layout_crosswall"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/_175sdp"-->
+                    <!--android:visibility="gone">-->
+
+                    <!--<me.crosswall.lib.coverflow.core.PagerContainer-->
+                        <!--android:id="@+id/pager_container"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent">-->
+
+                        <!--<android.support.v4.view.ViewPager-->
+                            <!--android:id="@+id/container_viewpager"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_gravity="center"-->
+                            <!--android:layout_marginLeft="@dimen/_25sdp"-->
+                            <!--android:layout_marginRight="@dimen/_25sdp">-->
+
+
+                        <!--</android.support.v4.view.ViewPager>-->
+
+                    <!--</me.crosswall.lib.coverflow.core.PagerContainer>-->
+
+                <!--</RelativeLayout>-->
+
+            <!--</RelativeLayout>-->
+
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_price_option_descn"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="@dimen/_8sdp"-->
+                <!--android:background="@drawable/bg_service">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txt_service_desc"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                    <!--android:layout_marginTop="@dimen/_17sdp"-->
+                    <!--android:text="@string/service_description"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/text_size_small" />-->
+
+                <!--<EditText-->
+                    <!--android:id="@+id/edittext_service_description"-->
+                    <!--fontPath="assets/Montserrat-Light.ttf"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/_80sdp"-->
+                    <!--android:layout_below="@+id/txt_service_desc"-->
+                    <!--android:layout_marginBottom="@dimen/_17sdp"-->
+                    <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                    <!--android:layout_marginRight="@dimen/_15sdp"-->
+                    <!--android:layout_marginTop="@dimen/_17sdp"-->
+                    <!--android:background="@drawable/bg_light_gray_border"-->
+                    <!--android:gravity="top"-->
+                    <!--android:hint="@string/type_service_descn"-->
+                    <!--android:inputType="textCapSentences|textMultiLine"-->
+                    <!--android:overScrollMode="always"-->
+                    <!--android:padding="@dimen/_5sdp"-->
+                    <!--android:scrollbarStyle="insideInset"-->
+                    <!--android:scrollbars="vertical"-->
+                    <!--android:textColor="@color/text_color_dark_gray"-->
+                    <!--android:textSize="@dimen/text_size_small"-->
+                    <!--tools:ignore="MissingPrefix" />-->
+
+            <!--</RelativeLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_pricing"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="@dimen/_8sdp"-->
+                <!--android:background="@drawable/bg_service">-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/layout_add_price"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/_12sdp">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/txt_pricing"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                        <!--android:text="@string/pricing"-->
+                        <!--android:textColor="@android:color/black"-->
+                        <!--android:textSize="@dimen/text_size_small" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/btn_add_price_button"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_marginRight="@dimen/_15sdp"-->
+                        <!--android:background="@drawable/bg_intro_login_ripple"-->
+                        <!--android:gravity="center"-->
+                        <!--android:paddingBottom="@dimen/_5sdp"-->
+                        <!--android:paddingLeft="@dimen/_10sdp"-->
+                        <!--android:paddingRight="@dimen/_10sdp"-->
+                        <!--android:paddingTop="@dimen/_5sdp"-->
+                        <!--android:text="@string/add_price_option"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--android:textSize="@dimen/text_size_small" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/recycler_view_pricing"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:nestedScrollingEnabled="false"-->
+                    <!--android:layout_below="@+id/layout_add_price"-->
+                    <!--android:layout_marginBottom="@dimen/_12sdp"-->
+                    <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                    <!--android:layout_marginRight="@dimen/_15sdp" />-->
+
+            <!--</RelativeLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_delivery_method"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/_8sdp"-->
+                <!--android:layout_marginRight="@dimen/_8sdp"-->
+                <!--android:background="@drawable/bg_top_rounded_corner"-->
+                <!--android:paddingBottom="@dimen/_8sdp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txt_delivery_method"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                    <!--android:layout_marginTop="@dimen/_17sdp"-->
+                    <!--android:text="@string/delivery_method"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/text_size_small" />-->
+
+
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/recycler_delivery_method"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                    <!--android:layout_below="@+id/txt_delivery_method"-->
+                    <!--app:layout_constraintTop_toBottomOf="@id/txt_delivery_method" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txt_warning"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/recycler_delivery_method"-->
+                    <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                    <!--android:layout_marginRight="@dimen/_15sdp"-->
+                    <!--android:layout_marginTop="@dimen/_17sdp"-->
+                    <!--android:text="@string/your_local_services_wont_be_updated"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/text_size_tiny" />-->
+
+            <!--</RelativeLayout>-->
+
+        <!--</LinearLayout>-->
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/btn_add"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginBottom="@dimen/_8sdp"-->
+        <!--android:layout_marginLeft="@dimen/_8sdp"-->
+        <!--android:layout_marginRight="@dimen/_8sdp"-->
+        <!--android:background="@drawable/btn_seletor_rounded"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="@dimen/_10sdp"-->
+        <!--android:text="@string/add"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="@dimen/text_size_small"-->
+        <!--android:enabled="false"/>-->
 
 
 </RelativeLayout>

@@ -23,20 +23,49 @@
             app:riv_oval="true"
             app:riv_tile_mode="clamp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/img_profile"
+            android:layout_toRightOf="@id/img_profile"
+            android:layout_toLeftOf="@+id/follow_unfollow_button"
+            android:layout_toStartOf="@+id/follow_unfollow_button">
 
-        <TextView
-            android:id="@+id/txt_name"
+            <TextView
+                android:id="@+id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:text="Milam Tora"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:id="@+id/txt_duty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:text="Milam Tora"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_mini_tiny" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/follow_unfollow_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="FOLLOW"
+            android:textColor="@color/colorAccent"
+            android:background="@color/transparent"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_15sdp"
-            android:layout_toRightOf="@id/img_profile"
-            android:text="Milam Tora"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_small"
-            android:layout_toEndOf="@id/img_profile" />
-
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 </LinearLayout>

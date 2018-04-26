@@ -5,9 +5,11 @@
     <color name="colorAccent"> #00ace3</color>
     <color name="spots_dialog_color">@color/colorAccent</color>
     <color name="bottom_bar_text_color">#999999</color>
-<color name="gray">#777777</color>
+    <color name="card_title_text_color">#DE000000</color>
+    <color name="gray">#777777</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="fb_color">#395692</color>
+    <color name="gg_color">#F5F5F5</color>
     <color name="light_gray">#ECECEC</color>
     <color name="text_color_gray">#8E8E92</color>
     <color name="color_red_for_warning">#ff0000</color>
@@ -20,8 +22,10 @@
     <color name="color_option_1">#50D2C2</color>
     <color name="color_option_2">#E2B267</color>
     <color name="color_option_3">#AC85F3</color>
+    <color name="color_orange">#FFA500</color>
     <color name="color_view">#EFEFF0</color>
     <color name="text_color_dark_gray">#414141</color>
+    <color name="gray_medium">#C7C7CC</color>
     <color name="color_delivery_method">#6B6B6B</color>
     <color name="color_time_to_deliver">#3F3F3F</color>
     <color name="color_verified">#B1B1B1</color>
@@ -29,5 +33,8 @@
     <color name="color_blue">#02ADE4</color>
     <color name="blue">#02ADE4</color>
     <color name="disabled_btn_color">#AAAAAA</color>
+    <color name="btn_unset_color">#E5E5E5</color>
+
+    <color name="transparent">#00000000</color>
 
 </resources>

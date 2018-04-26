@@ -15,6 +15,10 @@ public class CategoryDetails {
     private ArrayList<SubCategories> subCategories;
     private ArrayList<String> keywords;
 
+    public CategoryDetails(String key){
+        this.name = key;
+    }
+
     public CategoryDetails(String _id, String userId, String name, Integer __v, ArrayList<SubCategories> subCategories, ArrayList<String> keywords) {
         this._id = _id;
         this.userId = userId;

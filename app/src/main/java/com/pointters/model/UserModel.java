@@ -2,11 +2,14 @@ package com.pointters.model;
 
 import com.pointters.model.request.LocationRequestModel;
 
+import java.io.Serializable;
+
 /**
  * Created by prashantkumar on 8/9/17.
  */
 
-public class UserModel {
+public class UserModel implements Serializable{
+
     private String _id;
     private String email;
     private Integer __v;

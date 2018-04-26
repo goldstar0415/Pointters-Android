@@ -47,8 +47,15 @@ public class AndroidUtils {
     public static void hideKeyBoard(Context context) {
         InputMethodManager manager = (InputMethodManager) context
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-        manager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus()
-                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (manager != null) {
+            if (((Activity) context).getCurrentFocus() != null){
+                if (((Activity) context).getCurrentFocus().getWindowToken() != null) {
+                    manager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus()
+                            .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+
+        }
     }
 
     public static void showKeyBoard(Context context) {

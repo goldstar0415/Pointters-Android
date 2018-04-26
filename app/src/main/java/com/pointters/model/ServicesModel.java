@@ -5,10 +5,13 @@ package com.pointters.model;
  */
 
 public class ServicesModel {
+
     private ServicesWoArray service;
+    private UserServiceModel user;
     private Integer pointValue;
     private Integer numOrders;
-    private Integer avgRating;
+    private Float avgRating;
+
 
     public ServicesWoArray getService() {
         return service;
@@ -16,6 +19,14 @@ public class ServicesModel {
 
     public void setService(ServicesWoArray service) {
         this.service = service;
+    }
+
+    public UserServiceModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserServiceModel user) {
+        this.user = user;
     }
 
     public Integer getPointValue() {
@@ -34,11 +45,11 @@ public class ServicesModel {
         this.numOrders = numOrders;
     }
 
-    public Integer getAvgRating() {
+    public Float getAvgRating() {
         return avgRating;
     }
 
-    public void setAvgRating(Integer avgRating) {
+    public void setAvgRating(Float avgRating) {
         this.avgRating = avgRating;
     }
 }

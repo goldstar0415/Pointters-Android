@@ -2,12 +2,14 @@
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+//        classpath 'com.google.zxing:android-core:3.3.0@jar'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,6 +18,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.google.com' }
@@ -28,11 +31,6 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 25
-    buildToolsVersion = "25.0.2"
-
-    minSdkVersion = 16
-    targetSdkVersion = 25
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -40,11 +38,7 @@ ext {
     lintAbortOnError = false
 
     // Dependency versions
-    playServicesVersion = '10.2.1'
-    appcompatV7Version = '25.3.1'
-    designVersion = '25.3.1'
     constraintLayout = '1.0.2'
-    facebook = '4.24.0'
     calligraphy = '2.3.0'
 
 }
@@ -52,3 +46,4 @@ ext {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+//apply plugin: 'com.google.gms.google-services'

@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/_8sdp"
-    android:layout_marginLeft="@dimen/_6sdp"
-    android:layout_marginRight="@dimen/_6sdp"
+    android:layout_margin="@dimen/_5sdp"
     android:orientation="vertical">
+
 
     <LinearLayout
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_service"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/_15sdp">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:paddingLeft="@dimen/_15sdp"
-            android:paddingRight="@dimen/_15sdp">
+            android:layout_height="52sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/img_profile"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/user_avatar_placeholder"
                 app:riv_mutate_background="true"
                 app:riv_oval="true"
-                app:riv_tile_mode="clamp" />
+                app:riv_tile_mode="clamp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="@dimen/_12sdp" />
 
 
             <LinearLayout
@@ -43,270 +45,161 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_toRightOf="@+id/img_profile"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/img_profile">
 
 
                 <TextView
-                    android:id="@+id/mUserNameLiveOffer"
+                    android:id="@+id/txt_user_name"
                     fontPath="fonts/Montserrat-Medium.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:text="Milam Tora"
                     android:textColor="@color/color_black_info"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_small"
                     tools:ignore="MissingPrefix" />
 
                 <TextView
+                    android:id="@+id/txt_services_count"
                     fontPath="fonts/Montserrat-Light.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/mUserNameLiveOffer"
-                    android:layout_centerVertical="true"
-                    android:text="Facebook Friend"
+                    android:text="+21 Services"
                     android:textColor="#AFAFB0"
                     android:textSize="@dimen/text_size_tiny"
                     tools:ignore="MissingPrefix" />
             </LinearLayout>
 
-            <TextView
+            <Button
+                android:id="@+id/btn_follow"
                 fontPath="fonts/Montserrat-Light.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/follow_btn_pattern"
                 android:gravity="center"
-                android:paddingBottom="@dimen/_6sdp"
-
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp"
-                android:paddingTop="@dimen/_6sdp"
                 android:text="Follow"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/text_size_tiny"
-                tools:ignore="MissingPrefix" />
+                android:textColor="@color/colorAccent"
+                android:background="@color/transparent"
+                android:textSize="@dimen/text_size_small"
+                tools:ignore="MissingPrefix"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="#e8e8e9"></View>
+            android:background="#e8e8e9" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/_15sdp"
-            android:paddingRight="@dimen/_15sdp">
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/_5sdp">
 
-            <RelativeLayout
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_12sdp">
                 <ImageView
-                    android:id="@+id/mFlagInviteFriend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/invite_friend_flag_icon_blue" />
-
+                    android:src="@drawable/dark_pointters_gray"
+                    android:layout_gravity="center"/>
                 <TextView
-                    android:id="@+id/mFlagTxt"
+                    android:id="@+id/txt_point_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:text="90 K"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/text_size_small" />
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="0dp"
+                    android:text="90"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_size_mini_tiny"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginLeft="@dimen/_4sdp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center">
-
-
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_12sdp">
                 <ImageView
-                    android:id="@+id/mServiceImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:src="@drawable/invite_friend_service_icon" />
-
+                    android:src="@drawable/icon_business_services"
+                    android:layout_gravity="center"/>
                 <TextView
-                    android:id="@+id/mServiceDate"
+                    android:id="@+id/txt_num_followers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/mServiceImg"
-                    android:text="10 Service"
-                    android:textColor="#F2BD06"
-                    android:textSize="@dimen/text_size_small" />
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_size_mini_tiny"
+                    android:text="10"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_marginStart="@dimen/_4sdp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
-
-
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_12sdp">
                 <ImageView
-                    android:id="@+id/mSochaHai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:src="@drawable/invite_friend_tick_icon_green" />
-
+                    android:src="@drawable/dark_business"
+                    android:layout_gravity="center"/>
                 <TextView
+                    android:id="@+id/txt_num_orders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/mSochaHai"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_size_mini_tiny"
                     android:text="100"
-                    android:textColor="#27D65D"
-                    android:textSize="@dimen/text_size_small" />
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="0dp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginLeft="@dimen/_4sdp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_12sdp">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_toLeftOf="@+id/mTimeIconText"
-                    android:src="@drawable/invite_friend_time_icon" />
-
+                    android:src="@drawable/dark_star"
+                    android:layout_gravity="center" />
                 <TextView
-                    android:id="@+id/mTimeIconText"
+                    android:id="@+id/txt_avg_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="90%"
-                    android:textColor="#F18E2D"
-                    android:textSize="@dimen/text_size_small" />
-            </RelativeLayout>
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_size_mini_tiny"
+                    android:text="96%"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginLeft="@dimen/_4sdp" />
+            </LinearLayout>
 
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="#e8e8e9"></View>
-
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/invite_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/_15sdp"
-            android:paddingRight="@dimen/_10sdp">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_small_one" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_small_one" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_small_one" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/img_user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_small_one" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/img_user"
-                    android:layout_alignLeft="@+id/img_user"
-                    android:layout_alignRight="@+id/img_user"
-                    android:layout_alignTop="@+id/img_user"
-                    android:alpha="0.5"
-                    android:background="#100f13">
-
-
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="+ 25"
-                    android:gravity="center"
-                    android:layout_alignBottom="@+id/img_user"
-                    android:layout_alignLeft="@+id/img_user"
-                    android:layout_alignRight="@+id/img_user"
-                    android:layout_alignTop="@+id/img_user"
-                    android:textColor="@android:color/white" />
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <TextView
-            fontPath="fonts/Montserrat-Light.ttf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:paddingLeft="@dimen/_15sdp"
-            android:paddingRight="@dimen/_15sdp"
-            android:text="Offers dog walk, Cat care service, etc.."
-            android:textColor="@color/color_black_info"
-            android:textSize="@dimen/text_size_small"
-            tools:ignore="MissingPrefix" />
-
-
+            android:padding="@dimen/_12sdp"
+            android:visibility="visible"/>
     </LinearLayout>
-</LinearLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -22,6 +22,9 @@ public class SellerModel {
     @SerializedName("profilePic")
     @Expose
     private String profilePic;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
     @SerializedName("verified")
     @Expose
     private Boolean verified;
@@ -66,6 +69,14 @@ public class SellerModel {
         this.profilePic = profilePic;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public Boolean getVerified() {
         return verified;
     }
@@ -73,5 +84,4 @@ public class SellerModel {
     public void setVerified(Boolean verified) {
         this.verified = verified;
     }
-
 }

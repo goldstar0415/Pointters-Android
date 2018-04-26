@@ -29,7 +29,7 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/_8sdp"
                     android:paddingRight="@dimen/_5sdp"
-                    android:src="@drawable/back_icon_grey" />
+                    android:src="@drawable/back_icon" />
 
                 <TextView
                     android:id="@+id/toolbar_title"

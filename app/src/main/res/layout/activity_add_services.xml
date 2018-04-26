@@ -1,34 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
 
-    <RelativeLayout
+
+    <!--<FrameLayout-->
+        <!--android:layout_below="@+id/toolbar_top"-->
+        <!--android:id="@+id/frame_container"-->
+        <!--android:layout_marginTop="-5dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+
+    <com.pointters.utils.NonSwipeableViewPager
+        android:layout_below="@+id/toolbar_top"
+        android:id="@+id/view_pager"
+        android:layout_marginTop="-5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:padding="@dimen/_10sdp">
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="@dimen/_44sdp"
+                android:layout_height="@dimen/_44sdp"
+                android:scaleType="center"
+                android:src="@drawable/close_icon" />
+            <Button
+                android:id="@+id/btn_post"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_44sdp"
+                android:layout_alignParentEnd="true"
+                android:text="POST"
+                android:textColor="@color/colorAccent"
+                android:background="@android:color/transparent"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/img_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/close_icon" />
 
         <com.pointters.utils.CustomTabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_toRightOf="@+id/img_close"
-            android:background="@android:color/white"
+            android:background="@android:color/transparent"
             android:textAlignment="center"
-            app:tabBackground="@android:color/white"
+            app:tabBackground="@color/gg_color"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorHeight="@dimen/fix_3dp"
             app:tabMode="fixed"
@@ -37,18 +64,10 @@
             app:tabSelectedTextColor="#1D1D28"
             app:tabTextAppearance="@style/customTabFontsSmallDark"
             app:tabTextColor="#1D1D28" />
-    </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_5sdp"
+            android:background="@drawable/shadow"/>
+    </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/frame_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <com.pointters.utils.NonSwipeableViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent" />
-
-
-</LinearLayout>
+</RelativeLayout>

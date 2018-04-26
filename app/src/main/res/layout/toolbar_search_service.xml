@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/_20sdp"
-    app:elevation="0dp"
+    app:elevation="@dimen/_3sdp"
     tools:ignore="MissingPrefix">
 
     <android.support.v7.widget.Toolbar
@@ -14,140 +13,130 @@
         android:layout_height="wrap_content"
         app:contentInsetStart="0dp">
 
-        <android.support.constraint.ConstraintLayout
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp">
-
-            <ImageView
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_3sdp"
+            app:cardBackgroundColor="@color/colorWhite"
+            android:elevation="@dimen/_3sdp">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/back_icon_grey"
-                app:layout_constraintBottom_toBottomOf="@+id/layout_search_here"
-                app:layout_constraintTop_toTopOf="@+id/layout_search_here" />
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/layout_search_here"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/bg_search"
-                app:layout_constraintLeft_toRightOf="@id/btn_back"
-              app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <EditText
-                    android:id="@+id/edt_search_here"
-                    fontPath="fonts/Montserrat-Light.ttf"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_search"
-                    android:hint="@string/search_here"
-                    android:imeOptions="actionDone"
-                    android:inputType="textCapSentences"
-                    android:maxLines="1"
-                    android:paddingBottom="@dimen/_6sdp"
-                    android:paddingLeft="@dimen/_35sdp"
-                    android:paddingTop="@dimen/_6sdp"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/black"
-                    android:textSize="@dimen/text_size_tiny"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/img_cross_search_here"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/img_cross_search_here"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:padding="@dimen/fix_3dp"
-                    android:src="@drawable/cross_icon"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/edt_search_here"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/edt_search_here" />
-
-                <ImageView
-                    android:id="@+id/img_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_6sdp"
-                    android:src="@drawable/bg_search_selector"
-                    app:layout_constraintBottom_toBottomOf="@id/edt_search_here"
-                    app:layout_constraintLeft_toLeftOf="@id/edt_search_here"
-                    app:layout_constraintTop_toTopOf="@id/edt_search_here" />
-            </android.support.constraint.ConstraintLayout>
-<!--
-            <TextView
-                android:id="@+id/txt_apply"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/apply"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="@id/layout_search_here"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/layout_search_here" />-->
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:background="@drawable/bg_search"
-                app:layout_constraintLeft_toLeftOf="@+id/layout_search_here"
-                app:layout_constraintRight_toRightOf="@+id/layout_search_here"
-                app:layout_constraintTop_toBottomOf="@id/layout_search_here">
+                android:orientation="vertical">
 
 
-                <EditText
-                    android:id="@+id/edt_enter_location"
-                    fontPath="fonts/Montserrat-Light.ttf"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_search"
-                    android:hint="@string/enter_location"
-                    android:imeOptions="actionDone"
-                    android:inputType="textCapSentences"
-                    android:maxLines="1"
-                    android:paddingBottom="@dimen/_6sdp"
-                    android:paddingLeft="@dimen/_35sdp"
-                    android:paddingTop="@dimen/_6sdp"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/black"
-                    android:textSize="@dimen/text_size_tiny"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/img_cross_location" />
+                <RelativeLayout
+                    android:id="@+id/layout_search_here"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
 
-                <ImageView
-                    android:id="@+id/img_location_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_6sdp"
-                    android:src="@drawable/bg_location_selector"
-                    app:layout_constraintBottom_toBottomOf="@+id/edt_enter_location"
-                    app:layout_constraintLeft_toLeftOf="@+id/edt_enter_location"
-                    app:layout_constraintTop_toTopOf="@+id/edt_enter_location" />
+                    <ImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/back_icon"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:scaleType="center"/>
 
-                <ImageView
-                    android:id="@+id/img_cross_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:padding="@dimen/fix_3dp"
-                    android:src="@drawable/cross_icon"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/edt_enter_location"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/edt_enter_location" />
-            </android.support.constraint.ConstraintLayout>
+                    <EditText
+                        android:id="@+id/edt_search_here"
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Search"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapSentences"
+                        android:background="@android:color/transparent"
+                        android:maxLines="1"
+                        android:layout_toRightOf="@+id/btn_back"
+                        android:layout_toLeftOf="@+id/img_cross_search_here"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/text_size_tiny"
+                        android:layout_toEndOf="@+id/btn_back"
+                        android:layout_toStartOf="@+id/img_cross_search_here"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"/>
+
+                    <ImageView
+                        android:id="@+id/img_cross_search_here"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/close_icon"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:scaleType="center"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/fix_0.5dp"
+                    android:background="@drawable/divider_option"/>
+                <RelativeLayout
+                    android:id="@+id/layout_location_search_here"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <ImageView
+                        android:id="@+id/img_location_search"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_centerVertical="true"
+                        android:scaleType="center"
+                        android:src="@drawable/location_icon_light_gray"
+                        android:layout_marginLeft="@dimen/_10sdp" />
+
+                    <EditText
+                        android:id="@+id/edt_enter_location"
+                        fontPath="fonts/Montserrat-Light.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/location"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapSentences"
+                        android:background="@android:color/transparent"
+                        android:maxLines="1"
+                        android:layout_toRightOf="@+id/img_location_search"
+                        android:layout_toLeftOf="@+id/img_cross_location"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/text_size_tiny"
+                        android:layout_toEndOf="@+id/img_location_search"
+                        android:layout_toStartOf="@+id/img_cross_location"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"/>
+
+                    <ImageView
+                        android:id="@+id/img_cross_location"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:scaleType="center"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/close_icon"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_10sdp" />
+                </RelativeLayout>
 
 
-        </android.support.constraint.ConstraintLayout>
-
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </android.support.v7.widget.Toolbar>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fix_5dp"
+        android:background="@drawable/shadow"/>
 
 </android.support.design.widget.AppBarLayout>

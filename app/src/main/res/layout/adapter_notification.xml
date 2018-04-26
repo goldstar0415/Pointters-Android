@@ -1,220 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
-
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/layout_parent"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="1dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/_4sdp"
+        >
+
+        <ImageView
+            android:id="@+id/unread_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/unread_dot"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_8sdp"/>
+        <RelativeLayout
+            android:id="@+id/rl_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_15sdp">
+
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_accept_request"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:src="@drawable/service_thumb_big"
+                android:visibility="visible"
+                android:layout_centerVertical="true"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
+
+        </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0.5dp"
-            android:paddingBottom="@dimen/_15sdp"
-            android:paddingTop="@dimen/_15sdp">
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_toEndOf="@id/rl_img"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/layout_notification_media">
 
             <RelativeLayout
-                android:id="@+id/rl_img"
-                android:layout_width="wrap_content"
+                android:id="@+id/mUser_name_iv_riv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15sdp">
-
-                <ImageView
-                    android:id="@+id/img_got_service"
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_45sdp"
-                    android:src="@drawable/service_thumb_big"
-                    android:visibility="gone" />
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/img_accept_request"
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_45sdp"
-                    android:src="@drawable/service_thumb_big"
-                    android:visibility="visible"
-                    app:riv_mutate_background="true"
-                    app:riv_oval="true"
-                    app:riv_tile_mode="clamp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/rl_img"
-                android:layout_alignTop="@+id/rl_img"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_12sdp"
-                android:layout_toRightOf="@id/rl_img">
-
-                <RelativeLayout
-                    android:id="@+id/mUser_name_iv_riv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true">
-
-                    <RelativeLayout
-                        android:id="@+id/layout_service_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/txt_title"
-                            fontPath="fonts/Montserrat-Regular.ttf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:includeFontPadding="false"
-                            android:maxLines="1"
-                            android:text="Milam Tora"
-                            android:textColor="#000000"
-                            android:textSize="@dimen/text_size_small"
-                            tools:ignore="MissingPrefix" />
-
-
-                        <ImageView
-                            android:id="@+id/img_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/notifications_tick_icon" />
-
-
-                    </RelativeLayout>
+                android:layout_centerVertical="true">
 
 
                     <TextView
-                        android:id="@+id/txt_time_ago_request_accepted"
-                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:id="@+id/txt_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/layout_service_name"
-                        android:layout_centerVertical="true"
-                        android:maxLines="1"
-                        android:text="10 min ago"
-                        android:textColor="#7F7F7F"
-                        android:textSize="@dimen/text_size_mini_tiny"
-                        android:visibility="visible"
+                        android:includeFontPadding="false"
+                        android:text="Milam Tora  g gsfd gsf gsdfg sf gsfd gsfdg sfd fsf gsf gsdfg sdfgsdfg sdf sdfgs dfsdf sfg sdf gsd"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/text_size_small"
                         tools:ignore="MissingPrefix" />
-                    <LinearLayout
-                        android:id="@+id/layout_temp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/layout_service_name"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-
-                        <RelativeLayout
-                            android:id="@+id/mLikesShare_relative_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:visibility="visible">
-
-                            <TextView
-                                android:id="@+id/mLikes"
-                                fontPath="fonts/Montserrat-Regular.ttf"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:maxLines="1"
-                                android:text="20 Likes"
-                                android:textColor="#939393"
-                                android:textSize="@dimen/text_size_mini_tiny"
-                                tools:ignore="MissingPrefix" />
-
-                            <TextView
-                                android:id="@+id/mWatcher"
-                                fontPath="fonts/Montserrat-Regular.ttf"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_toRightOf="@+id/mLikes"
-                                android:maxLines="1"
-                                android:text="10 watchers"
-                                android:textColor="#939393"
-                                android:textSize="@dimen/text_size_mini_tiny"
-                                tools:ignore="MissingPrefix" />
-
-
-                            <TextView
-                                android:id="@+id/mShares"
-                                fontPath="fonts/Montserrat-Regular.ttf"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_toRightOf="@+id/mWatcher"
-                                android:maxLines="1"
-                                android:text="10 shares"
-                                android:textColor="#939393"
-                                android:textSize="@dimen/text_size_mini_tiny"
-                                tools:ignore="MissingPrefix" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/mLikesShare_relative_layout"
-                            android:visibility="visible">
-
-                            <TextView
-                                android:id="@+id/mReviews"
-                                fontPath="fonts/Montserrat-Regular.ttf"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:maxLines="1"
-                                android:text="20 reviews"
-                                android:textColor="#939393"
-                                android:textSize="@dimen/text_size_mini_tiny"
-                                tools:ignore="MissingPrefix" />
-
-                            <TextView
-                                android:id="@+id/mTime_first_Ui"
-                                fontPath="fonts/Montserrat-Regular.ttf"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:maxLines="1"
-                                android:text="10 min ago."
-                                android:textColor="#7F7F7F"
-                                android:textSize="@dimen/text_size_mini_tiny"
-                                tools:ignore="MissingPrefix" />
-                        </RelativeLayout>
-                    </LinearLayout>
-                </RelativeLayout>
 
 
 
+
+                <TextView
+                    android:id="@+id/txt_time_ago_request_accepted"
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_title"
+                    android:layout_centerVertical="true"
+                    android:maxLines="1"
+                    android:text="10 min ago"
+                    android:textColor="#7F7F7F"
+                    android:textSize="@dimen/text_size_mini_tiny"
+                    android:visibility="visible"
+                    tools:ignore="MissingPrefix" />
             </RelativeLayout>
+
+
+
         </RelativeLayout>
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/txt_days_ago"
-        fontPath="fonts/Montserrat-Regular.ttf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="@dimen/_10sdp"
-        android:text="1 Day ago"
-        android:textColor="#898989"
-        android:textSize="@dimen/text_size_tiny"
-        tools:ignore="MissingPrefix" />
+        <com.pointters.utils.RoundedCornerLayout
+            android:id="@+id/layout_notification_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_12sdp"
+            >
+
+            <ImageView
+                android:id="@+id/img_media"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_placeholder1"/>
+        </com.pointters.utils.RoundedCornerLayout>
+    </RelativeLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

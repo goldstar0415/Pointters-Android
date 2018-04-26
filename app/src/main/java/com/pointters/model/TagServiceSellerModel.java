@@ -1,46 +1,30 @@
 package com.pointters.model;
 
+import java.io.Serializable;
+
 /**
  * Created by prashantkumar on 9/10/17.
  */
 
-public class TagServiceSellerModel {
+public class TagServiceSellerModel implements Serializable {
 
-    private String _id;
-    private String _type;
-    private String _score;
-    private TagSourceModel _source;
+    private String type;
+    private Service service;
 
-
-    public String getId() {
-        return _id;
-    }
-
-    public void setId(String id) {
-        this._id = id;
-    }
 
     public String getType() {
-        return _type;
+        return type;
     }
 
     public void setType(String type) {
-        this._type = type;
+        this.type = type;
     }
 
-    public String getScore() {
-        return _score;
+    public Service getService() {
+        return service;
     }
 
-    public void setScore(String score) {
-        this._score = score;
-    }
-
-    public TagSourceModel getSource() {
-        return _source;
-    }
-
-    public void setSource(TagSourceModel source) {
-        this._source = source;
+    public void setService(Service service) {
+        this.service = service;
     }
 }

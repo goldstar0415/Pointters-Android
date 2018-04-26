@@ -64,7 +64,6 @@ public class AppUtils {
             imgRightIcon.setVisibility(View.INVISIBLE);
         }
 
-
     }
     public static void setToolBarWithBothIconWithShadow(Context context, String toolBarTitle, int leftImageId, int rightImageId) {
 
@@ -130,7 +129,6 @@ public class AppUtils {
         }
 
         return isRequiredFieldsFilled;
-
     }
 
 }

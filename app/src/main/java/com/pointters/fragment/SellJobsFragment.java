@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
 import com.pointters.adapter.OffersAdapter;
 import com.pointters.adapter.SellJobsAdapter;
@@ -49,7 +51,7 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
     private List<SellJobsModel> sellJobsList=new ArrayList<>();
     private TextView txtNotFound;
     private SellJobsAdapter sellJobsAdapter;
-    private SwipeRefreshLayout refreshLayout;
+    private SwipyRefreshLayout refreshLayout;
     private KProgressHUD loader;
 
     private String lastDocId = "";
@@ -75,7 +77,7 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
         txtNotFound.setVisibility(View.GONE);
 
         sellJobsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_services);
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        refreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
         return view;
     }
@@ -102,10 +104,10 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
         loader.show();
         getSellJobsApiCall(true, "");
         refreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccent, R.color.colorPrimary);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        refreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh() {
-                getSellJobsApiCall(true, "");
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+               getSellJobsApiCall(true, "");
             }
         });
     }
@@ -135,10 +137,13 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
 
                     sellJobsList.addAll(response.body().getDocs());
                     sellJobsAdapter.notifyItemRangeInserted(sellJobsAdapter.getItemCount(), sellJobsList.size()-1);
+                    sellJobsAdapter.notifyDataSetChanged();
 
                     if (inited && sellJobsList.size() == 0) {
                         txtNotFound.setVisibility(View.VISIBLE);
                         txtNotFound.setText("No job found");
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if(response.code() == 401) {
@@ -155,6 +160,7 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
             public void onFailure(Call<GetSellJobsResponse> call, Throwable t) {
                 refreshLayout.setRefreshing(false);
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(getActivity(), "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

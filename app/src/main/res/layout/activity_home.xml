@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--<include
         android:id="@+id/main_toolbar_home"
@@ -11,179 +12,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <com.pointters.utils.NonSwipeableViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_horizontal_tab"
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_2sdp"
-        android:alpha="0.1"
-        android:layout_above="@id/bottom_horizontal_tab"
-        android:background="@drawable/shadow" />
-
-    <RelativeLayout
-        android:id="@+id/bottom_horizontal_tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:layout_alignParentBottom="true">
-
-        <LinearLayout
+        <com.pointters.utils.NonSwipeableViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp">
+            android:layout_above="@+id/bnve"
+            />
 
-            <RelativeLayout
-                android:id="@+id/img_flag_relative"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackgroundBorderless">
-
-                <ImageView
-                    android:id="@+id/img_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:src="@drawable/drawable_flag" />
-
-                <TextView
-                    android:id="@+id/txt_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/img_flag"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/update"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/text_size_tiny" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/img_service_relative"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackgroundBorderless">
-
-                <ImageView
-                    android:id="@+id/img_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:src="@drawable/drawable_service" />
-
-                <TextView
-                    android:id="@+id/txt_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/img_service"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:text="@string/explore"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/text_size_tiny" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/img_camera_relative"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackgroundBorderless">
-
-                <ImageView
-                    android:id="@+id/img_camera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:src="@drawable/drawable_camera" />
-
-                <TextView
-                    android:id="@+id/txt_camera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/img_camera"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/post"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/text_size_tiny" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/img_chat_relative"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-
-                android:background="?attr/selectableItemBackgroundBorderless">
-
-                <ImageView
-                    android:id="@+id/img_chat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:src="@drawable/drawable_chat" />
-
-                <TextView
-                    android:id="@+id/txt_chat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/img_chat"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:text="@string/chat"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/text_size_tiny" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/img_user_relative"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackgroundBorderless">
-
-                <ImageView
-                    android:id="@+id/img_user_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/drawable_profile" />
-
-                <TextView
-                    android:id="@+id/txt_me"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:layout_below="@+id/img_user_profile"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/me"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/text_size_tiny" />
-            </RelativeLayout>
-        </LinearLayout>
-    </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:alpha="0.1"
+            android:layout_above="@id/bnve"
+            android:background="@drawable/shadow" />
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+            android:id="@+id/bnve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            app:itemIconTint="@color/bottom_navigation_color_selector"
+            app:itemTextColor="@color/bottom_navigation_color_selector"
+            app:menu="@menu/bottombar_menu" />
     </RelativeLayout>
 </RelativeLayout>

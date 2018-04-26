@@ -5,10 +5,12 @@ package com.pointters.model;
  */
 
 public class FulfillmentMethod {
+
     private Boolean local;
     private Boolean online;
     private Boolean shipment;
     private Boolean store;
+    private String _id;
 
     public FulfillmentMethod(Boolean local, Boolean online, Boolean shipment, Boolean store) {
         this.local = local;
@@ -47,5 +49,13 @@ public class FulfillmentMethod {
 
     public void setStore(Boolean store) {
         this.store = store;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

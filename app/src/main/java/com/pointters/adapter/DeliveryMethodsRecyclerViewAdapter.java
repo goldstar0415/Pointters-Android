@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pointters.R;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.DeliveryMethod;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
@@ -20,88 +23,67 @@ import java.util.ArrayList;
  * Created by Anil Jha on 10-Aug-2017.
  */
 
-public class DeliveryMethodsRecyclerViewAdapter extends RecyclerView.Adapter<DeliveryMethodsRecyclerViewAdapter.MyViewHolder> implements View.OnClickListener {
+public class DeliveryMethodsRecyclerViewAdapter extends RecyclerView.Adapter<DeliveryMethodsRecyclerViewAdapter.MyViewHolder> {
 
+    private Context context;
     private ArrayList<DeliveryMethod> deliveryMethods;
+    private OnRecyclerViewButtonClickListener listener;
 
-    public DeliveryMethodsRecyclerViewAdapter(ArrayList<DeliveryMethod> deliveryMethods) {
-
+    public DeliveryMethodsRecyclerViewAdapter(Context context, ArrayList<DeliveryMethod> deliveryMethods, OnRecyclerViewButtonClickListener listener) {
+        this.context = context;
         this.deliveryMethods = deliveryMethods;
-
+        this.listener = listener;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_recycler_delivery_method, parent, false);
         return new MyViewHolder(itemView);
-
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
         holder.deliveryItemName.setText(deliveryMethods.get(position).getTitle());
         if (deliveryMethods.get(position).isSelected()) {
-            holder.deliveryCheckBox.setImageResource(R.drawable.checkbox_checked);
-            holder.deliveryCheckBox.setSelected(true);
+            holder.deliveryCheckBox.setChecked(true);
         } else {
-            holder.deliveryCheckBox.setImageResource(R.drawable.checkbox_unchecked);
-            holder.deliveryCheckBox.setSelected(false);
+            holder.deliveryCheckBox.setChecked(false);
         }
 
-        holder.relativeLayoutParent.setTag(position);
-        holder.relativeLayoutParent.setOnClickListener(this);
-
-        if(position==2)
-        {
+        if (position == 2 && deliveryMethods.get(2).isSelected()) {
             holder.layoutTemp.setVisibility(View.VISIBLE);
-        }else
+        } else {
             holder.layoutTemp.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public int getItemCount() {
-
         return deliveryMethods.size();
     }
 
-    @Override
-    public void onClick(View v) {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        int clickedPosition = (int) v.getTag();
-
-        for (int x = 0; x < deliveryMethods.size(); x++) {
-
-            if (x == clickedPosition) {
-                deliveryMethods.get(x).setSelected(true);
-            } else {
-                deliveryMethods.get(x).setSelected(false);
-            }
-        }
-
-        notifyDataSetChanged();
-
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        private ImageView deliveryCheckBox;
+        private RadioButton deliveryCheckBox;
         private TextView deliveryItemName;
-        private RelativeLayout relativeLayoutParent,layoutTemp;
-        private EditText editTextMiles;
+        private RelativeLayout layoutTemp;
+        private WeakReference<OnRecyclerViewButtonClickListener> listenerRef;
 
         public MyViewHolder(View view) {
             super(view);
+            listenerRef = new WeakReference<>(listener);
 
-            deliveryCheckBox = (ImageView) view.findViewById(R.id.img_checkbox);
             deliveryItemName = (TextView) view.findViewById(R.id.delivery_method_name);
-            relativeLayoutParent = (RelativeLayout) view.findViewById(R.id.relativeLayoutParent);
-            layoutTemp=(RelativeLayout)view.findViewById(R.id.layout_temp);
-            editTextMiles=(EditText)view.findViewById(R.id.edt_miles);
+            layoutTemp = (RelativeLayout)view.findViewById(R.id.layout_temp);
+            deliveryCheckBox = (RadioButton) view.findViewById(R.id.img_checkbox);
+            deliveryCheckBox.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listenerRef.get().onButtonClick(v, getAdapterPosition());
         }
 
     }
-
 }
 

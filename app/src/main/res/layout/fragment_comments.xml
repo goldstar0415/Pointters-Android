@@ -1,78 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <ScrollView
+    <TextView
+        android:id="@+id/txt_previous_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View previous comments"
+        android:layout_margin="@dimen/_10sdp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_comments"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        android:layout_below="@id/txt_previous_comments"
+        tools:targetApi="lollipop" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+    <ImageView
+        android:layout_above="@+id/view_write_comments"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fix_0.5dp"
+        android:background="@drawable/divider_option"/>
+    <LinearLayout
+        android:id="@+id/view_write_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/img_profile3"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/user_avatar_placeholder"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"
+            app:riv_tile_mode="clamp"
+            android:layout_margin="@dimen/_10sdp"/>
+
+        <EditText
+            android:id="@+id/edt_comment"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            >
+            android:layout_weight="3"
+            android:hint="Write a Comment"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="@color/transparent"
+            />
 
-            <RelativeLayout
-                android:id="@+id/rl_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/bg_service">
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SEND"
+            android:background="@color/transparent"
+            android:textColor="@color/colorAccent"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_comments"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false" />
-
-                <RelativeLayout
-                    android:id="@+id/rl_bottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rv_comments"
-                    android:background="#FCFCFC"
-                    android:layout_marginTop="@dimen/_35sdp">
-
-                    <EditText
-                        android:id="@+id/mCommentCurrentScreen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/btn_send"
-                        android:background="@android:color/transparent"
-                        android:hint="Write Comment"
-                        android:maxLines="1"
-                        android:inputType="textCapSentences"
-                        android:paddingLeft="@dimen/_15sdp"
-                        android:paddingRight="@dimen/_5sdp"
-                        android:textColor="@android:color/black"
-                        android:textColorHint="#A0AEC1"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:id="@+id/btn_send"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/curve_btn_bg"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/_15sdp"
-                        android:text="@string/send"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_small" />
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_15sdp"
-                android:layout_below="@+id/rl_top"
-                android:background="@android:color/transparent"></RelativeLayout>
-        </RelativeLayout>
-
-    </ScrollView>
+    </LinearLayout>
 </RelativeLayout>
+

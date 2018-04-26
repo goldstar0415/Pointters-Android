@@ -8,22 +8,30 @@
     <!--Intro-->
     <string name="welcome">Welcome</string>
     <string name="app_intro">Lorem Ipsum is dummy text\nyou\'ll ever need</string>
-    <string name="sign_up">Signup</string>
-    <string name="sign_up_caps">SIGN UP</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="join_pointters">JOIN POINTERS</string>
+    <string name="sign_up_caps">Sign Up</string>
     <string name="login">Login</string>
-    <string name="skip">Skip and start exploring</string>
+    <string name="skip">Skip</string>
+
+    <string name="intro_1">Have peace of mind\n\t\t\t\twith trusted people…</string>
+    <string name="intro_2">The Smarter way to\n\t\t\t\tGet Work Done !</string>
+    <string name="intro_3">Bring your dream to reality</string>
+    <string name="intro_4">The Smarter way to\n\t\t\t\tGet Work Done !</string>
 
     <!--Registration-->
     <string name="create_account">Create Account</string>
-    <string name="email">EMAIL</string>
-    <string name="password">PASSWORD</string>
-    <string name="re_enter_password">RE-ENTER PASSWORD</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="re_enter_password">Re-enter Password</string>
     <string name="agree_to_terms_conditions">Agree to Term\'s &amp; Conditions and Privacy Conditions</string>
     <string name="sign_up_with_email">Signup with Email</string>
     <string name="sign_up_with_fb">Signup with Facebook</string>
-    <string name="or">Or</string>
+    <string name="or">Or Connect with</string>
+    <string name="or_sign">Or Sign up with</string>
+    <string name="already_a_member">Already a member??\u0020\u0020</string>
     <string name="already_have_account">ALREADY HAVE AN ACCOUNT?\u0020\u0020</string>
-    <string name="sign_in">SIGN IN</string>
+    <string name="sign_in">Sign In</string>
     <string name="success">SUCCESS</string>
     <string name="error">Error</string>
     <string name="password_mismatch">Passwords are not matching.</string>
@@ -37,12 +45,12 @@
 
     <!--Registration Details-->
     <string name="tell_us_few_things">Tell us few things about you</string>
-    <string name="first_name">FIRST NAME</string>
-    <string name="last_name">LAST NAME</string>
-    <string name="company_name">COMPANY NAME</string>
-    <string name="location">LOCATION</string>
-    <string name="phone_number">PHONE NUMBER</string>
-    <string name="about_you">ABOUT YOU</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="company_name">Company Name</string>
+    <string name="location">Location</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="about_you">About You</string>
     <string name="next">Next</string>
     <string name="profile_image_required">Profile image required.</string>
     <string name="location_service_required">Location service is required</string>
@@ -55,15 +63,16 @@
 
     <!--Login-->
     <string name="forgot_password">Forgot Password?</string>
-    <string name="dont_have_account">DON\'T HAVE AN ACCOUNT?\u0020\u0020</string>
+    <string name="dont_have_account">Don\'t have an account?\u0020\u0020</string>
     <string name="wrong_email_password">Wrong email or password, please try again.</string>
-    <string name="fb">Facebook</string>
+    <string name="fb">FACEBOOK</string>
+    <string name="gg">GOOGLE</string>
 
 
     <!--Forgot Password-->
     <string name="send_verification_code">Send Verification Code</string>
     <string name="reset_password">Reset Password</string>
-    <string name="enter_verification_code">ENTER VERIFICATION CODE SENT IN EMAIL</string>
+    <string name="enter_verification_code">Enter Verification code sent via email</string>
     <string name="provide_verification_code">Please provide a verification code.</string>
     <string name="invalid_verification_code">Invalid verification code.</string>
     <string name="forgot_password_heading">Forgot Password</string>
@@ -74,6 +83,7 @@
 
     <!--Explore Service after login-->
     <string name="search_here">Search here</string>
+    <string name="search_service">Search Services</string>
     <string name="by">By:\u0020</string>
     <string name="services">Services</string>
     <string name="live_offers">Live Offers</string>
@@ -84,13 +94,19 @@
 
     <!--Search Service-->
     <string name="enter_location">Enter Location</string>
+    <string name="enter_new_address">Enter New Address</string>
+    <string name="shipping_details">Shipping Details</string>
     <string name="see_all">See all</string>
     <string name="apply">Apply</string>
+
+    <string name="enter_store_location">Enter Store Location</string>
+    <string name="edit_store_location">Edit Store Location</string>
 
     <!--Search Result-->
     <string name="get_live_offer">Get Live Offer</string>
 
     <!--Post Update-->
+    <string name="post_update">Post Update</string>
     <string name="message">Message</string>
     <string name="write_here">Write here...</string>
     <string name="tag_a_service_or_seller">Tag a service or seller</string>
@@ -105,7 +121,6 @@
     <string name="service_description">Service Description</string>
     <string name="pricing">Pricing</string>
     <string name="add_price_option">Add Price Option</string>
-    <string name="delivery_method">Delivery Method</string>
     <string name="your_local_services_wont_be_updated">Your local service will not be posted until you have passed background check</string>
     <string name="add">ADD</string>
     <string name="type_service_descn">Type your Service Description</string>
@@ -118,7 +133,6 @@
     <string name="time_to_complete">Time to complete after job starts</string>
     <string name="add_price_option_header">Add Price Option</string>
     <string name="edit_price_option_header">Edit Price Option</string>
-
 
     <!--Bottom tab text-->
     <string name="update">Updates</string>
@@ -149,7 +163,7 @@
     <string name="email_status">Email Status</string>
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
-    <string name="set_prefreances_below_on_how">Set preferences below on how \nyou want to receive notifications</string>
+    <string name="set_prefreances_below_on_how">Set preferences below on how you want to receive notifications</string>
 
     <string name="push">Push</string>
     <string name="you_want_to_recive_notification">you want to receive notifications</string>
@@ -172,21 +186,24 @@
 
 
     <!--Menu screen-->
-    <string name="menu_header">Menu</string>
-    <string name="order">Orders (10 Active)</string>
-    <string name="wathcing">Watching</string>
+    <string name="menu_header">Account</string>
+    <string name="account">Account</string>
+    <string name="order">Orders</string>
     <string name="offers_sent">Offers Sent</string>
     <string name="job_oppotunities">Job Opportunities</string>
     <string name="premium_membership">Premium Membership</string>
     <string name="background_check">Background Check</string>
     <string name="business_verification">Business Verification</string>
     <string name="edt_store_location">Edit Store Locations</string>
+    <string name="store_location">Store Locations</string>
+    <string name="transactions_history">Transactions History</string>
     <string name="edt_profile">Edit Profile</string>
     <string name="notification_settings">Notification Settings</string>
     <string name="edit_user_settings">Edit User Settings</string>
     <string name="paymemt_method">Payment Methods</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
+    <string name="watching">Watching</string>
     <string name="invite_frnd">Invite Friends"</string>
     <string name="leave_feedback">Leave Feedback</string>
     <string name="terms_condition">Terms of Conditions</string>
@@ -198,9 +215,10 @@
 
     <!--Profile Screen-->
     <string name="avg_response">Avg. response</string>
+    <string name="response">response</string>
     <string name="service_detail">Service Details</string>
     <string name="profile">Profile</string>
-    <string name="servic_description">Service description text text text text text  \ntext text text text text text text text \ntext text text text text text text text \ntext text text text text text text text    \ntext text text text text text text text \ntext text text text text text text text</string>
+    <string name="servic_description">Service description</string>
     <string name="great_experience">Had a great experience and will buy \nservice again</string>
     <string name="checkout">Checkout</string>
     <string name="become_a_seller">Become a Seller</string>
@@ -214,8 +232,8 @@
     <string name="buy">Buy</string>
     <string name="sell">Sell</string>
     <string name="paid_of">Paid Of </string>
-    <string name="custom_offer">Custom Offers</string>
-    <string name="live_offer_req">Live Offer Requests</string>
+    <string name="custom_offer">Offers</string>
+    <string name="live_offer">Live Offers</string>
 
     <!--Chat Screen-->
     <string name="search_conversations">Search conversations or users</string>
@@ -238,9 +256,12 @@
     <string name="linked_service">Linked Service</string>
     <string name="custom_price">Custom Price</string>
     <string name="offer_description">Offer Description</string>
-    <string name="service_locally_map">Servicing locally at store \nlocations</string>
+    <string name="work_can_done">Work can be done in</string>
+    <string name="after_starting">after starting.</string>
+    <string name="service_locally_map">Servicing locally at store locations</string>
     <string name="get_direction">get Direction</string>
     <string name="accept">Accept</string>
+    <string name="review">Review</string>
     <string name="view_job">View Job</string>
     <string name="view">View</string>
 
@@ -261,13 +282,23 @@
 
     <!--Send Service Screen-->
     <string name="send_service">Send Service</string>
-    <string name="your_services">Your Services</string>
+    <string name="your_services">YOUR SERVICES</string>
     <string name="link_service">Link Service</string>
     <string name="link">Link</string>
 
-    <!--Become A Seller-->
+    <!--Send Custom Offer Screen-->
+    <string name="link_a_service">Link a Service</string>
+    <string name="link_another_service">LINK ANOTHER SERVICE</string>
+    <string name="online">Online</string>
+    <string name="shipment">Shipment</string>
+    <string name="local">Local</string>
+    <string name="anywhere">Anywhere in the city your service</string>
+    <string name="local_store">At your store service</string>
+    <string name="miles_within">Miles within your current location</string>
+    <string name="verified_alert">Your local service will not be posted until you have passed background check</string>
 
-    <string name="want_to_become_seller">Want to become a seller? Go thru couple steps below based on the types of services</string>
+    <!--Become A Seller-->
+    <string name="want_to_become_seller">Want to become a seller? Go throuh couple steps below based on the types of service.</string>
     <string name="congo_see_your">Congraltulation! See your eligibility below \non service types to start selling</string>
 
     <!--Background check-->
@@ -292,10 +323,41 @@
 
     <string name="review_order">Review Order</string>
     <string name="categories">Categories</string>
+    <string name="featured_style">Featured Style</string>
 
     <string name="image">image</string>
     <string name="video">video</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
+    <string name="s1">000</string>
+    <string name="required_for_local_servics">Required for local services at your store location</string>
+    <string name="privacy_header">Our Privacy Policy governs what information we collect from you, and how we use that information. (The policies of Amazon Services also supplement this Policy).</string>
+    <string name="privacy_detail_1">When you register for an account, we collect your username, password, email address, location, and contact information. When you contact us through social media, we will be collecting your username, and may collect available public data. We also may collect: browser settings; operating systems; location/region; and clickstream data. This does not give us access to your computer or personally identifiable information at any time.</string>
+    <string name="privacy_detail_2">Cookies. A “cookie” is a small file stored within your computer’s hard drive that allows companies to track a visitor or customer’s browsing habits. Cookies also remember visitors’ personal preferences. We are currently implementing cookies because it helps our company identify how our website is being used by customers for marketing purposes. By tracking your viewing habits, we can modify our app and services to improve your overall experience.</string>
+    <string name="privacy_sub_1">1. Data Collection</string>
+    <string name="privacy_sub_2">2. Cookies</string>
+    <string name="terms_header">Please read the following Terms and Conditions, they govern our business relationship. When you access and use our website, app, or services, you acknowledge and agree to all of these conditions.</string>
+    <string name="terms_sub_1">1. Terms</string>
+    <string name="terms_sub_2">2. Privacy</string>
+    <string name="terms_detail_1">These terms are legally binding. If you are under the age of eighteen (18) you may not access or use our website without consent of a legal guardian or parent. You are also restricted from accessing or using our website, app, or services, where it is prohibited, or where there is conflict between this agreement and local rules as well as regulations in your home jurisdiction. When you use or access our website, app, or services, you automatically agree to all of these terms as well as policies, and amendments to this agreement.</string>
+    <string name="terms_detail_2">Please review our Privacy Policy</string>
+    <string name="delivery_method">Delivery Method</string>
+    <string name="how_do_you_want_to_deliver_your">How do you want to deliver your</string>
+    <string name="gill_max_house_movers"><![CDATA[Gill & Max House Movers]]></string>
+    <string name="payment_method_shipping"><![CDATA[Payment Method & Shipping]]></string>
+    <string name="street">Street</string>
+    <string name="apt">Apt., Suite, Bldg. (Optional)</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="zip">Zip</string>
+    <string name="order_progress">Order Progress</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="ship_from_address">Ship from address</string>
+    <string name="unit_measurement">Unit Measurement</string>
+    <string name="country">Country</string>
 
+    <string-array name="spinner_order">
+        <item>BUY</item>
+        <item>SELL</item>
+    </string-array>
 </resources>

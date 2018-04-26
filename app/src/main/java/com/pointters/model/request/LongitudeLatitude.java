@@ -1,14 +1,17 @@
 package com.pointters.model.request;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by prashantkumar on 17/8/17.
  */
 
-public class LongitudeLatitude {
+public class LongitudeLatitude implements Serializable{
+
     private List<Double> coordinates;
     private String type;
+
 
     public LongitudeLatitude(List<Double> coordinates, String type) {
         this.coordinates = coordinates;

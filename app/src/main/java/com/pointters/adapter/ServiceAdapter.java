@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -43,10 +44,10 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        if (position == 0) {
-            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp), (int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
-            holder.moveToServiceScreeen.setLayoutParams(holder.layoutParams);
-        }
+//        if (position == 0) {
+//            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp), (int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
+//            holder.moveToServiceScreeen.setLayoutParams(holder.layoutParams);
+//        }
 
 
         DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -66,19 +67,20 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
                 if( serviceArrayList.get(position).getUser().getProfilePic().startsWith("https://s3.amazonaws.com")) {
                     profileUrl = serviceArrayList.get(position).getUser().getProfilePic();
                 } else {
-                    profileUrl = "https://s3.amazonaws.com" +serviceArrayList.get(position).getUser().getProfilePic();
+//                    profileUrl = "https://s3.amazonaws.com" +serviceArrayList.get(position).getUser().getProfilePic();
+                    profileUrl = serviceArrayList.get(position).getUser().getProfilePic();
                 }
                 ImageLoader.getInstance().displayImage(profileUrl, holder.imgUser, options);
             }
 
 
             if(serviceArrayList.get(position).isPromoted())
-                holder.txtPromated.setVisibility(View.VISIBLE);
+                holder.ll_promoted.setVisibility(View.VISIBLE);
             else
-                holder.txtPromated.setVisibility(View.GONE);
+                holder.ll_promoted.setVisibility(View.GONE);
 
             if (!serviceArrayList.get(position).getUser().getFirstName().isEmpty())
-                holder.txtName.setText(serviceArrayList.get(position).getUser().getFirstName());
+                holder.txtName.setText(serviceArrayList.get(position).getUser().getFirstName() + " " + serviceArrayList.get(position).getUser().getLastName());
             else
                 holder.txtName.setText("NA");
 
@@ -149,7 +151,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
         private ConstraintLayout.LayoutParams layoutParams;
         private ImageView imgUser;
         private TextView txtServiceDesc,txtServicePrice,txtServiceActualPrice,txtPriceDesc,txtName,txtDistance,txtAddress,txtPromated,txtFlag,txtTick,txtTime;
-
+        private LinearLayout ll_promoted;
         public MyViewHolder(View itemView) {
             super(itemView);
             moveToServiceScreeen = (ConstraintLayout) itemView.findViewById(R.id.move_to_service_detail);
@@ -166,7 +168,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
             txtFlag=(TextView)itemView.findViewById(R.id.txt_flag);
             txtTick=(TextView)itemView.findViewById(R.id.txt_tick);
             txtTime=(TextView)itemView.findViewById(R.id.txt_time);
-
+            ll_promoted = (LinearLayout)itemView.findViewById(R.id.ll_promoted);
         }
     }
 

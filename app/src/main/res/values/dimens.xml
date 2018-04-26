@@ -2,6 +2,7 @@
 
     <!--Fixed dimension-->
     <dimen name="fix_1dp">1dp</dimen>
+    <dimen name="fix_2dp">2dp</dimen>
     <dimen name="fix_3dp">3dp</dimen>
     <dimen name="fix_5dp">5dp</dimen>
 

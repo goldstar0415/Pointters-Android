@@ -5,18 +5,18 @@ package com.pointters.model;
  */
 
 public class Followers {
-    private String _id;
+    private String id;
     private String email;
     private String firstName;
     private String lastName;
     private String profilePic;
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {

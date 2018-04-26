@@ -52,19 +52,20 @@ public class EditProfileImageViewPagerAdapter extends PagerAdapter {
                 .considerExifParams(true)
                 .build();
         if(bgFiles.size()>0) {
-            if (bgFiles.get(position).getMediaType().equals(context.getResources().getString(R.string.image))) {
+            Media media = bgFiles.get(position);
+            if (media.getMediaType().equals(context.getResources().getString(R.string.image))) {
                 imageView.setVisibility(View.VISIBLE);
                 videoView.setVisibility(View.GONE);
-                ImageLoader.getInstance().displayImage(bgFiles.get(position).getFileName(), imageView, options);
+                ImageLoader.getInstance().displayImage(media.getFileName(), imageView, options);
 
 
-            } else if (bgFiles.get(position).getMediaType().equals(context.getResources().getString(R.string.video))) {
+            } else if (media.getMediaType().equals(context.getResources().getString(R.string.video))) {
                 imageView.setVisibility(View.GONE);
                 videoView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
 
                 try {
-                    videoView.setVideoPath(URLDecoder.decode(bgFiles.get(position).getFileName(), "UTF-8"));
+                    videoView.setVideoPath(URLDecoder.decode(media.getFileName(), "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -90,7 +91,7 @@ public class EditProfileImageViewPagerAdapter extends PagerAdapter {
             videoView.setAutoPlay(true);
             videoView.disableControls();
             videoView.setLoop(true);
-            videoView.setSource(Uri.parse(bgFiles.get(position).getFileName()));*/
+            videoView.setSource(Uri.parse(media.getFileName()));*/
             }
         }
 

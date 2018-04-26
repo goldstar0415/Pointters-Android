@@ -1,39 +1,41 @@
 package com.pointters.model;
 
+import android.widget.LinearLayout;
+
+import com.google.gson.internal.LinkedTreeMap;
+
 /**
  * Created by vikas on 8/25/2017.
  */
 
 public class CommentsModel {
-    String name,comment,dateTime;
+    private LinkedTreeMap comment;
+    private UserProfileModel user;
 
-    public CommentsModel(String name, String comment, String dateTime) {
-        this.name = name;
-        this.comment = comment;
-        this.dateTime = dateTime;
+    public UserProfileModel getUser() {
+        return user;
     }
 
-    public String getName() {
-        return name;
+    public void setUser(UserProfileModel user) {
+        this.user = user;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUpdatedAt() {
+        return getComment().get("updatedAt").toString();
     }
 
-    public String getComment() {
+
+    public String getCommentText() {
+
+        return getComment().get("comment").toString();
+    }
+
+
+    public LinkedTreeMap getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void setComment(LinkedTreeMap comment) {
         this.comment = comment;
-    }
-
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
     }
 }

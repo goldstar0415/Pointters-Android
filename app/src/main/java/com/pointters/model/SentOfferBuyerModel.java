@@ -13,6 +13,7 @@ public class SentOfferBuyerModel {
     private String lastName;
     private String profilePic;
     private Location location;
+    private String phone;
 
     public String getBuyerId() {
         return buyerId;
@@ -52,5 +53,13 @@ public class SentOfferBuyerModel {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

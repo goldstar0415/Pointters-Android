@@ -1,5 +1,6 @@
 package com.pointters.fragment;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
@@ -9,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -17,15 +19,20 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -37,10 +44,9 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -53,33 +59,34 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.flurgle.camerakit.CameraKit;
-import com.flurgle.camerakit.CameraListener;
-import com.flurgle.camerakit.CameraView;
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.makeramen.roundedimageview.RoundedImageView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.activity.TagServiceActivity;
-import com.pointters.adapter.AddFragmentsInCrosswallPagerAdapter;
+import com.pointters.adapter.PostDataAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.model.Media;
+import com.pointters.model.Pusher;
+import com.pointters.model.TagServiceSellerModel;
 import com.pointters.model.Tags;
 import com.pointters.model.request.PostUpdateRequest;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
+import com.pointters.utils.CommonUtils;
 import com.pointters.utils.ConstantUtils;
-import com.pointters.utils.CustomTabLayout;
+import com.pointters.utils.EqualSpacingItemDecoration;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 import net.alhazmy13.mediapicker.Video.VideoPicker;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -92,7 +99,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import me.crosswall.lib.coverflow.CoverFlow;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -109,22 +115,26 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     public static final String APP_DIR = "VideoCompressor";
     public static final String COMPRESSED_VIDEOS_DIR = "/Compressed Videos/";
     public static final String TEMP_DIR = "/Temp/";
+    private final int CAMERA_IMAGE_REQUEST = 30;
+    private final int CAMERA_VIDEO_REQUEST = 40;
+    private final int PERMISSION_REQUEST_CAMERA = 16;
 
     private static final int REQUEST_FOR_TAG_CODE = 3;
 
     private View view;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private CustomTabLayout tabLayout;
-    private AddFragmentsInCrosswallPagerAdapter addFragmentsInCrosswallPagerAdapter;
-    private RelativeLayout layoutCamera, layoutCrossWall, layoutChooseFromGallery, layoutChooseTag, layoutPostTag;
+//    private CustomTabLayout tabLayout;
+//    private AddFragmentsInCrosswallPagerAdapter addFragmentsInCrosswallPagerAdapter;
+//    private RelativeLayout layoutCamera, layoutCrossWall, layoutChooseFromGallery;
+    private CollapsingToolbarLayout toolbarMedia, toolbarTags;
     private EditText messgeEditText;
-    private TextView txtTimer, btnPost;
-    private CameraView cameraPreview;
+//    private TextView txtTimer, btnPost;
+//    private CameraView cameraPreview;
     private Boolean IS_RECORDING_START = false;
-    private CountDownTimer countDownTimer;
-    private ImageView takeImage;
-    private ViewPager containerViewPager;
+//    private CountDownTimer countDownTimer;
+//    private ImageView takeImage;
+//    private ViewPager containerViewPager;
     private Runnable updateRecordingThread;
     private KProgressHUD loader;
     private String OBJECT_KEY, filePath, fileUrl;
@@ -143,6 +153,13 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     private String postMediaURL = "";
     private String postMediaType = "";
     private boolean isConnectedTag = false;
+
+    ImageButton galleryButton, cameraButton, videoButton;
+    ImageButton addServiceTagButton;
+
+    RecyclerView postDataRecyclerView;
+
+    PostDataAdapter postDataAdapter;
 
     public static void try2CreateCompressDir() {
         File f = new File(Environment.getExternalStorageDirectory(), File.separator + APP_DIR);
@@ -164,8 +181,6 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
         initViews();
         setOnClickListners();
 
-        tabLayout.addOnTabSelectedListener(this);
-
         loader = KProgressHUD.create(getActivity())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -174,28 +189,18 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                 .setDimAmount(0.5f);
 
         //Set Up Crosswall
-        addFragmentsInCrosswallPagerAdapter = new AddFragmentsInCrosswallPagerAdapter(getChildFragmentManager(), backgroundMedia, getActivity(), "ADDSERVICE");
-        containerViewPager.setAdapter(addFragmentsInCrosswallPagerAdapter);
-        containerViewPager.setClipChildren(false);
-        containerViewPager.setOffscreenPageLimit(addFragmentsInCrosswallPagerAdapter.getCount());
+//        addFragmentsInCrosswallPagerAdapter = new AddFragmentsInCrosswallPagerAdapter(getChildFragmentManager(), backgroundMedia, getActivity(), "ADDSERVICE");
+//        containerViewPager.setAdapter(addFragmentsInCrosswallPagerAdapter);
+//        containerViewPager.setClipChildren(false);
+//        containerViewPager.setOffscreenPageLimit(addFragmentsInCrosswallPagerAdapter.getCount());
 
-        if (backgroundMedia != null && backgroundMedia.size() > 0) {
-            layoutChooseFromGallery.setVisibility(View.GONE);
-            layoutCrossWall.setVisibility(View.VISIBLE);
-            layoutChooseTag.setVisibility(View.VISIBLE);
-        } else {
-            layoutChooseFromGallery.setVisibility(View.VISIBLE);
-            layoutCrossWall.setVisibility(View.GONE);
-            layoutChooseTag.setVisibility(View.GONE);
-        }
-
-        new CoverFlow.Builder()
-                .with(containerViewPager)
-                .pagerMargin(getResources().getDimensionPixelSize(R.dimen.pager_margin))
-                .scale(0.3f)
-                .spaceSize(0f)
-                .rotationY(0f)
-                .build();
+//        if (backgroundMedia != null && backgroundMedia.size() > 0) {
+//            toolbarMedia.setVisibility(View.GONE);
+//            toolbarTags.setVisibility(View.VISIBLE);
+//        } else {
+//            toolbarMedia.setVisibility(View.VISIBLE);
+//            toolbarTags.setVisibility(View.GONE);
+//        }
 
         //Set Up Aws S3 Bucket
         BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(ConstantUtils.AWS_ACCESS_KEY, ConstantUtils.AWS_SECRATE_KEY);
@@ -211,35 +216,17 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                         if (backgroundMedia.size() > 0) {
                             backgroundMedia.remove(intent.getIntExtra(ConstantUtils.POSITION, 0));
                             getPostMediaInfo(backgroundMedia.size()-1);
-                            layoutChooseTag.setVisibility(View.GONE);
+                            toolbarTags.setVisibility(View.GONE);
                             allowPostUpdate();
 
-                            containerViewPager.setAdapter(null);
-                            containerViewPager.setAdapter(addFragmentsInCrosswallPagerAdapter);
-                            containerViewPager.setCurrentItem(addFragmentsInCrosswallPagerAdapter.getCount());
-                            containerViewPager.setClipChildren(false);
-                            containerViewPager.setOffscreenPageLimit(addFragmentsInCrosswallPagerAdapter.getCount());
-
-                            new CoverFlow.Builder()
-                                    .with(containerViewPager)
-                                    .pagerMargin(getResources().getDimensionPixelSize(R.dimen.pager_margin))
-                                    .scale(0.3f)
-                                    .spaceSize(0f)
-                                    .rotationY(0f)
-                                    .build();
-
-                            if (backgroundMedia != null && backgroundMedia.size() == 1) {
-                                layoutChooseFromGallery.setVisibility(View.VISIBLE);
-                                layoutCrossWall.setVisibility(View.GONE);
-                            } else {
-                                layoutChooseFromGallery.setVisibility(View.GONE);
-                                layoutCrossWall.setVisibility(View.VISIBLE);
-                            }
                         }
                         break;
 
                     case "pick":
                         showDiag();
+                        break;
+                    case "post":
+                        postUpdate();
                         break;
                 }
             }
@@ -248,43 +235,40 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("pick");
         intentFilter.addAction("delete");
+        intentFilter.addAction("post");
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(message, intentFilter);
-
-        updateRecordingThread = new Runnable() {
-            @Override
-            public void run() {
-                IS_RECORDING_START = false;
-                takeImage.setImageResource(R.drawable.capture_button);
-                cameraPreview.stopRecordingVideo();
-            }
-        };
 
         return view;
     }
 
+    public void postUpdate() {
+        loader.show();
+        callPostUpdateApi();
+    }
+
     private void initViews() {
-        //Tab Layout
-        tabLayout = (CustomTabLayout) view.findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("UPLOAD"));
-        tabLayout.addTab(tabLayout.newTab().setText("SNAP PICTURE"));
-        tabLayout.addTab(tabLayout.newTab().setText("TAKE VIDEO"));
+
 
         //Camera Layout
-        layoutCamera = (RelativeLayout) view.findViewById(R.id.layout_camera);
-        takeImage = (ImageView) view.findViewById(R.id.take_image);
-        cameraPreview = (CameraView) view.findViewById(R.id.camera_preview);
-        txtTimer = (TextView) view.findViewById(R.id.txt_timer);
+        galleryButton = (ImageButton) view.findViewById(R.id.btn_gallery);
+        cameraButton = (ImageButton) view.findViewById(R.id.btn_camera);
+        videoButton = (ImageButton) view.findViewById(R.id.btn_video);
+
+        galleryButton.setOnClickListener(this);
+        cameraButton.setOnClickListener(this);
+        videoButton.setOnClickListener(this);
+        addServiceTagButton = (ImageButton) view.findViewById(R.id.btn_service_tags);
 
         //Crosswall Layout
-        layoutCrossWall = (RelativeLayout) view.findViewById(R.id.layout_crosswall);
-        containerViewPager = (ViewPager) view.findViewById(R.id.container_viewpager);
-
+//        layoutCrossWall = (RelativeLayout) view.findViewById(R.id.layout_crosswall);
+//        containerViewPager = (ViewPager) view.findViewById(R.id.container_viewpager);
+//
         //Choose From Gallery Layout
-        layoutChooseFromGallery = (RelativeLayout) view.findViewById(R.id.layout_choose_gallery);
+//        layoutChooseFromGallery = (RelativeLayout) view.findViewById(R.id.layout_choose_gallery);
 
         //Choose Tag Layout
-        layoutChooseTag = (RelativeLayout) view.findViewById(R.id.layout_choose_tag);
-        layoutPostTag = (RelativeLayout) view.findViewById(R.id.layout_post_tag);
+        toolbarMedia = (CollapsingToolbarLayout) view.findViewById(R.id.toolbar_add_media);
+        toolbarTags = (CollapsingToolbarLayout) view.findViewById(R.id.toolbar_add_service_tags);
 
         messgeEditText = (EditText) view.findViewById(R.id.edittext_post_messagge);
         messgeEditText.addTextChangedListener(new TextWatcher() {
@@ -300,41 +284,48 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
             @Override
             public void afterTextChanged(Editable s) {}
         });
+        postDataRecyclerView = (RecyclerView)view.findViewById(R.id.post_data_recyclerView);
+        StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        postDataRecyclerView.setLayoutManager(lm);
+        postDataAdapter = new PostDataAdapter(getContext());
+        postDataRecyclerView.setAdapter(postDataAdapter);
+        postDataRecyclerView.addItemDecoration(new EqualSpacingItemDecoration(16));
+        postDataAdapter.notifyDataSetChanged();
 
-        btnPost = (TextView) view.findViewById(R.id.btn_post);
+//        btnPost = (TextView) view.findViewById(R.id.btn_post);
     }
 
     private void setOnClickListners() {
-        view.findViewById(R.id.img_choose_bg_images).setOnClickListener(this);
-        containerViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            public void onPageSelected(int position) {
-                if (postMediaId != -1) {
-                    Fragment fragment = addFragmentsInCrosswallPagerAdapter.getRegisteredFragment(postMediaId);
-                    if (fragment instanceof VideoFragment) {
-                        ((VideoFragment) fragment).stopPlayBack();
-                    }
-                }
+//        view.findViewById(R.id.img_choose_bg_images).setOnClickListener(this);
+//        containerViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+//            public void onPageSelected(int position) {
+//                if (postMediaId != -1) {
+//                    Fragment fragment = addFragmentsInCrosswallPagerAdapter.getRegisteredFragment(postMediaId);
+//                    if (fragment instanceof VideoFragment) {
+//                        ((VideoFragment) fragment).stopPlayBack();
+//                    }
+//                }
+//
+//                getPostMediaInfo(position);
+//
+//                if (position < backgroundMedia.size()-1) {
+//                    layoutChooseTag.setVisibility(View.VISIBLE);
+//                } else {
+//                    layoutChooseTag.setVisibility(View.GONE);
+//                }
+//
+//                allowPostUpdate();
+//            }
+//        });
 
-                getPostMediaInfo(position);
-
-                if (position < backgroundMedia.size()-1) {
-                    layoutChooseTag.setVisibility(View.VISIBLE);
-                } else {
-                    layoutChooseTag.setVisibility(View.GONE);
-                }
-
-                allowPostUpdate();
-            }
-        });
-
-        takeImage.setOnClickListener(this);
-        layoutChooseTag.setOnClickListener(this);
-        btnPost.setOnClickListener(this);
+        galleryButton.setOnClickListener(this);
+        cameraButton.setOnClickListener(this);
+        videoButton.setOnClickListener(this);
+        addServiceTagButton.setOnClickListener(this);
     }
 
     private void uploadFilesToAws(final String mediaType) {
         transferUtility = new TransferUtility(s3, getApplicationContext());
-
         TransferObserver observer = transferUtility.upload(ConstantUtils.MY_BUCKET, OBJECT_KEY, new File(filePath), CannedAccessControlList.PublicRead);
         observer.setTransferListener(new TransferListener() {
             @Override
@@ -342,51 +333,52 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                 if (state.equals(TransferState.COMPLETED)) {
                     loader.dismiss();
 
-                    if (backgroundMedia.size() == 0) {
-                        media = new Media("", getResources().getString(R.string.image));
-                        backgroundMedia.add(media);
-                    }
+//                    if (backgroundMedia.size() == 0) {
+//                        media = new Media("", getResources().getString(R.string.image));
+//                        backgroundMedia.add(media);
+//                    }
 
                     if (mediaType.equals(getResources().getString(R.string.image))) {
                         media = new Media(fileUrl, getResources().getString(R.string.image));
-                        backgroundMedia.add((backgroundMedia.size() - 1), media);
+                        backgroundMedia.add(media);
                     } else if (mediaType.equals(getResources().getString(R.string.video))) {
                         media = new Media(fileUrl, getResources().getString(R.string.video));
-                        backgroundMedia.add((backgroundMedia.size() - 1), media);
+                        backgroundMedia.add(media);
                     }
+                    postDataAdapter.setItemHeight(100);
+                    postDataAdapter.setPostDatas(backgroundMedia);
+                    getPostMediaInfo(backgroundMedia.size() - 1);
 
-                    getPostMediaInfo(backgroundMedia.size() - 2);
+//                    containerViewPager.setAdapter(null);
+//                    // containerViewPager.setCurrentItem(backgroundMedia.size() - 1);
+//
+//                    containerViewPager.setAdapter(addFragmentsInCrosswallPagerAdapter);
+//                    if (backgroundMedia.size() > 1)
+//                        containerViewPager.setCurrentItem(backgroundMedia.size() - 2);
+//                    containerViewPager.setClipChildren(false);
+//                    containerViewPager.setOffscreenPageLimit(addFragmentsInCrosswallPagerAdapter.getCount());
 
-                    containerViewPager.setAdapter(null);
-                    // containerViewPager.setCurrentItem(backgroundMedia.size() - 1);
-
-                    containerViewPager.setAdapter(addFragmentsInCrosswallPagerAdapter);
-                    if (backgroundMedia.size() > 1)
-                        containerViewPager.setCurrentItem(backgroundMedia.size() - 2);
-                    containerViewPager.setClipChildren(false);
-                    containerViewPager.setOffscreenPageLimit(addFragmentsInCrosswallPagerAdapter.getCount());
-
-                    new CoverFlow.Builder()
-                            .with(containerViewPager)
-                            .pagerMargin(getResources().getDimensionPixelSize(R.dimen.pager_margin))
-                            .scale(0.3f)
-                            .spaceSize(0f)
-                            .rotationY(0f)
-                            .build();
-
-                    if (backgroundMedia != null && backgroundMedia.size() > 0) {
-                        layoutChooseFromGallery.setVisibility(View.GONE);
-                        layoutCrossWall.setVisibility(View.VISIBLE);
-                        layoutChooseTag.setVisibility(View.VISIBLE);
-                    } else {
-                        layoutChooseFromGallery.setVisibility(View.VISIBLE);
-                        layoutCrossWall.setVisibility(View.GONE);
-                        layoutChooseTag.setVisibility(View.GONE);
-                    }
-
-                    if (tabLayout != null) {
-                        tabLayout.getTabAt(0).select();
-                    }
+//                    new CoverFlow.Builder()
+//                            .with(containerViewPager)
+//                            .pagerMargin(getResources().getDimensionPixelSize(R.dimen.pager_margin))
+//                            .scale(0.3f)
+//                            .spaceSize(0f)
+//                            .rotationY(0f)
+//                            .build();
+//
+//                    if (backgroundMedia != null && backgroundMedia.size() > 0) {
+//                        layoutChooseFromGallery.setVisibility(View.GONE);
+//                        layoutCrossWall.setVisibility(View.VISIBLE);
+//                        layoutChooseTag.setVisibility(View.VISIBLE);
+//                    } else {
+//                        layoutChooseFromGallery.setVisibility(View.VISIBLE);
+//                        layoutCrossWall.setVisibility(View.GONE);
+//                        layoutChooseTag.setVisibility(View.GONE);
+//                    }
+//
+//                    if (tabLayout != null) {
+//                        tabLayout.getTabAt(0).select();
+//                    }
 
                 } else if (state.equals(TransferState.FAILED)) {
                     //AndroidUtils.showToast(RegistrationDetailsActivity.this, "Uploading failed please try again");
@@ -409,72 +401,207 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                 callPostUpdateApi();
                 break;
 
-            case R.id.layout_choose_tag:
+//            case R.id.layout_choose_tag:
+//                Intent intent = new Intent(getActivity(), TagServiceActivity.class);
+//                startActivityForResult(intent, REQUEST_FOR_TAG_CODE);
+//                break;
+//
+//            case R.id.post_tag_close:
+//                isConnectedTag = false;
+//                layoutPostTag.setVisibility(View.GONE);
+//                postTagId = "";
+//                postTagType = "";
+//                allowPostUpdate();
+//                break;
+//
+//            case R.id.take_image:
+//                if (tabLayout.getSelectedTabPosition() == 1) {
+//                    capturePhoto();
+//                }
+//                else if (tabLayout.getSelectedTabPosition() == 2) {
+//                    if (IS_RECORDING_START) {
+//                        if (countDownTimer != null)
+//                            countDownTimer.cancel();
+//                        takeImage.setImageResource(R.drawable.capture_button);
+//                        IS_RECORDING_START = false;
+//                        cameraPreview.stopRecordingVideo();
+//                        // cameraPreview.removeCallbacks(updateRecordingThread);
+//                    }
+//                    else {
+//                        takeImage.setImageResource(R.drawable.video_capture_stop_button);
+//                        cameraPreview.startRecordingVideo();
+//                        IS_RECORDING_START = true;
+//                        takeImage.setVisibility(View.GONE);
+//                        CountDownTimer countDownTimerOneSec = new CountDownTimer(1000, 1000) {
+//                            @Override
+//                            public void onTick(long millisUntilFinished) {}
+//
+//                            @Override
+//                            public void onFinish() {
+//                                takeImage.setVisibility(View.VISIBLE);
+//                            }
+//                        }.start();
+//
+//                        countDownTimer = new CountDownTimer(10000, 1000) {
+//                            @Override
+//                            public void onTick(long millisUntilFinished) {
+//                                txtTimer.setText("" + millisUntilFinished / 1000 + " Secs");
+//                            }
+//
+//                            @Override
+//                            public void onFinish() {
+//                                IS_RECORDING_START = false;
+//                                takeImage.setImageResource(R.drawable.capture_button);
+//                                cameraPreview.stopRecordingVideo();
+//                            }
+//                        }.start();
+//
+//                        //   cameraPreview.postDelayed(updateRecordingThread, 10000);
+//                        captureVideo();
+//                    }
+//                }
+//                break;
+
+            case R.id.btn_service_tags:
                 Intent intent = new Intent(getActivity(), TagServiceActivity.class);
                 startActivityForResult(intent, REQUEST_FOR_TAG_CODE);
                 break;
-
-            case R.id.post_tag_close:
-                isConnectedTag = false;
-                layoutPostTag.setVisibility(View.GONE);
-                postTagId = "";
-                postTagType = "";
-                allowPostUpdate();
-                break;
-
-            case R.id.take_image:
-                if (tabLayout.getSelectedTabPosition() == 1) {
-                    capturePhoto();
-                }
-                else if (tabLayout.getSelectedTabPosition() == 2) {
-                    if (IS_RECORDING_START) {
-                        if (countDownTimer != null)
-                            countDownTimer.cancel();
-                        takeImage.setImageResource(R.drawable.capture_button);
-                        IS_RECORDING_START = false;
-                        cameraPreview.stopRecordingVideo();
-                        // cameraPreview.removeCallbacks(updateRecordingThread);
-                    }
-                    else {
-                        takeImage.setImageResource(R.drawable.video_capture_stop_button);
-                        cameraPreview.startRecordingVideo();
-                        IS_RECORDING_START = true;
-                        takeImage.setVisibility(View.GONE);
-                        CountDownTimer countDownTimerOneSec = new CountDownTimer(1000, 1000) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {}
-
-                            @Override
-                            public void onFinish() {
-                                takeImage.setVisibility(View.VISIBLE);
-                            }
-                        }.start();
-
-                        countDownTimer = new CountDownTimer(10000, 1000) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                txtTimer.setText("" + millisUntilFinished / 1000 + " Secs");
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                IS_RECORDING_START = false;
-                                takeImage.setImageResource(R.drawable.capture_button);
-                                cameraPreview.stopRecordingVideo();
-                            }
-                        }.start();
-
-                        //   cameraPreview.postDelayed(updateRecordingThread, 10000);
-                        captureVideo();
-                    }
-                }
-                break;
-
             case R.id.img_choose_bg_images:
                 showDiag();
                 break;
+
+            case R.id.btn_gallery:
+                showDiag(false);
+                break;
+            case R.id.btn_camera:
+                if (checkCameraPermission()) {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_IMAGE_REQUEST);
+                }
+                break;
+            case R.id.btn_video:
+                if (checkCameraPermission()) {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
+                }
+                break;
         }
     }
+    private void showDiag(final Boolean isCamera) {
+        final View dialogView = View.inflate(getActivity(), R.layout.dialog, null);
+
+        final Dialog dialog = new Dialog(getActivity(), R.style.MyAlertDialogStyle);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(dialogView);
+
+        final View viewDialog = dialogView.findViewById(R.id.dialog);
+
+        RelativeLayout relativeLayoutFullPicker = (RelativeLayout) dialog.findViewById(R.id.layout_full_picker_title);
+        RelativeLayout relativeLayoutDialog = (RelativeLayout) dialog.findViewById(R.id.layout_picker);
+        LinearLayout linearImage = (LinearLayout) dialog.findViewById(R.id.linear_image);
+        LinearLayout linearVideo = (LinearLayout) dialog.findViewById(R.id.linear_video);
+
+        relativeLayoutFullPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                revealShow(dialogView, false, dialog);
+            }
+        });
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                revealShow(dialogView, true, null);
+            }
+        });
+
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                if (i == KeyEvent.KEYCODE_BACK) {
+                    revealShow(dialogView, false, dialog);
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
+        relativeLayoutDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // do nothing
+            }
+        });
+
+        linearImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                viewDialog.setVisibility(View.INVISIBLE);
+
+                if (isCamera) {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_IMAGE_REQUEST);
+                } else {
+                    new ImagePicker.Builder(getActivity())
+                            .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
+                            .mode(ImagePicker.Mode.GALLERY)
+                            .directory(ImagePicker.Directory.DEFAULT)
+                            .extension(ImagePicker.Extension.JPG)
+                            .allowMultipleImages(false)
+                            .enableDebuggingMode(true)
+                            .build();
+                }
+            }
+        });
+
+        linearVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                viewDialog.setVisibility(View.INVISIBLE);
+
+                if (isCamera) {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
+                } else {
+                    new VideoPicker.Builder(getActivity())
+                            .mode(VideoPicker.Mode.GALLERY)
+                            .directory(VideoPicker.Directory.DEFAULT)
+                            .extension(VideoPicker.Extension._MP4)
+                            .build();
+                }
+            }
+        });
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CAMERA) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (checkCameraPermission()) {
+                    showDiag(true);
+                }
+            }
+        }
+    }
+
+    private boolean checkCameraPermission() {
+        if ( Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission( getActivity(), Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
+            return false;
+
+        }
+        return true;
+    }
+
+
 
     private void callPostUpdateApi() {
         if (postMessage.equals(""))
@@ -507,19 +634,20 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
 
                     postTagId = "";
                     postTagType = "";
-                    layoutPostTag.setVisibility(View.GONE);
+//                    layoutPostTag.setVisibility(View.GONE);
 
                     postMediaId = -1;
                     postMediaURL = "";
                     postMediaType = "";
 
                     backgroundMedia.clear();
-                    containerViewPager.setAdapter(null);
-
-
-                    layoutCrossWall.setVisibility(View.GONE);
-                    layoutChooseTag.setVisibility(View.GONE);
-                    layoutChooseFromGallery.setVisibility(View.VISIBLE);
+                    postDataRecyclerView.setAdapter(null);
+                    postDataAdapter.notifyDataSetChanged();
+//                    containerViewPager.setAdapter(null);
+//
+//                    layoutCrossWall.setVisibility(View.GONE);
+//                    layoutChooseTag.setVisibility(View.GONE);
+//                    layoutChooseFromGallery.setVisibility(View.VISIBLE);
 
                     allowPostUpdate();
                 }
@@ -528,68 +656,30 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                 }
             }
 
+
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 if (loader.isShowing()) { loader.dismiss(); }
-                Toast.makeText(getActivity(), "Update failed!", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "Update failed!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    void capturePhoto() {
-        cameraPreview.captureImage();
+//    }
 
-        // Here is callback of snap taken
-        cameraPreview.setCameraListener(new CameraListener() {
-            @Override
-            public void onPictureTaken(byte[] jpeg) {
-                super.onPictureTaken(jpeg);
-
-                Bitmap bitmap = BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length);
-                Matrix mat = new Matrix();
-                if (bitmap.getWidth() > bitmap.getHeight()) {
-                    mat.postRotate(90);  // angle is the desired angle you wish to rotate
-                } else {
-                    mat.postRotate(0);
-                }
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
-                new PostUpdateFragment.fileFromBitmap(bitmap, getActivity()).execute();
-            }
-        });
-    }
-
-    void captureVideo() {
-        // Here is callback of video taken
-        cameraPreview.setCameraListener(new CameraListener() {
-            @Override
-            public void onVideoTaken(File video) {
-                super.onVideoTaken(video);
-                filePath = video.getAbsolutePath();
-                OBJECT_KEY = generateFileName();
-                fileUrl = "https://s3.amazonaws.com/pointters_dev/dev/" + OBJECT_KEY;
-                if (cameraPreview != null) {
-                    cameraPreview.stop();
-                }
-                loader.show();
-
-                uploadFilesToAws(getResources().getString(R.string.video));
-            }
-        });
-    }
-
-    private void sendFile(File file) {
-        saveBitmapToFile(file);
-
-        filePath = file.getAbsolutePath();
-        OBJECT_KEY = generateFileName();
-        fileUrl = "https://s3.amazonaws.com/pointters_dev/dev/" + OBJECT_KEY;
-        if (cameraPreview != null) {
-            cameraPreview.stop();
-        }
-
-        loader.show();
-        uploadFilesToAws(getResources().getString(R.string.image));
-    }
+//    private void sendFile(File file) {
+//        saveBitmapToFile(file);
+//
+//        filePath = file.getAbsolutePath();
+//        OBJECT_KEY = generateFileName();
+//        fileUrl = "https://s3.amazonaws.com/pointters_dev/dev/" + OBJECT_KEY;
+////        if (cameraPreview != null) {
+////            cameraPreview.stop();
+////        }
+////
+//        loader.show();
+//        uploadFilesToAws(getResources().getString(R.string.image));
+//    }
 
     //Dialog Box
     private void showDiag() {
@@ -722,56 +812,80 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    private void setTagServiceView(String strId, String strType, String strName, String strPos, String strPic) {
-        TextView txtTagName = (TextView) view.findViewById(R.id.post_tag_name);
-        TextView txtTagPos = (TextView) view.findViewById(R.id.txt_tag_location);
-        ImageView postImgService = (ImageView) view.findViewById(R.id.post_tag_profile_rect);
-        RoundedImageView postImgUser = (RoundedImageView) view.findViewById(R.id.post_tag_profile_round);
+    private void setTagServiceView(TagServiceSellerModel model) {
+//        TextView txtTagName = (TextView) view.findViewById(R.id.post_tag_name);
+//        TextView txtTagPos = (TextView) view.findViewById(R.id.txt_tag_location);
+//        ImageView postImgService = (ImageView) view.findViewById(R.id.post_tag_profile_rect);
+//        RoundedImageView postImgUser = (RoundedImageView) view.findViewById(R.id.post_tag_profile_round);
+//
+//        ImageView btnTagDelete = (ImageView) view.findViewById(R.id.post_tag_close);
+//        btnTagDelete.setOnClickListener(this);
+//
+//        postTagId = strId;
+//        postTagType = strType;
+//
+//        DisplayImageOptions options = new DisplayImageOptions.Builder()
+//                .showImageOnLoading(R.drawable.photo_placeholder)
+//                .showImageForEmptyUri(R.drawable.photo_placeholder)
+//                .showImageOnFail(R.drawable.photo_placeholder)
+//                .cacheInMemory(true)
+//                .cacheOnDisk(true)
+//                .considerExifParams(true)
+//                .build();
+//
+//        if (postTagType.equals("user")) {
+//            postImgService.setVisibility(View.GONE);
+//            postImgUser.setVisibility(View.VISIBLE);
+//            if (strPic != null && !strPic.equals(""))
+//                ImageLoader.getInstance().displayImage(strPic, postImgUser, options);
+//        }
+//        else {
+//            postImgUser.setVisibility(View.GONE);
+//            postImgService.setVisibility(View.VISIBLE);
+//            if (strPic != null && !strPic.equals(""))
+//                ImageLoader.getInstance().displayImage(strPic, postImgService, options);
+//        }
+//
+//        txtTagName.setText(strName);
+//        txtTagPos.setText(strPos);
 
-        ImageView btnTagDelete = (ImageView) view.findViewById(R.id.post_tag_close);
-        btnTagDelete.setOnClickListener(this);
-
-        postTagId = strId;
-        postTagType = strType;
-
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.photo_placeholder)
-                .showImageForEmptyUri(R.drawable.photo_placeholder)
-                .showImageOnFail(R.drawable.photo_placeholder)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .build();
-
-        if (postTagType.equals("user")) {
-            postImgService.setVisibility(View.GONE);
-            postImgUser.setVisibility(View.VISIBLE);
-            if (strPic != null && !strPic.equals(""))
-                ImageLoader.getInstance().displayImage(strPic, postImgUser, options);
-        }
-        else {
-            postImgUser.setVisibility(View.GONE);
-            postImgService.setVisibility(View.VISIBLE);
-            if (strPic != null && !strPic.equals(""))
-                ImageLoader.getInstance().displayImage(strPic, postImgService, options);
-        }
-
-        txtTagName.setText(strName);
-        txtTagPos.setText(strPos);
+        postDataAdapter.setTagData(model);
+        postDataAdapter.notifyDataSetChanged();
     }
 
     private void allowPostUpdate() {
         if (!postMessage.equals("") || (!postMediaURL.equals("") && !postMediaType.equals(""))) {
-            btnPost.setSelected(true);
-            btnPost.setEnabled(true);
+//            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("en"))
+            EventBus.getDefault().post(new Pusher("enable"));
         } else {
-            btnPost.setSelected(false);
-            btnPost.setEnabled(false);
+            EventBus.getDefault().post(new Pusher("disable"));
         }
     }
 
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void omEventMainThread(Pusher pusher){
+        switch (pusher.getAction()) {
+            case "post":
+                postUpdate();
+                break;
+        }
+    }
+
+
     private void getPostMediaInfo(int index) {
-        if (index < backgroundMedia.size()-1) {
+        if (index < backgroundMedia.size()) {
             Media dictBackgroundMedia = backgroundMedia.get(index);
             postMediaId = index;
             if (dictBackgroundMedia.getMediaType() != null)
@@ -795,15 +909,17 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
             switch (requestCode) {
                 case REQUEST_FOR_TAG_CODE:
                     isConnectedTag = true;
-                    layoutPostTag.setVisibility(View.VISIBLE);
+//                    layoutPostTag.setVisibility(View.VISIBLE);
+//                    TagServiceSellerModel model = (TagServiceSellerModel) data.getSerializableExtra(ConstantUtils.CHOOSE_TAG_ID);
 
-                    String strId = data.getStringExtra(ConstantUtils.CHOOSE_TAG_ID);
-                    String strType = data.getStringExtra(ConstantUtils.CHOOSE_TAG_TYPE);
-                    String strName = data.getStringExtra(ConstantUtils.CHOOSE_TAG_NAME);
-                    String strPos = data.getStringExtra(ConstantUtils.CHOOSE_TAG_POS);
-                    String strPic = data.getStringExtra(ConstantUtils.CHOOSE_TAG_PIC);
+//                    String strId = data.getStringExtra(ConstantUtils.CHOOSE_TAG_ID);
+//                    String strType = data.getStringExtra(ConstantUtils.CHOOSE_TAG_TYPE);
+//                    String strName = data.getStringExtra(ConstantUtils.CHOOSE_TAG_NAME);
+//                    String strPos = data.getStringExtra(ConstantUtils.CHOOSE_TAG_POS);
+//                    String strPic = data.getStringExtra(ConstantUtils.CHOOSE_TAG_PIC);
 
-                    setTagServiceView(strId, strType, strName, strPos, strPic);
+//                    setTagServiceView(strId, strType, strName, strPos, strPic);
+                    setTagServiceView(new TagServiceSellerModel());
                     allowPostUpdate();
                     break;
 
@@ -844,6 +960,37 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                         }
                     }
                     break;
+
+                case CAMERA_IMAGE_REQUEST:
+                    if (resultCode == RESULT_OK) {
+                        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                        ;                       new fileFromBitmap(bitmap, getActivity()).execute();
+                    }
+                    break;
+
+                case CAMERA_VIDEO_REQUEST:
+                    if (resultCode == RESULT_OK) {
+                        Uri video;
+                        if (data.getData() != null)
+                            video = data.getData();
+                        else if (data.getDataString() != null) {
+                            String path = data.getDataString();
+                            video = Uri.parse(path);
+                        } else {
+                            return;
+                        }
+
+                        loader.show();
+                        uncompressedFilePath = CommonUtils.getVideoFilePathFromURI(getActivity(), video);
+                        loadFFMpegBinary();
+                        filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/compressed.mp4";
+                        String[] command = {"-y", "-i", uncompressedFilePath, "-s", "640x480", "-r", "25", "-vcodec", "mpeg4", "-b:v", "150k", "-b:a", "48000", "-ac", "2", "-ar", "22050", filePath};
+                        execFFmpegBinary(command);
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -853,54 +1000,54 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     public void onTabSelected(TabLayout.Tab tab) {
         switch (tab.getPosition()) {
             case 0:
-                if (backgroundMedia != null && backgroundMedia.size() > 0) {
-                    layoutChooseFromGallery.setVisibility(View.GONE);
-                    layoutCrossWall.setVisibility(View.VISIBLE);
-                } else {
-                    layoutChooseFromGallery.setVisibility(View.VISIBLE);
-                    layoutCrossWall.setVisibility(View.GONE);
-                }
-                layoutCamera.setVisibility(View.GONE);
-
-                if (IS_RECORDING_START) {
-                    countDownTimer.cancel();
-                    cameraPreview.stop();
-                    cameraPreview.stopRecordingVideoWithRecording();
-                    IS_RECORDING_START = false;
-                }
-
+//                if (backgroundMedia != null && backgroundMedia.size() > 0) {
+//                    layoutChooseFromGallery.setVisibility(View.GONE);
+//                    layoutCrossWall.setVisibility(View.VISIBLE);
+//                } else {
+//                    layoutChooseFromGallery.setVisibility(View.VISIBLE);
+//                    layoutCrossWall.setVisibility(View.GONE);
+//                }
+//                layoutCamera.setVisibility(View.GONE);
+//
+//                if (IS_RECORDING_START) {
+//                    countDownTimer.cancel();
+//                    cameraPreview.stop();
+//                    cameraPreview.stopRecordingVideoWithRecording();
+//                    IS_RECORDING_START = false;
+//                }
+//
                 break;
 
             case 1:
-                layoutCrossWall.setVisibility(View.GONE);
-                layoutChooseFromGallery.setVisibility(View.GONE);
-                layoutCamera.setVisibility(View.VISIBLE);
-                txtTimer.setVisibility(View.GONE);
-                takeImage.setImageResource(R.drawable.capture_button);
-
-                if (IS_RECORDING_START) {
-                    countDownTimer.cancel();
-                    cameraPreview.stopRecordingVideoWithRecording();
-                    IS_RECORDING_START = false;
-                }
-
-                tabLayout.getTabAt(1).select();
-                if (cameraPreview != null && !cameraPreview.isStarted()) {
-                    cameraPreview.start();
-                }
+//                layoutCrossWall.setVisibility(View.GONE);
+//                layoutChooseFromGallery.setVisibility(View.GONE);
+//                layoutCamera.setVisibility(View.VISIBLE);
+//                txtTimer.setVisibility(View.GONE);
+//                takeImage.setImageResource(R.drawable.capture_button);
+//
+//                if (IS_RECORDING_START) {
+//                    countDownTimer.cancel();
+//                    cameraPreview.stopRecordingVideoWithRecording();
+//                    IS_RECORDING_START = false;
+//                }
+//
+//                tabLayout.getTabAt(1).select();
+//                if (cameraPreview != null && !cameraPreview.isStarted()) {
+//                    cameraPreview.start();
+//                }
                 break;
 
             case 2:
-                txtTimer.setText(10 + " Secs");
-                layoutChooseFromGallery.setVisibility(View.GONE);
-                layoutCamera.setVisibility(View.VISIBLE);
-                txtTimer.setVisibility(View.VISIBLE);
-                takeImage.setImageResource(R.drawable.capture_button);
-                layoutCrossWall.setVisibility(View.GONE);
-
-                if (cameraPreview != null && !cameraPreview.isStarted()) {
-                    cameraPreview.start();
-                }
+//                txtTimer.setText(10 + " Secs");
+//                layoutChooseFromGallery.setVisibility(View.GONE);
+//                layoutCamera.setVisibility(View.VISIBLE);
+//                txtTimer.setVisibility(View.VISIBLE);
+//                takeImage.setImageResource(R.drawable.capture_button);
+//                layoutCrossWall.setVisibility(View.GONE);
+//
+//                if (cameraPreview != null && !cameraPreview.isStarted()) {
+//                    cameraPreview.start();
+//                }
                 break;
         }
     }
@@ -911,18 +1058,6 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     @Override
     public void onTabReselected(TabLayout.Tab tab) {}
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        
-        if (requestCode == CameraKit.Constants.PERMISSION_REQUEST_CAMERA) {
-            if (this.cameraPreview != null) {
-                this.cameraPreview.stop();
-                this.cameraPreview.start();
-            }
-        }
-
-    }
 
     private String generateFileName() {
         Calendar calendar = Calendar.getInstance();
@@ -990,25 +1125,25 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
-        if (cameraPreview != null)
-            cameraPreview.start();
-
+//        if (cameraPreview != null)
+//            cameraPreview.start();
+//
         allowPostUpdate();
     }
 
     @Override
     public void onPause() {
-        if (cameraPreview != null) {
-            //  cameraPreview.stop();
-            if (IS_RECORDING_START) {
-                if (countDownTimer != null)
-                    countDownTimer.cancel();
-                cameraPreview.stopRecordingVideoWithRecording();
-                takeImage.setImageResource(R.drawable.capture_button);
-                IS_RECORDING_START = false;
-                txtTimer.setText("10 Secs");
-            }
-        }
+//        if (cameraPreview != null) {
+//            //  cameraPreview.stop();
+//            if (IS_RECORDING_START) {
+//                if (countDownTimer != null)
+//                    countDownTimer.cancel();
+//                cameraPreview.stopRecordingVideoWithRecording();
+//                takeImage.setImageResource(R.drawable.capture_button);
+//                IS_RECORDING_START = false;
+//                txtTimer.setText("10 Secs");
+//            }
+//        }
 
         super.onPause();
     }
@@ -1017,14 +1152,14 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (cameraPreview != null) {
-            cameraPreview.stop();
-            if (IS_RECORDING_START) {
-                if (countDownTimer != null)
-                    countDownTimer.cancel();
-                cameraPreview.stopRecordingVideoWithRecording();
-            }
-        }
+//        if (cameraPreview != null) {
+//            cameraPreview.stop();
+//            if (IS_RECORDING_START) {
+//                if (countDownTimer != null)
+//                    countDownTimer.cancel();
+//                cameraPreview.stopRecordingVideoWithRecording();
+//            }
+//        }
 
         if (message != null)
             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(message);
@@ -1140,7 +1275,7 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            sendFile(file);
+//            sendFile(file);
         }
     }
 }

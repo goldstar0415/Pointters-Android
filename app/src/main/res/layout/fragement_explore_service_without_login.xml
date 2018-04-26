@@ -8,47 +8,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:scrollbars="none">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager_suggested_services"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_180sdp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/view_pager_suggested_services"
-            android:background="@drawable/slider_gradient"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <com.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/indicator_view_pager_suggested_services"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_13sdp"
-            android:paddingBottom="@dimen/fix_1dp"
-            android:paddingTop="@dimen/fix_1dp"
-            app:layout_constraintBottom_toBottomOf="@+id/view_pager_suggested_services"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:theme="@style/CustomCirclePageIndicatorSuggestedServices" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager_suggested_services"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/slider_gradient"
+                />
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/layout_popular_categories"
-            android:layout_width="0dp"
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indicator_view_pager_suggested_services"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_13sdp"
+                android:paddingBottom="@dimen/fix_1dp"
+                android:paddingTop="@dimen/fix_1dp"
+                android:layout_alignParentBottom="true"
+                app:theme="@style/CustomCirclePageIndicatorSuggestedServices" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_section2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_6sdp"
-            android:layout_marginRight="@dimen/_6sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:background="@drawable/bg_service"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_pager_suggested_services">
@@ -56,40 +55,291 @@
             <TextView
                 fontPath="fonts/Montserrat-Light.ttf"
                 tools:ignore="MissingPrefix"
-                android:id="@+id/txt_popular_categories"
+                android:id="@+id/txt_section2_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/popular_categories"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_small"
+                android:text="@string/categories"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_medium"
                 android:includeFontPadding="false"
                 android:layout_marginLeft="@dimen/_10sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_popular_categories"
+            <Button
+                android:id="@+id/see_all_section2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_popular_categories"
-               />
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_alignParentRight="true" />
 
-        </android.support.constraint.ConstraintLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_section2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_below="@+id/txt_section2_title"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry"
+                android:paddingLeft="@dimen/_10sdp"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_services"
-            android:layout_width="0dp"
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_section3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_popular_categories" />
-    </android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/view_pager_suggested_services">
+
+            <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                tools:ignore="MissingPrefix"
+                android:id="@+id/txt_section3_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/featured_style"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_medium"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="@dimen/_10sdp"
+                />
+
+            <Button
+                android:id="@+id/see_all_section3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_alignParentRight="true"
+                tools:ignore="RtlHardcoded" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_section3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_below="@+id/see_all_section3"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry"
+                android:paddingLeft="@dimen/_10sdp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_section4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager_suggested_services">
+
+            <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                tools:ignore="MissingPrefix"
+                android:id="@+id/txt_section4_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/featured_style"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_medium"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="@dimen/_10sdp"
+                />
+
+            <Button
+                android:id="@+id/see_all_section4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_alignParentRight="true" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_section4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_below="@+id/see_all_section4"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry"
+                android:paddingLeft="@dimen/_10sdp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_section5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager_suggested_services">
+
+            <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                tools:ignore="MissingPrefix"
+                android:id="@+id/txt_section5_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/featured_style"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_medium"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="@dimen/_10sdp"
+                />
+
+            <Button
+                android:id="@+id/see_all_section5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_alignParentRight="true" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_section5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_below="@+id/see_all_section5"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry"
+                android:paddingLeft="@dimen/_10sdp"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_section6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager_suggested_services">
+
+            <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                tools:ignore="MissingPrefix"
+                android:id="@+id/txt_section6_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/featured_style"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_medium"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="@dimen/_10sdp"
+                />
+
+            <Button
+                android:id="@+id/see_all_section6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_alignParentRight="true" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_section6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_below="@+id/see_all_section6"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry"
+                android:paddingLeft="@dimen/_10sdp"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_section7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager_suggested_services">
+
+            <TextView
+                fontPath="fonts/Montserrat-Light.ttf"
+                tools:ignore="MissingPrefix"
+                android:id="@+id/txt_section7_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/featured_style"
+                android:textColor="@color/text_color_dark_gray"
+                android:textSize="@dimen/text_size_medium"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="@dimen/_10sdp"
+                />
+
+            <Button
+                android:id="@+id/see_all_section7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_alignParentRight="true" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_section7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_below="@+id/see_all_section7"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry"
+                android:paddingLeft="@dimen/_10sdp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

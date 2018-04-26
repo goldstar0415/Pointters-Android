@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.pointters.R;
+import com.pointters.adapter.ExpandableRecyclerView;
 import com.pointters.adapter.UserSettingAdapter;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.UserSettingsModel;
@@ -25,6 +26,7 @@ import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.ConstantUtils;
+import com.pointters.utils.DividerItemDecorationVer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +43,7 @@ import static com.pointters.R.id.btnSave;
 
 
 public class UserSettingsActivity extends AppCompatActivity implements View.OnClickListener, OnRecyclerViewItemClickListener {
-    private RecyclerView recyclerViewUserSetting;
+    private ExpandableRecyclerView recyclerViewUserSetting;
     private UserSettingAdapter userSettingAdapter;
     private List<UserSettingsModel> userSettingList = new ArrayList<>();
     private SharedPreferences sharedPreferences;
@@ -56,11 +58,11 @@ public class UserSettingsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
-        AppUtils.setToolBarWithBothIcon(UserSettingsActivity.this, getResources().getString(R.string.user_settings), R.drawable.back_icon_grey, 0);
+        AppUtils.setToolBarWithBothIcon(UserSettingsActivity.this, getResources().getString(R.string.user_settings), R.drawable.back_icon, 0);
 
         txtBtn = (TextView) findViewById(R.id.txt_save);
         txtBtn.setOnClickListener(this);
-        recyclerViewUserSetting = (RecyclerView) findViewById(R.id.rv_user_settings);
+        recyclerViewUserSetting = (ExpandableRecyclerView) findViewById(R.id.rv_user_settings);
         recyclerViewUserSetting.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUserSetting.setLayoutManager(new LinearLayoutManager(this));
 
@@ -99,12 +101,31 @@ public class UserSettingsActivity extends AppCompatActivity implements View.OnCl
             e.printStackTrace();
         }
 
-        UserSettingsModel userSettingsModelFirst = new UserSettingsModel(getResources().getString(R.string.who_can_view_my_location), locationViewPermission);
+        int selectedLocation = 0;
+        if (locationViewPermission.equals("Public")) {
+            selectedLocation = 0;
+        }else if (locationViewPermission.equals("Followers")){
+            selectedLocation = 1;
+        }else{
+            selectedLocation = 2;
+        }
+        int selectedPhone = 0;
+        if (phoneViewPermission.equals("Public")) {
+            selectedPhone = 0;
+        }else if (phoneViewPermission.equals("Followers")){
+            selectedPhone = 1;
+        }else{
+            selectedPhone = 2;
+        }
+
+        UserSettingsModel userSettingsModelFirst = new UserSettingsModel(getResources().getString(R.string.who_can_view_my_location), selectedLocation);
         userSettingList.add(userSettingsModelFirst);
-        UserSettingsModel userSettingsModelSecond = new UserSettingsModel(getResources().getString(R.string.who_can_view_my_phone), phoneViewPermission);
+        UserSettingsModel userSettingsModelSecond = new UserSettingsModel(getResources().getString(R.string.who_can_view_my_phone), selectedPhone);
         userSettingList.add(userSettingsModelSecond);
+        DividerItemDecorationVer divider = new DividerItemDecorationVer(ContextCompat.getDrawable(this, R.drawable.divider_option));
 
         userSettingAdapter = new UserSettingAdapter(UserSettingsActivity.this, userSettingList, this);
+        recyclerViewUserSetting.addItemDecoration(divider);
         recyclerViewUserSetting.setAdapter(userSettingAdapter);
 
     }
@@ -122,7 +143,24 @@ public class UserSettingsActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.txt_save:
                 if(txtBtn.isSelected())
-                {   userPutSettingsRequest = new UserPutSettingsRequest(userSettingList.get(1).getSeletedItem(), userSettingList.get(0).getSeletedItem(), generalNotifications, orderNotifications, offerNotifications, summaryEmail);
+                {
+                    String selectedLocation = "Public";
+                    if (userSettingList.get(0).getSeletedItem() == 0){
+                        selectedLocation = "Public";
+                    }else if (userSettingList.get(0).getSeletedItem() == 1){
+                        selectedLocation = "Followers";
+                    }else{
+                        selectedLocation = "Only me";
+                    }
+                    String selectedPhone = "Public";
+                    if (userSettingList.get(1).getSeletedItem() == 0){
+                        selectedPhone = "Public";
+                    }else if (userSettingList.get(1).getSeletedItem() == 1){
+                        selectedPhone = "Followers";
+                    }else{
+                        selectedPhone = "Only me";
+                    }
+                    userPutSettingsRequest = new UserPutSettingsRequest(selectedPhone, selectedLocation, generalNotifications, orderNotifications, offerNotifications, summaryEmail);
                     ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
                     Call<Object> putUserSetting = apiService.putUserSettings(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), userPutSettingsRequest);
                     putUserSetting.enqueue(new Callback<Object>() {

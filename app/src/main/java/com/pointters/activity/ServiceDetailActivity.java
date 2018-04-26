@@ -2,39 +2,35 @@ package com.pointters.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -42,7 +38,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.internal.LinkedTreeMap;
+import com.kaopiz.kprogresshud.KProgressHUD;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -51,21 +49,38 @@ import com.pointters.adapter.EditProfileImageViewPagerAdapter;
 import com.pointters.adapter.PriceAdapter;
 import com.pointters.adapter.RelatedServiceAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.RecyclerViewItemClickWithSource;
 import com.pointters.model.Media;
+import com.pointters.model.MetricsModel;
 import com.pointters.model.Prices;
+import com.pointters.model.SellerModel;
+import com.pointters.model.Service;
 import com.pointters.model.ServiceDetailModel;
+import com.pointters.model.ServiceReviewModel;
+import com.pointters.model.request.FlagInappropriateRequest;
 import com.pointters.model.response.GetRelatedServicesResponse;
-import com.pointters.model.response.GetServiceDeatilResponse;
+import com.pointters.model.response.GetServiceDetailResponse;
+import com.pointters.model.response.LikeUnlikeResponse;
+import com.pointters.model.response.ShareUnshareResponse;
+import com.pointters.model.response.WatchUnwatchResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
+import com.pointters.utils.EndlessRecyclerViewScrollListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import at.blogc.android.views.ExpandableTextView;
 import retrofit2.Call;
@@ -74,116 +89,600 @@ import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class ServiceDetailActivity extends AppCompatActivity implements View.OnClickListener, OnApiFailDueToSessionListener, GoogleApiClient.ConnectionCallbacks, LocationListener, GoogleApiClient.OnConnectionFailedListener {
+public class ServiceDetailActivity extends AppCompatActivity implements View.OnClickListener, OnApiFailDueToSessionListener {
 
-    private final int REQUEST_CHECK_SETTINGS = 1000;
-    private final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 2000;
-    private LocationRequest locationRequest;
-    private GoogleApiClient googleApiClient;
-    private Location location = null;
-    private RelativeLayout moveToProfileScreen;
-    private TextView txtName, txtVerified, buttonToggle, buyForButton, txtGetCustomOffer, txtCountFirst, txtCountSecond, txtPoint, txtWatch;
+    private final int CALL_PHONE_REQUEST = 3;
+    private final int DELETE_SERVICE_REQUEST = 4;
+
+    private LinearLayout moveToProfileScreen;
+    private RelativeLayout layoutMap, layoutReviewDesc1, layoutReviewDesc2;
+    private TextView txtName, txtVerified, buttonToggle, txtGetCustomOffer, btnPoint, btnWatch;
+    private TextView txtOnTime, txtQuality, txtHour, txtOrder, txtRating, txtBuyAgain, txtDeliveryMethod, txtPoint, txtLike, txtWatch;
+    private TextView txtRelatedTitle, txtReviewTitle, txtReviewQuality1, txtReviewQuality2, txtReviewDesc1, txtReviewDesc2, txtReviewRate1, txtReviewRate2;
+    private Button btnShowMoreService, btnReviewMore, btnBuyforService;
+    private ImageView imgReviewTime1, imgReviewTime2, imgReviewAgain1, imgReviewAgain2;
     private GoogleMap mMap;
     private RoundedImageView imgProfile;
-    private LinearLayout layoutLike;
-    private int firstCount = 1, secondCount = 1;
+    private LikeButton imgLike;
+    private ImageView btnCall, btnChat,imgWatching;
+    private RelativeLayout  btnDirection;
+    private LinearLayout layoutLike, layoutReviewValue1, layoutReviewValue2;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private MapFragment mapFragment;
     private LatLng latLng;
-    private ExpandableTextView txtServiceDesc;
+    private TextView txtServiceDesc;
     private RecyclerView recyclerViewPrice, recyclerViewRelatedService;
     private PriceAdapter priceAdapter;
     private RelatedServiceAdapter serviceAdapter;
+    private EditProfileImageViewPagerAdapter editProfileImageViewPagerAdapter;
+    private KProgressHUD loader;
+
+    private SellerModel seller = new SellerModel();
+    private Service service = new Service();
+    private MetricsModel metrics = new MetricsModel();
     private List<Prices> pricesList = new ArrayList<>();
     private List<Media> mediaList = new ArrayList<>();
-    private List<ServiceDetailModel> serviceDetailModelList = new ArrayList<>();
-    private EditProfileImageViewPagerAdapter editProfileImageViewPagerAdapter;
-    private String serviceId = "5a029b03b37404568cb6f20e";
+    private List<Double> service_pos = new ArrayList<>();
+    private List<ServiceDetailModel> relatedServiceList = new ArrayList<>();
+    private List<ServiceReviewModel> reviewList = new ArrayList<>();
 
+    private Double mUserLat = 0.0;
+    private Double mUserLng = 0.0;
+
+    private int limitCnt = 10;
+    private int totalCnt = 0;
+    private int pageCnt = 1;
+
+    private String serviceId = "";
+    private String loginUserId = "";
+    private String serviceDesc = "NA";
+
+    private String sellerId = "";
+    private String sellerName = "";
+    private String sellerPic = "";
+    private String sellerPhone = "";
+    private int sellerVerified = 0;
+
+    private Boolean isWatched = false;
+    private Boolean isLiked = false;
+    private Boolean isShared = false;
+    private Boolean isExpanable = true;
+    private String flagInappropriateComment = "";
+    private LinearLayout btnFlagInappropriate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_details);
+
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         setUpSuggestedCategoryViewPager();
 
-        if (getIntent() != null && getIntent().getStringExtra(ConstantUtils.SERVICE_ID) != null && !getIntent().getStringExtra(ConstantUtils.SERVICE_ID).isEmpty())
+        if (!sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "").equals("")) {
+            mUserLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
+        }
+        if (!sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "").equals("")) {
+            mUserLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
+        }
+        if (sharedPreferences.getString(ConstantUtils.USER_DATA, "") != null) {
+            String json = sharedPreferences.getString(ConstantUtils.USER_DATA, "");
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                if (jsonObject.has("_id") && jsonObject.get("_id") != null && !jsonObject.get("_id").equals("")) {
+                    loginUserId = (String) jsonObject.get("_id");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        initUI();
+
+        if (getIntent() != null && getIntent().getStringExtra(ConstantUtils.SERVICE_ID) != null && !getIntent().getStringExtra(ConstantUtils.SERVICE_ID).isEmpty()) {
             serviceId = getIntent().getStringExtra(ConstantUtils.SERVICE_ID);
+            if (!serviceId.equals("")) {
+                loader.show();
+                callGetServiceDetailApi(serviceId);
+            } else {
+                Toast.makeText(ServiceDetailActivity.this, "No Service Details!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        } else {
+            Toast.makeText(ServiceDetailActivity.this, "No Service Details!", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
 
+    private void initUI() {
+        loader = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
 
-        googleApiClient = new GoogleApiClient.Builder(ServiceDetailActivity.this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this).build();
-        googleApiClient.connect();
-        turnOnLocation();
-
-        AppUtils.setToolBarWithBothIcon(ServiceDetailActivity.this, getResources().getString(R.string.service_detail), R.drawable.back_icon_grey, R.drawable.more_icon_horizontal);
+//        AppUtils.setToolBarWithBothIcon(ServiceDetailActivity.this, getResources().getString(R.string.service_detail), R.drawable.back_icon, R.drawable.more_icon_horizontal);
         txtName = (TextView) findViewById(R.id.txt_name);
         txtVerified = (TextView) findViewById(R.id.txt_verified);
         imgProfile = (RoundedImageView) findViewById(R.id.img_profile);
-        txtServiceDesc = (ExpandableTextView) findViewById(R.id.txt_service_desc);
-        txtPoint = (TextView) findViewById(R.id.txt_point);
-        txtWatch = (TextView) findViewById(R.id.txt_watch);
-        layoutLike = (LinearLayout) findViewById(R.id.layout_like);
+//        btnPoint = (TextView) findViewById(R.id.txt_point);
+//        btnWatch = (TextView) findViewById(R.id.txt_watch);
+//        layoutLike = (LinearLayout) findViewById(R.id.layout_like);
+        imgWatching = (ImageView) findViewById(R.id.img_watching_icon);
+        imgLike = (LikeButton) findViewById(R.id.like_button);
         txtGetCustomOffer = (TextView) findViewById(R.id.txt_get_custom_offer);
-        moveToProfileScreen = (RelativeLayout) findViewById(R.id.move_to_profile);
-        buyForButton = (TextView) findViewById(R.id.buy_for_button);
-        buyForButton.setOnClickListener(this);
+        moveToProfileScreen = (LinearLayout) findViewById(R.id.move_to_profile);
         moveToProfileScreen.setOnClickListener(this);
         txtGetCustomOffer.setOnClickListener(this);
         buttonToggle = (TextView) this.findViewById(R.id.button_toggle);
+        btnCall = (ImageView) findViewById(R.id.img_call);
+        btnCall.setOnClickListener(this);
+        btnChat = (ImageView) findViewById(R.id.img_chat);
+        btnChat.setOnClickListener(this);
+
+        txtOnTime = (TextView) findViewById(R.id.mOnTimeValue);
+        txtQuality = (TextView) findViewById(R.id.mQualityNum);
+        txtHour = (TextView) findViewById(R.id.mHour);
+        txtOrder = (TextView) findViewById(R.id.txt_order_cnt);
+        txtRating = (TextView) findViewById(R.id.txt_rating_cnt);
+        txtBuyAgain = (TextView) findViewById(R.id.txt_again_cnt);
+
+        txtReviewTitle = (TextView) findViewById(R.id.txt_review_title);
+
+        btnBuyforService = (Button) findViewById(R.id.buy_service_button);
+        btnBuyforService.setOnClickListener(this);
+//        layoutReviewDesc1 = (RelativeLayout) findViewById(R.id.layout_review_desc1);
+//        layoutReviewValue1 = (LinearLayout) findViewById(R.id.layout_review_value1);
+//        txtReviewDesc1 = (TextView) findViewById(R.id.productPriceTextView1);
+//        txtReviewRate1 = (TextView) findViewById(R.id.buyNowButton1);
+//        txtReviewQuality1 = (TextView) findViewById(R.id.mQualityValue1);
+//        imgReviewTime1 = (ImageView) findViewById(R.id.mOnTimeImg1);
+//        imgReviewAgain1 = (ImageView) findViewById(R.id.mBuyAgainImg1);
+
+//        layoutReviewDesc2 = (RelativeLayout) findViewById(R.id.layout_review_desc2);
+//        layoutReviewValue2 = (LinearLayout) findViewById(R.id.layout_review_value2);
+//        txtReviewDesc2 = (TextView) findViewById(R.id.productPriceTextView2);
+//        txtReviewRate2 = (TextView) findViewById(R.id.buyNowButton2);
+//        txtReviewQuality2 = (TextView) findViewById(R.id.mQualityValue2);
+//        imgReviewTime2 = (ImageView) findViewById(R.id.mOnTimeImg2);
+//        imgReviewAgain2 = (ImageView) findViewById(R.id.mBuyAgainImg2);
+//
+        btnReviewMore = (Button) findViewById(R.id.btn_review_more);
+        btnReviewMore.setOnClickListener(this);
+
+        btnShowMoreService = (Button) findViewById(R.id.show_more_service_button);
+        btnShowMoreService.setOnClickListener(this);
+
+        txtPoint = (TextView) findViewById(R.id.mPointsValue);
+        txtLike = (TextView) findViewById(R.id.mLikesNum);
+        txtWatch = (TextView) findViewById(R.id.mWatchingValue);
 
         recyclerViewPrice = (RecyclerView) findViewById(R.id.recyclerview_price);
         recyclerViewPrice.setLayoutManager(new LinearLayoutManager(ServiceDetailActivity.this));
-        priceAdapter = new PriceAdapter(ServiceDetailActivity.this, pricesList);
-        recyclerViewPrice.setAdapter(priceAdapter);
-
-        recyclerViewRelatedService = (RecyclerView) findViewById(R.id.recyclerview_related_service);
-        recyclerViewRelatedService.setLayoutManager(new LinearLayoutManager(ServiceDetailActivity.this));
-       /* serviceAdapter = new RelatedServiceAdapter(ServiceDetailActivity.this,serviceDetailModelList,location);
-        recyclerViewRelatedService.setAdapter(serviceAdapter);*/
-
-
-        //SetOn Click listener
-        txtPoint.setOnClickListener(this);
-        txtWatch.setOnClickListener(this);
-        layoutLike.setOnClickListener(this);
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapId);
-
-        getServiceDetailApi();
-
-
-        // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
-        txtServiceDesc.setAnimationDuration(750L);
-
-        // set interpolators for both expanding and collapsing animations
-        txtServiceDesc.setInterpolator(new OvershootInterpolator());
-
-        // or set them separately
-        txtServiceDesc.setExpandInterpolator(new OvershootInterpolator());
-        txtServiceDesc.setCollapseInterpolator(new OvershootInterpolator());
-
-        // but, you can also do the checks yourself
-        buttonToggle.setOnClickListener(new View.OnClickListener() {
+        priceAdapter = new PriceAdapter(ServiceDetailActivity.this, pricesList, new RecyclerViewItemClickWithSource() {
             @Override
-            public void onClick(final View v) {
-                if (txtServiceDesc.isExpanded()) {
-                    txtServiceDesc.collapse();
-                    buttonToggle.setText("more");
-                } else {
-                    txtServiceDesc.expand();
-                    buttonToggle.setText("less");
-                }
+            public void onItemClick(int position, Prices source) {
+
             }
         });
+        recyclerViewPrice.setAdapter(priceAdapter);
 
+        //SetOn Click listener
+//        btnPoint.setOnClickListener(this);
+//        btnWatch.setOnClickListener(this);
+//        layoutLike.setOnClickListener(this);
+        imgLike.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                callPostLikeServiceApi(serviceId);
+            }
 
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                callDeleteLikeServiceApi(serviceId);
+            }
+        });
+        imgWatching.setOnClickListener(this);
+
+        txtDeliveryMethod = (TextView) findViewById(R.id.txt_delivery_method);
+        btnDirection = (RelativeLayout) findViewById(R.id.direction_view);
+        btnDirection.setOnClickListener(this);
+
+        layoutMap = (RelativeLayout) findViewById(R.id.layout_map);
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapId);
+
+        // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
+        txtServiceDesc = (TextView)findViewById(R.id.txt_service_description);
+//        txtServiceDesc.setAnimationDuration(750L);
+        // set interpolators for both expanding and collapsing animations
+//        txtServiceDesc.setInterpolator(new OvershootInterpolator());
+//        // or set them separately
+//        txtServiceDesc.setExpandInterpolator(new OvershootInterpolator());
+//        txtServiceDesc.setCollapseInterpolator(new OvershootInterpolator());
+//        // but, you can also do the checks yourself
+//        buttonToggle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                if (txtServiceDesc.isExpanded()) {
+//                    txtServiceDesc.collapse();
+//                    buttonToggle.setText("more");
+//                } else {
+//                    txtServiceDesc.expand();
+//                    buttonToggle.setText("less");
+//                }
+//            }
+//        });
+
+        txtRelatedTitle = (TextView) findViewById(R.id.txt_related_title);
+        btnFlagInappropriate = (LinearLayout) findViewById(R.id.ll_flag_inappropriate);
+        btnFlagInappropriate.setOnClickListener(this);
+        findViewById(R.id.btn_back).setOnClickListener(this);
+        findViewById(R.id.btn_share).setOnClickListener(this);
     }
 
+    private void initRecyclerView() {
+        recyclerViewRelatedService = (RecyclerView) findViewById(R.id.recyclerview_related_service);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ServiceDetailActivity.this, LinearLayoutManager.VERTICAL, false);
+        recyclerViewRelatedService.setLayoutManager(linearLayoutManager);
+
+//        DividerItemDecoration divider = new DividerItemDecoration(getBaseContext(), DividerItemDecoration.VERTICAL);
+//        divider.setDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.divider_option));
+//        recyclerViewRelatedService.addItemDecoration(divider);
+
+        serviceAdapter = new RelatedServiceAdapter(ServiceDetailActivity.this, relatedServiceList, mUserLat, mUserLng, new OnRecyclerViewButtonClickListener() {
+            @Override
+            public void onButtonClick(View v, int position) {
+                if (v.getId() == R.id.txt_name) {
+                    if (relatedServiceList.get(position).getSeller().getUserId() != null && !relatedServiceList.get(position).getSeller().getUserId().isEmpty()) {
+                        String userId = relatedServiceList.get(position).getSeller().getUserId();
+                        moveToProfile(userId);
+                    }
+                }
+            }
+
+        });
+        recyclerViewRelatedService.setAdapter(serviceAdapter);
+        recyclerViewRelatedService.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            }
+        });
+    }
+
+    private void setServiceDetails() {
+        if (mediaList.size() > 0) {
+            editProfileImageViewPagerAdapter.notifyDataSetChanged();
+        }
+
+        if (seller.getUserId() != null && !seller.getUserId().isEmpty()) {
+            sellerId = seller.getUserId();
+        }
+
+        String strFirst = "", strLast = "";
+        if (seller.getFirstName() != null && !seller.getFirstName().isEmpty()) {
+            strFirst = seller.getFirstName();
+        }
+        if (seller.getLastName() != null && !seller.getLastName().isEmpty()) {
+            strLast = seller.getLastName();
+        }
+        sellerName = strFirst + " " + strLast;
+        txtName.setText(sellerName);
+
+        if (seller.getVerified() != null && seller.getVerified()) {
+            sellerVerified = 1;
+            txtVerified.setText("Verified");
+        } else {
+            sellerVerified = 0;
+            txtVerified.setText("Not Verified");
+        }
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.user_avatar_placeholder)
+                .showImageForEmptyUri(R.drawable.user_avatar_placeholder)
+                .showImageOnFail(R.drawable.user_avatar_placeholder)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .build();
+        if (seller.getProfilePic() != null && !seller.getProfilePic().isEmpty()) {
+            sellerPic = seller.getProfilePic();
+            if (!sellerPic.contains("https://s3.amazonaws.com")) {
+//                sellerPic = "https://s3.amazonaws.com" + sellerPic;
+            }
+            ImageLoader.getInstance().displayImage(sellerPic, imgProfile, options);
+        }
+
+        if (seller.getPhone() != null && !seller.getPhone().isEmpty() && !sellerId.equals(loginUserId)) {
+            sellerPhone = seller.getPhone();
+            btnCall.setVisibility(View.VISIBLE);
+        } else {
+            btnCall.setVisibility(View.GONE);
+        }
+
+        if (sellerId.equals(loginUserId)) {
+            btnChat.setVisibility(View.GONE);
+            btnCall.setVisibility(View.GONE);
+        } else {
+            btnChat.setVisibility(View.VISIBLE);
+        }
+
+        txtServiceDesc.setText(serviceDesc);
+
+        if (pricesList.size() > 0) {
+            priceAdapter.notifyDataSetChanged();
+        }
+
+        if (metrics.getAvgOnTime() != null && !metrics.getAvgOnTime().isEmpty() && !metrics.getAvgOnTime().equals("NA")) {
+            float valOnTime = Float.parseFloat(metrics.getAvgOnTime());
+            txtOnTime.setText(String.format("%.1f", valOnTime) + "%");
+        } else {
+            txtOnTime.setText("NA");
+        }
+
+        if (metrics.getAvgQuality() != null && !metrics.getAvgQuality().isEmpty() && !metrics.getAvgQuality().equals("NA")) {
+            float valQuality = Float.parseFloat(metrics.getAvgQuality());
+            txtQuality.setText(String.format("%.1f", valQuality) + "/5");
+        } else {
+            txtQuality.setText("NA");
+        }
+
+        if (metrics.getAvgResponseTime() != null && !metrics.getAvgResponseTime().isEmpty() && !metrics.getAvgResponseTime().equals("NA")) {
+            float valResponse = Float.parseFloat(metrics.getAvgResponseTime());
+            txtHour.setText(String.format("%.1f", valResponse) + "hr");
+        } else {
+            txtHour.setText("NA");
+        }
+
+        if (metrics.getNumOrdersCompleted() != null && !metrics.getNumOrdersCompleted().isEmpty() && !metrics.getNumOrdersCompleted().equals("NA")) {
+            txtOrder.setText(metrics.getNumOrdersCompleted() + " service order completed");
+        } else {
+            txtOrder.setText("0 service order completed");
+        }
+
+        if (metrics.getAvgRating() != null && !metrics.getAvgRating().isEmpty() && !metrics.getAvgRating().equals("NA")) {
+            txtRating.setText(metrics.getAvgRating() + "% avg rating");
+        } else {
+            txtRating.setText("0% avg rating");
+        }
+
+        if (metrics.getAvgWillingToBuyAgain() != null && !metrics.getAvgWillingToBuyAgain().isEmpty() && !metrics.getAvgWillingToBuyAgain().equals("NA")) {
+            txtBuyAgain.setText(metrics.getAvgWillingToBuyAgain() + "% of customers will buy this service again");
+        } else {
+            txtBuyAgain.setText("0% of customers will buy this service again");
+        }
+
+        if (metrics.getPointValue() != null && !metrics.getPointValue().isEmpty() && !metrics.getPointValue().equals("NA")) {
+            txtPoint.setText(metrics.getPointValue() + " Points");
+        } else {
+            txtPoint.setText("NA");
+        }
+
+        if (metrics.getNumLikes() != null && !metrics.getNumLikes().isEmpty() && !metrics.getNumLikes().equals("NA")) {
+            txtLike.setText(metrics.getNumLikes() + " Likes");
+        } else {
+            txtLike.setText("NA");
+        }
+
+        if (metrics.getNumWatching() != null && !metrics.getNumWatching().isEmpty() && !metrics.getNumWatching().equals("NA")) {
+            txtWatch.setText(metrics.getNumWatching() + " Watching");
+        } else {
+            txtWatch.setText("NA");
+        }
+
+
+        boolean isLocal = false;
+        Integer localRadius = 0;
+        if (service.getFulfillmentMethod() != null) {
+            boolean isOnline = service.getFulfillmentMethod().getOnline();
+            boolean isShipment = service.getFulfillmentMethod().getShipment();
+            boolean isStore = service.getFulfillmentMethod().getStore();
+
+            isLocal = service.getFulfillmentMethod().getLocal();
+            localRadius = service.getFulfillmentMethod().getLocalServiceRadius();
+
+            String locationRadiusUnit = "mile";
+            if (service.getFulfillmentMethod().getLocalServiceRadiusUom() != null && !service.getFulfillmentMethod().getLocalServiceRadiusUom().isEmpty()) {
+                locationRadiusUnit = service.getFulfillmentMethod().getLocalServiceRadiusUom();
+            }
+
+            if (isOnline) {
+                txtDeliveryMethod.setText("Online service");
+            }
+            if (isShipment) {
+                txtDeliveryMethod.setText("Shipment service");
+            }
+            if (isLocal) {
+                txtDeliveryMethod.setText("Servicing locally in the city you service");
+            }
+            if (isStore) {
+                txtDeliveryMethod.setText("Servicing locally at your store locations");
+            }
+
+            if (isLocal || isStore) {
+                btnDirection.setVisibility(View.VISIBLE);
+                layoutMap.setVisibility(View.VISIBLE);
+
+                service_pos.clear();
+                if (service.getLocation() != null && service.getLocation().getGeoJson() != null) {
+                    if (service.getLocation().getGeoJson().getCoordinates() != null && service.getLocation().getGeoJson().getCoordinates().size() > 0) {
+                        service_pos = service.getLocation().getGeoJson().getCoordinates();
+                    } else {
+                        service_pos.add(-73.856077);
+                        service_pos.add(40.848447);
+                    }
+                } else {
+                    service_pos.add(-73.856077);
+                    service_pos.add(40.848447);
+                }
+
+                latLng = new LatLng(service_pos.get(1), service_pos.get(0));
+                if (latLng != null) {
+                    mapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            mMap = googleMap;
+                            mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_location_big)));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
+                        }
+                    });
+                }
+            } else {
+                btnDirection.setVisibility(View.GONE);
+                layoutMap.setVisibility(View.GONE);
+            }
+        }
+
+        setServiceReviews();
+        initRecyclerView();
+    }
+
+    private void setServiceReviews() {
+        if (reviewList.size() == 0) {
+            txtReviewTitle.setText("No Review");
+            btnReviewMore.setVisibility(View.GONE);
+//            layoutReviewDesc1.setVisibility(View.GONE);
+//            layoutReviewValue1.setVisibility(View.GONE);
+//            layoutReviewDesc2.setVisibility(View.GONE);
+//            layoutReviewValue2.setVisibility(View.GONE);
+//            btnReviewMore.setVisibility(View.GONE);
+        } else {
+            txtReviewTitle.setText("Review");
+            btnReviewMore.setVisibility(View.VISIBLE);
+
+//            layoutReviewDesc1.setVisibility(View.VISIBLE);
+//            layoutReviewValue1.setVisibility(View.VISIBLE);
+//            btnReviewMore.setVisibility(View.VISIBLE);
+
+            if (reviewList.get(0).getComment() != null && !reviewList.get(0).getComment().isEmpty()) {
+                txtReviewDesc1.setText(reviewList.get(0).getComment());
+            } else {
+                txtReviewDesc1.setText("NA");
+            }
+
+            if (reviewList.get(0).getOverallRating() != null && reviewList.get(0).getOverallRating() >= 0) {
+                txtReviewRate1.setText(String.format("%.1f", reviewList.get(0).getOverallRating()) + "%");
+            } else {
+                txtReviewRate1.setText("NA");
+            }
+
+            if (reviewList.get(0).getQualityOfService() != null && reviewList.get(0).getQualityOfService() >= 0) {
+                txtReviewQuality1.setText(String.format("%.1f", reviewList.get(0).getQualityOfService()));
+            } else {
+                txtReviewQuality1.setText("NA'");
+            }
+
+            if (reviewList.get(0).getWillingToBuyServiceAgain() != null && reviewList.get(0).getWillingToBuyServiceAgain() > 0) {
+                imgReviewAgain1.setImageResource(R.drawable.ellipse_checked_blue);
+            } else {
+                imgReviewAgain1.setImageResource(R.drawable.ellipse_unchecked_grey);
+            }
+
+            if (reviewList.size() > 1) {
+                btnReviewMore.setEnabled(true);
+                btnReviewMore.setSelected(true);
+                layoutReviewDesc2.setVisibility(View.VISIBLE);
+                layoutReviewValue2.setVisibility(View.VISIBLE);
+
+                if (reviewList.get(1).getComment() != null && !reviewList.get(1).getComment().isEmpty()) {
+                    txtReviewDesc2.setText(reviewList.get(1).getComment());
+                } else {
+                    txtReviewDesc2.setText("NA");
+                }
+
+                if (reviewList.get(1).getOverallRating() != null && reviewList.get(1).getOverallRating() >= 0) {
+                    txtReviewRate2.setText(String.format("%.1f", reviewList.get(1).getOverallRating()) + "%");
+                } else {
+                    txtReviewRate2.setText("NA");
+                }
+
+                if (reviewList.get(1).getQualityOfService() != null && reviewList.get(1).getQualityOfService() >= 0) {
+                    txtReviewQuality2.setText(String.format("%.1f", reviewList.get(1).getQualityOfService()));
+                } else {
+                    txtReviewQuality2.setText("NA'");
+                }
+
+                if (reviewList.get(1).getWillingToBuyServiceAgain() != null && reviewList.get(1).getWillingToBuyServiceAgain() > 0) {
+                    imgReviewAgain2.setImageResource(R.drawable.ellipse_checked_blue);
+                } else {
+                    imgReviewAgain2.setImageResource(R.drawable.ellipse_unchecked_grey);
+                }
+            } else {
+                btnReviewMore.setEnabled(false);
+                btnReviewMore.setSelected(false);
+                layoutReviewDesc2.setVisibility(View.GONE);
+                layoutReviewValue2.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void setLikeStatus() {
+        if (isLiked) {
+            imgLike.setLiked(true);
+        } else {
+            imgLike.setLiked(false);
+        }
+    }
+
+    private void setWatchStatus() {
+        if (isWatched) {
+            imgWatching.setImageResource(R.drawable.icon_setting_watch);
+        } else {
+            imgWatching.setImageResource(R.drawable.icon_watching_white);
+        }
+    }
+
+    private void setShareStatus() {
+        if (isShared) {
+            btnPoint.setText("Sharing");
+            btnPoint.setTextColor(getResources().getColor(R.color.colorWhite));
+            btnPoint.setBackgroundColor(getResources().getColor(R.color.blue));
+        } else {
+            btnPoint.setText("Share");
+            btnPoint.setTextColor(getResources().getColor(R.color.color_black_info));
+            btnPoint.setBackgroundColor(getResources().getColor(R.color.btn_unset_color));
+        }
+    }
+
+    private void moveToProfile(String strId) {
+        Intent intent = new Intent(ServiceDetailActivity.this, ProfileScreenActivity.class);
+
+        if (strId == loginUserId) {
+            intent.putExtra(ConstantUtils.PROFILE_LOGINUSER, true);
+        } else{
+            intent.putExtra(ConstantUtils.PROFILE_LOGINUSER, false);
+            intent.putExtra(ConstantUtils.PROFILE_USERID, strId);
+        }
+
+        startActivity(intent);
+    }
+
+    private void moveToCall() {
+        if (!checkPhoneCallPermission()) {
+            return;
+        }
+
+        if (sellerPhone.contains("+")) {
+            sellerPhone = sellerPhone.substring(1);
+        }
+
+        if (!sellerPhone.equals("")) {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + sellerPhone));
+            startActivity(callIntent);
+        }
+    }
+
+    private void moveToChat() {
+        Intent intent = new Intent(ServiceDetailActivity.this, ChatActivity.class);
+        editor.putInt(ConstantUtils.USER_VERIFIED, sellerVerified).apply();
+        editor.putString(ConstantUtils.CHAT_USER_ID, sellerId).apply();
+        editor.putString(ConstantUtils.CHAT_USER_NAME, sellerName).apply();
+        editor.putString(ConstantUtils.CHAT_USER_PIC, sellerPic).apply();
+        editor.putString(ConstantUtils.CHAT_CONVERSATION_ID, "");
+        startActivity(intent);
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -191,467 +690,550 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void setUpSuggestedCategoryViewPager() {
-
         ViewPager viewPagerSuggestedServices = (ViewPager) findViewById(R.id.view_pager_suggested_services);
         editProfileImageViewPagerAdapter = new EditProfileImageViewPagerAdapter(ServiceDetailActivity.this, mediaList);
-        // SuggestedCategoriesProfileAdapter suggestedCategoriesProfileAdapter = new SuggestedCategoriesProfileAdapter(getSupportFragmentManager());
         viewPagerSuggestedServices.setAdapter(editProfileImageViewPagerAdapter);
         CirclePageIndicator circlePageIndicator = (CirclePageIndicator) findViewById(R.id.indicator_view_pager_suggested_services);
         circlePageIndicator.setViewPager(viewPagerSuggestedServices);
-
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.toolbar_lft_img:
-                onBackPressed();
+            case R.id.btn_back:
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
                 break;
-            case R.id.toolbar_right_img:
+            case R.id.btn_share:
+                String shareBody = "Awesome app! Please check in your side Pointters";
+                Intent shareintent = new Intent(Intent.ACTION_SEND);
+                shareintent.setType("text/plain");
+                shareintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                shareintent.putExtra(Intent.EXTRA_SUBJECT, "Subject here");
+                shareintent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(shareintent, "Share Pointters"));
                 break;
             case R.id.move_to_profile:
-                startActivity(new Intent(ServiceDetailActivity.this, ProfileScreenActivity.class));
+                moveToProfile(sellerId);
                 break;
-            case R.id.buy_for_button:
+
+            case R.id.show_more_service_button:
+                if (totalCnt > limitCnt * pageCnt) {
+                    callGetRelatedServiceApi(serviceId, false, pageCnt+1, limitCnt, true);
+                }
+
+                break;
+            case R.id.txt_get_custom_offer:
+                Intent chatintent = new Intent(ServiceDetailActivity.this, ChatActivity.class);
+                editor.putInt(ConstantUtils.USER_VERIFIED, seller.getVerified() ? 1 : 0).apply();
+                editor.putString(ConstantUtils.CHAT_USER_ID, seller.getUserId()).apply();
+                editor.putString(ConstantUtils.CHAT_USER_NAME, seller.getFirstName() + " " + seller.getLastName()).apply();
+                editor.putString(ConstantUtils.CHAT_USER_PIC, seller.getProfilePic()).apply();
+                editor.putString(ConstantUtils.CHAT_CONVERSATION_ID, "");
+                startActivity(chatintent);
+                break;
+            case R.id.buy_service_button:
                 startActivity(new Intent(ServiceDetailActivity.this, CheckoutActivity.class));
                 break;
+//            case R.id.txt_point:
+//                if (isShared) {
+//                    callDeleteShareServiceApi(serviceId);
+//                } else {
+//                    callPostShareServiceApi(serviceId);
+//                }
+//                break;
+//            case R.id.txt_watch:
+//                if (isWatched) {
+//                    callDeleteWatchServiceApi(serviceId);
+//                } else {
+//                    callPostWatchServiceApi(serviceId);
+//                }
+//                break;
+//            case R.id.layout_like:
+//                if (isLiked) {
+//                    callDeleteLikeServiceApi(serviceId);
+//                } else {
+//                    callPostLikeServiceApi(serviceId);
+//                }
+//                break;
 
-
-          /*  case R.id.img_first_plus:
-                firstCount++;
-                txtCountFirst.setText(String.valueOf(firstCount));
+            case R.id.ll_flag_inappropriate:
+                showDialogFlag();
                 break;
-            case R.id.img_first_minus:
-                if (firstCount != 1) {
-                    firstCount--;
-                    txtCountFirst.setText(String.valueOf(firstCount));
-                }
+            case R.id.img_call:
+                moveToCall();
                 break;
-            case R.id.img_plus_second:
-                secondCount++;
-                txtCountSecond.setText(String.valueOf(secondCount));
+            case R.id.img_chat:
+                moveToChat();
                 break;
-            case R.id.img_second_minus:
-                if (secondCount != 1) {
-                    secondCount--;
-                    txtCountSecond.setText(String.valueOf(secondCount));
-                }
-                break;*/
-
-            case R.id.txt_point:
+            case R.id.direction_view:
+                String directionUrl = "http://maps.apple.com/?saddr=" + String.valueOf(mUserLat) + "," + String.valueOf(mUserLng) + "&daddr=" + String.valueOf(service_pos.get(1)) + "," + String.valueOf(service_pos.get(0));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(directionUrl));
+                startActivity(browserIntent);
                 break;
-            case R.id.txt_watch:
-                postWatchServiceApiCall();
+            case R.id.btn_review_more:
+                Intent reviewIntent = new Intent(ServiceDetailActivity.this, ServiceReviewActivity.class);
+                startActivity(reviewIntent);
                 break;
-            case R.id.layout_like:
-                postLikeServiceApiCall();
+//            case R.id.btn_share:
+//                Intent intents = new Intent(ServiceDetailActivity.this, EditServiceDetailActivity.class);
+//                intents.putExtra(ConstantUtils.EDIT_SERVICE_ID, serviceId);
+//                startActivityForResult(intents, DELETE_SERVICE_REQUEST);
+//                txtMenuEdit.setVisibility(View.GONE);
+//                break;
+            default:
                 break;
         }
     }
 
-    private void postLikeServiceApiCall() {
-        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<Object> likeServiceCall = apiService.likeService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), serviceId);
-        likeServiceCall.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                if (response.code() == 200) {
-                    boolean success = (boolean) ((LinkedTreeMap) response.body()).get("success");
-                    if (success)
-                        AndroidUtils.showToast(ServiceDetailActivity.this, "Liked successfully");
-                    else
-                        AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
-
-                } else if (response.code() == 401) {
-                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callPostLikeServiceApi");
-                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
-                } else if (response.code() == 404) {
-                    AndroidUtils.showToast(ServiceDetailActivity.this, "Like does not exits");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
-        });
+    public void showDialogFlag(){
+        RelativeLayout layout = (RelativeLayout) LayoutInflater.from(getBaseContext()).inflate(R.layout.layout_flag, null, false);
+        final EditText editText = (EditText) layout.findViewById(R.id.edt_flag);
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Flag Inappropriate")
+                .setMessage("Tell us why you think this service is inappropriate")
+                .setView(layout)
+                .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        flagInappropriateComment = editText.getText().toString();
+                        postInappropriate(flagInappropriateComment);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
-    private void postWatchServiceApiCall() {
+    public void postInappropriate(String comment){
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<Object> watchServiceCall = apiService.watchService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "5a029b03b37404568cb6f20e");
+        Call<Object> watchServiceCall = apiService.postInappropriate(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), serviceId, new FlagInappropriateRequest(comment));
         watchServiceCall.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (response.code() == 200) {
-                    boolean success = (boolean) ((LinkedTreeMap) response.body()).get("success");
-                    if (success)
-                        AndroidUtils.showToast(ServiceDetailActivity.this, "Watched Successfully");
-
-                    else
-                        AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
+                    AndroidUtils.showToast(ServiceDetailActivity.this, "Flaged Successfully");
                 } else if (response.code() == 401) {
-                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callPostWatchServiceApi");
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callPostFlagInappropriateApi");
                     callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
-                } else if (response.code() == 404) {
-                    AndroidUtils.showToast(ServiceDetailActivity.this, "Watch does not exits");
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-
+                AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
             }
         });
     }
 
-    private void getLikeService() {
-        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-
-    }
-
-    private void getWatchService() {
-        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-
-
-    }
-
-    private void unLikeService() {
-        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<Object> unLikeServiceResponse = apiService.UnlikeService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "5a029b03b37404568cb6f20e");
-        unLikeServiceResponse.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                if (response.code() == 200) {
-                    boolean success = (boolean) ((LinkedTreeMap) response.body()).get("success");
-                    if (success)
-                        AndroidUtils.showToast(ServiceDetailActivity.this, "Unlike Successfully");
-
-                    else
-                        AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
-                } else if (response.code() == 401) {
-                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callUnLikeServiceApi");
-                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == DELETE_SERVICE_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                if (data.getSerializableExtra(ConstantUtils.EDIT_SERVICE_DELETE).equals("yes")) {
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    loader.show();
+                    callGetServiceDetailApi(serviceId);
                 }
-
             }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
-        });
-
+        }
     }
 
-    private void unWatchService() {
+    // Get Service Detail Info
+    private void callGetServiceDetailApi(String id) {
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<Object> unWatchServiceResponse = apiService.UnwatchService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), "5a029b03b37404568cb6f20e");
-        unWatchServiceResponse.enqueue(new Callback<Object>() {
+        Call<GetServiceDetailResponse> getServiceDetailCall = apiService.getServiceDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        getServiceDetailCall.enqueue(new Callback<GetServiceDetailResponse>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                if (response.code() == 200) {
-                    boolean success = (boolean) ((LinkedTreeMap) response.body()).get("success");
-                    if (success)
-                        AndroidUtils.showToast(ServiceDetailActivity.this, "Unwatche Successfully");
-
-                    else
-                        AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
-                } else if (response.code() == 401) {
-                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callUnWatchServiceApi");
-                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void getServiceDetailApi() {
-        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<GetServiceDeatilResponse> getServiceDetailCall = apiService.getServiceDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), serviceId);
-        getServiceDetailCall.enqueue(new Callback<GetServiceDeatilResponse>() {
-            @Override
-            public void onResponse(Call<GetServiceDeatilResponse> call, Response<GetServiceDeatilResponse> response) {
+            public void onResponse(Call<GetServiceDetailResponse> call, Response<GetServiceDetailResponse> response) {
                 if (response.code() == 200) {
                     if (response.body().getResult().getSeller() != null) {
-                        if (!response.body().getResult().getSeller().getFirstName().isEmpty())
-                            txtName.setText(response.body().getResult().getSeller().getFirstName());
-                        if (response.body().getResult().getSeller().getVerified()!=null && response.body().getResult().getSeller().getVerified())
-                            txtVerified.setVisibility(View.VISIBLE);
-                        else txtVerified.setVisibility(View.GONE);
-
-                        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                                .showImageOnLoading(R.drawable.user_avatar_placeholder)
-                                .showImageForEmptyUri(R.drawable.user_avatar_placeholder)
-                                .showImageOnFail(R.drawable.user_avatar_placeholder)
-                                .cacheInMemory(true)
-                                .cacheOnDisk(true)
-                                .considerExifParams(true)
-                                .build();
-
-                        if (!response.body().getResult().getSeller().getProfilePic().isEmpty())
-                            ImageLoader.getInstance().displayImage(response.body().getResult().getSeller().getProfilePic(), imgProfile, options);
+                        seller = response.body().getResult().getSeller();
                     }
-                    if (response.body().getResult().getService().getLocation() != null && response.body().getResult().getService().getLocation().get(0).getGeoJson() != null) {
-                        latLng = new LatLng(response.body().getResult().getService().getLocation().get(0).getGeoJson().getCoordinates().get(1), response.body().getResult().getService().getLocation().get(0).getGeoJson().getCoordinates().get(0));
-                        if (latLng != null) {
-                            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                                @Override
-                                public void onMapReady(GoogleMap googleMap) {
-                                    mMap = googleMap;
-                                    mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_location_big)));
-                                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
-                                }
-                            });
+                    if (response.body().getResult().getService() != null) {
+                        service = response.body().getResult().getService();
+
+                        if (response.body().getResult().getService().getDescription() != null && !response.body().getResult().getService().getDescription().isEmpty()) {
+                            serviceDesc = response.body().getResult().getService().getDescription();
                         }
-
+                        if (response.body().getResult().getService().getMedia() != null && response.body().getResult().getService().getMedia().size() > 0) {
+                            mediaList.clear();
+                            mediaList.addAll(response.body().getResult().getService().getMedia());
+                        }
+                        if (response.body().getResult().getService().getPrices() != null && response.body().getResult().getService().getPrices().size() > 0) {
+                            pricesList.clear();
+                            pricesList.addAll(response.body().getResult().getService().getPrices());
+                        }
                     }
-                    if (!response.body().getResult().getService().getDescription().isEmpty())
-                        txtServiceDesc.setText(response.body().getResult().getService().getDescription());
-                    else
-                        txtServiceDesc.setText("NA");
-
-                    if (response.body().getResult().getService().getPrices() != null && !response.body().getResult().getService().getPrices().isEmpty()) {
-                        pricesList.addAll(response.body().getResult().getService().getPrices());
-                        //  pricesList.add(new Prices("hi",10,1,"day"));
-                        priceAdapter.notifyDataSetChanged();
+                    if (response.body().getResult().getServiceMetrics() != null) {
+                        metrics = response.body().getResult().getServiceMetrics();
                     }
-                    if (response.body().getResult().getService().getMedia() != null && !response.body().getResult().getService().getMedia().isEmpty()) {
-                        mediaList.addAll(response.body().getResult().getService().getMedia());
-                        editProfileImageViewPagerAdapter.notifyDataSetChanged();
+                    if (response.body().getResult().getReviews() != null && response.body().getResult().getReviews().size() > 0) {
+                        reviewList.clear();
+                        reviewList.addAll(response.body().getResult().getReviews());
                     }
-
-                } else if (response.code() == 404) {
-
                 } else if (response.code() == 401) {
                     CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callGetServiceDetailApi");
                     callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
                 }
 
+                setServiceDetails();
+                callGetServiceWatchApi(serviceId);
             }
 
             @Override
-            public void onFailure(Call<GetServiceDeatilResponse> call, Throwable t) {
-
+            public void onFailure(Call<GetServiceDetailResponse> call, Throwable t) {
+                if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(ServiceDetailActivity.this, "No Service Details!", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
 
-    void getRelatedServiceApi() {
+    // Get related services
+    private void callGetRelatedServiceApi(String id, final Boolean inited, int page, int limit, final boolean ismore) {
+        if (inited) {
+            relatedServiceList.clear();
+        }
+
+        Map<String, Integer> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<GetRelatedServicesResponse> getRelatedServicesResponseCall = apiService.getRelatedService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), serviceId);
+        Call<GetRelatedServicesResponse> getRelatedServicesResponseCall = apiService.getRelatedService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id, params);
         getRelatedServicesResponseCall.enqueue(new Callback<GetRelatedServicesResponse>() {
             @Override
             public void onResponse(Call<GetRelatedServicesResponse> call, Response<GetRelatedServicesResponse> response) {
+                if (loader.isShowing()) {
+                    loader.dismiss();
+                }
+
                 if (response.code() == 200) {
+                    limitCnt = response.body().getLimit();
+                    totalCnt = response.body().getTotal();
+                    pageCnt = response.body().getPage();
+
                     if (response.body().getDocs() != null) {
-                        serviceDetailModelList.addAll(response.body().getDocs());
+                        relatedServiceList.addAll(response.body().getDocs());
+                        serviceAdapter.notifyItemRangeInserted(serviceAdapter.getItemCount(), relatedServiceList.size()-1);
                         serviceAdapter.notifyDataSetChanged();
                     }
-
-                } else if (response.code() == 404) {
-
                 } else if (response.code() == 401) {
                     CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callGetRelatedServiceApi");
                     callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+
+                if (!ismore) {
+                    if (inited && relatedServiceList.size() == 0) {
+                        txtRelatedTitle.setText("No Related Service");
+                        btnShowMoreService.setVisibility(View.GONE);
+                    } else {
+                        txtRelatedTitle.setText("Related Service");
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<GetRelatedServicesResponse> call, Throwable t) {
-
+                if (loader.isShowing()) { loader.dismiss(); }
+                if (!ismore) {
+                    Toast.makeText(ServiceDetailActivity.this, "Can't find the related services", Toast.LENGTH_SHORT);
+                    txtRelatedTitle.setText("No Related Service");
+                    btnShowMoreService.setVisibility(View.GONE);
+                }
             }
         });
     }
 
+    // Get watch status
+    private void callGetServiceWatchApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        final Call<WatchUnwatchResponse> watchStatus = apiService.getWatchService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        watchStatus.enqueue(new Callback<WatchUnwatchResponse>() {
+            @Override
+            public void onResponse(Call<WatchUnwatchResponse> call, Response<WatchUnwatchResponse> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    if (response.body().getWatched() != null && response.body().getWatched()) {
+                        isWatched = true;
+                    } else {
+                        isWatched = false;
+                    }
+                    setWatchStatus();
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callGetServiceWatchApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+                callGetServiceLikeApi(serviceId);
+            }
+
+            @Override
+            public void onFailure(Call<WatchUnwatchResponse> call, Throwable t) {
+                if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(ServiceDetailActivity.this, "Can't find the service watching status.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Get like status
+    private void callGetServiceLikeApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        final Call<LikeUnlikeResponse> likeStatus = apiService.getLikeService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        likeStatus.enqueue(new Callback<LikeUnlikeResponse>() {
+            @Override
+            public void onResponse(Call<LikeUnlikeResponse> call, Response<LikeUnlikeResponse> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    if (response.body().getLiked() != null && response.body().getLiked()) {
+                        isLiked = true;
+                    } else {
+                        isLiked = false;
+                    }
+                    setLikeStatus();
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callGetServiceLikeApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+                callGetServiceShareApi(serviceId);
+            }
+
+            @Override
+            public void onFailure(Call<LikeUnlikeResponse> call, Throwable t) {
+                if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(ServiceDetailActivity.this, "Can't find the service liking status.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Get share status
+    private void callGetServiceShareApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        final Call<ShareUnshareResponse> shareStatus = apiService.getShareService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        shareStatus.enqueue(new Callback<ShareUnshareResponse>() {
+            @Override
+            public void onResponse(Call<ShareUnshareResponse> call, Response<ShareUnshareResponse> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    if (response.body().getShared() != null && response.body().getShared()) {
+                        isShared = true;
+                    } else {
+                        isShared = false;
+                    }
+                    setShareStatus();
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callGetServiceShareApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+                callGetRelatedServiceApi(serviceId, true, pageCnt, limitCnt, false);
+            }
+
+            @Override
+            public void onFailure(Call<ShareUnshareResponse> call, Throwable t) {
+                if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(ServiceDetailActivity.this, "Can't find the service sharing status.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Post watch status
+    private void callPostWatchServiceApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> watchServiceCall = apiService.postWatchService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        watchServiceCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+                    isWatched = true;
+                    setWatchStatus();
+                    AndroidUtils.showToast(ServiceDetailActivity.this, "Watched Successfully");
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callPostWatchServiceApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
+            }
+        });
+    }
+
+    // Post like status
+    private void callPostLikeServiceApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> likeServiceCall = apiService.postLikeService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        likeServiceCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+                    isLiked = true;
+                    setLikeStatus();
+                    AndroidUtils.showToast(ServiceDetailActivity.this, "Liked Successfully");
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callPostLikeServiceApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
+            }
+        });
+    }
+
+    // Post share status
+    private void callPostShareServiceApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> shareServiceCall = apiService.postShareService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        shareServiceCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+                    isShared = true;
+                    setShareStatus();
+                    AndroidUtils.showToast(ServiceDetailActivity.this, "Shared Successfully");
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callPostShareServiceApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
+            }
+        });
+    }
+
+    // Delete watch status
+    private void callDeleteWatchServiceApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> unWatchServiceCall = apiService.delWatchService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        unWatchServiceCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+                    isWatched = false;
+                    setWatchStatus();
+                    AndroidUtils.showToast(ServiceDetailActivity.this, "Unwatched Successfully");
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callDeleteWatchServiceApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
+            }
+        });
+    }
+
+    // Delete like status
+    private void callDeleteLikeServiceApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> unLikeServiceCall = apiService.delLikeService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        unLikeServiceCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+                    isLiked = false;
+                    setLikeStatus();
+                    AndroidUtils.showToast(ServiceDetailActivity.this, "Unliked Successfully");
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callDeleteLikeServiceApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
+            }
+        });
+    }
+
+    // Delete share status
+    private void callDeleteShareServiceApi(String id) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> unShareServiceCall = apiService.delShareService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        unShareServiceCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+                    isShared = false;
+                    setShareStatus();
+                    AndroidUtils.showToast(ServiceDetailActivity.this, "Unshared Successfully");
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ServiceDetailActivity.this, "callDeleteShareServiceApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ServiceDetailActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                AndroidUtils.showToast(ServiceDetailActivity.this, "Oops something went wrong, Plaese try again");
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CALL_PHONE_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    moveToCall();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private boolean checkPhoneCallPermission() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission( this, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST);
+            return false;
+
+        } else {
+            return true;
+        }
+    }
 
     @Override
     public void onApiFail(String apiSource) {
         if (apiSource.equals("callGetServiceDetailApi")) {
-            getServiceDetailApi();
-        } else if (apiSource.equals("callPostWatchServiceApi")) {
-            postWatchServiceApiCall();
-        } else if (apiSource.equals("callPostLikeServiceApi")) {
-            postLikeServiceApiCall();
+            callGetServiceDetailApi(serviceId);
         } else if (apiSource.equals("callGetRelatedServiceApi")) {
-            getRelatedServiceApi();
-        } else if (apiSource.equals("callUnWatchServiceApi")) {
-            unWatchService();
-        } else if (apiSource.equals("callUnLikeServiceApi")) {
-            unLikeService();
+            callGetRelatedServiceApi(serviceId, true, pageCnt, limitCnt, false);
+        } else if (apiSource.equals("callGetWatchServiceApi")) {
+            callGetServiceWatchApi(serviceId);
+        } else if (apiSource.equals("callGetLikeServiceApi")) {
+            callGetServiceLikeApi(serviceId);
+        } else if (apiSource.equals("callGetShareServiceApi")) {
+            callGetServiceShareApi(serviceId);
+        } else if (apiSource.equals("callPostWatchServiceApi")) {
+            callPostWatchServiceApi(serviceId);
+        } else if (apiSource.equals("callPostLikeServiceApi")) {
+            callPostLikeServiceApi(serviceId);
+        } else if (apiSource.equals("callPostShareServiceApi")) {
+            callPostShareServiceApi(serviceId);
+        } else if (apiSource.equals("callDeleteWatchServiceApi")) {
+            callDeleteWatchServiceApi(serviceId);
+        } else if (apiSource.equals("callDeleteLikeServiceApi")) {
+            callDeleteLikeServiceApi(serviceId);
+        } else if (apiSource.equals("callDeleteShareServiceApi")) {
+            callDeleteShareServiceApi(serviceId);
+        } else if (apiSource.equals("callPostFlagInappropriateApi")) {
+            postInappropriate(flagInappropriateComment);
         }
-
-    }
-
-    private void turnOnLocation() {
-
-
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(30 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
-
-
-        //**************************
-        builder.setAlwaysShow(true); //this is the key ingredient
-        //**************************
-
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(LocationSettingsResult result) {
-                final Status status = result.getStatus();
-                final LocationSettingsStates state = result.getLocationSettingsStates();
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-
-                        requestCurrentLocation();
-
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        // LocationRequestModel settings are not satisfied. But could be fixed by showing the user
-                        // a dialog.
-                        try {
-                            // Show the dialog by calling startResolutionForResult(),
-                            // and check the result in onActivityResult().
-                            status.startResolutionForResult(ServiceDetailActivity.this, REQUEST_CHECK_SETTINGS);
-                        } catch (IntentSender.SendIntentException e) {
-                            // Ignore the error.
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        // LocationRequestModel settings are not satisfied. However, we have no way to fix the
-                        // settings so we won't show the dialog.
-                        break;
-                }
-            }
-        });
-
-    }
-
-    private void requestCurrentLocation() {
-
-        if (ContextCompat.checkSelfPermission(ServiceDetailActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(ServiceDetailActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_GET_LOCATION);
-
-        } else {
-            getCurrentLocation();
-        }
-    }
-
-    private void getCurrentLocation() {
-
-
-        if (ContextCompat.checkSelfPermission(ServiceDetailActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-//            AndroidUtils.showToast(ServiceDetailActivity.this,String.valueOf(AndroidUtils.getDistanceBwTwoLocation(location.getLatitude(),location.getLongitude(),  40.848447,  -73.856077)));
-        }
-        if (location == null) {
-
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-
-        } else {
-            serviceAdapter = new RelatedServiceAdapter(ServiceDetailActivity.this, serviceDetailModelList, location);
-            recyclerViewRelatedService.setAdapter(serviceAdapter);
-            getRelatedServiceApi();
-
-
-        }
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_GET_LOCATION: {
-
-                if (grantResults.length > 0) {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        getCurrentLocation();
-                    } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                        // Should we show an explanation?
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(ServiceDetailActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                            //Show permission explanation dialog...
-                        } else {
-                            Toast.makeText(ServiceDetailActivity.this, "Go to Settings and Grant the permission to use this feature.", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                }
-
-
-            }
-            break;
-        }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        this.location = location;
-        /*recyclerViewRelatedService.setAdapter(null);
-        serviceAdapter = new RelatedServiceAdapter(ServiceDetailActivity.this,serviceDetailModelList,location);
-        recyclerViewRelatedService.setAdapter(serviceAdapter);*/
-
-
-        if (googleApiClient != null && googleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-            googleApiClient.disconnect();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (googleApiClient != null && googleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-            googleApiClient.disconnect();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CHECK_SETTINGS) {
-                switch (resultCode) {
-                    case RESULT_OK:
-                        requestCurrentLocation();
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 }

@@ -30,7 +30,7 @@ public class ApiClient {
         retrofit = null;
 
         if (isSearch) {
-            baseURL = ConstantUtils.SEARCH_URL;
+            baseURL = ConstantUtils.BASE_URL;
         } else {
             baseURL = ConstantUtils.BASE_URL;
         }

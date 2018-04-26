@@ -1,10 +1,12 @@
 package com.pointters.model.request;
 
+import java.io.Serializable;
+
 /**
  * Created by prashantkumar on 17/8/17.
  */
 
-public class LocationRequestModel {
+public class LocationRequestModel implements Serializable{
     private String city;
     private String country;
     private LongitudeLatitude geoJson;

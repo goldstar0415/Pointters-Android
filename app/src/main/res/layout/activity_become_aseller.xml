@@ -18,10 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-          <!--  <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fix_0.5dp"
-                android:background="@color/light_gray"/>-->
 
             <RelativeLayout
                 android:id="@+id/want_rl"
@@ -36,10 +32,10 @@
                     android:id="@+id/mWantToBecomeASeller"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="@string/want_to_become_seller"
                     android:textColor="#616165"
-                    android:textSize="@dimen/text_size_tiny" />
+                    android:textSize="@dimen/text_size_small" />
 
             </RelativeLayout>
 
@@ -47,13 +43,164 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fix_0.5dp"
                 android:background="@color/light_gray"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/mBecomeSellerRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
 
-            </android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                android:id="@+id/btn_addService"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@color/colorWhite">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_add_service"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Service"
+                        android:textColor="@color/card_title_text_color"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <TextView
+                        android:id="@+id/txt_num_services"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status: 0 added"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_small"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/right_arrow_icon"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@color/light_gray"/>
+            <LinearLayout
+                android:id="@+id/btn_paymentSetup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@color/colorWhite">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_pament_setup"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Payment Setup"
+                        android:textColor="@color/card_title_text_color"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <TextView
+                        android:id="@+id/txt_status_payment_setup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status: No payment method added yet"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_small"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/right_arrow_icon"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@color/light_gray"/>
+            <LinearLayout
+                android:id="@+id/btn_backgroundCheck"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@color/colorWhite">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_background_check"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Background Check"
+                        android:textColor="@color/card_title_text_color"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <TextView
+                        android:id="@+id/txt_status_backgroud_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status: Not Started"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_small"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/right_arrow_icon"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@color/light_gray"
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -68,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_18sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:text="@string/congo_see_your"
+                    android:text="Background check is required for selling local services"
                     android:textColor="#1D1D26"
                     fontPath="fonts/Montserrat-Light.ttf"
                     tools:ignore="MissingPrefix"
@@ -78,125 +225,56 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_service"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/_10sdp">
+                android:visibility="gone"
+                android:id="@+id/btn_businessVerification"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_18sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/bg_service"
-                    android:text="Service Method"
-                    android:textColor="#616165"
-                    fontPath="fonts/Montserrat-Light.ttf"
-                    tools:ignore="MissingPrefix"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <RelativeLayout
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@drawable/bg_service">
+                    android:src="@drawable/icon_business_verification"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/mAddService"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="@dimen/_18sdp"
-                        android:text="Online"
-                        android:textColor="#666666"
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        tools:ignore="MissingPrefix"
-                        android:textSize="@dimen/text_size_tiny" />
+                        android:text="Business Verification"
+                        android:textColor="@color/card_title_text_color"
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <TextView
-                        android:id="@+id/mStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_35sdp"
-                        android:text="Eligible seller"
-                        android:textColor="#1D1D26"
-                        android:textSize="@dimen/text_size_tiny" />
+                        android:text="Status: Not Started"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_small"/>
 
-                    <ImageView
-                        android:id="@+id/mSellerImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:layout_toLeftOf="@+id/mStatus"
-                        android:src="@drawable/tick_icon_blue" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/bg_service">
-
-                    <TextView
-                        android:id="@+id/mAddService1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="@dimen/_18sdp"
-                        android:text="At customer location"
-                        android:textColor="#666666"
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        tools:ignore="MissingPrefix"
-                        android:textSize="@dimen/text_size_tiny" />
-
-                    <TextView
-                        android:id="@+id/mStatus1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_35sdp"
-                        android:text="Not eligible"
-                        android:textColor="#666666"
-                        android:textSize="@dimen/text_size_tiny" />
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-
-                    <TextView
-                        android:id="@+id/mAddService2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="@dimen/_18sdp"
-                        android:text="At store location"
-                        android:textColor="#666666"
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        tools:ignore="MissingPrefix"
-                        android:textSize="@dimen/text_size_tiny" />
-
-                    <TextView
-                        android:id="@+id/mStatus2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_35sdp"
-                        android:text="Not eligible"
-                        android:textColor="#666666"
-                        android:textSize="@dimen/text_size_tiny" />
-                </RelativeLayout>
-
+                    android:src="@drawable/right_arrow_icon"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@color/light_gray"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.pointters.model;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -9,19 +10,19 @@ import android.widget.TextView;
  */
 
 public class BottomTabSeletedModel {
-    private RelativeLayout  relativeLayout;
+    private LinearLayout relativeLayout;
     private TextView textView;
 
-    public BottomTabSeletedModel(RelativeLayout relativeLayout, TextView textView) {
+    public BottomTabSeletedModel(LinearLayout relativeLayout, TextView textView) {
         this.relativeLayout = relativeLayout;
         this.textView = textView;
     }
 
-    public RelativeLayout getRelativeLayout() {
+    public LinearLayout getRelativeLayout() {
         return relativeLayout;
     }
 
-    public void setRelativeLayout(RelativeLayout relativeLayout) {
+    public void setRelativeLayout(LinearLayout relativeLayout) {
         this.relativeLayout = relativeLayout;
     }
 

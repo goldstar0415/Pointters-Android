@@ -6,6 +6,6 @@ package com.pointters.listener;
 
 public interface OnSearchItemClickListener {
 
-    void searchItemClicked(String hint);
+    void searchItemClicked(Object hint);
 
 }

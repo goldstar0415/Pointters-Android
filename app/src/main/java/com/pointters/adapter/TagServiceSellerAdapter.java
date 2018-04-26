@@ -2,6 +2,7 @@ package com.pointters.adapter;
 
 import android.content.Context;
 import android.location.Location;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 
 public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSellerAdapter.MyViewHolder> {
+
     private Context context;
     private double userLat;
     private double userLng;
@@ -38,7 +40,7 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_tags, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_service_tag, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -54,48 +56,50 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
                 .build();
 
         if (tagServiceSellerList != null && tagServiceSellerList.size() > 0) {
-            if (tagServiceSellerList.get(position).getSource() != null) {
-                if (tagServiceSellerList.get(position).getType() != null && tagServiceSellerList.get(position).getType().equals("user")) {
+            TagServiceSellerModel model = tagServiceSellerList.get(position);
+            if (model.getService() != null) {
+                if (model.getType() != null && model.getType().equals("user")) {
                     holder.imgTagService.setVisibility(View.GONE);
-                    holder.imgTagUser.setVisibility(View.VISIBLE);
+//                    holder.imgTagUser.setVisibility(View.VISIBLE);
 
-                    if (tagServiceSellerList.get(position).getSource().getProfilePic() != null && !tagServiceSellerList.get(position).getSource().getProfilePic().isEmpty()) {
-                        String strPic = tagServiceSellerList.get(position).getSource().getProfilePic();
+                    if (tagServiceSellerList.get(position).getService().getMedia().size() > 0 && !tagServiceSellerList.get(position).getService().getMedia().isEmpty()) {
+
+                        String strPic = model.getService().getMedia().get(0).getFileName();
                         if (!strPic.contains("https://s3.amazonaws.com")) {
-                            strPic = "https://s3.amazonaws.com" + strPic;
+//                            strPic = "https://s3.amazonaws.com" + strPic;
                         }
-                        ImageLoader.getInstance().displayImage(strPic, holder.imgTagUser, options);
+//                        ImageLoader.getInstance().displayImage(strPic, holder.imgTagUser, options);
                     }
 
-                    holder.txtTagName.setText(tagServiceSellerList.get(position).getSource().getFirstName() + " " + tagServiceSellerList.get(position).getSource().getLastName());
+                    holder.txtTagName.setText(model.getService().getSeller().getFirstName() + " " + model.getService().getSeller().getLastName());
                 }
                 else {
-                    holder.imgTagUser.setVisibility(View.GONE);
+//                    holder.imgTagUser.setVisibility(View.GONE);
                     holder.imgTagService.setVisibility(View.VISIBLE);
 
-                    if (tagServiceSellerList.get(position).getSource().getProfilePic() != null && !tagServiceSellerList.get(position).getSource().getProfilePic().isEmpty()) {
-                        String strPic = tagServiceSellerList.get(position).getSource().getProfilePic();
+                    if (model.getService().getMedia().size() > 0) {
+                        String strPic = model.getService().getMedia().get(0).getFileName();
                         if (!strPic.contains("https://s3.amazonaws.com")) {
-                            strPic = "https://s3.amazonaws.com" + strPic;
+//                            strPic = "https://s3.amazonaws.com" + strPic;
                         }
                         ImageLoader.getInstance().displayImage(strPic, holder.imgTagService, options);
                     }
 
-                    if (tagServiceSellerList.get(position).getSource().getDescription() != null) {
-                        holder.txtTagName.setText(tagServiceSellerList.get(position).getSource().getDescription());
+                    if (model.getService().getDescription() != null) {
+                        holder.txtTagName.setText(model.getService().getDescription());
                     } else {
                         holder.txtTagName.setText("");
                     }
                 }
 
-                if (tagServiceSellerList.get(position).getSource().getLocation() != null) {
+                if (model.getService().getLocation() != null) {
                     String strCity = "", strState = "", strPos="", strKm="NA";
-                    if (tagServiceSellerList.get(position).getSource().getLocation().getCity() != null && !tagServiceSellerList.get(position).getSource().getLocation().getCity().equals(""))
-                        strCity = tagServiceSellerList.get(position).getSource().getLocation().getCity();
-                    if (tagServiceSellerList.get(position).getSource().getLocation().getState() != null && !tagServiceSellerList.get(position).getSource().getLocation().getState().equals(""))
-                        strState = tagServiceSellerList.get(position).getSource().getLocation().getState();
-                    if (tagServiceSellerList.get(position).getSource().getLocation().getGeoJson() != null) {
-                        GeoJsonModel geoJson = tagServiceSellerList.get(position).getSource().getLocation().getGeoJson();
+                    if (model.getService().getLocation().getCity() != null && !model.getService().getLocation().getCity().equals(""))
+                        strCity = model.getService().getLocation().getCity();
+                    if (model.getService().getLocation().getState() != null && !model.getService().getLocation().getState().equals(""))
+                        strState = model.getService().getLocation().getState();
+                    if (model.getService().getLocation().getGeoJson() != null) {
+                        GeoJsonModel geoJson = model.getService().getLocation().getGeoJson();
                         if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
                             Location servicePos = new Location("");
                             servicePos.setLatitude(geoJson.getCoordinates().get(1));
@@ -119,7 +123,7 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
                         strPos = strKm + "@" + strCity + ", " + strState;
                     }
 
-                    holder.txtTagPos.setText(strPos);
+//                    holder.txtTagPos.setText(strPos);
                 }
             }
         }
@@ -132,18 +136,15 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgTagService;
-        private RoundedImageView imgTagUser;
-        private TextView txtTagName, txtTagPos;
-        private RelativeLayout layoutRoot;
+        private TextView txtTagName;
+        private CardView layoutRoot;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            layoutRoot=(RelativeLayout)itemView.findViewById(R.id.layout_root);
+            layoutRoot=(CardView) itemView.findViewById(R.id.card_view);
             imgTagService = (ImageView) itemView.findViewById(R.id.img_tag_service);
-            imgTagUser = (RoundedImageView) itemView.findViewById(R.id.img_tag_user);
             txtTagName = (TextView) itemView.findViewById(R.id.txt_tag_name);
-            txtTagPos = (TextView) itemView.findViewById(R.id.txt_tag_location);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

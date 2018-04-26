@@ -12,40 +12,51 @@
         android:layout_height="wrap_content"
         app:contentInsetStart="0dp">
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/btn_email_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp">
+            android:layout_height="48dp"
+            android:layout_margin="@dimen/_5sdp"
+            app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
+            app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
+            app:layout_constraintTop_toBottomOf="@+id/txt_forgot_password"
+            app:cardCornerRadius="@dimen/_3sdp"
+            app:cardBackgroundColor="@color/colorWhite"
+            android:elevation="@dimen/_3sdp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                fontPath="fonts/Montserrat-Regular.ttf"
-                android:id="@+id/txt_search_here_hint"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_3sdp"
-                android:background="@drawable/bg_search"
-                android:paddingBottom="@dimen/_6sdp"
-                android:paddingLeft="@dimen/_35sdp"
-                android:paddingTop="@dimen/_6sdp"
-                android:text="@string/search_here"
-                android:textColor="#A7A7A7"
-                android:textSize="@dimen/text_size_tiny"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingPrefix" />
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/txt_search_here_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:hint="@string/search_here"
+                    android:textColor="#A7A7A7"
+                    android:textSize="@dimen/text_size_small"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:layout_toRightOf="@+id/menu_button"
+                    android:imeOptions="actionDone"
+                    android:background="@android:color/transparent"
+                    tools:ignore="MissingPrefix"
+                    android:layout_toEndOf="@+id/menu_button"
+                    android:layout_marginLeft="@dimen/_15sdp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:src="@drawable/search_icon_rounded_active"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_search_here_hint"
-                app:layout_constraintLeft_toLeftOf="@+id/txt_search_here_hint"
-                app:layout_constraintTop_toTopOf="@+id/txt_search_here_hint" />
+                <ImageButton
+                    android:id="@+id/menu_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/_12sdp"
+                    android:src="@drawable/icon_menu"
+                    android:background="@android:color/transparent"/>
 
-        </android.support.constraint.ConstraintLayout>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
     </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.AppBarLayout>

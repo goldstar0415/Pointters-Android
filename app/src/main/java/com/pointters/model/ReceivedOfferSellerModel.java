@@ -7,11 +7,13 @@ import android.location.Location;
  */
 
 public class ReceivedOfferSellerModel {
+
     private String sellerId;
     private String firstName;
     private String lastName;
     private String profilePic;
     private Location location;
+    private String phone;
 
 
     public String getSellerId() {
@@ -52,5 +54,13 @@ public class ReceivedOfferSellerModel {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

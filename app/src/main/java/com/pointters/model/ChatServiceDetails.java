@@ -6,5 +6,7 @@ package com.pointters.model;
 
 public class ChatServiceDetails {
 
-  String userName,date,userComment;
+  String userName;
+  String date;
+  String userComment;
 }

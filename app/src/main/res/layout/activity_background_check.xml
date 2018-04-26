@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/background_check_toolbar"
-        layout="@layout/common_toolbar"></include>
+        layout="@layout/common_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -136,32 +136,10 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_social_security_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_input_phone_number"
-                android:layout_marginTop="@dimen/_12sdp">
-
-                <EditText
-                    fontPath="fonts/Montserrat-Regular.ttf"
-                    android:id="@+id/edt__social_security_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#e8e8e9"
-                    android:hint="@string/social_security_no"
-                    android:imeOptions="actionNext"
-                    android:inputType="date"
-                    android:paddingBottom="@dimen/_15sdp"
-                    android:textColor="@color/color_black_info"
-                    android:textColorHint="#a8a8aa"
-                    android:textSize="@dimen/text_size_small" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
                 android:id="@+id/text_input_date_of_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_input_social_security_number"
+                android:layout_below="@+id/text_input_phone_number"
                 android:layout_marginTop="@dimen/_12sdp">
 
                 <EditText
@@ -201,7 +179,29 @@
                     android:textColor="@color/color_black_info"
                     android:textColorHint="#a8a8aa"
                     android:textSize="@dimen/text_size_small"
-                  />
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_social_security_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_input_postal_code"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <EditText
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:id="@+id/edt__social_security_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#e8e8e9"
+                    android:hint="@string/social_security_no"
+                    android:imeOptions="actionNext"
+                    android:inputType="date"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:textColor="@color/color_black_info"
+                    android:textColorHint="#a8a8aa"
+                    android:textSize="@dimen/text_size_small" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -209,7 +209,7 @@
                 android:id="@+id/text_input_driver_license_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_input_postal_code"
+                android:layout_below="@+id/text_input_social_security_number"
                 android:layout_marginTop="@dimen/_12sdp">
 
                 <EditText

@@ -11,13 +11,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
+    compileSdkVersion 26
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.pointters.androiddevelopment"
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
-        versionCode 23
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -38,57 +38,104 @@ android {
 repositories {
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:${rootProject.appcompatV7Version}"
-    compile "com.android.support.constraint:constraint-layout:${rootProject.constraintLayout}"
-    compile "com.android.support:design:${rootProject.designVersion}"
-    compile "com.google.android.gms:play-services-location:${rootProject.playServicesVersion}"
+    //noinspection GradleCompatible
+    implementation "com.android.support:appcompat-v7:26.1.0"
+    implementation "com.android.support.constraint:constraint-layout:${rootProject.constraintLayout}"
+    implementation "com.android.support:design:26.1.0"
+    //noinspection GradleCompatible,GradleDependency
+    implementation "com.google.android.gms:play-services-location:12.0.0"
 
     //for dp defined for muliple size phone
 
     //for custom fonts
-    compile "uk.co.chrisjenx:calligraphy:${rootProject.calligraphy}"
-
-    // custom shaped image view
+    implementation "uk.co.chrisjenx:calligraphy:${rootProject.calligraphy}"
 
     //media picker library
-    compile project(':libs:mediaPickerLibrary')
-    compile project(':libs:camerakit')
-    compile project(':libs:zxing-android-embedded')
+    implementation project(':libs:mediaPickerLibrary')
+    implementation project(':libs:camerakit')
+//    implementation('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
+//    implementation project(':libs:zxing-android-embedded')
+//    implementation project(':bottom-navigation')
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
+    implementation 'com.squareup.leakcanary:leakcanary-android:1.5'
 
-    compile "com.facebook.android:facebook-android-sdk:${rootProject.facebook}"
+    implementation 'com.google.zxing:core:3.3.2'
+//    implementation 'com.google.zxing:android-core:3.3.0'
+    implementation ('com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'){
+        exclude group: 'com.google.zxing'
+    }
+//    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 
+    implementation "com.facebook.android:facebook-android-sdk:4.24.0"
 
-
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'org.adw.library:discrete-seekbar:1.0.1'
-    compile 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
-    compile 'com.intuit.sdp:sdp-android:1.0.4'
-    compile 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
-    compile 'me.relex:circleindicator:1.2.2@aar'
-    compile 'com.makeramen:roundedimageview:2.3.0'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.google.code.gson:gson:2.6.1'
-    compile 'com.github.d-max:spots-dialog:0.7@aar'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'at.blogc:expandabletextview:1.0.3'
-    compile 'com.amazonaws:aws-android-sdk-s3:2.2.+'
-    // google play services
-    compile 'com.google.android.gms:play-services-maps:10.2.1'
-    compile 'com.afollestad:easyvideoplayer:0.3.0'
-    compile 'com.kaopiz:kprogresshud:1.1.0'
-    compile 'com.writingminds:FFmpegAndroid:0.3.2'
 
-    testCompile 'junit:junit:4.12'
+    implementation('io.socket:socket.io-client:1.0.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
+
+    implementation 'com.devbrackets.android:exomedia:4.0.3'
+    implementation 'com.github.chrisbanes:PhotoView:1.3.1'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'org.adw.library:discrete-seekbar:1.0.1'
+    implementation 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
+    implementation 'com.intuit.sdp:sdp-android:1.0.4'
+    implementation 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
+    implementation 'me.relex:circleindicator:1.2.2@aar'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.github.d-max:spots-dialog:0.7@aar'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'at.blogc:expandabletextview:1.0.3'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.2.+'
+    // google play services
+    implementation 'com.google.android.gms:play-services-maps:12.0.0'
+    implementation 'com.afollestad:easyvideoplayer:0.3.0'
+    implementation 'com.kaopiz:kprogresshud:1.1.0'
+    implementation 'com.writingminds:FFmpegAndroid:0.3.2'
+    implementation 'com.jaredrummler:material-spinner:1.2.5'
+
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.optimus:editTextField:0.2.0'
+
+    implementation 'com.github.omadahealth:swipy:1.2.3@aar'
+    implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
+    implementation 'com.github.thunder413:DateTimeUtils:1.0'
+    implementation 'com.braintreepayments:card-form:3.3.0'
+    implementation 'com.braintreepayments.api:braintree:2.12.0'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.wdullaer:materialdatetimepicker:3.5.1'
+    implementation 'com.github.skydoves:powermenu:2.0.1'
+    implementation 'com.klinkerapps:link_builder:2.0.2'
+//    implementation 'com.github.ayalma:ExpandableRecyclerView:0.2.0'
+    testImplementation 'junit:junit:4.12'
+    //MaterialPageIndicator
+    implementation 'com.github.ronaldsmartin:Material-ViewPagerIndicator:1.0.2'
+    //LikeAnimationButton
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.0.0'
+
+    //CounryCode picker
+    implementation 'com.hbb20:ccp:2.1.9'
+
+    //carousel View
+    implementation 'com.yarolegovich:discrete-scrollview:1.4.4'
+
 }
+//apply plugin: 'com.google.gms.google-services'

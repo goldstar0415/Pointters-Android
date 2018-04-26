@@ -31,7 +31,7 @@ public class BackgroundCheckActivity extends AppCompatActivity implements OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_background_check);
-        AppUtils.setToolBarWithBothIcon(BackgroundCheckActivity.this, getResources().getString(R.string.background_check), R.drawable.back_icon_grey, R.drawable.more_icon_horizontal);
+        AppUtils.setToolBarWithBothIcon(BackgroundCheckActivity.this, getResources().getString(R.string.background_check), R.drawable.back_icon, R.drawable.more_icon_horizontal);
         dateOfBirthEditText=(EditText)findViewById(R.id.edt_date_of_birth);
         dateOfBirthEditText.setOnClickListener(this);
 

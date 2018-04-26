@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".application.PointtersApplication"
@@ -18,6 +19,7 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.IntroActivity"
@@ -30,6 +32,10 @@
         </activity>
         <activity
             android:name=".activity.RegistrationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.TermsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -46,7 +52,8 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.SearchServiceActivity"
             android:screenOrientation="portrait" />
@@ -57,11 +64,41 @@
             android:name=".activity.AddServiceActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TagServiceActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+            android:name=".activity.ChatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".activity.PhotoViewerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MediaPlayerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.SendServiceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".activity.LinkServiceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".activity.GetLiveOffersActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".activity.SendCustomOfferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".activity.CustomOfferDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".activity.AddPriceOptionActivity"
             android:screenOrientation="portrait"
@@ -69,9 +106,9 @@
         <activity
             android:name=".activity.NotificationOptionsActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MenuScreenActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".activity.MenuScreenActivity"-->
+            <!--android:screenOrientation="portrait" />-->
         <activity
             android:name=".activity.EditProfileActivity"
             android:screenOrientation="portrait"
@@ -89,7 +126,35 @@
             android:name=".activity.FulfillmentActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.LocationSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.OrderProcessingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CancelOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ReviewOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.PaymentMethodsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AddPaymentActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ShippingAddressesActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AddShippingAddressesActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AddShippingDetailActivity"
             android:screenOrientation="portrait" />
 
         <service android:name=".service.GetUserDataService" />
@@ -108,9 +173,20 @@
         <activity
             android:name=".activity.ServiceDetailActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.EditServiceDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".activity.UserFollowersActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".activity.InviteFriendActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".activity.WatchingLikeActivity"
             android:screenOrientation="portrait" />
 
         <service
@@ -144,6 +220,12 @@
               </intent-filter>
             -->
         </activity>
+        <activity android:name=".activity.StoreLocationsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.EnterStoreLocationActivity" />
+        <activity android:name=".activity.NotificationsActivity" />
+        <activity android:name=".activity.LikeCommentsShareActivity" />
+        <activity android:name=".activity.TransactionHistoryActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

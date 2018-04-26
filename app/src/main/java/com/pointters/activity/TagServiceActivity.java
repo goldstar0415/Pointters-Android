@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +18,12 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.optimus.edittextfield.EditTextField;
 import com.pointters.R;
 import com.pointters.adapter.TagServiceSellerAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
@@ -29,10 +33,13 @@ import com.pointters.model.TagServiceSellerModel;
 import com.pointters.model.response.GetTagServiceSellerResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
+import com.pointters.utils.AndroidUtils;
+import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.EndlessRecyclerViewScrollListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,22 +48,23 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by mac on 12/7/17.
  */
 
-public class TagServiceActivity  extends AppCompatActivity implements View.OnClickListener, OnApiFailDueToSessionListener {
+public class TagServiceActivity extends AppCompatActivity implements View.OnClickListener, OnApiFailDueToSessionListener {
 
     private RecyclerView recyclerTagServices;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private TextView txtNotFound;
-    private EditText editSearch;
+    private EditTextField editSearch;
     private KProgressHUD loader;
 
-    private Double mTagLat = 0.0;
-    private Double mTagLng = 0.0;
+    private Double mUserLat = 0.0;
+    private Double mUserLng = 0.0;
 
     private int limitCnt = 10;
     private int totalCnt = 0;
@@ -68,6 +76,10 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
     TagServiceSellerAdapter tagServiceSellerAdapter;
 
 
+    TextView suggestionTextView;
+    ImageButton searchButton, checkButton;
+    CardView searchCardview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,15 +89,21 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         editor = sharedPreferences.edit();
 
         if (!sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "").equals("")) {
-            mTagLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
+            mUserLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
         }
         if (!sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "").equals("")) {
-            mTagLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
+            mUserLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
         }
 
         findViewById(R.id.btn_back).setOnClickListener(this);
         txtNotFound = (TextView) findViewById(R.id.tag_not_found);
-        editSearch = (EditText) findViewById(R.id.txt_tag_search);
+        editSearch = (EditTextField) findViewById(R.id.txt_tag_search);
+        suggestionTextView = (TextView) findViewById(R.id.txt_suggestions);
+        searchButton = (ImageButton) findViewById(R.id.search_button);
+        checkButton = (ImageButton) findViewById(R.id.check_button);
+        searchCardview = (CardView) findViewById(R.id.search_cardview);
+
+
         editSearch.setOnEditorActionListener(mEditorActionListener);
 
         loader = KProgressHUD.create(this)
@@ -99,61 +117,62 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         recyclerTagServices.addOnItemTouchListener(new OnRecycleItemClickListener(this, new OnRecycleItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String strName="", strPos="", strPic="";
-                String strId = arrTagServices.get(position).getId();
-                String strType = arrTagServices.get(position).getType();
-
-                if (strType != null && strType.equals("user")) {
-                    strName = arrTagServices.get(position).getSource().getFirstName() + " " + arrTagServices.get(position).getSource().getLastName();
-                } else {
-                    strName = arrTagServices.get(position).getSource().getDescription();
-                }
-
-                if (arrTagServices.get(position).getSource().getLocation() != null) {
-                    String strCity = "", strState = "", strKm="NA";
-                    if (arrTagServices.get(position).getSource().getLocation().getCity() != null && !arrTagServices.get(position).getSource().getLocation().getCity().equals(""))
-                        strCity = arrTagServices.get(position).getSource().getLocation().getCity();
-                    if (arrTagServices.get(position).getSource().getLocation().getState() != null && !arrTagServices.get(position).getSource().getLocation().getState().equals(""))
-                        strState = arrTagServices.get(position).getSource().getLocation().getState();
-                    if (arrTagServices.get(position).getSource().getLocation().getGeoJson() != null) {
-                        GeoJsonModel geoJson = arrTagServices.get(position).getSource().getLocation().getGeoJson();
-                        if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
-                            Location servicePos = new Location("");
-                            servicePos.setLatitude(geoJson.getCoordinates().get(1));
-                            servicePos.setLongitude(geoJson.getCoordinates().get(0));
-
-                            Location userPos = new Location("");
-                            userPos.setLatitude(mTagLat);
-                            userPos.setLongitude(mTagLng);
-
-                            strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
-                        }
-                    }
-
-                    if (strCity.equals("")) {
-                        if (!strState.equals("")) {
-                            strPos = strKm + "@" + strState;
-                        } else {
-                            strPos = strKm;
-                        }
-                    } else {
-                        strPos = strKm + "@" + strCity + ", " + strState;
-                    }
-                }
-
-                if (arrTagServices.get(position).getSource().getProfilePic() != null && !arrTagServices.get(position).getSource().getProfilePic().isEmpty()) {
-                    strPic = arrTagServices.get(position).getSource().getProfilePic();
-                    if (!strPic.contains("https://s3.amazonaws.com")) {
-                        strPic = "https://s3.amazonaws.com" + strPic;
-                    }
-                }
-
+//                String strName="", strPos="", strPic="";
+//                String strId = arrTagServices.get(position).getId();
+//                String strType = arrTagServices.get(position).getType();
+//
+//                if (strType != null && strType.equals("user")) {
+//                    strName = arrTagServices.get(position).getSource().getFirstName() + " " + arrTagServices.get(position).getSource().getLastName();
+//                } else {
+//                    strName = arrTagServices.get(position).getSource().getDescription();
+//                }
+//
+//                if (arrTagServices.get(position).getSource().getLocation() != null) {
+//                    String strCity = "", strState = "", strKm="NA";
+//                    if (arrTagServices.get(position).getSource().getLocation().getCity() != null && !arrTagServices.get(position).getSource().getLocation().getCity().equals(""))
+//                        strCity = arrTagServices.get(position).getSource().getLocation().getCity();
+//                    if (arrTagServices.get(position).getSource().getLocation().getState() != null && !arrTagServices.get(position).getSource().getLocation().getState().equals(""))
+//                        strState = arrTagServices.get(position).getSource().getLocation().getState();
+//                    if (arrTagServices.get(position).getSource().getLocation().getGeoJson() != null) {
+//                        GeoJsonModel geoJson = arrTagServices.get(position).getSource().getLocation().getGeoJson();
+//                        if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
+//                            Location servicePos = new Location("");
+//                            servicePos.setLatitude(geoJson.getCoordinates().get(1));
+//                            servicePos.setLongitude(geoJson.getCoordinates().get(0));
+//
+//                            Location userPos = new Location("");
+//                            userPos.setLatitude(mUserLat);
+//                            userPos.setLongitude(mUserLng);
+//
+//                            strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
+//                        }
+//                    }
+//
+//                    if (strCity.equals("")) {
+//                        if (!strState.equals("")) {
+//                            strPos = strKm + "@" + strState;
+//                        } else {
+//                            strPos = strKm;
+//                        }
+//                    } else {
+//                        strPos = strKm + "@" + strCity + ", " + strState;
+//                    }
+//                }
+//
+//                if (arrTagServices.get(position).getSource().getProfilePic() != null && !arrTagServices.get(position).getSource().getProfilePic().isEmpty()) {
+//                    strPic = arrTagServices.get(position).getSource().getProfilePic();
+//                    if (!strPic.contains("https://s3.amazonaws.com")) {
+//                        strPic = "https://s3.amazonaws.com" + strPic;
+//                    }
+//                }
+//
                 Intent intent = new Intent();
-                intent.putExtra(ConstantUtils.CHOOSE_TAG_ID, strId);
-                intent.putExtra(ConstantUtils.CHOOSE_TAG_TYPE, strType);
-                intent.putExtra(ConstantUtils.CHOOSE_TAG_NAME, strName);
-                intent.putExtra(ConstantUtils.CHOOSE_TAG_POS, strPos);
-                intent.putExtra(ConstantUtils.CHOOSE_TAG_PIC, strPic);
+//                intent.putExtra(ConstantUtils.CHOOSE_TAG_ID, strId);
+//                intent.putExtra(ConstantUtils.CHOOSE_TAG_TYPE, strType);
+//                intent.putExtra(ConstantUtils.CHOOSE_TAG_NAME, strName);
+//                intent.putExtra(ConstantUtils.CHOOSE_TAG_POS, strPos);
+//                intent.putExtra(ConstantUtils.CHOOSE_TAG_PIC, strPic);
+//                intent.putExtra(ConstantUtils.CHOOSE_TAG_ID, (Serializable) arrTagServices.get(position));
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -163,7 +182,7 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         recyclerTagServices.setLayoutManager(linearLayoutManager);
         recyclerTagServices.setItemAnimator(new DefaultItemAnimator());
 
-        tagServiceSellerAdapter = new TagServiceSellerAdapter(TagServiceActivity.this, arrTagServices, mTagLat, mTagLng);
+        tagServiceSellerAdapter = new TagServiceSellerAdapter(TagServiceActivity.this, arrTagServices, mUserLat, mUserLng);
         recyclerTagServices.setAdapter(tagServiceSellerAdapter);
 
         recyclerTagServices.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -174,6 +193,20 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
                 }
             }
         });
+
+        searchButton.setOnClickListener(this);
+        checkButton.setOnClickListener(this);
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        AndroidUtils.hideKeyBoard(TagServiceActivity.this);
+
     }
 
     @Override
@@ -181,6 +214,14 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.btn_back:
                 onBackPressed();
+                break;
+
+            case R.id.search_button:
+                searchCardview.setVisibility(View.VISIBLE);
+                searchButton.setVisibility(View.INVISIBLE);
+                break;
+
+            case R.id.check_button:
                 break;
 
             default:
@@ -219,35 +260,44 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    void getTagServicesApi(boolean inited, String searchKey, int lastNum) {
+    void getTagServicesApi(final boolean inited, String searchKey, int lastNum) {
         if (inited) {
             arrTagServices.clear();
             txtNotFound.setVisibility(View.GONE);
         }
 
-        String query = "firstName:" + searchKey + " OR "
-                     + "lastName:" + searchKey + " OR "
-                     + "description:" + searchKey;
+        String query = searchKey;
 
         Map<String, String> params = new HashMap<>();
         params.put("q", query);
-        params.put("size", "" + limitCnt);
-        params.put("from", "" + lastNum);
+        params.put("size", String.valueOf(limitCnt));
+        params.put("from", String.valueOf(lastNum));
 
         ApiInterface apiService = ApiClient.getClient(true).create(ApiInterface.class);
-        final Call<GetTagServiceSellerResponse> tagServiceRequest = apiService.getTagServiceSeller(params);
-        tagServiceRequest.enqueue(new Callback<GetTagServiceSellerResponse>() {
+        final Call<List<TagServiceSellerModel>> tagServiceRequest = apiService.getSearchTagService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN,"") ,params);
+        tagServiceRequest.enqueue(new Callback<List<TagServiceSellerModel>>() {
             @Override
-            public void onResponse(Call<GetTagServiceSellerResponse> call, Response<GetTagServiceSellerResponse> response) {
+            public void onResponse(Call<List<TagServiceSellerModel>> call, Response<List<TagServiceSellerModel>> response) {
                 if (loader.isShowing()) {
                     loader.dismiss();
                 }
 
                 if (response.code() == 200 && response.body() != null) {
-                    totalCnt = response.body().getUpHits().getTotal();
 
-                    arrTagServices.addAll(response.body().getUpHits().getHits());
-                    tagServiceSellerAdapter.notifyItemRangeInserted(tagServiceSellerAdapter.getItemCount(), arrTagServices.size()-1);
+                    arrTagServices.addAll(response.body());
+                    tagServiceSellerAdapter.notifyDataSetChanged();
+//                    tagServiceSellerAdapter.notifyItemRangeInserted(tagServiceSellerAdapter.getItemCount(), arrTagServices.size()-1);
+
+                    if (inited && arrTagServices.size() == 0) {
+                        if (isSearch) {
+                            txtNotFound.setText("No service or seller found");
+                        } else {
+                            txtNotFound.setText("Please enter the search key");
+                        }
+                        txtNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
+                    }
                 }
                 else if (response.code() == 401) {
                     CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(TagServiceActivity.this, "callGetTagServiceApi");
@@ -265,8 +315,9 @@ public class TagServiceActivity  extends AppCompatActivity implements View.OnCli
 
             @SuppressLint("LongLogTag")
             @Override
-            public void onFailure(Call<GetTagServiceSellerResponse> call, Throwable t) {
+            public void onFailure(Call<List<TagServiceSellerModel>> call, Throwable t) {
                 if (loader.isShowing())     loader.dismiss();
+                Toast.makeText(TagServiceActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

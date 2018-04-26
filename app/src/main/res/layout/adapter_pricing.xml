@@ -3,59 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_12sdp">
 
-   >
     <RelativeLayout
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp">
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/txt_price"
-        fontPath="fonts/Montserrat-Light.ttf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="@dimen/text_size_small"
-        android:layout_toLeftOf="@+id/img_edit"
-        tools:ignore="MissingPrefix" />
-<!--
-    <TextView
-        fontPath="fonts/Montserrat-Light.ttf"
-        android:id="@+id/txt_time_unit_of_measure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/txt_price"
-        android:text="1hour - "
-        android:textColor="@android:color/black"
-        android:layout_centerVertical="true"
-        android:textSize="@dimen/text_size_small"
-        tools:ignore="MissingPrefix"/>
+        <TextView
+            android:id="@+id/txt_price"
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:maxLines="1"
+            android:text="$50/1hour"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_small"
+            android:layout_toStartOf="@+id/img_edit"
+            tools:ignore="MissingPrefix" />
 
-    <TextView
-        android:id="@+id/txt_price_option_descn"
-        fontPath="fonts/Montserrat-Light.ttf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/txt_time_unit_of_measure"
-        android:text="Price option description"
-        android:layout_centerVertical="true"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_small"
-        tools:ignore="MissingPrefix"/>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:layout_toStartOf="@+id/img_edit"
+            android:layout_marginEnd="@dimen/_6sdp"/>
+        <ImageView
+            android:id="@id/img_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/right_arrow_icon"
+            android:layout_centerVertical="true"/>
 
-    <ImageView
-        android:id="@+id/img_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/edit_icon"
-        android:layout_centerVertical="true"
-        android:textSize="@dimen/text_size_small" />
     </RelativeLayout>
 </RelativeLayout>

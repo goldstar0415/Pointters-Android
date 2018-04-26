@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:ignore="MissingPrefix"
     android:background="@color/colorWhite"
@@ -38,150 +39,19 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_12sdp">
-
-
-            <TextView
-                android:id="@+id/push"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_30sdp"
-                android:text="@string/push"
-                android:textColor="#65656B"
-                android:textSize="@dimen/text_size_tiny" />
-
-
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/push"
-                android:text="@string/email_small"
-                android:textColor="#65656B"
-                android:textSize="@dimen/text_size_tiny" />
-
-        </RelativeLayout>
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.pointters.adapter.ExpandableRecyclerView
         android:id="@+id/rv_notification_option"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/layout_top"
-        android:layout_height="wrap_content" />
+        android:layout_above="@+id/btnSave"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/adapter_user_setting_group" />
 
-    <RelativeLayout
-        android:id="@+id/layout_middle"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/rv_notification_option"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp">
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_12sdp">
-
-
-            <TextView
-                android:id="@+id/txt_push"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_27sdp"
-                android:text="@string/daily"
-                android:textColor="@color/text_color_dark_gray"
-                android:textSize="@dimen/text_size_tiny" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/txt_push"
-                android:text="@string/weekly"
-                android:textColor="@color/text_color_dark_gray"
-                android:textSize="@dimen/text_size_tiny" />
-
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/_15sdp"
-        android:layout_below="@+id/layout_middle"
-        android:paddingBottom="@dimen/_5sdp">
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/right_portion"
-            android:layout_marginBottom="@dimen/_10sdp">
-
-
-            <TextView
-                android:id="@+id/title"
-                fontPath="fonts/Montserrat-Regular.ttf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email Status"
-                android:textColor="@color/text_color_dark_gray"
-                android:textSize="@dimen/text_size_small"
-                tools:ignore="MissingPrefix" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/right_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/_5sdp">
-
-            <RelativeLayout
-                android:id="@+id/first_choice_rl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_20sdp">
-
-
-                <ImageView
-                    android:id="@+id/img_daily"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/_10sdp"
-                    android:paddingLeft="@dimen/_10sdp"
-                    android:paddingRight="@dimen/_10sdp"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:src="@drawable/custom_checkbox" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/first_choice_rl">
-
-
-                <ImageView
-                    android:id="@+id/img_weekly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/_10sdp"
-                    android:paddingLeft="@dimen/_15sdp"
-                    android:paddingRight="@dimen/_15sdp"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:src="@drawable/custom_checkbox" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"

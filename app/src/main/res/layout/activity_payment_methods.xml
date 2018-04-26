@@ -8,46 +8,55 @@
 
     <include layout="@layout/common_toolbar" />
 
-    <RelativeLayout
-        android:id="@+id/add_a_payment_view"
+    <TextView
+        fontPath="fonts/Montserrat-Medium.ttf"
+        android:id="@+id/mAddPayment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_14sdp">
+        android:text="Payment methods"
+        android:layout_margin="@dimen/_10sdp"
+        android:textColor="@color/color_black_info"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold"
+        tools:ignore="MissingPrefix" />
 
-
-        <ImageView
-            android:id="@+id/img_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:src="@drawable/add_payment_icon" />
-
-        <TextView
-            fontPath="fonts/Montserrat-Medium.ttf"
-            android:id="@+id/mAddPayment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/img_add"
-            android:text="Add Payment"
-            android:textColor="@color/color_black_info"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold"
-            tools:ignore="MissingPrefix" />
-
-    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mPaymentMethodGridView"
+        android:id="@+id/recycler_payment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_5sdp">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+
+
+    <TextView
+        fontPath="fonts/Montserrat-Medium.ttf"
+        android:id="@+id/mAddCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cards"
+        android:layout_margin="@dimen/_10sdp"
+        android:textColor="@color/color_black_info"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold"
+        tools:ignore="MissingPrefix" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_cards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/btn_add_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD CREDIT CARD"
+        android:textColor="@color/colorAccent"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"/>
 
 </LinearLayout>

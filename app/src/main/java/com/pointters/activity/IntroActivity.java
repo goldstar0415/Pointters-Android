@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.pointters.R;
 import com.pointters.adapter.IntroViewPagerAdapter;
@@ -32,18 +33,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class IntroActivity extends AppCompatActivity implements View.OnClickListener {
+public class IntroActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     private ViewPager viewPagerIntro;
     private TimerTask timerTask;
     private Timer timer;
     private SharedPreferences sharedPreferences;
+    private TextView introText;
+    int[] titleArray = {R.string.intro_1, R.string.intro_2, R.string.intro_3, R.string.intro_4};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
         AndroidUtils.getHashKey(this);
+        introText = (TextView)findViewById(R.id.txt_intro);
 
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
 
@@ -54,7 +58,7 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(new Intent(this, RegistrationDetailsActivity.class));
                 finish();
 
-            }else {
+            } else {
                 startActivity(new Intent(IntroActivity.this, HomeActivity.class));
                 finish();
             }
@@ -83,15 +87,14 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
     private void setUpViewPager() {
 
         viewPagerIntro = (ViewPager) findViewById(R.id.view_pager_intro);
-        int[] imgArray = {R.drawable.slider_img_b, R.drawable.slider_img_b, R.drawable.slider_img_b};
+        int[] imgArray = {R.drawable.splash1, R.drawable.splash2, R.drawable.splash3, R.drawable.splash4};
 
         IntroViewPagerAdapter introViewPagerAdapter = new IntroViewPagerAdapter(IntroActivity.this, imgArray);
         viewPagerIntro.setAdapter(introViewPagerAdapter);
-        viewPagerIntro.setPageMargin((int) getResources().getDimension(R.dimen._5sdp));
         //CircleIndicator indicatorViewPager = (CircleIndicator) findViewById(R.id.indicator_view_pager);
         CirclePageIndicator indicatorViewPager = (CirclePageIndicator) findViewById(R.id.indicator_view_pager);
         indicatorViewPager.setViewPager(viewPagerIntro);
-
+        viewPagerIntro.addOnPageChangeListener(this);
     }
 
     @Override
@@ -170,5 +173,20 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        introText.setText(titleArray[position]);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+//        introText.setText(titleArray[position]);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

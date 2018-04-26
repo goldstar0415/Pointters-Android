@@ -1,9 +1,11 @@
 package com.pointters.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -34,12 +36,23 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
 import com.pointters.adapter.SearchHintAdapter;
+import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnEditTextChangeListener;
 import com.pointters.listener.OnSearchItemClickListener;
+import com.pointters.model.PopularCateGoriyModel;
 import com.pointters.model.SearchHint;
+import com.pointters.model.SearchModel;
+import com.pointters.model.StoreLocationModel;
+import com.pointters.model.response.GetSearchResponsel;
+import com.pointters.model.response.GetStoreLocationResponse;
+import com.pointters.rest.ApiClient;
+import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
+import com.pointters.utils.AppUtils;
+import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.MyTextWatcher;
 
@@ -55,20 +68,21 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by vishalsharma on 1/8/17.
  */
 
-public class SearchServiceActivity extends AppCompatActivity implements View.OnTouchListener, OnEditTextChangeListener, View.OnClickListener, OnSearchItemClickListener, GoogleApiClient.ConnectionCallbacks, LocationListener, GoogleApiClient.OnConnectionFailedListener {
+public class SearchServiceActivity extends AppCompatActivity implements View.OnTouchListener, OnApiFailDueToSessionListener, OnEditTextChangeListener, View.OnClickListener, OnSearchItemClickListener, GoogleApiClient.ConnectionCallbacks, LocationListener, GoogleApiClient.OnConnectionFailedListener {
     private final int REQUEST_CHECK_SETTINGS = 1000;
     private final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 2000;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
     private Location location = null;
-    private ImageView imgSearch;
-    private ImageView imgLocation;
     private EditText edtSearchHere;
     private EditText edtLocation;
     private ImageView imgCrossSearch;
@@ -79,12 +93,17 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
     private String OUT_JSON = "/json";
     private ArrayList<String> listSuggestedPlaces = new ArrayList<>();
     private ArrayList<String> filterListSuggestedPlaces = new ArrayList<>();
-    private ArrayList<String> popularCategories = new ArrayList<>();
-    private ArrayList<String> recentSearches = new ArrayList<>();
-    private ArrayList<String> keywords = new ArrayList<>();
     private SearchHintAdapter searchHintAdapter;
     private ArrayList<SearchHint> locationSearchHint = new ArrayList<>();
     private String currentLocation="";
+    private KProgressHUD loader;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    private ArrayList<PopularCateGoriyModel> popularCategories = new ArrayList<>();
+    private ArrayList<SearchModel> recentSearches = new ArrayList<>();
+    private ArrayList<SearchHint> searchHints = new ArrayList<>();
+
 
 
     @Override
@@ -92,6 +111,14 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_search_service);
+        sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        loader = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
 
         initViews();
 
@@ -115,32 +142,55 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
-        popularCategories.add("Photographer");
-        popularCategories.add("Entertainer");
-        popularCategories.add("Wedding Planner");
 
-        recentSearches.add("Dog Walker");
-        recentSearches.add("Entertainer");
-        recentSearches.add("Wedding Planner");
-
-        keywords.add("Dog Walk");
-        keywords.add("Dog Care");
-        keywords.add("Dog Cares");
 
         googleApiClient = new GoogleApiClient.Builder(SearchServiceActivity.this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this).build();
         googleApiClient.connect();
-      //  turnOnLocation();
 
-      /*  if(currentLocation.isEmpty()) {
-
-            turnOnLocation();
-        }*/
-
+        CallGetSearchPages();
     }
 
+    public void CallGetSearchPages() {
+        loader.show();
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<GetSearchResponsel> callSearchPageApi = apiService.getSearchPage(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
+        callSearchPageApi.enqueue(new Callback<GetSearchResponsel>() {
+            @Override
+            public void onResponse(Call<GetSearchResponsel> call, Response<GetSearchResponsel> response) {
+                if (loader.isShowing()) {
+                    loader.dismiss();
+                }
+
+                if (response.code() == 200 && response.body() != null) {
+                    GetSearchResponsel models = response.body();
+                    if (models.getPopularCategories().size() > 0) {
+                        popularCategories.addAll(models.getPopularCategories());
+                    }
+                    if (models.getRecentSearches().size() > 0 ) {
+                        recentSearches.addAll(models.getRecentSearches());
+                    }
+                    setSearchBarActive();
+                }
+                else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(SearchServiceActivity.this, "callGetTagServiceApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(SearchServiceActivity.this);
+                }
+                else if (response.code() == 404) {
+                }
+            }
+
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onFailure(Call<GetSearchResponsel> call, Throwable t) {
+                if (loader.isShowing())     loader.dismiss();
+                Toast.makeText(SearchServiceActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     private void setOnClickListener() {
 
@@ -167,24 +217,19 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
 
     private void setSearchBarActive() {
 
-        imgSearch.setSelected(true);
-        imgLocation.setSelected(false);
+        imgCrossLocation.setVisibility(View.INVISIBLE);
+        imgCrossSearch.setVisibility(View.VISIBLE);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewSearchHints.setLayoutManager(linearLayoutManager);
 
-        ArrayList<SearchHint> searchHints = new ArrayList<>();
+
+        searchHints = new ArrayList<>();
         searchHints.add(new SearchHint("Popular Categories", popularCategories));
         searchHints.add(new SearchHint("Recent Searches", recentSearches));
-        searchHints.add(new SearchHint("Keywords", keywords));
 
-
-/*        searchHints.add(new SearchHint("Popular Categories", new ArrayList<String>"Photographer", "Entertainer", "Wedding Planner"}));
-        searchHints.add(new SearchHint("Recent Searches", new String[]{"Dog Walker", "Entertainer", "Wedding Planner"}));
-        searchHints.add(new SearchHint("Keywords", new String[]{"Dog Walk", "Dog Care", "Dog Cares"}));*/
-
-        searchHintAdapter = new SearchHintAdapter(searchHints);
+        searchHintAdapter = new SearchHintAdapter(searchHints, "Search");
 
         searchHintAdapter.setOnSearchItemClickListener(this);
         recyclerViewSearchHints.setAdapter(searchHintAdapter);
@@ -195,8 +240,8 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
 
     private void setLocationBarActive() {
 
-        imgLocation.setSelected(true);
-        imgSearch.setSelected(false);
+        imgCrossSearch.setVisibility(View.INVISIBLE);
+        imgCrossLocation.setVisibility(View.VISIBLE);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewSearchHints.setLayoutManager(linearLayoutManager);
@@ -204,7 +249,7 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
         //  searchHints.add(new SearchHint("Locations", listSuggestedPlaces));
         //searchHints.add(new SearchHint("Locations", new String[]{"Chicago", "Chicago Suburb", "Chicago Downtown"}));
 
-        searchHintAdapter = new SearchHintAdapter(locationSearchHint);
+        searchHintAdapter = new SearchHintAdapter(locationSearchHint, "Location");
 
         searchHintAdapter.setOnSearchItemClickListener(this);
         recyclerViewSearchHints.setAdapter(searchHintAdapter);
@@ -216,8 +261,6 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
 
     private void initViews() {
 
-        imgSearch = (ImageView) findViewById(R.id.img_search);
-        imgLocation = (ImageView) findViewById(R.id.img_location_search);
         edtSearchHere = (EditText) findViewById(R.id.edt_search_here);
         edtLocation = (EditText) findViewById(R.id.edt_enter_location);
         imgCrossSearch = (ImageView) findViewById(R.id.img_cross_search_here);
@@ -237,12 +280,12 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
 
         switch (view.getId()) {
             case R.id.edt_search_here:
-                if (!imgSearch.isSelected())
+                if (imgCrossSearch.getVisibility() == View.INVISIBLE)
                     setSearchBarActive();
                 break;
 
             case R.id.edt_enter_location:
-                if(!currentLocation.isEmpty() && !imgLocation.isSelected()) {
+                if(!currentLocation.isEmpty() && imgCrossLocation.getVisibility() == View.INVISIBLE) {
                  //   if (!imgLocation.isSelected())
                         setLocationBarActive();
                 }else {
@@ -301,6 +344,7 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
 
             case R.id.btn_back:
                 onBackPressed();
+                AndroidUtils.hideKeyBoard(this);
                 break;
 
       /*      case R.id.txt_apply:
@@ -312,29 +356,104 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
 
     }
 
+//    @Override
+//    public void searchItemClicked(String hint) {
+//
+//        AndroidUtils.hideKeyBoard(this);
+//
+//        if (imgCrossSearch.getVisibility() == View.VISIBLE) {
+//            edtSearchHere.setText(hint);
+//            if(!edtLocation.getText().toString().isEmpty())
+//            {
+//                Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
+//                intent.putExtra("searchedValue", String.valueOf(edtSearchHere.getText() + ", " + edtLocation.getText().toString()));
+//                startActivity(intent);
+//            }
+//        } else {
+//            edtLocation.setText(hint);
+//         //   edtLocation.removeTextChangedListener(new MyTextWatcher(edtLocation,this));
+//          //  edtLocation.addTextChangedListener(null);
+//            if(!edtSearchHere.getText().toString().isEmpty())
+//            {
+//                Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
+//                intent.putExtra("searchedValue", String.valueOf(edtSearchHere.getText() + ", " + edtLocation.getText().toString()));
+//                startActivity(intent);
+//            }
+//        }
+//
+//    }
+
     @Override
-    public void searchItemClicked(String hint) {
-
-        AndroidUtils.hideKeyBoard(this);
-
-        if (imgSearch.isSelected()) {
-            edtSearchHere.setText(hint);
-            if(!edtLocation.getText().toString().isEmpty())
-            {
-                Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
-                intent.putExtra("searchedValue", String.valueOf(edtSearchHere.getText() + ", " + edtLocation.getText().toString()));
-                startActivity(intent);
+    public void searchItemClicked(Object hint) {
+        if ( hint instanceof PopularCateGoriyModel) {
+            if (imgCrossSearch.getVisibility() == View.VISIBLE) {
+                edtSearchHere.setText(((PopularCateGoriyModel)hint).getName());
+                if(!edtLocation.getText().toString().isEmpty())
+                {
+                    Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
+                    intent.putExtra("query", edtSearchHere.getText().toString());
+                    intent.putExtra("location", edtLocation.getText().toString());
+                    startActivity(intent);
+                }
+            } else {
+                edtLocation.setText(((PopularCateGoriyModel)hint).getName());
+                //   edtLocation.removeTextChangedListener(new MyTextWatcher(edtLocation,this));
+                //  edtLocation.addTextChangedListener(null);
+                if(!edtSearchHere.getText().toString().isEmpty())
+                {
+                    Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
+                    intent.putExtra("query", edtSearchHere.getText().toString());
+                    intent.putExtra("location", edtLocation.getText().toString());
+                    startActivity(intent);
+                }
             }
-        } else {
-            edtLocation.setText(hint);
-         //   edtLocation.removeTextChangedListener(new MyTextWatcher(edtLocation,this));
-          //  edtLocation.addTextChangedListener(null);
-            if(!edtSearchHere.getText().toString().isEmpty())
-            {
-                Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
-                intent.putExtra("searchedValue", String.valueOf(edtSearchHere.getText() + ", " + edtLocation.getText().toString()));
-                startActivity(intent);
+
+        }else if (hint instanceof SearchModel) {
+            if (imgCrossSearch.getVisibility() == View.VISIBLE) {
+                edtSearchHere.setText(((SearchModel)hint).getQuery());
+                if(!edtLocation.getText().toString().isEmpty())
+                {
+                    Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
+                    intent.putExtra("query", edtSearchHere.getText().toString());
+                    intent.putExtra("location", edtLocation.getText().toString());
+                    startActivity(intent);
+                }
+            } else {
+                edtLocation.setText(((SearchModel)hint).getQuery());
+                //   edtLocation.removeTextChangedListener(new MyTextWatcher(edtLocation,this));
+                //  edtLocation.addTextChangedListener(null);
+                if(!edtSearchHere.getText().toString().isEmpty())
+                {
+                    Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
+                    intent.putExtra("query", edtSearchHere.getText().toString());
+                    intent.putExtra("location", edtLocation.getText().toString());
+                    startActivity(intent);
+                }
             }
+
+        }else if (hint instanceof String) {
+            if (imgCrossSearch.getVisibility() == View.VISIBLE) {
+                edtSearchHere.setText((String)hint);
+                if(!edtLocation.getText().toString().isEmpty())
+                {
+                    Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
+                    intent.putExtra("query", edtSearchHere.getText().toString());
+                    intent.putExtra("location", edtLocation.getText().toString());
+                    startActivity(intent);
+                }
+            } else {
+                edtLocation.setText((String)hint);
+                //   edtLocation.removeTextChangedListener(new MyTextWatcher(edtLocation,this));
+                //  edtLocation.addTextChangedListener(null);
+                if(!edtSearchHere.getText().toString().isEmpty())
+                {
+                    Intent intent = new Intent(new Intent(this, SearchResultsActivity.class));
+                    intent.putExtra("query", edtSearchHere.getText().toString());
+                    intent.putExtra("location", edtLocation.getText().toString());
+                    startActivity(intent);
+                }
+            }
+
         }
 
     }
@@ -457,9 +576,6 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
                         }
                     }
                 }
-
-
-
             }
             break;
         }
@@ -504,6 +620,11 @@ public class SearchServiceActivity extends AppCompatActivity implements View.OnT
                 }
             }
         }
+    }
+
+    @Override
+    public void onApiFail(String apiSource) {
+
     }
 
     private class prepareListData extends AsyncTask<String, Void, ArrayList<String>> {

@@ -1,6 +1,9 @@
 package com.pointters.activity;
 
+import android.app.backup.FullBackupDataOutput;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,8 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -17,29 +23,68 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
+import com.pointters.model.CategoryModel;
 import com.pointters.model.FulfillmentDetails;
+import com.pointters.model.FulfillmentMethod;
+import com.pointters.model.OrdersDetailModel;
+import com.pointters.model.response.GetCategoryResponse;
+import com.pointters.rest.ApiClient;
+import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AppUtils;
+import com.pointters.utils.ConstantUtils;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class FulfillmentActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private final int REQUEST_CANCEL_ORDER = 121;
+    private final int REQUEST_REVIEW_ORDER = 122;
+    private final int REQUEST_ORDER_PROCESSING = 123;
 
     private final Integer android_image[] = {R.drawable.thumb_small_one, R.drawable.thumb_small_two, R.drawable.thumb_small_one, R.drawable.thumb_small_two,
             R.drawable.thumb_small_one, R.drawable.thumb_small_two, R.drawable.thumb_small_one};
     RecyclerView recyclerView;
     private GoogleMap mMap;
     private ImageView stepView1, stepView2, stepView3, stepView4, stepView5;
+    private RelativeLayout orderAccept;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private KProgressHUD loader;
 
+    private OrdersDetailModel ordersDetailModel;
+
+    private String orderId = "";
+    private Button startNowButton, cancelOrderButton, reviewOrderButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fulfillment);
+        loader = KProgressHUD.create(FulfillmentActivity.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
 
-        AppUtils.setToolBarWithBothIcon(FulfillmentActivity.this, getResources().getString(R.string.fulfillment), R.drawable.back_icon_grey, R.drawable.more_icon_horizontal);
+
+        AppUtils.setToolBarWithBothIcon(FulfillmentActivity.this, getResources().getString(R.string.fulfillment), R.drawable.back_icon, R.drawable.more_icon_horizontal);
+        sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        Intent intent = getIntent();
+        if (intent.getStringExtra("orderId") != null) {
+            orderId = intent.getStringExtra("orderId");
+        }else{
+         //   finish();
+        }
+
 
         recyclerView = (RecyclerView) findViewById(R.id.mDeliveredFilesRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -57,6 +102,15 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
         stepView3.setOnClickListener(this);
         stepView4.setOnClickListener(this);
         stepView5.setOnClickListener(this);
+
+        orderAccept = (RelativeLayout) findViewById(R.id.view_order_accept);
+        orderAccept.setOnClickListener(this);
+        startNowButton = (Button) findViewById(R.id.btn_start_now);
+        startNowButton.setOnClickListener(this);
+        cancelOrderButton = (Button) findViewById(R.id.btn_cancel_order);
+        cancelOrderButton.setOnClickListener(this);
+        reviewOrderButton = (Button) findViewById(R.id.btn_review);
+        reviewOrderButton.setOnClickListener(this);
 
         ArrayList fulfillmentList = prepareData();
         ImageAdapter adapter = new ImageAdapter(FulfillmentActivity.this, fulfillmentList);
@@ -77,6 +131,28 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
                // mMap.moveCamera(CameraUpdateFactory.newLatLng(TutorialsPoint));
             }
         });
+
+        CallGetOrderDetail(orderId);
+    }
+
+    public void CallGetOrderDetail(String orderid) {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<OrdersDetailModel> callGetCategoryApi = apiService.getOrderDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), orderid);
+        callGetCategoryApi.enqueue(new Callback<OrdersDetailModel>() {
+            @Override
+            public void onResponse(Call<OrdersDetailModel> call, Response<OrdersDetailModel> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    ordersDetailModel = response.body();
+                    updateUI();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrdersDetailModel> call, Throwable t) {}
+        });
+    }
+
+    public void updateUI(){
 
     }
 
@@ -113,6 +189,30 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.mCircleViewNumberReplacement2:
                 stepView1.setVisibility(View.VISIBLE);
+                break;
+            case R.id.view_order_accept:
+                Intent orderProcessingIntent = new Intent(FulfillmentActivity.this, OrderProcessingActivity.class);
+                orderProcessingIntent.putExtra("orderId", orderId);
+                startActivityForResult(orderProcessingIntent, REQUEST_ORDER_PROCESSING);
+                break;
+
+            case R.id.btn_start_now:
+                MaterialDialog dialog = new MaterialDialog.Builder(this)
+                        .title("Schedule Start Now")
+                        .content("Add Not Here\n6 Oct 2018   12:30 PM")
+                        .positiveText("OK")
+                        .negativeText("CANCEL")
+                        .show();
+                break;
+            case R.id.btn_cancel_order:
+                Intent cancelOrderIntent = new Intent(FulfillmentActivity.this, CancelOrderActivity.class);
+                cancelOrderIntent.putExtra("orderId", orderId);
+                startActivityForResult(cancelOrderIntent, REQUEST_CANCEL_ORDER);
+                break;
+            case R.id.btn_review:
+                Intent reviewOrderIntent = new Intent(FulfillmentActivity.this, ReviewOrderActivity.class);
+                reviewOrderIntent.putExtra("orderId", orderId);
+                startActivityForResult(reviewOrderIntent, REQUEST_REVIEW_ORDER);
                 break;
         }
 
@@ -157,5 +257,22 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
             }
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CANCEL_ORDER:
+                        break;
+                case REQUEST_REVIEW_ORDER:
+                    break;
+                case REQUEST_ORDER_PROCESSING:
+                    break;
+            }
+
+        }
+    }
+
 }
 

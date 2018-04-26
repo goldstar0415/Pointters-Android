@@ -14,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
 import com.pointters.adapter.LiveOfferRequestsAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
@@ -47,7 +50,7 @@ public class LiveOfferRequestFragment extends Fragment implements OnApiFailDueTo
     private List<LiveOfferRequestsModel> liveOfferRequestsList = new ArrayList<>();
     private LiveOfferRequestsAdapter liveOfferRequestAdapter;
     private TextView txtNotFound;
-    private SwipeRefreshLayout refreshLayout;
+    private SwipyRefreshLayout refreshLayout;
     private KProgressHUD loader;
 
     private String lastDocId = "";
@@ -74,7 +77,7 @@ public class LiveOfferRequestFragment extends Fragment implements OnApiFailDueTo
         txtNotFound.setVisibility(View.GONE);
 
         liveRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_services);
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        refreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
         return view;
     }
@@ -101,9 +104,9 @@ public class LiveOfferRequestFragment extends Fragment implements OnApiFailDueTo
         loader.show();
         getLiveOfferRequestsApiCall(true, "");
         refreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccent, R.color.colorPrimary);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        refreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh() {
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
                 getLiveOfferRequestsApiCall(true, "");
             }
         });
@@ -139,6 +142,8 @@ public class LiveOfferRequestFragment extends Fragment implements OnApiFailDueTo
                     if (inited && liveOfferRequestsList.size() == 0) {
                         txtNotFound.setVisibility(View.VISIBLE);
                         txtNotFound.setText("No live offer found");
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if (response.code() == 401) {
@@ -155,6 +160,7 @@ public class LiveOfferRequestFragment extends Fragment implements OnApiFailDueTo
             public void onFailure(Call<GetLiveOfferRequestsResponse> call, Throwable t) {
                 refreshLayout.setRefreshing(false);
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(getActivity(), "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

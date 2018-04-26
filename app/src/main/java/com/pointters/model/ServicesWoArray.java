@@ -1,8 +1,8 @@
 package com.pointters.model;
 
-import com.pointters.model.request.LocationRequestModel;
+import com.google.gson.internal.LinkedTreeMap;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by prashantkumar on 17/11/17.
@@ -11,9 +11,10 @@ import java.util.List;
 public class ServicesWoArray {
     private String id;
     private String description;
-    private List<LocationRequestModel> location;
+    private Object location;
     private Media media;
     private Prices prices;
+    private Boolean promoted;
 
     public String getId() {
         return id;
@@ -31,11 +32,73 @@ public class ServicesWoArray {
         this.description = description;
     }
 
-    public List<LocationRequestModel> getLocation() {
-        return location;
+    public LocationModel getLocation() {
+
+        if (location instanceof LinkedTreeMap) {
+            LinkedTreeMap linkedTreeMap = (LinkedTreeMap) location;
+            LocationModel loc = new LocationModel();
+            if (linkedTreeMap.containsKey("_id")) {
+                loc.set_id(linkedTreeMap.get("_id").toString());
+            }
+            if (linkedTreeMap.containsKey("city")){
+                loc.setCity(linkedTreeMap.get("city").toString());
+            }
+            if (linkedTreeMap.containsKey("country")){
+                loc.setCountry(linkedTreeMap.get("country").toString());
+            }
+            if (linkedTreeMap.containsKey("geoJson")){
+                LinkedTreeMap gj = (LinkedTreeMap) linkedTreeMap.get("geoJson");
+                GeoJsonModel geoJsonModel = new GeoJsonModel();
+                geoJsonModel.setType(gj.get("type").toString());
+                ArrayList<Double> doubles = (ArrayList<Double>) gj.get("coordinates");
+                geoJsonModel.setCoordinates(doubles);
+                loc.setGeoJson(geoJsonModel);
+            }
+            if (linkedTreeMap.containsKey("postalCode")){
+                loc.setPostalCode(linkedTreeMap.get("postalCode").toString());
+            }
+            if (linkedTreeMap.containsKey("province")){
+                loc.setProvince(linkedTreeMap.get("province").toString());
+            }
+            if (linkedTreeMap.containsKey("state")){
+                loc.setState(linkedTreeMap.get("state").toString());
+            }
+            return loc;
+        }else if (location instanceof ArrayList) {
+            LinkedTreeMap linkedTreeMap = ((ArrayList<LinkedTreeMap>) location).get(0);
+            LocationModel loc = new LocationModel();
+            if (linkedTreeMap.containsKey("_id")) {
+                loc.set_id(linkedTreeMap.get("_id").toString());
+            }
+            if (linkedTreeMap.containsKey("city")){
+                loc.setCity(linkedTreeMap.get("city").toString());
+            }
+            if (linkedTreeMap.containsKey("country")){
+                loc.setCountry(linkedTreeMap.get("country").toString());
+            }
+            if (linkedTreeMap.containsKey("geoJson")){
+                LinkedTreeMap gj = (LinkedTreeMap) linkedTreeMap.get("geoJson");
+                GeoJsonModel geoJsonModel = new GeoJsonModel();
+                geoJsonModel.setType(gj.get("type").toString());
+                ArrayList<Double> doubles = (ArrayList<Double>) gj.get("coordinates");
+                geoJsonModel.setCoordinates(doubles);
+                loc.setGeoJson(geoJsonModel);
+            }
+            if (linkedTreeMap.containsKey("postalCode")){
+                loc.setPostalCode(linkedTreeMap.get("postalCode").toString());
+            }
+            if (linkedTreeMap.containsKey("province")){
+                loc.setProvince(linkedTreeMap.get("province").toString());
+            }
+            if (linkedTreeMap.containsKey("state")){
+                loc.setState(linkedTreeMap.get("state").toString());
+            }
+            return loc;
+        }
+        return null;
     }
 
-    public void setLocation(List<LocationRequestModel> location) {
+    public void setLocation(ArrayList<LocationModel> location) {
         this.location = location;
     }
 
@@ -53,5 +116,13 @@ public class ServicesWoArray {
 
     public void setPrices(Prices prices) {
         this.prices = prices;
+    }
+
+    public Boolean getPromoted() {
+        return promoted;
+    }
+
+    public void setPromoted(Boolean promoted) {
+        this.promoted = promoted;
     }
 }

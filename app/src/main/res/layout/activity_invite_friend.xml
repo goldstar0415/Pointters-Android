@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,16 +7,24 @@
     android:orientation="vertical"
     tools:context="com.pointters.activity.InviteFriendActivity">
 
+    <!--<FrameLayout-->
+        <!--android:layout_below="@+id/tab_layout"-->
+        <!--android:id="@+id/frame_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+    <com.pointters.utils.NonSwipeableViewPager
+        android:layout_below="@+id/tab_layout"
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <RelativeLayout
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:paddingBottom="@dimen/_10sdp"
-        android:paddingTop="@dimen/_10sdp">
+        android:background="#FFFFFF">
 
-        <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -37,13 +45,14 @@
 
                     <ImageView
                         android:id="@+id/toolbar_lft_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="@dimen/_44sdp"
+                        android:layout_height="@dimen/_44sdp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:paddingLeft="@dimen/_8sdp"
                         android:paddingRight="@dimen/_8sdp"
-                        android:src="@drawable/back_icon_grey" />
+                        android:scaleType="center"
+                        android:src="@drawable/back_icon" />
 
                     <TextView
                         android:id="@+id/toolbar_title"
@@ -60,27 +69,17 @@
                         android:maxLines="1"
                         android:text="@string/invite_friend"
                         android:textColor="#1d1d26"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_medium" />
 
-                    <TextView
+                    <ImageButton
                         android:id="@+id/toolbar_right_img"
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/_44sdp"
+                        android:layout_height="@dimen/_44sdp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_12sdp"
-                        android:background="@drawable/follow_btn_pattern"
-                        android:gravity="center"
-                        android:paddingBottom="@dimen/_6sdp"
-
-                        android:paddingLeft="@dimen/_16sdp"
-                        android:paddingRight="@dimen/_16sdp"
-                        android:paddingTop="@dimen/_6sdp"
-                        android:text="Invite"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
+                        android:src="@drawable/icon_search_medium"
+                        android:background="@color/transparent"
+                        android:scaleType="center"/>
 
 
                 </RelativeLayout>
@@ -90,21 +89,33 @@
     </RelativeLayout>
 
     <com.pointters.utils.CustomTabLayout
-        android:id="@+id/tabs"
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        app:tabBackground="@android:color/white"
+        android:background="@android:color/transparent"
+        android:textAlignment="center"
+        app:tabBackground="@color/gg_color"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorHeight="@dimen/fix_3dp"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
         app:tabSelectedTextColor="#1D1D28"
-        app:tabTextAppearance="@style/customTabFontsStyle"
+        android:layout_below="@+id/top_layout"
+        app:tabTextAppearance="@style/customTabFontsSmallDark"
         app:tabTextColor="#1D1D28" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager_invite_friend"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="@dimen/_5sdp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tab_layout"
+        android:background="@drawable/shadow" />
 
-</LinearLayout>
+    <!--<com.pointters.utils.NonSwipeableViewPager-->
+        <!--android:id="@+id/view_pager_invite_friend"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+</RelativeLayout>

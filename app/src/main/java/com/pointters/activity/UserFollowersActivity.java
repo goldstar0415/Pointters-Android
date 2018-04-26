@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
@@ -21,6 +22,7 @@ import com.pointters.adapter.FollowersAdapter;
 import com.pointters.adapter.FollowingAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecycleItemClickListener;
+import com.pointters.model.Followers;
 import com.pointters.model.FollowersModel;
 import com.pointters.model.FollowingModel;
 import com.pointters.model.response.GetFollowersResponse;
@@ -31,6 +33,9 @@ import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.DividerItemDecorationVer;
 import com.pointters.utils.EndlessRecyclerViewScrollListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +49,7 @@ import retrofit2.Response;
  */
 
 public class UserFollowersActivity extends AppCompatActivity implements View.OnClickListener, OnApiFailDueToSessionListener {
+
     private TextView txtTitle;
     private RecyclerView recyclerFollowers;
     private SharedPreferences sharedPreferences;
@@ -51,6 +57,7 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
     private KProgressHUD loader;
     private TextView txtNotFound;
     private String json, followType;
+    private String mloginUserId = "";
 
     private String lastDocId = "";
     private int limitCnt = 0;
@@ -70,8 +77,17 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
         editor = sharedPreferences.edit();
 
         followType = sharedPreferences.getString(ConstantUtils.FOLLOW_TYPE, "");
-        if (sharedPreferences.getString(ConstantUtils.USER_DATA, "") != null)
+        if (sharedPreferences.getString(ConstantUtils.USER_DATA, "") != null) {
             json = sharedPreferences.getString(ConstantUtils.USER_DATA, "");
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                if (jsonObject.has("_id") && jsonObject.get("_id") != null && !jsonObject.get("_id").equals("")) {
+                    mloginUserId = (String) jsonObject.get("_id");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         txtTitle = (TextView) findViewById(R.id.toolbar_title);
         findViewById(R.id.toolbar_right_img).setVisibility(View.GONE);
@@ -99,8 +115,7 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
         recyclerFollowers.addOnItemTouchListener(new OnRecycleItemClickListener(this, new OnRecycleItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(UserFollowersActivity.this, ProfileScreenActivity.class);
-                startActivity(intent);
+                moveToProfile(position);
             }
         }));
 
@@ -140,6 +155,31 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    private void moveToProfile(int position) {
+        Followers followers;
+        if (followType.equals("Followers")) {
+            followers = userFollowers.get(position).getFollowFrom();
+        } else {
+            followers = userFollowings.get(position).getFollowTo();
+        }
+
+        String strId = "";
+        if (followers.getId() != null && !followers.getId().isEmpty()) {
+            strId = followers.getId();
+        }
+
+        Intent intent = new Intent(UserFollowersActivity.this, ProfileScreenActivity.class);
+
+        if (strId == mloginUserId) {
+            intent.putExtra(ConstantUtils.PROFILE_LOGINUSER, true);
+        } else {
+            intent.putExtra(ConstantUtils.PROFILE_LOGINUSER, false);
+            intent.putExtra(ConstantUtils.PROFILE_USERID, strId);
+        }
+
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -176,6 +216,8 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
 
                     if (inited && userFollowers.size() == 0) {
                         txtNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if (response.code() == 401) {
@@ -191,6 +233,7 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onFailure(Call<GetFollowersResponse> call, Throwable t) {
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(UserFollowersActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -219,6 +262,8 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
 
                     if (inited && userFollowings.size() == 0) {
                         txtNotFound.setVisibility(View.VISIBLE);
+                    } else {
+                        txtNotFound.setVisibility(View.GONE);
                     }
                 }
                 else if (response.code() == 401) {
@@ -234,6 +279,7 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onFailure(Call<GetFollowingResponse> call, Throwable t) {
                 if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(UserFollowersActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

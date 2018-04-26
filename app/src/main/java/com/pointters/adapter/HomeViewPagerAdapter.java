@@ -4,11 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.pointters.fragment.MenuContainerFragment;
+import com.pointters.fragment.MenuScreenFragment;
 import com.pointters.fragment.BlankFragment;
 import com.pointters.fragment.CameraFragment;
 import com.pointters.fragment.ChatFragment;
 import com.pointters.fragment.ExploreServiceFragment;
-import com.pointters.fragment.MeFragment;
 
 /**
  * Created by Vishal Sharma on 29-Jul-17.
@@ -27,12 +28,11 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
         Fragment fragment = null;
 
         switch (position) {
-
             case 0:
-                fragment = new BlankFragment();
+                fragment = new ExploreServiceFragment();
                 break;
             case 1:
-                fragment = new ExploreServiceFragment();
+                fragment = new BlankFragment();
                 break;
             case 2:
                 fragment = new CameraFragment();
@@ -41,9 +41,8 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
                 fragment = new ChatFragment();
                 break;
             case 4:
-                fragment = new MeFragment();
+                fragment = new MenuContainerFragment();
                 break;
-
         }
 
         return fragment;

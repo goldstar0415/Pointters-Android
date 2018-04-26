@@ -5,21 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    android:background="@android:color/white"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     tools:ignore="MissingPrefix">
 
     <include
         android:id="@+id/toolbar_login"
         layout="@layout/common_toolbar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingTop="@dimen/_45sdp"
+        android:paddingTop="@dimen/_25sdp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -33,7 +32,6 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:focusableInTouchMode="true"
-
             android:paddingBottom="@dimen/_15sdp">
 
             <android.support.constraint.Guideline
@@ -116,12 +114,14 @@
                 android:id="@+id/txt_forgot_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_28sdp"
                 android:text="@string/forgot_password"
                 android:textColor="#969699"
                 android:textSize="@dimen/text_size_tiny"
-                app:layout_constraintRight_toRightOf="@id/text_input_password"
-                app:layout_constraintTop_toBottomOf="@id/text_input_email" />
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_warning"/>
+
 
             <TextView
                 android:id="@+id/txt_warning"
@@ -136,29 +136,54 @@
                 app:layout_constraintLeft_toLeftOf="@+id/text_input_password"
                 app:layout_constraintTop_toBottomOf="@+id/text_input_password" />
 
-            <Button
+
+            <android.support.v7.widget.CardView
                 android:id="@+id/btn_email_login"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@color/colorAccent"
-                android:text="@string/login"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:layout_margin="@dimen/_20sdp"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
-                app:layout_constraintTop_toBottomOf="@+id/txt_warning" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_forgot_password"
+                app:cardCornerRadius="@dimen/_3sdp"
+                app:cardBackgroundColor="@color/colorAccent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:foregroundTintMode="add"
+                android:foregroundTint="@color/light_gray"
+                android:elevation="@dimen/_2sdp"
+                tools:targetApi="lollipop">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_in"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small" />
 
-            <android.support.constraint.ConstraintLayout
+            </android.support.v7.widget.CardView>
+
+
+            <com.klinker.android.link_builder.LinkConsumableTextView
+                app:layout_constraintTop_toBottomOf="@id/btn_email_login"
+                app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
+                app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:id="@+id/txt_privacy_conditions"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginRight="@dimen/_3sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_or"
-                app:layout_constraintLeft_toLeftOf="@id/constraint_guide_left"
-                app:layout_constraintRight_toLeftOf="@+id/txt_or"
-                app:layout_constraintTop_toTopOf="@+id/txt_or">
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:text="By Signing in you agree to the Terms of Service and Privacy Policy"/>
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/line"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/txt_privacy_conditions"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
 
                 <View
                     android:layout_width="0dp"
@@ -175,42 +200,100 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_10sdp"
                 android:text="@string/or"
-                android:textColor="@color/color_black_info"
-                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_small"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_email_login" />
+                app:layout_constraintTop_toBottomOf="@id/line" />
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/_3sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_or"
-                app:layout_constraintLeft_toRightOf="@+id/txt_or"
-                app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
-                app:layout_constraintTop_toTopOf="@+id/txt_or">
 
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/fix_1dp"
-                    android:background="@color/light_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-
-            <Button
-                android:id="@+id/btn_fb"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/button_layer1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/fb_color"
-                android:text="@string/fb"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/_20sdp"
                 app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
                 app:layout_constraintRight_toLeftOf="@+id/constraint_guide_right"
-                app:layout_constraintTop_toBottomOf="@+id/txt_or" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_or">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_fb"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
+                    app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_forgot_password"
+                    app:cardCornerRadius="@dimen/_3sdp"
+                    app:cardBackgroundColor="@color/fb_color"
+                    android:layout_weight="1"
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    tools:targetApi="lollipop">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/facebook_icon"
+                            android:layout_gravity="center"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fb"
+                            android:padding="@dimen/_10sdp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_small" />
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_gg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@+id/constraint_guide_left"
+                    app:layout_constraintRight_toRightOf="@+id/constraint_guide_right"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_forgot_password"
+                    app:cardCornerRadius="@dimen/_3sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    app:cardBackgroundColor="@color/light_gray"
+                    android:layout_weight="1"
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    tools:targetApi="lollipop">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/google_icon"
+                            android:layout_gravity="center"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gg"
+                            android:padding="@dimen/_10sdp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textColor="@color/color_black_info"
+                            android:textSize="@dimen/text_size_small" />
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
 
 
             <android.support.constraint.ConstraintLayout
@@ -221,7 +304,7 @@
                 android:paddingTop="@dimen/_15sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_fb">
+                app:layout_constraintTop_toBottomOf="@id/button_layer1">
 
                 <TextView
                     android:id="@+id/txt_dont_have_account"
@@ -241,8 +324,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_up_caps"
-                    android:textAllCaps="true"
-                    android:textColor="#1D1D26"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorAccent"
                     android:textSize="@dimen/text_size_tiny"
                     app:layout_constraintLeft_toRightOf="@id/txt_dont_have_account"
                     app:layout_constraintRight_toRightOf="parent" />

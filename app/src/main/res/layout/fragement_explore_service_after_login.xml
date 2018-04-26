@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
-        android:elevation="0dp"
+        android:elevation="@dimen/_2sdp"
         app:tabBackground="@android:color/white"
         app:tabTextAppearance="@style/customTabFontsStyle"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -5,10 +5,11 @@ package com.pointters.model;
  */
 
 public class UserSettingsModel {
-private String title;
-    private String seletedItem;
 
-    public UserSettingsModel(String title, String seletedItem) {
+    private String title;
+    private int seletedItem;
+
+    public UserSettingsModel(String title, int seletedItem) {
         this.title = title;
         this.seletedItem = seletedItem;
     }
@@ -21,11 +22,11 @@ private String title;
         this.title = title;
     }
 
-    public String getSeletedItem() {
+    public int getSeletedItem() {
         return seletedItem;
     }
 
-    public void setSeletedItem(String seletedItem) {
+    public void setSeletedItem(int seletedItem) {
         this.seletedItem = seletedItem;
     }
 }

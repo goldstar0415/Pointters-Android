@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
     tools:ignore="MissingPrefix"
     tools:context="com.pointters.activity.UserSettingsActivity">
@@ -27,12 +28,14 @@
 
 
 
-    <android.support.v7.widget.RecyclerView
+    <com.pointters.adapter.ExpandableRecyclerView
         android:id="@+id/rv_user_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/txt_save"
-        android:layout_below="@+id/txt_title"/>
+        android:layout_below="@+id/txt_title"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/adapter_user_setting_group"/>
 
     <TextView
         android:id="@+id/txt_save"

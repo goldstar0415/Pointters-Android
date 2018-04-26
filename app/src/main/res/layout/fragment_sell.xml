@@ -16,6 +16,7 @@
         app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorHeight="@dimen/fix_3dp"
         app:tabMaxWidth="0dp"
+        android:elevation="@dimen/_2sdp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="#1D1D28"
         app:tabTextAppearance="@style/customTabFontsStyle"

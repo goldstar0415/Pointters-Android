@@ -2,6 +2,7 @@ package com.pointters.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -15,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.pointters.R;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnEditTextChangeListener;
@@ -27,7 +30,11 @@ import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConnectivityController;
+import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.MyTextWatcher;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
@@ -50,17 +57,20 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     private ImageView imgValidEmail;
     private RelativeLayout layoutForgotPassword,layoutResetPassword;
     private SpotsDialog spotsDialog;
-    private TextView txtRunTimeForgot;
+//    private TextView txtRunTimeForgot;
+private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_forgot_password);
+        sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         initViews();
-
         //set toolbar
-        AppUtils.setToolBarWithBothIcon(ForgotPasswordActivity.this, getResources().getString(R.string.app_name), R.drawable.back_icon_grey, 0);
+        AppUtils.setToolBarWithBothIconWithShadow(ForgotPasswordActivity.this, getResources().getString(R.string.forgot_password), R.drawable.back_icon, 0);
 
         setOnClick();
 
@@ -88,7 +98,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
 
         layoutForgotPassword=(RelativeLayout)findViewById(R.id.layout_forgot_password);
         layoutResetPassword=(RelativeLayout)findViewById(R.id.layout_reset_password);
-        txtRunTimeForgot = (TextView) findViewById(R.id.txt_runtime_forgot);
+//        txtRunTimeForgot = (TextView) findViewById(R.id.txt_runtime_forgot);
 
 
     }
@@ -186,7 +196,7 @@ AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
                     layoutResetPassword.setVisibility(View.VISIBLE);
 
 
-                    txtRunTimeForgot.setText(getResources().getString(R.string.reset_password));
+//                    txtRunTimeForgot.setText(getResources().getString(R.string.reset_password));
 
                 } else if (response.code() == 401) {
 
@@ -255,8 +265,9 @@ AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
                     if (response.code() == 200 && response.body() != null) {
                         /*if (spotsDialog != null && spotsDialog.isShowing()) {
                             spotsDialog.dismiss();*/
-                        startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
-                        finish();
+                        callUserLoginApi();
+//                        startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
+//                        finish();
                         //}
                     }else if (response.code() == 404) {
                     /*if (spotsDialog != null && spotsDialog.isShowing()) {
@@ -279,6 +290,100 @@ AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
         }
     }
 
+
+    private void callUserLoginApi() {
+        AndroidUtils.hideKeyBoard(ForgotPasswordActivity.this);
+/*
+        spotsDialog = new SpotsDialog(LoginActivity.this);
+        spotsDialog.show();
+        spotsDialog.setCancelable(false);*/
+        String password = edtPassword.getText().toString().trim();
+//        if (password.equals("test")){
+//            password = "NePPBAkyjZogQzO39I96xA==";
+//        }
+        UserEmailLoginRequest userEmailLoginRequest = new UserEmailLoginRequest(edtEmail.getText().toString().trim(), password);
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<UserEmailLoginResponse> response = apiService.userLoginViaEmail(userEmailLoginRequest);
+        response.enqueue(new Callback<UserEmailLoginResponse>() {
+            @Override
+            public void onResponse(Call<UserEmailLoginResponse> call, retrofit2.Response<UserEmailLoginResponse> rawResponse) {
+                try {
+/*
+                    if (spotsDialog != null && spotsDialog.isShowing()) {
+                        spotsDialog.dismiss();
+                    }*/
+
+                    //Getting response here....
+                    if (rawResponse.code() == 200 && rawResponse.body() != null) {
+                        editor.putBoolean(ConstantUtils.PREF_IS_LOGIN, true);
+                        editor.putString(ConstantUtils.PREF_TOKEN, rawResponse.body().getToken());
+                        editor.putString(ConstantUtils.PREF_USER_EMAIL, edtEmail.getText().toString().trim());
+                        editor.putString(ConstantUtils.PREF_USER_PASSWORD, edtPassword.getText().toString().trim());
+                        editor.putBoolean(ConstantUtils.PREF_IS_EMAIL_LOGIN, true);
+                        editor.apply();
+                        getUserDataApiCall();
+                        // startService(new Intent(LoginActivity.this, GetUserDataService.class));
+                       /* if (sharedPreferences.getBoolean(ConstantUtils.IS_REGISTRATION_COMPLETED, false)) {
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            finish();
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        } else
+                            startActivity(new Intent(getApplicationContext(), RegistrationDetailsActivity.class));*/
+                    } else if (rawResponse.code() == 401 || rawResponse.code() == 404) {
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserEmailLoginResponse> call, Throwable throwable) {
+               /* if (spotsDialog != null && spotsDialog.isShowing()) {
+                    spotsDialog.dismiss();
+                }
+*/
+            }
+        });
+    }
+
+    private void getUserDataApiCall() {
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> getUserInformation = apiService.getUserInformation(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
+        getUserInformation.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+                    try {
+                        String json = new Gson().toJson(((LinkedTreeMap) response.body()).get("user"));
+                        editor.putString(ConstantUtils.USER_DATA, json).commit();
+                        JSONObject jsonObject = new JSONObject(json);
+
+                        if (jsonObject.has("completedRegistration")) {
+                            editor.putBoolean(ConstantUtils.IS_REGISTRATION_COMPLETED, (Boolean) jsonObject.get("completedRegistration")).commit();
+                        }
+                        if (sharedPreferences.getBoolean(ConstantUtils.IS_REGISTRATION_COMPLETED, false)) {
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        } else
+                            startActivity(new Intent(getApplicationContext(), RegistrationDetailsActivity.class));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else if (response.code() == 401) {
+                    // We will have to call login api as session is expired
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(ForgotPasswordActivity.this, "callGetUserApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(ForgotPasswordActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+            }
+        });
+    }
 
 
     @Override

@@ -53,7 +53,6 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.View
             if (userfollowers.get(position).getFollowFrom().getProfilePic() != null && !userfollowers.get(position).getFollowFrom().getProfilePic().isEmpty())
                 ImageLoader.getInstance().displayImage(userfollowers.get(position).getFollowFrom().getProfilePic(), holder.userAvatar, options);
         }
-        //holder.userAvatar.setText(menu_options[position]);
     }
 
 

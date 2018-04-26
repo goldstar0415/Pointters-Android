@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pointters.R;
+import com.pointters.listener.OnRecycleItemClickListener;
 import com.pointters.listener.RecyclerViewItemClickWithSource;
 import com.pointters.model.Prices;
 
@@ -24,10 +26,10 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.MyViewHolder
     private int count=1;
     private MyViewHolder myViewHolder;
     private RecyclerViewItemClickWithSource recyclerViewItemClickWithSource;
-
-    public PriceAdapter(Context context, List<Prices> pricesList) {
+    public PriceAdapter(Context context, List<Prices> pricesList, RecyclerViewItemClickWithSource listener) {
         this.context = context;
         this.pricesList = pricesList;
+        this.recyclerViewItemClickWithSource = listener;
     }
 
     @Override
@@ -40,10 +42,11 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.MyViewHolder
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         myViewHolder=holder;
         if(pricesList.size()>0) {
-
-            if (!pricesList.get(position).getDescription().isEmpty() && !pricesList.get(position).getTimeUnitOfMeasure().isEmpty() && !String.valueOf(pricesList.get(position).getTime()).isEmpty() && !String.valueOf(pricesList.get(position).getPrice()).isEmpty()) {
-                holder.txtPriceDesc.setText("$" + String.valueOf(pricesList.get(position).getPrice()) + "/" + String.valueOf(pricesList.get(position).getTime()) + "" + pricesList.get(position).getTimeUnitOfMeasure() + " - " + pricesList.get(position).getDescription());
+            final Prices prices = pricesList.get(position);
+            if (!prices.getDescription().isEmpty() && !prices.getTimeUnitOfMeasure().isEmpty() && !String.valueOf(prices.getTime()).isEmpty() && !String.valueOf(prices.getPrice()).isEmpty()) {
+                holder.txtPriceDesc.setText(prices.getCurrencySymbol() + String.valueOf(prices.getPrice()) + " For " + String.valueOf(prices.getTime()) + "" + prices.getTimeUnitOfMeasure() + " - " + prices.getDescription());
             }
+            holder.txtCount.setText("1");
             holder.imgPlus.setTag(position);
             holder.imgMinus.setTag(position);
            /* holder.imgPlus.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +78,7 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgPlus, imgMinus;
         private TextView txtCount, txtPriceDesc;
-
+        private LinearLayout itemview;
         public MyViewHolder(View itemView) {
             super(itemView);
             imgPlus = (ImageView) itemView.findViewById(R.id.img_plus);

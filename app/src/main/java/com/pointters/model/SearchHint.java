@@ -9,11 +9,16 @@ import java.util.ArrayList;
 public class SearchHint {
 
     private String title;
-    private ArrayList<String> hintsList;
+    private ArrayList<Object> hintsList;
 
-    public SearchHint(String title, ArrayList<String> hintsList) {
+    public SearchHint(String title, ArrayList<Object> hintsList) {
         this.title = title;
         this.hintsList = hintsList;
+    }
+
+    public SearchHint(String title, Object hintsList) {
+        this.title = title;
+        this.hintsList = (ArrayList<Object>) hintsList;
     }
 
     public String getTitle() {
@@ -24,11 +29,11 @@ public class SearchHint {
         this.title = title;
     }
 
-    public ArrayList<String> getHintsList() {
+    public ArrayList<Object> getHintsList() {
         return hintsList;
     }
 
-    public void setHintsList(ArrayList<String> hintsList) {
+    public void setHintsList(ArrayList<Object> hintsList) {
         this.hintsList = hintsList;
     }
 }

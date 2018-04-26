@@ -2,25 +2,29 @@ package com.pointters.model;
 
 import com.google.gson.internal.LinkedTreeMap;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.concurrent.LinkedTransferQueue;
 
 /**
  * Created by mac on 12/8/17.
  */
 
-public class LocationModel {
+public class LocationModel implements Serializable{
 
+    private String _id;
     private String city;
     private String country;
     private String postalCode;
     private String province;
     private String state;
-    private Object geoJson;
+    private GeoJsonModel geoJson;
 
+    public String FullAddress(){
+        return (getCity() != null ? getCity() + " " : "") + "" + (getPostalCode() != null ? getPostalCode() : "") + ", " + (getState() != null ? getState() : "") + ", " + (getCountry() != null ? getCountry() : "");
+    }
 
     public String getCity() { return city; }
 
@@ -43,18 +47,19 @@ public class LocationModel {
     public void setState(String state) { this.state = state; }
 
     public GeoJsonModel getGeoJson() {
-        GeoJsonModel result = new GeoJsonModel();
 
-        if (geoJson != null) {
-            if (((LinkedTreeMap) geoJson).get("coordinates") != null) {
-                result.setCoordinates((ArrayList<Double>) ((LinkedTreeMap) geoJson).get("coordinates"));
-            }
-        }
-
-        return result;
+        return geoJson;
     }
 
-    public void setGeoJson(Object geoJson) {
+    public void setGeoJson(GeoJsonModel geoJson) {
         this.geoJson = geoJson;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

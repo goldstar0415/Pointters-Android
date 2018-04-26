@@ -1,83 +1,85 @@
 package com.pointters.activity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
-import com.pointters.model.BecomeASellerActivityDetails;
-import com.pointters.model.ChatServiceDetails;
+import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.model.response.GetSellerEligibilityResponse;
+import com.pointters.model.response.GetSendServicesResponse;
+import com.pointters.rest.ApiClient;
+import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AppUtils;
-import com.pointters.utils.DividerItemDecorationVer;
+import com.pointters.utils.CallLoginApiIfFails;
+import com.pointters.utils.ConstantUtils;
 
-import java.util.ArrayList;
-
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.pointters.R.id.view;
 
+public class BecomeASellerActivity extends AppCompatActivity implements View.OnClickListener, OnApiFailDueToSessionListener {
 
-public class BecomeASellerActivity extends AppCompatActivity implements View.OnClickListener {
-    RecyclerView recyclerView;
-    SellerAdapter sellerAdapter;
-    ArrayList<BecomeASellerActivityDetails> becomeASellerActivityDetailsArrayList=new ArrayList<>();
+    LinearLayout btnAddService;
+    LinearLayout btnPaymentSetup;
+    LinearLayout btnBackgroundCheck;
+    LinearLayout btnBusinessVerification;
+    private KProgressHUD loader;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    private String paymentSetupStatus;
+    private Integer numServices;
+    private String backgroundCheckStatus;
+
+    private TextView txtPaymentSetupStatus, txtNumServices, txtBackgroundCheckStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_become_aseller);
-        init();
+        sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         AppUtils.setToolBarWithBothIcon(BecomeASellerActivity.this, getResources().getString(R.string.become_a_seller),
-                R.drawable.back_icon_grey, 0);
-
-        BecomeASellerActivityDetails becomeASellerActivityDetails1=new BecomeASellerActivityDetails();
-        becomeASellerActivityDetails1.setSellerHeading("Add Service");
-        becomeASellerActivityDetails1.setSellerSubHeading("Status: 0 Added");
-        becomeASellerActivityDetailsArrayList.add(becomeASellerActivityDetails1);
-
-
-        BecomeASellerActivityDetails becomeASellerActivityDetails2=new BecomeASellerActivityDetails();
-        becomeASellerActivityDetails2.setSellerHeading("Payment Setup");
-        becomeASellerActivityDetails2.setSellerSubHeading("Status: No payment method added yet");
-        becomeASellerActivityDetailsArrayList.add(becomeASellerActivityDetails2);
-
-
-        BecomeASellerActivityDetails becomeASellerActivityDetails3=new BecomeASellerActivityDetails();
-        becomeASellerActivityDetails3.setSellerHeading("Background Check");
-        becomeASellerActivityDetails3.setSellerSubHeading("Status: Not Started");
-        becomeASellerActivityDetails3.setSellerSubHeading1("Required for local service at your store location");
-        becomeASellerActivityDetailsArrayList.add(becomeASellerActivityDetails3);
-
-        BecomeASellerActivityDetails becomeASellerActivityDetails4=new BecomeASellerActivityDetails();
-        becomeASellerActivityDetails4.setSellerHeading("Business Verification");
-        becomeASellerActivityDetails4.setSellerSubHeading("Status: Not Started");
-        becomeASellerActivityDetails4.setSellerSubHeading1("Required for local service at your store location");
-        becomeASellerActivityDetailsArrayList.add(becomeASellerActivityDetails4);
-
+                R.drawable.back_icon, 0);
+        init();
     }
 
 
  //=============================Ui================================================================
     public void init(){
+        loader = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
 
-        recyclerView= (RecyclerView) findViewById(R.id.mBecomeSellerRecyclerView);
-        LinearLayoutManager layoutManager2 =new LinearLayoutManager(BecomeASellerActivity.this, LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager2);
-        sellerAdapter=new SellerAdapter(BecomeASellerActivity.this,becomeASellerActivityDetailsArrayList);
-        recyclerView.setAdapter(sellerAdapter);
+        btnAddService = (LinearLayout) findViewById(R.id.btn_addService);
+        btnPaymentSetup = (LinearLayout) findViewById(R.id.btn_paymentSetup);
+        btnBackgroundCheck = (LinearLayout) findViewById(R.id.btn_backgroundCheck);
+        btnBusinessVerification = (LinearLayout) findViewById(R.id.btn_businessVerification);
 
-        DividerItemDecorationVer divider2 = new DividerItemDecorationVer(ContextCompat.getDrawable(this, R.drawable.divider_option));
-        recyclerView.addItemDecoration(divider2);
+        btnAddService.setOnClickListener(this);
+        btnPaymentSetup.setOnClickListener(this);
+        btnBackgroundCheck.setOnClickListener(this);
+        btnBusinessVerification.setOnClickListener(this);
+
+        txtBackgroundCheckStatus = (TextView) findViewById(R.id.txt_status_backgroud_check);
+        txtNumServices = (TextView) findViewById(R.id.txt_num_services);
+        txtPaymentSetupStatus = (TextView) findViewById(R.id.txt_status_payment_setup);
+        loader.show();
+        getSellerEligibility();
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -91,63 +93,66 @@ public class BecomeASellerActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
                 break;
 
+            case R.id.btn_addService:
+
+                break;
+
+            case R.id.btn_paymentSetup:
+
+                break;
+
+            case R.id.btn_backgroundCheck:
+
+                break;
+
+            case R.id.btn_businessVerification:
+
+                break;
+
         }
     }
 
-//=======================Become A Seller Adapter==================================================
+    private void getSellerEligibility() {
 
-  public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.MyViewHolder>{
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<GetSellerEligibilityResponse> getSellerEligibilityResponseCall = apiService.getUserSellerEleigibility(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
+        getSellerEligibilityResponseCall.enqueue(new Callback<GetSellerEligibilityResponse>() {
+            @Override
+            public void onResponse(Call<GetSellerEligibilityResponse> call, Response<GetSellerEligibilityResponse> response) {
+                if (loader.isShowing()) {
+                    loader.dismiss();
+                }
 
-      private ArrayList<BecomeASellerActivityDetails> seller_options;
-      private Context context;
+                if(response.code() == 200 && response.body() != null) {
+                    paymentSetupStatus = response.body().getPaymentSetupStatus();
+                    numServices = response.body().getNumServices();
+                    backgroundCheckStatus = response.body().getBackgroundCheckStatus();
+                    txtBackgroundCheckStatus.setText("Status: "+paymentSetupStatus);
+                    txtNumServices.setText(String.valueOf("Status: "+numServices+" Added"));
+                    txtBackgroundCheckStatus.setText("Status: "+backgroundCheckStatus);
+                }
+                else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(BecomeASellerActivity.this, "callGetSendServicesApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(BecomeASellerActivity.this);
+                }
+                else if (response.code() == 404) {
+                    txtBackgroundCheckStatus.setText("NA");
+                    txtNumServices.setText(String.valueOf("NA"));
+                    txtBackgroundCheckStatus.setText("NA");
+                }
+            }
 
-      public SellerAdapter(Context context, ArrayList<BecomeASellerActivityDetails> seller_options) {
-          this.context = context;
-          this.seller_options = seller_options;
-
-      }
-
-
-      @Override
-      public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-          View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.become_seller_item, parent, false);
-          return new MyViewHolder(view);
-      }
-
-      @Override
-      public void onBindViewHolder(MyViewHolder holder, int position) {
-            if(seller_options.get(position).getSellerHeading()!=null)
-          holder.seller_heading.setText(seller_options.get(position).getSellerHeading());
-          else holder.seller_heading.setVisibility(View.GONE);
-          if(seller_options.get(position).getSellerSubHeading()!=null)
-          holder.seller_subHeading.setText(seller_options.get(position).getSellerSubHeading());
-          else holder.seller_subHeading.setVisibility(View.GONE);
-          if(seller_options.get(position).getSellerSubHeading1()!=null)
-          holder.seller_subHeading1.setText(seller_options.get(position).getSellerSubHeading1());
-          else holder.seller_subHeading1.setVisibility(View.GONE);
-
-
-      }
-
-      @Override
-      public int getItemCount() {
-          return seller_options.size();
-      }
-
-      public class MyViewHolder extends RecyclerView.ViewHolder {
-
-          TextView seller_heading,seller_subHeading,seller_subHeading1;
-
-          public MyViewHolder(View itemView) {
-              super(itemView);
-
-              seller_heading= (TextView) itemView.findViewById(R.id.mAddService);
-              seller_subHeading= (TextView) itemView.findViewById(R.id.mStatus);
-              seller_subHeading1= (TextView) itemView.findViewById(R.id.subheading2);
-          }
-      }
-  }
+            @Override
+            public void onFailure(Call<GetSellerEligibilityResponse> call, Throwable t) {
+                if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(BecomeASellerActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
+    @Override
+    public void onApiFail(String apiSource) {
 
+    }
 }

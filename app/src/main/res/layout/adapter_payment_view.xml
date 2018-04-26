@@ -1,336 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <ImageView
+        android:id="@+id/img_payment"
+        android:layout_width="@dimen/_48sdp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_paypal"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/_10sdp"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_4sdp"
-        android:background="@drawable/bg_service"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/img_payment"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/txt_title"
+            fontPath="fonts/Montserrat-Medium.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paypal"
+            android:textColor="@color/card_title_text_color"
+            android:textSize="@dimen/text_size_small"
+            tools:ignore="MissingPrefix" />
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_2sdp">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_70sdp">
-
-                <ImageView
-                    android:id="@+id/mCardImg"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_30sdp"
-android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:src="@drawable/paypal" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/mCardImg"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@color/colorAccent">
-
-                    <TextView
-                        android:id="@+id/mPaymentCardName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toLeftOf="@+id/mPaymentImg"
-                        android:text="Default"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_mini_tiny" />
-
-                    <ImageView
-                        android:id="@+id/mPaymentImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:src="@drawable/edit_icon_white" />
-
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:background="@drawable/payment_bg"
-            app:cardCornerRadius="@dimen/_2sdp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/mCardImg1"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_centerHorizontal="true"
-
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:src="@drawable/apple_pay" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/mCardImg1"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@color/colorAccent">
-
-                    <TextView
-                        android:id="@+id/mPaymentCardName1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toLeftOf="@+id/mPaymentImg1"
-                        android:text=" Set Default"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_mini_tiny" />
-
-                    <ImageView
-                        android:id="@+id/mPaymentImg1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:src="@drawable/edit_icon_white" />
-
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_2sdp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/mCardImg2"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_centerHorizontal="true"
-
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:src="@drawable/android_pay" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/mCardImg2"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@color/colorAccent">
-
-                    <TextView
-                        android:id="@+id/mPaymentCardName2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toLeftOf="@+id/mPaymentImg2"
-                        android:text=" Set Default"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_mini_tiny" />
-
-                    <ImageView
-                        android:id="@+id/mPaymentImg2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:src="@drawable/edit_icon_white" />
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/txt_subtitle"
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="user@email.com\nsfaefasefasef"
+            android:textColor="@color/text_color_dark_gray"
+            android:textSize="@dimen/text_size_tiny"
+            android:lines="1"
+            tools:ignore="MissingPrefix" />
 
 
     </LinearLayout>
 
-    <!-- Extra View Need to Remove After Api-->
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/right_icon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_4sdp"
-        android:background="@drawable/bg_service"
-        android:orientation="horizontal">
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/right_arrow_icon"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/_10sdp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fix_0.5dp"
+        android:background="@drawable/divider_option"
+        android:layout_below="@+id/img_payment"
+        android:layout_marginTop="@dimen/_10sdp"/>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_2sdp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp">
-
-                <ImageView
-                    android:id="@+id/img_visa"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:src="@drawable/visa" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/img_visa"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@color/colorAccent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toLeftOf="@+id/img_edit"
-                        android:text="Default"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_mini_tiny" />
-
-                    <ImageView
-                        android:id="@+id/img_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:src="@drawable/edit_icon_white" />
-
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:background="@drawable/payment_bg"
-            app:cardCornerRadius="@dimen/_2sdp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/img_master_card"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:src="@drawable/mastercard" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/img_master_card"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@color/colorAccent">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toLeftOf="@+id/img_master_card_edit"
-                        android:text=" Set Default"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_mini_tiny" />
-
-                    <ImageView
-                        android:id="@+id/img_master_card_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:src="@drawable/edit_icon_white" />
-
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_weight="1">
-
-
-        </RelativeLayout>
-
-
-    </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

@@ -5,15 +5,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.SellJobsModel;
+import com.pointters.utils.SquareImageView;
 
+import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,84 +56,84 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
                 .considerExifParams(true)
                 .build();
 
-        if (position == 0) {
-            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp),(int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
-            holder.layoutParent.setLayoutParams(holder.layoutParams);
-        }
-        if (sellJobsList != null && sellJobsList.size() > 0) {
-            if (sellJobsList.get(position).getRequestOffers() != null) {
-                if (sellJobsList.get(position).getRequestOffers().getRequest() != null) {
-                    if (sellJobsList.get(position).getRequestOffers().getRequest().getMedia() != null) {
-                        if (sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName() != null && !sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName().isEmpty()) {
-                            String strPic = sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName();
-                            if (!strPic.contains("https://s3.amazonaws.com")) {
-                                strPic = "https://s3.amazonaws.com" + strPic;
-                            }
-                            ImageLoader.getInstance().displayImage(strPic, holder.imgProfile, options);
-                        }
-                    }
-
-                    if (sellJobsList.get(position).getRequestOffers().getRequest().getDescription() != null && !sellJobsList.get(position).getRequestOffers().getRequest().getDescription().isEmpty())
-                        holder.txtJobsDesc.setText(sellJobsList.get(position).getRequestOffers().getRequest().getDescription());
-                    else
-                        holder.txtJobsDesc.setText("NA");
-
-                    if (sellJobsList.get(position).getRequestOffers().getRequest().getCreatedAt() != null) {
-                        TimeZone tz = TimeZone.getTimeZone("UTC");
-                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                        df.setTimeZone(tz);
-
-                        SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy  hh:mm a");
-                        try {
-                            holder.txtCreateddate.setText("Posted on " + String.valueOf(fmtOut.format(df.parse(String.valueOf(sellJobsList.get(position).getRequestOffers().getRequest().getCreatedAt())))));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    } else
-                        holder.txtCreateddate.setText("NA");
-                }
-
-                if (sellJobsList.get(position).getRequestOffers().getRequester() != null) {
-                    if (sellJobsList.get(position).getRequestOffers().getRequester().getLow() != null && sellJobsList.get(position).getRequestOffers().getRequester().getHigh() != null) {
-                        holder.txtPriceRange.setText("Price range: $" + sellJobsList.get(position).getRequestOffers().getRequester().getLow() + "-" + sellJobsList.get(position).getRequestOffers().getRequester().getHigh());
-                    } else
-                        holder.txtPriceRange.setText("Price range: NA");
-                }
-
-                if (sellJobsList.get(position).getRequestOffers().getCreatedAt() != null) {
-                    TimeZone tz = TimeZone.getTimeZone("UTC");
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                    df.setTimeZone(tz);
-
-                    long offer_time = 0;
-                    try {
-                        offer_time = df.parse(sellJobsList.get(position).getRequestOffers().getCreatedAt()).getTime();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    String strDuration = getDateDuration(offer_time);
-
-                    holder.txtOfferDuration.setText("You sent an offer " + strDuration + " ago");
-                } else
-                    holder.txtOfferDuration.setText("");
-
-
-                if (sellJobsList.get(position).getRequestOffers().getNumOffers() != null && sellJobsList.get(position).getRequestOffers().getNumOffers() > 0) {
-                    holder.txtSellerCnt.setText(sellJobsList.get(position).getRequestOffers().getNumOffers() + " other sellers sent offers");
-                } else
-                    holder.txtSellerCnt.setText("0 other sellers sent offers");
-
-                if (sellJobsList.get(position).getRequestOffers().getExpiresIn() != null) {
-                    if (sellJobsList.get(position).getRequestOffers().getExpiresIn() < 0) {
-                        holder.txtValidity.setText("Expired");
-                    } else {
-                        holder.txtValidity.setText("Expires in " + sellJobsList.get(position).getRequestOffers().getExpiresIn() + " days");
-                    }
-                }
-                else
-                    holder.txtValidity.setText("Expires in NA days");
-            }
-        }
+//        if (position == 0) {
+//            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp),(int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
+//            holder.layoutParent.setLayoutParams(holder.layoutParams);
+//        }
+//        if (sellJobsList != null && sellJobsList.size() > 0) {
+//            if (sellJobsList.get(position).getRequestOffers() != null) {
+//                if (sellJobsList.get(position).getRequestOffers().getRequest() != null) {
+//                    if (sellJobsList.get(position).getRequestOffers().getRequest().getMedia() != null) {
+//                        if (sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName() != null && !sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName().isEmpty()) {
+//                            String strPic = sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName();
+//                            if (!strPic.contains("https://s3.amazonaws.com")) {
+//                                strPic = "https://s3.amazonaws.com" + strPic;
+//                            }
+//                            ImageLoader.getInstance().displayImage(strPic, holder.imgProfile, options);
+//                        }
+//                    }
+//
+//                    if (sellJobsList.get(position).getRequestOffers().getRequest().getDescription() != null && !sellJobsList.get(position).getRequestOffers().getRequest().getDescription().isEmpty())
+//                        holder.txtJobsDesc.setText(sellJobsList.get(position).getRequestOffers().getRequest().getDescription());
+//                    else
+//                        holder.txtJobsDesc.setText("NA");
+//
+//                    if (sellJobsList.get(position).getRequestOffers().getRequest().getCreatedAt() != null) {
+//                        TimeZone tz = TimeZone.getTimeZone("UTC");
+//                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//                        df.setTimeZone(tz);
+//
+//                        SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy  hh:mm a");
+//                        try {
+//                            holder.txtCreateddate.setText("Posted on " + String.valueOf(fmtOut.format(df.parse(String.valueOf(sellJobsList.get(position).getRequestOffers().getRequest().getCreatedAt())))));
+//                        } catch (ParseException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else
+//                        holder.txtCreateddate.setText("NA");
+//                }
+//
+//                if (sellJobsList.get(position).getRequestOffers().getRequester() != null) {
+//                    if (sellJobsList.get(position).getRequestOffers().getRequester().getLow() != null && sellJobsList.get(position).getRequestOffers().getRequester().getHigh() != null) {
+//                        holder.txtPriceRange.setText("Price range: $" + sellJobsList.get(position).getRequestOffers().getRequester().getLow() + "-" + sellJobsList.get(position).getRequestOffers().getRequester().getHigh());
+//                    } else
+//                        holder.txtPriceRange.setText("Price range: NA");
+//                }
+//
+//                if (sellJobsList.get(position).getRequestOffers().getCreatedAt() != null) {
+//                    TimeZone tz = TimeZone.getTimeZone("UTC");
+//                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//                    df.setTimeZone(tz);
+//
+//                    long offer_time = 0;
+//                    try {
+//                        offer_time = df.parse(sellJobsList.get(position).getRequestOffers().getCreatedAt()).getTime();
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//                    String strDuration = getDateDuration(offer_time);
+//
+//                    holder.txtOfferDuration.setText("You sent an offer " + strDuration + " ago");
+//                } else
+//                    holder.txtOfferDuration.setText("");
+//
+//
+//                if (sellJobsList.get(position).getRequestOffers().getNumOffers() != null && sellJobsList.get(position).getRequestOffers().getNumOffers() > 0) {
+//                    holder.txtSellerCnt.setText(sellJobsList.get(position).getRequestOffers().getNumOffers() + " other sellers sent offers");
+//                } else
+//                    holder.txtSellerCnt.setText("0 other sellers sent offers");
+//
+//                if (sellJobsList.get(position).getRequestOffers().getExpiresIn() != null) {
+//                    if (sellJobsList.get(position).getRequestOffers().getExpiresIn() < 0) {
+//                        holder.txtValidity.setText("Expired");
+//                    } else {
+//                        holder.txtValidity.setText("Expires in " + sellJobsList.get(position).getRequestOffers().getExpiresIn() + " days");
+//                    }
+//                }
+//                else
+//                    holder.txtValidity.setText("Expires in NA days");
+//            }
+//        }
     }
 
     @Override
@@ -136,24 +142,32 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgProfile;
-        private TextView txtJobsDesc,txtOfferDuration,txtSellerCnt,txtPriceRange,txtCreateddate,txtValidity;
-        private RelativeLayout layoutParent;
-        private RelativeLayout.LayoutParams layoutParams;
+        private LinearLayout layoutParent;
+        private SquareImageView imgMedia;
+        private TextView txtcreatedAt;
+        private TextView txtjobDescription, txtNumOffers, txtpriceRange, txtexpiresDate;
+        private Button makeOfferButton, editOfferButton;
+        private WeakReference<OnRecyclerViewButtonClickListener> listenerRef;
+
+
         public MyViewHolder(View itemView) {
             super(itemView);
-            layoutParent=(RelativeLayout)itemView.findViewById(R.id.layout_parent);
-            layoutParams=( RelativeLayout.LayoutParams)layoutParent.getLayoutParams();
+//            listenerRef = new WeakReference<>(listener);
 
-            imgProfile=(ImageView)itemView.findViewById(R.id.img_service_provider);
-            txtJobsDesc=(TextView)itemView.findViewById(R.id.txt_offer_name);
-            txtCreateddate=(TextView)itemView.findViewById(R.id.txt_offer_created_date);
-            txtOfferDuration=(TextView)itemView.findViewById(R.id.txt_left_portion);
-            txtSellerCnt=(TextView)itemView.findViewById(R.id.img_notification_num);
+            imgMedia=(SquareImageView)itemView.findViewById(R.id.img_media);
+            txtcreatedAt = (TextView) itemView.findViewById(R.id.txt_created_date);
+            txtjobDescription = (TextView) itemView.findViewById(R.id.txt_description);
+            txtNumOffers = (TextView) itemView.findViewById(R.id.txt_order_num);
+            txtpriceRange = (TextView) itemView.findViewById(R.id.txt_price_range);
+            txtexpiresDate = (TextView) itemView.findViewById(R.id.txt_expires_date);
 
-            txtPriceRange=(TextView)itemView.findViewById(R.id.txt_price_range);
-            txtValidity=(TextView)itemView.findViewById(R.id.txt_validity);
+            makeOfferButton = (Button) itemView.findViewById(R.id.btn_make_offer);
+            editOfferButton = (Button) itemView.findViewById(R.id.btn_edit_offer);
+
+            layoutParent=(LinearLayout)itemView.findViewById(R.id.move_to_service_detail);
+//            layoutParent.setOnClickListener(this);
         }
+
     }
 
     private String getDateDuration(long originTime) {

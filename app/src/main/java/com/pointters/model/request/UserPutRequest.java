@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 
 public class UserPutRequest {
+
     private String companyName;
     private String description;
     private String firstName;
@@ -24,13 +25,15 @@ public class UserPutRequest {
     private Boolean completedRegistration;
     private String completedRegistrationDate;
 
+
+    public UserPutRequest() {}
+
     public UserPutRequest(String companyName, String description, String firstName, String lastName, LocationRequestModel location, String phone, String profilePic, String education, String insurance, String license, String awards, ArrayList<Media> profileBackgroundMedia, Boolean completedRegistration, String completedRegistrationDate) {
         if(!companyName.isEmpty())
-        this.companyName = companyName;
+            this.companyName = companyName;
 
         if (!description.isEmpty())
-        this.description = description;
-
+            this.description = description;
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,59 +42,49 @@ public class UserPutRequest {
         if (!phone.isEmpty())
             this.phone = phone;
 
-
         this.profilePic = profilePic;
 
         if (!education.isEmpty())
-        this.education = education;
+            this.education = education;
 
         if (!insurance.isEmpty())
-        this.insurance = insurance;
+            this.insurance = insurance;
 
         if (!license.isEmpty())
-        this.license = license;
+            this.license = license;
 
         if (!awards.isEmpty())
-        this.awards = awards;
-
+            this.awards = awards;
 
         this.profileBackgroundMedia = profileBackgroundMedia;
-
         this.completedRegistration = completedRegistration;
         this.completedRegistrationDate = completedRegistrationDate;
     }
 
-    /*public UserPutRequest(String companyName, String description, String firstName, String lastName, LocationRequestModel location, String phone, String profilePic, String education, String insurance, String license, String awards, Boolean completedRegistration, String completedRegistrationDate) {
-        if(!companyName.isEmpty())
-        this.companyName = companyName;
-
-       if (!description.isEmpty())
-        this.description = description;
+    public UserPutRequest(String firstName, String lastName, LocationRequestModel location, String profilePic, Boolean completedRegistration, String completedRegistrationDate) {
+            this.companyName = "";
+            this.description = "";
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.location = location;
 
-        if (!phone.isEmpty())
-            this.phone = phone;
+            this.phone = "";
 
         this.profilePic = profilePic;
 
-        if (!education.isEmpty())
-        this.education = education;
+            this.education = "";
 
-        if (!insurance.isEmpty())
-        this.insurance = insurance;
+            this.insurance = "";
 
-        if (!license.isEmpty())
-        this.license = license;
+            this.license = "";
 
-        if (!awards.isEmpty())
-        this.awards = awards;
+            this.awards = "";
 
+        this.profileBackgroundMedia = new ArrayList<>();
         this.completedRegistration = completedRegistration;
         this.completedRegistrationDate = completedRegistrationDate;
-    }*/
+    }
 
     public String getCompanyName() {
         return companyName;

@@ -8,60 +8,53 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
+import com.pointters.model.GeoJsonModel;
 import com.pointters.model.ServicesModel;
 import com.pointters.utils.AndroidUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
 public class ProfileServicesAdapter extends RecyclerView.Adapter<ProfileServicesAdapter.MyViewHolder> {
+
     private Context context;
     private ArrayList<ServicesModel> serviceArrayList;
-
-    private String profileUrl,name;
-    private Location location=null;
-    private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
-
-    public ProfileServicesAdapter(Context context, ArrayList<ServicesModel> serviceArrayList, String profileUrl, String name, Location location, OnRecyclerViewItemClickListener onRecyclerViewItemClickListener) {
-        this.context = context;
-        this.serviceArrayList = serviceArrayList;
-        this.profileUrl = profileUrl;
-        this.name = name;
-        this.location = location;
-        this.onRecyclerViewItemClickListener = onRecyclerViewItemClickListener;
-    }
+    private String userName;
+    private double userLat;
+    private double userLng;
+    private OnRecyclerViewButtonClickListener listener;
 
     public ProfileServicesAdapter(Context context, ArrayList<ServicesModel> serviceArrayList) {
         this.context = context;
         this.serviceArrayList = serviceArrayList;
     }
 
+    public ProfileServicesAdapter(Context context, ArrayList<ServicesModel> serviceArrayList, double lat, double lng, String userName, OnRecyclerViewButtonClickListener listener) {
+        this.context = context;
+        this.serviceArrayList = serviceArrayList;
+        this.userName = userName;
+        this.userLat = lat;
+        this.userLng = lng;
+        this.listener = listener;
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_service, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_service_card, parent, false);
         return new ProfileServicesAdapter.MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-     /*   if (position == 0) {
-            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp), (int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
-            holder.moveToServiceScreeen.setLayoutParams(holder.layoutParams);
-        }
-*/
-
-     holder.moveToServiceScreeen.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             onRecyclerViewItemClickListener.onItemClick(position);
-         }
-     });
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.photo_placeholder)
                 .showImageForEmptyUri(R.drawable.photo_placeholder)
@@ -71,86 +64,126 @@ public class ProfileServicesAdapter extends RecyclerView.Adapter<ProfileServices
                 .considerExifParams(true)
                 .build();
 
-        if ( serviceArrayList.get(position).getService() != null) {
-
-            if(profileUrl!=null && !profileUrl.isEmpty())
-            {
-
-
-                    String profile;
-                    if (profileUrl.startsWith("https://s3.amazonaws.com")) {
-                        profile = profileUrl;
-                    } else {
-                        profile = "https://s3.amazonaws.com" +profileUrl;
+        if (serviceArrayList.get(position).getService() != null) {
+            if (serviceArrayList.get(position).getService().getMedia() != null) {
+                if (serviceArrayList.get(position).getService().getMedia().getFileName() != null && !serviceArrayList.get(position).getService().getMedia().getFileName().isEmpty()) {
+                    String strPic = serviceArrayList.get(position).getService().getMedia().getFileName();
+                    if (!strPic.contains("https://s3.amazonaws.com")) {
+//                        strPic = "https://s3.amazonaws.com" + strPic;
                     }
-
-                    ImageLoader.getInstance().displayImage(profile, holder.imgUser, options);
-
-            }
-
-
-
-                holder.txtPromated.setVisibility(View.GONE);
-
-            if (name!=null && !name.isEmpty())
-                holder.txtName.setText(name);
-            else
-                holder.txtName.setText("NA");
-
-            if (!serviceArrayList.get(position).getService().getDescription().isEmpty())
-                holder.txtServiceDesc.setText(serviceArrayList.get(position).getService().getDescription());
-            else
-                holder.txtServiceDesc.setText("NA");
-
-            if(serviceArrayList.get(position).getService().getPrices()!=null) {
-
-                if (!serviceArrayList.get(position).getService().getPrices().getDescription().isEmpty())
-                    holder.txtPriceDesc.setText("For "+serviceArrayList.get(position).getService().getPrices().getDescription());
-                else
-                    holder.txtPriceDesc.setText("NA");
-
-                if (!String.valueOf(serviceArrayList.get(position).getService().getPrices().getPrice()).isEmpty())
-                    holder.txtServicePrice.setText("$"+String.valueOf(serviceArrayList.get(position).getService().getPrices().getPrice()));
-                else
-                    holder.txtServicePrice.setText("NA");
-
-                if(serviceArrayList.get(position).getService().getPrices().getPriceWithoutDiscount()!=null)
-                    holder.txtServiceActualPrice.setText(String.valueOf(serviceArrayList.get(position).getService().getPrices().getPriceWithoutDiscount()));
-                else
-                    holder.txtServiceActualPrice.setVisibility(View.GONE);
-            }
-
-            if (!String.valueOf(serviceArrayList.get(position).getPointValue()).isEmpty())
-                holder.txtFlag.setText(String.valueOf(serviceArrayList.get(position).getPointValue()));
-            else
-                holder.txtFlag.setText("NA");
-
-            if (!String.valueOf(serviceArrayList.get(position).getNumOrders()).isEmpty())
-                holder.txtTick.setText(String.valueOf(serviceArrayList.get(position).getNumOrders()));
-            else
-                holder.txtTick.setText("NA");
-
-            if (!String.valueOf(serviceArrayList.get(position).getAvgRating()).isEmpty())
-                holder.txtTime.setText(String.valueOf(serviceArrayList.get(position).getAvgRating()));
-            else
-                holder.txtTime.setText("NA");
-
-            if(serviceArrayList.get(position).getService().getLocation()!=null)
-            { if(!serviceArrayList.get(position).getService().getLocation().get(0).getCity().isEmpty() && !serviceArrayList.get(position).getService().getLocation().get(0).getCountry().isEmpty() )
-                holder.txtAddress.setText(serviceArrayList.get(position).getService().getLocation().get(0).getCity()+", "+serviceArrayList.get(position).getService().getLocation().get(0).getCountry());
-            else
-                holder.txtAddress.setText("NA");
-
-                if(serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson()!=null && !serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().isEmpty()){
-                    if(location!=null)
-                    {
-                        Double distance= AndroidUtils.getDistanceBwTwoLocation(location.getLatitude(),location.getLongitude(),serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().get(1),serviceArrayList.get(position).getService().getLocation().get(0).getGeoJson().getCoordinates().get(0));
-                        if(distance!=null)
-                            //  Math.round(distance);
-                            holder.txtDistance.setText(String.valueOf( Math.round(distance) +" Km"));
-                    }else
-                        holder.txtDistance.setText("NA");
+                    ImageLoader.getInstance().displayImage(strPic, holder.imgUser, options);
                 }
+            }
+
+            if (serviceArrayList.get(position).getService().getDescription() != null && !serviceArrayList.get(position).getService().getDescription().isEmpty()) {
+                holder.txtServiceDesc.setText(serviceArrayList.get(position).getService().getDescription());
+            } else {
+                holder.txtServiceDesc.setText("NA");
+            }
+
+            if (serviceArrayList.get(position).getService().getPromoted() != null && serviceArrayList.get(position).getService().getPromoted()) {
+                holder.txtPromated.setVisibility(View.VISIBLE);
+            } else {
+                holder.txtPromated.setVisibility(View.GONE);
+            }
+
+            if (serviceArrayList.get(position).getService().getPrices() != null) {
+                String strSymbol = "$";
+                if (serviceArrayList.get(position).getService().getPrices().getCurrencySymbol() != null && !serviceArrayList.get(position).getService().getPrices().getCurrencySymbol().isEmpty()) {
+                    strSymbol = serviceArrayList.get(position).getService().getPrices().getCurrencySymbol();
+                }
+                int valPrice = 0;
+                if (serviceArrayList.get(position).getService().getPrices().getPrice() != null && serviceArrayList.get(position).getService().getPrices().getPrice() > 0) {
+                    valPrice = serviceArrayList.get(position).getService().getPrices().getPrice();
+                }
+                holder.txtServicePrice.setText(strSymbol + String.valueOf(valPrice));
+
+                int valPriceDiscount = 0;
+                if (serviceArrayList.get(position).getService().getPrices().getPriceWithoutDiscount() != null && serviceArrayList.get(position).getService().getPrices().getPriceWithoutDiscount() > 0) {
+                    valPriceDiscount = serviceArrayList.get(position).getService().getPrices().getPriceWithoutDiscount();
+                }
+
+                if (valPriceDiscount > 0) {
+//                    holder.txtServicePrice.setVisibility(View.VISIBLE);
+                    holder.txtServicePrice.setText(strSymbol + String.valueOf(valPriceDiscount));
+                } else {
+//                    holder.txtServicePrice.setVisibility(View.GONE);
+                }
+
+                int valTime = 0;
+                if (serviceArrayList.get(position).getService().getPrices().getTime() != null && serviceArrayList.get(position).getService().getPrices().getTime() > 0) {
+                    valTime = serviceArrayList.get(position).getService().getPrices().getTime();
+                }
+                String strUnit = "";
+                if (serviceArrayList.get(position).getService().getPrices().getTimeUnitOfMeasure() != null && !serviceArrayList.get(position).getService().getPrices().getTimeUnitOfMeasure().isEmpty()) {
+                    strUnit = serviceArrayList.get(position).getService().getPrices().getTimeUnitOfMeasure();
+                    if (strUnit.equals("hour")) {
+                        strUnit = "hr";
+                    }
+                }
+
+                if (valTime > 0) {
+                    holder.txtPriceDesc.setText("per " + String.valueOf(valTime) + " " + strUnit + "s");
+                } else {
+                    holder.txtPriceDesc.setText("per " + String.valueOf(valTime) + " " + strUnit);
+                }
+            }
+
+            if (userName != null && !userName.isEmpty()) {
+                holder.txtName.setText(userName);
+            } else {
+                holder.txtName.setText("NA");
+            }
+
+            int valPoint = 0;
+            if (serviceArrayList.get(position).getPointValue() != null && serviceArrayList.get(position).getPointValue() > 0) {
+                valPoint = serviceArrayList.get(position).getPointValue();
+            }
+            holder.txtFlag.setText(String.valueOf(valPoint));
+
+            int valOrders = 0;
+            if (serviceArrayList.get(position).getNumOrders() != null && serviceArrayList.get(position).getNumOrders() > 0) {
+                valOrders = serviceArrayList.get(position).getNumOrders();
+            }
+            holder.txtTick.setText(String.valueOf(valOrders));
+
+            float valRating = 0.0f;
+            if (serviceArrayList.get(position).getAvgRating() != null && serviceArrayList.get(position).getAvgRating() > 0) {
+                valRating = serviceArrayList.get(position).getAvgRating();
+            }
+            holder.txtTime.setText(String.valueOf(valRating) + "%");
+
+            if (serviceArrayList.get(position).getService().getLocation() != null) {
+                String strCity = "", strState = "", strPos="", strKm="NA";
+                if (serviceArrayList.get(position).getService().getLocation().getCity() != null && !serviceArrayList.get(position).getService().getLocation().getCity().equals(""))
+                    strCity = serviceArrayList.get(position).getService().getLocation().getCity();
+                if (serviceArrayList.get(position).getService().getLocation().getState() != null && !serviceArrayList.get(position).getService().getLocation().getState().equals(""))
+                    strState = serviceArrayList.get(position).getService().getLocation().getState();
+                if (serviceArrayList.get(position).getService().getLocation().getGeoJson() != null) {
+                    GeoJsonModel geoJson = serviceArrayList.get(position).getService().getLocation().getGeoJson();
+                    if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
+                        Location servicePos = new Location("");
+                        servicePos.setLatitude(geoJson.getCoordinates().get(1));
+                        servicePos.setLongitude(geoJson.getCoordinates().get(0));
+
+                        Location userPos = new Location("");
+                        userPos.setLatitude(userLat);
+                        userPos.setLongitude(userLng);
+
+                        strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
+                    }
+                }
+                holder.txtDistance.setText(strKm);
+
+                if (strCity.equals("")) {
+                    if (!strState.equals("")) {
+                        strPos = strState;
+                    }
+                } else {
+                    strPos = strCity + ", " + strState;
+                }
+
+                holder.txtAddress.setText(strPos);
             }
         }
     }
@@ -160,30 +193,36 @@ public class ProfileServicesAdapter extends RecyclerView.Adapter<ProfileServices
         return serviceArrayList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        private ConstraintLayout moveToServiceScreeen;
-        private ConstraintLayout.LayoutParams layoutParams;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private LinearLayout layoutParent;
         private ImageView imgUser;
-        private TextView txtServiceDesc,txtServicePrice,txtServiceActualPrice,txtPriceDesc,txtName,txtDistance,txtAddress,txtPromated,txtFlag,txtTick,txtTime;
+        private TextView txtServiceDesc,txtServicePrice,txtPriceDesc,txtName,txtDistance,txtAddress,txtFlag,txtTick,txtTime;
+        private LinearLayout txtPromated;
+        private WeakReference<OnRecyclerViewButtonClickListener> listenerRef;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            moveToServiceScreeen = (ConstraintLayout) itemView.findViewById(R.id.move_to_service_detail);
-            layoutParams = (ConstraintLayout.LayoutParams) moveToServiceScreeen.getLayoutParams();
+            listenerRef = new WeakReference<>(listener);
+
+            layoutParent=(LinearLayout)itemView.findViewById(R.id.move_to_service_detail);
             txtServiceDesc=(TextView)itemView.findViewById(R.id.txt_service_desc);
             txtServicePrice=(TextView)itemView.findViewById(R.id.txt_service_price);
-            txtServiceActualPrice=(TextView)itemView.findViewById(R.id.txt_service_actual_price);
             txtPriceDesc=(TextView)itemView.findViewById(R.id.txt_price_desc);
             txtName=(TextView)itemView.findViewById(R.id.txt_name);
-            txtDistance=(TextView)itemView.findViewById(R.id.txt_distance);
             txtAddress=(TextView)itemView.findViewById(R.id.txt_address);
-            txtPromated=(TextView)itemView.findViewById(R.id.txt_service_type);
+            txtDistance=(TextView)itemView.findViewById(R.id.txt_distance);
+            txtPromated=(LinearLayout)itemView.findViewById(R.id.ll_promoted);
             imgUser=(ImageView)itemView.findViewById(R.id.img_user);
             txtFlag=(TextView)itemView.findViewById(R.id.txt_flag);
             txtTick=(TextView)itemView.findViewById(R.id.txt_tick);
             txtTime=(TextView)itemView.findViewById(R.id.txt_time);
+            layoutParent.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View v) {
+            listenerRef.get().onButtonClick(v, getAdapterPosition());
         }
     }
-
 }

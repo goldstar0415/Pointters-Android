@@ -1,23 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_44sdp"
     android:background="@color/colorWhite">
 
+
+   <ImageView
+       android:id="@+id/icon_settings"
+       android:layout_width="@dimen/_44sdp"
+       android:layout_height="@dimen/_44sdp"
+       android:scaleType="center"
+       android:layout_marginStart="@dimen/_5sdp"
+       android:layout_centerVertical="true"
+       android:src="@drawable/icon_bell"
+       android:layout_marginLeft="@dimen/_5sdp" />
    <TextView
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:text="ffff"
        fontPath="fonts/Montserrat-Regular.ttf"
-       android:paddingTop="@dimen/_10sdp"
-       android:paddingLeft="@dimen/_16sdp"
-       android:paddingBottom="@dimen/_10sdp"
        android:id="@+id/mMenu_option"
-       android:textSize="@dimen/text_size_tiny"
+       android:textSize="@dimen/text_size_medium"
+       android:layout_centerVertical="true"
        android:textColor="#3A3A41"
-       tools:ignore="MissingPrefix" />
+       android:layout_marginStart="@dimen/_18sdp"
+       android:layout_toRightOf="@+id/icon_settings"
+       android:layout_toLeftOf="@+id/img_right_arrow"
+       tools:ignore="MissingPrefix"
+       android:layout_toEndOf="@+id/icon_settings"
+       android:layout_toStartOf="@+id/img_right_arrow"
+       android:layout_marginLeft="@dimen/_18sdp" />
 
-</LinearLayout>
+   <TextView
+       android:id="@+id/dot_view"
+       android:layout_width="wrap_content"
+       android:layout_height="@dimen/_18sdp"
+       android:paddingStart="@dimen/_7sdp"
+       android:paddingEnd="@dimen/_7sdp"
+       android:background="@drawable/drawbale_circle_orange"
+       android:gravity="center"
+       android:text="1"
+       android:layout_centerVertical="true"
+       android:textColor="@android:color/white"
+       android:textSize="@dimen/text_size_tiny"
+       android:layout_toLeftOf="@+id/img_right_arrow"
+       android:layout_toStartOf="@+id/img_right_arrow" />
+
+   <ImageView
+       android:id="@+id/img_right_arrow"
+       android:layout_width="@dimen/_44sdp"
+       android:layout_height="@dimen/_44sdp"
+       android:layout_centerVertical="true"
+       android:layout_alignParentEnd="true"
+       android:scaleType="center"
+       android:src="@drawable/right_arrow_icon"
+       android:layout_alignParentRight="true" />
+
+</RelativeLayout>

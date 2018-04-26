@@ -57,7 +57,7 @@ public class BuyFragment extends Fragment {
             buyViewPager.setCurrentItem(0);
         else if (sharedPreferences.getString(ConstantUtils.SELECTED_TAB, "").equals(getResources().getString(R.string.custom_offer)))
             buyViewPager.setCurrentItem(1);
-        else if (sharedPreferences.getString(ConstantUtils.SELECTED_TAB, "").equals(getResources().getString(R.string.live_offer_req)))
+        else if (sharedPreferences.getString(ConstantUtils.SELECTED_TAB, "").equals(getResources().getString(R.string.live_offer)))
             buyViewPager.setCurrentItem(2);
 
 
@@ -73,7 +73,7 @@ public class BuyFragment extends Fragment {
 
         exploreServiceAdapter.addFrag(buyOrdersFragment, "");
         exploreServiceAdapter.addFrag(customOffersFragment, getResources().getString(R.string.custom_offer));
-        exploreServiceAdapter.addFrag(liveOfferRequestFragment, getResources().getString(R.string.live_offer_req));
+        exploreServiceAdapter.addFrag(liveOfferRequestFragment, getResources().getString(R.string.live_offer));
         viewPager.setAdapter(exploreServiceAdapter);
         CustomTabLayout tabLayout = (CustomTabLayout) view.findViewById(R.id.tab_layout_buy);
         tabLayout.setupWithViewPager(viewPager);

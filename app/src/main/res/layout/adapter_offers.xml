@@ -1,256 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/_90sdp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:id="@+id/card_view"
+    android:layout_marginLeft="@dimen/_6sdp"
+    android:layout_marginRight="@dimen/_6sdp"
+    android:layout_marginBottom="@dimen/_8sdp"
+    app:cardCornerRadius="@dimen/_2sdp">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:layout_marginLeft="@dimen/_6sdp"
-        android:layout_marginRight="@dimen/_6sdp"
         android:background="@drawable/bg_service"
-        android:paddingTop="@dimen/_15sdp">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/_10sdp">
 
         <RelativeLayout
             android:id="@+id/upper_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="2">
 
 
-            <ImageView
+            <com.pointters.utils.SquareImageView
                 android:id="@+id/img_seller"
-                android:layout_width="@dimen/_62sdp"
-                android:layout_height="@dimen/_62sdp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/service_thumb_big" />
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignBottom="@+id/img_seller"
-                android:layout_alignTop="@+id/img_seller"
-                android:layout_marginRight="@dimen/_10sdp"
                 android:layout_toRightOf="@+id/img_seller"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/_8sdp">
+                android:paddingLeft="@dimen/_8sdp"
+                android:layout_alignBaseline="@+id/img_seller">
 
-                <RelativeLayout
-                    android:id="@+id/first_row"
+
+                <LinearLayout
+                    android:id="@+id/paid_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/img_call_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_call_small"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_5sdp"/>
+                    <ImageView
+                        android:id="@+id/img_chat_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/icon_chat_small"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_5sdp"/>
+
+
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_toLeftOf="@+id/paid_layout"
+                    android:layout_toStartOf="@+id/paid_layout">
 
                     <TextView
                         android:id="@+id/txt_service_desc"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
                         android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_toLeftOf="@+id/layout_communicate"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:text="Dalk walker service"
+                        android:includeFontPadding="false"
+                        android:maxLines="2"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        android:text="IT service lorem ipsum dummy text"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_small" />
-
+                        android:textSize="@dimen/text_size_small"
+                        android:layout_marginEnd="@dimen/_10sdp" />
                     <LinearLayout
-                        android:id="@id/layout_communicate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:orientation="horizontal">
+                        android:id="@+id/txt_price_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/img_call_btn"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:src="@drawable/call_icon_small" />
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical">
+                            <TextView
+                                android:id="@+id/txt_service_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$50"
+                                android:textColor="@color/color_black_info"
+                                android:textSize="@dimen/text_size_mini_tiny" />
 
-                        <ImageView
-                            android:id="@+id/img_chat_btn"
+                            <TextView
+                                android:id="@+id/txt_price_desc"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:text="Per 2 hr"
+                                android:textColor="@color/color_service_actual_price"
+                                android:textSize="@dimen/text_size_mini_tiny"
+                                tools:ignore="MissingPrefix"
+                                android:layout_marginStart="@dimen/_5sdp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/chat_icon_small" />
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/txt_sent_on"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                tools:ignore="MissingPrefix"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Offer sent on "
+                                android:textColor="@color/color_service_actual_price"
+                                android:textSize="@dimen/text_size_mini_tiny" />
+                            <TextView
+                                android:id="@+id/txt_service_posted_date"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:text="5/9/17 @ 5:20PM"
+                                android:textColor="@color/color_service_actual_price"
+                                android:textSize="@dimen/text_size_mini_tiny"
+                                tools:ignore="MissingPrefix" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/txt_by"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                tools:ignore="MissingPrefix"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Buyer: "
+                                android:textColor="@color/color_service_actual_price"
+                                android:textSize="@dimen/text_size_mini_tiny" />
+                            <TextView
+                                android:id="@+id/txt_seller_name"
+                                fontPath="fonts/Montserrat-Light.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:text="Jhons"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="@dimen/text_size_mini_tiny"
+                                tools:ignore="MissingPrefix" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
+                </LinearLayout>
 
-                </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/txt_price_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_below="@+id/txt_second_row"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/txt_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="$50"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/txt_actual_price"
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toRightOf="@+id/txt_price"
-                        android:text="$100"
-                        android:visibility="gone"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/color_service_actual_price"
-                        android:textSize="@dimen/text_size_small"
-                        tools:ignore="MissingPrefix" />
-
-                    <RelativeLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignBottom="@+id/txt_actual_price"
-                        android:layout_alignLeft="@+id/txt_actual_price"
-                        android:layout_alignRight="@+id/txt_actual_price"
-                        android:layout_alignTop="@+id/txt_actual_price">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerVertical="true"
-                            android:background="@color/color_service_actual_price" />
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/txt_price_desc"
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_3sdp"
-                        android:layout_toRightOf="@+id/txt_actual_price"
-                        android:text="for 2 hr"
-                        android:textColor="@color/color_service_actual_price"
-                        android:textSize="@dimen/text_size_small"
-                        android:includeFontPadding="false"
-                        tools:ignore="MissingPrefix" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/img_service_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_4sdp"
-                        android:src="@drawable/location_icon_grey" />
-
-                    <TextView
-                        android:id="@+id/txt_second_service_desc"
-                        fontPath="fonts/Montserrat-Light.ttf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/img_service_location"
-                        android:layout_centerVertical="true"
-                        android:text="I will walk dog"
-                        android:textColor="#9E9D9E"
-                        android:textSize="@dimen/text_size_tiny"
-                        tools:ignore="MissingPrefix" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/paid_of"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_weight="1"
-                    android:gravity="bottom">
-
-                    <TextView
-                        android:id="@+id/txt_offer_created_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        android:text="Offers sent on 05-11-2017 05:20 PM"
-                        android:textColor="#666666"
-                        android:textSize="@dimen/text_size_tiny" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
 
 
-        <RelativeLayout
-            android:id="@+id/divider_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fix_0.5dp"
-            android:layout_below="@+id/upper_view"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/bg_light_gray_divider" />
 
+    </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/divider_view">
-
-            <TextView
-                android:id="@+id/txt_by"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:text="Buyer: "
-                android:textSize="@dimen/text_size_tiny" />
-
-            <TextView
-                android:id="@+id/txt_seller_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/txt_by"
-                android:text="Jhons@Chixago,Il"
-                android:textColor="#31B8E3"
-                android:textSize="@dimen/text_size_tiny" />
-
-            <ImageView
-                android:id="@+id/img_curve"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/curve_btn_bg" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/img_curve"
-                android:layout_alignRight="@+id/img_curve"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_25sdp"
-                android:gravity="center"
-                android:text="@string/accept"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white" />
-
-
-        </RelativeLayout>
-
-
-    </RelativeLayout>
-</RelativeLayout>
+</android.support.v7.widget.CardView>

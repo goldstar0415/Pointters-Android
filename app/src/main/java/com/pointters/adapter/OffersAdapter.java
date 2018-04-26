@@ -1,21 +1,26 @@
 package com.pointters.adapter;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.SentOfferModel;
 
+import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,12 +36,14 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
     private double userLat;
     private double userLng;
     private List<SentOfferModel> sentOffersList;
+    private OnRecyclerViewButtonClickListener listener;
 
-    public OffersAdapter(Context context, List<SentOfferModel> sentOffersList, double lat, double lng) {
+    public OffersAdapter(Context context, List<SentOfferModel> sentOffersList, double lat, double lng, OnRecyclerViewButtonClickListener listener) {
         this.context = context;
         this.userLat = lat;
         this.userLng = lng;
         this.sentOffersList = sentOffersList;
+        this.listener = listener;
     }
 
     @Override
@@ -47,6 +54,8 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        /*
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.photo_placeholder)
                 .showImageForEmptyUri(R.drawable.photo_placeholder)
@@ -74,6 +83,12 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
                     holder.txtSellerName.setText(sentOffersList.get(position).getBuyer().getFirstName());
                 else
                     holder.txtSellerName.setText("");
+
+                if (sentOffersList.get(position).getBuyer().getPhone() != null && !sentOffersList.get(position).getBuyer().getPhone().isEmpty()) {
+                    holder.btnCall.setVisibility(View.VISIBLE);
+                } else {
+                    holder.btnCall.setVisibility(View.INVISIBLE);
+                }
             }
             if (sentOffersList.get(position).getServiceDescription() != null && !sentOffersList.get(position).getServiceDescription().isEmpty() ) {
                 holder.txtServiceDesc.setText(sentOffersList.get(position).getServiceDescription());
@@ -145,31 +160,53 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
                 holder.txtPosition.setText(strPos);
             }
         }
+        */
     }
 
     @Override
     public int getItemCount() {
-        return sentOffersList.size();
+//        return sentOffersList.size();
+        return 10;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgSeller;
-        private TextView txtServiceDesc,txtPosition,txtPrice,txtPriceDesc,txtCreateddate,txtSellerName;
-        private RelativeLayout layoutParent;
-        private RelativeLayout.LayoutParams layoutParams;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private ImageView imgSeller, btnChat, btnCall;
+        private TextView txtServiceDesc,txtPosition,txtPrice,txtPriceDesc,txtCreateddate,txtSellerName, btnAccept;
+        private LinearLayout layoutParent;
+        RelativeLayout layoutUpper;
+        private FrameLayout.LayoutParams layoutParams;
+        private WeakReference<OnRecyclerViewButtonClickListener> listenerRef;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            layoutParent=(RelativeLayout)itemView.findViewById(R.id.layout_parent);
-            layoutParams=( RelativeLayout.LayoutParams)layoutParent.getLayoutParams();
+            listenerRef = new WeakReference<>(listener);
 
-            imgSeller=(ImageView)itemView.findViewById(R.id.img_seller);
-            txtServiceDesc=(TextView)itemView.findViewById(R.id.txt_service_desc);
-            txtPosition=(TextView)itemView.findViewById(R.id.txt_second_service_desc);
-            txtPrice=(TextView)itemView.findViewById(R.id.txt_price);
-            txtPriceDesc=(TextView)itemView.findViewById(R.id.txt_price_desc);
-            txtCreateddate=(TextView)itemView.findViewById(R.id.txt_offer_created_date);
-            txtSellerName=(TextView)itemView.findViewById(R.id.txt_seller_name);
+            layoutParent = (LinearLayout) itemView.findViewById(R.id.layout_parent);
+            layoutParams = (FrameLayout.LayoutParams) layoutParent.getLayoutParams();
+
+            imgSeller = (ImageView) itemView.findViewById(R.id.img_seller);
+            txtServiceDesc = (TextView) itemView.findViewById(R.id.txt_service_desc);
+//            txtPosition = (TextView) itemView.findViewById(R.id.txt_second_service_desc);
+            txtPrice = (TextView) itemView.findViewById(R.id.txt_price);
+            txtPriceDesc = (TextView) itemView.findViewById(R.id.txt_price_desc);
+            txtCreateddate = (TextView) itemView.findViewById(R.id.txt_offer_created_date);
+
+            txtSellerName = (TextView) itemView.findViewById(R.id.txt_seller_name);
+            txtSellerName.setOnClickListener(this);
+
+            layoutUpper = (RelativeLayout) itemView.findViewById(R.id.upper_view);
+            layoutUpper.setOnClickListener(this);
+
+            btnChat = (ImageView) itemView.findViewById(R.id.img_chat_btn);
+            btnChat.setOnClickListener(this);
+
+            btnCall = (ImageView) itemView.findViewById(R.id.img_call_btn);
+            btnCall.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listenerRef.get().onButtonClick(v, getAdapterPosition());
         }
     }
 }

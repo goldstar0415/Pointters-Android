@@ -18,7 +18,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class CheckoutActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView payButton, txtCountService, txtCountAddOn;
     private ImageView imgAddService, imgAddon, imgMinusService, imgMinusAddOn;
-    private RelativeLayout changePaymentMethodRelativeLayout;
+    private RelativeLayout changePaymentMethodRelativeLayout, changeShippingAddressLayout;
     private int serviceCount = 1, addOnCount = 1;
 
     @Override
@@ -40,9 +40,11 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
 
         payButton = (TextView) findViewById(R.id.btn_pay);
         changePaymentMethodRelativeLayout = (RelativeLayout) findViewById(R.id.change_payment);
+        changeShippingAddressLayout = (RelativeLayout) findViewById(R.id.change_shipping_address);
         changePaymentMethodRelativeLayout.setOnClickListener(this);
+        changeShippingAddressLayout.setOnClickListener(this);
         payButton.setOnClickListener(this);
-        AppUtils.setToolBarWithBothIcon(CheckoutActivity.this, getResources().getString(R.string.checkout), R.drawable.back_icon_grey, 0);
+        AppUtils.setToolBarWithBothIcon(CheckoutActivity.this, getResources().getString(R.string.checkout), R.drawable.back_icon, 0);
 
     }
 
@@ -62,6 +64,9 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.change_payment:
                 startActivity(new Intent(CheckoutActivity.this, PaymentMethodsActivity.class));
+                break;
+            case R.id.change_shipping_address:
+                startActivity(new Intent(CheckoutActivity.this, ShippingAddressesActivity.class));
                 break;
             case R.id.img_add_addon:
                 if(addOnCount!=0) {

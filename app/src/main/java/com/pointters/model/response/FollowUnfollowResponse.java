@@ -5,19 +5,19 @@ package com.pointters.model.response;
  */
 
 public class FollowUnfollowResponse {
-    private  boolean following;
 
-    public boolean isFollowing() {
-        return following;
+    private Boolean followed;
+
+
+    public FollowUnfollowResponse(Boolean followed) {
+        this.followed = followed;
     }
 
-    public void setFollowing(boolean following) {
-        this.following = following;
+    public Boolean getFollowed() {
+        return followed;
     }
 
-    public FollowUnfollowResponse(boolean following) {
-        this.following = following;
-
-
+    public void setFollowed(Boolean followed) {
+        this.followed = followed;
     }
 }

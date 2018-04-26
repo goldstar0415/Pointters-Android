@@ -52,20 +52,14 @@ public class ExploreServiceAfterLoginFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ExploreServiceAdapter exploreServiceAdapter = new ExploreServiceAdapter(getChildFragmentManager());
-
-        ServiceFragment serviceFragment = new ServiceFragment();
-
-
-
         //JobsFragment jobsFragment = new JobsFragment();
 
-        exploreServiceAdapter.addFrag(serviceFragment, getResources().getString(R.string.services));
-        exploreServiceAdapter.addFrag(new BlankFragment(), getResources().getString(R.string.live_offers));
-        exploreServiceAdapter.addFrag(new BlankFragment(), getResources().getString(R.string.jobs));
+        exploreServiceAdapter.addFrag(new ServiceFragment(), getResources().getString(R.string.services));
+        exploreServiceAdapter.addFrag(new LiveOffersFragment(), getResources().getString(R.string.live_offers));
+        exploreServiceAdapter.addFrag(new JobsFragment(), getResources().getString(R.string.jobs));
         viewPager.setAdapter(exploreServiceAdapter);
 
         CustomTabLayout tabLayout = (CustomTabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 }

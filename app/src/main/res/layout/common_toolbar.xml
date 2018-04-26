@@ -5,14 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    app:elevation="2dp"
-    android:theme="@style/AppTheme.AppBarOverlay"
+    app:elevation="@dimen/_2sdp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:background="@color/colorWhite"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     tools:ignore="MissingPrefix">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/common_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:elevation="@dimen/_10sdp"
         app:contentInsetStart="0dp"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -22,13 +26,15 @@
 
             <ImageView
                 android:id="@+id/toolbar_lft_img"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_44sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
                 android:paddingLeft="@dimen/_8sdp"
                 android:paddingRight="@dimen/_8sdp"
-                android:src="@drawable/back_icon_grey" />
+                android:scaleType="center"
+                android:src="@drawable/back_icon"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -58,4 +64,8 @@
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:background="@drawable/shadow"/>
 </android.support.design.widget.AppBarLayout>

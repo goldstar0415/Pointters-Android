@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.afollestad.easyvideoplayer.EasyVideoPlayer;
+//import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pointters.R;
 import com.pointters.activity.PlayVideoActivity;

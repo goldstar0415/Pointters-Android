@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -70,12 +71,16 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView userName;
+        TextView dutyText;
+        Button followButton;
         RoundedImageView userAvatar;
 
         public ViewHolder(View view) {
 
             super(view);
             userName = (TextView) view.findViewById(R.id.txt_name);
+            dutyText = (TextView) view.findViewById(R.id.txt_duty);
+            followButton = (Button) view.findViewById(R.id.follow_unfollow_button);
             userAvatar = (RoundedImageView) view.findViewById(R.id.img_profile);
 
         }

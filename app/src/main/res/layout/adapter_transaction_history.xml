@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_4sdp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/txt_amount"
+            android:gravity="start">
+
+
+            <TextView
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:id="@+id/txt_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="Milam Tora  g gsfd g gsd"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_size_small"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/txt_time_ago"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_title"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:text="10 min ago"
+                android:textColor="#7F7F7F"
+                android:textSize="@dimen/text_size_mini_tiny"
+                android:visibility="visible"
+                tools:ignore="MissingPrefix" />
+        </RelativeLayout>
+
+
+
+
+        <TextView
+            android:id="@+id/txt_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$12.00"
+            android:gravity="end"
+            android:textSize="@dimen/text_size_small"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_12sdp"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

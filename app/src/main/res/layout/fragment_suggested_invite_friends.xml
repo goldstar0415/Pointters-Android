@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/suggessted_invite_friends_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_invite"
+        android:paddingBottom="@dimen/_10sdp"
+        />
+
+    <Button
+        android:id="@+id/btn_invite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INVITE"
+        android:textColor="@color/colorWhite"
+        android:layout_gravity="bottom"
+        android:gravity="end|center_vertical"
+        android:background="@color/colorAccent"
+        android:paddingEnd="@dimen/_16sdp"
+        android:paddingRight="@dimen/_16sdp"
+        android:layout_alignParentBottom="true"
+        tools:ignore="RtlSymmetry" />
+</RelativeLayout>

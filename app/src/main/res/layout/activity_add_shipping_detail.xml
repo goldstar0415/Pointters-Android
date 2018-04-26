@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/common_toolbar"
+        android:id="@+id/toolbar"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/btn_reset">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ship_from_address"
+                    android:textColor="@color/card_title_text_color"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/edt_name"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#e8e8e9"
+                        android:hint="Name"
+                        android:imeOptions="actionNext"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="@dimen/_15sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="#a8a8aa"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input_street"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/edt_street"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#e8e8e9"
+                        android:hint="@string/street"
+                        android:imeOptions="actionNext"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="@dimen/_15sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="#a8a8aa"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input_apt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/edt_apt"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#e8e8e9"
+                        android:hint="@string/apt"
+                        android:imeOptions="actionNext"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="@dimen/_15sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="#a8a8aa"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/edt_city"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#e8e8e9"
+                        android:hint="@string/city"
+                        android:imeOptions="actionNext"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="@dimen/_15sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="#a8a8aa"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/edt_state"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#e8e8e9"
+                        android:hint="@string/state"
+                        android:imeOptions="actionNext"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="@dimen/_15sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="#a8a8aa"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input_zip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/edt_zip"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#e8e8e9"
+                        android:hint="@string/zip"
+                        android:imeOptions="actionNext"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="@dimen/_15sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="#a8a8aa"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/edt_country"
+                        fontPath="fonts/Montserrat-Regular.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#e8e8e9"
+                        android:hint="@string/country"
+                        android:imeOptions="actionNext"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="@dimen/_15sdp"
+                        android:textColor="@color/color_black_info"
+                        android:textColorHint="#a8a8aa"
+                        android:textSize="@dimen/text_size_small"
+                        tools:ignore="MissingPrefix" />
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_measurement"
+                    android:textColor="@color/card_title_text_color"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:errorTextAppearance="@style/error_appearance"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edt_weight"
+                            fontPath="fonts/Montserrat-Regular.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#e8e8e9"
+                            android:hint="Weight"
+                            android:imeOptions="actionNext"
+                            android:focusableInTouchMode="true"
+                            android:inputType="numberDecimal"
+                            android:paddingBottom="@dimen/_15sdp"
+                            android:textColor="@color/color_black_info"
+                            android:textColorHint="#a8a8aa"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="0dp"
+                        android:text="oz"
+                        android:textColor="@color/colorAccent" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_height"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:errorTextAppearance="@style/error_appearance"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <EditText
+                            android:id="@+id/edt_height"
+                            fontPath="fonts/Montserrat-Regular.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Height"
+                            android:imeOptions="actionNext"
+                            android:focusableInTouchMode="true"
+                            android:inputType="numberDecimal"
+                            android:paddingBottom="@dimen/_15sdp"
+                            android:textColor="@color/color_black_info"
+                            android:textColorHint="#a8a8aa"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+                    </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="inches"
+                        android:textColor="@color/colorAccent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_length"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:errorTextAppearance="@style/error_appearance"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <EditText
+                            android:id="@+id/edt_length"
+                            fontPath="fonts/Montserrat-Regular.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#e8e8e9"
+                            android:focusableInTouchMode="true"
+                            android:hint="Length"
+                            android:imeOptions="actionNext"
+                            android:inputType="numberDecimal"
+                            android:paddingBottom="@dimen/_15sdp"
+                            android:textColor="@color/color_black_info"
+                            android:textColorHint="#a8a8aa"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+                    </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="inches"
+                        android:textColor="@color/colorAccent"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_width"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:errorTextAppearance="@style/error_appearance"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <EditText
+                            android:id="@+id/edt_width"
+                            fontPath="fonts/Montserrat-Regular.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#e8e8e9"
+                            android:hint="Width"
+                            android:imeOptions="actionNext"
+                            android:focusableInTouchMode="true"
+                            android:inputType="numberDecimal"
+                            android:paddingBottom="@dimen/_15sdp"
+                            android:textColor="@color/color_black_info"
+                            android:textColorHint="#a8a8aa"
+                            android:textSize="@dimen/text_size_small"
+                            tools:ignore="MissingPrefix" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="inches"
+                        android:textColor="@color/colorAccent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RESET"
+        android:textColor="@color/colorAccent"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/btn_save"
+        android:padding="@dimen/_10sdp"
+        android:layout_toStartOf="@+id/btn_save" />
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:textColor="@color/colorAccent"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/_10sdp"/>
+</RelativeLayout>

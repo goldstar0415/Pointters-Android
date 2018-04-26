@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar"
+        android:id="@+id/toolbar"/>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_submit">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Complete review on order"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/card_title_text_color"
+                android:layout_margin="@dimen/_10sdp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quality of Service"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:textColor="@color/card_title_text_color"/>
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/seeker_quality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dsb_indicatorColor="@color/colorAccent"
+                    app:dsb_rippleColor="@color/colorAccent"
+                    app:dsb_trackColor="@color/gray_medium"
+                    app:dsb_progressColor="@color/colorAccent"
+                    app:dsb_allowTrackClickToDrag="true"
+                    app:dsb_indicatorElevation="@dimen/_2sdp"
+                    app:dsb_min="0"
+                    app:dsb_max="5"
+                    app:dsb_thumbSize="@dimen/_10sdp"
+                    app:dsb_trackHeight="@dimen/_2sdp"
+                    app:dsb_indicatorPopupEnabled="true"
+                    app:dsb_scrubberHeight="@dimen/_2sdp"
+                    android:padding="@dimen/_15sdp"/>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/text_color_dark_gray"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/text_color_dark_gray"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/text_color_dark_gray"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="3"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/text_color_dark_gray"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="4"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/text_color_dark_gray"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="5"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/text_color_dark_gray"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@drawable/divider_option"/>
+            <LinearLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Overall Rating"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:textColor="@color/card_title_text_color"/>
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/seeker_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dsb_indicatorColor="@color/colorAccent"
+                    app:dsb_rippleColor="@color/colorAccent"
+                    app:dsb_trackColor="@color/gray_medium"
+                    app:dsb_progressColor="@color/colorAccent"
+                    app:dsb_allowTrackClickToDrag="true"
+                    app:dsb_indicatorElevation="@dimen/_2sdp"
+                    app:dsb_min="0"
+                    app:dsb_max="100"
+                    app:dsb_thumbSize="@dimen/_10sdp"
+                    app:dsb_trackHeight="@dimen/_2sdp"
+                    app:dsb_indicatorPopupEnabled="true"
+                    app:dsb_scrubberHeight="@dimen/_2sdp"
+                    android:padding="@dimen/_15sdp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_25sdp"
+                    android:paddingEnd="@dimen/_25sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/text_color_dark_gray"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100%"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/text_color_dark_gray"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@drawable/divider_option"/>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/colorWhite">
+
+                <ImageButton
+                    android:id="@+id/btn_willing_again"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/checkbox_seletor"
+                    android:background="@color/transparent"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_alignParentRight="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Will you buy this service again"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:textColor="@color/card_title_text_color"/>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@drawable/divider_option"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comment"
+                android:textColor="@color/card_title_text_color"
+                android:layout_margin="@dimen/_10sdp"/>
+
+
+            <EditText
+                android:id="@+id/edt_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/colorWhite"
+                android:maxLines="5"
+                android:textSize="@dimen/text_size_small"
+                android:text="Thanks it was easy to work with. A true gentleman thank you. Excellent commucnations. will buy it again.."
+                android:hint="Reason for the cancel order is here"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorAccent"
+        android:gravity="center_vertical|end"
+        android:padding="@dimen/_10sdp"
+        android:layout_alignParentBottom="true"/>
+
+
+</RelativeLayout>

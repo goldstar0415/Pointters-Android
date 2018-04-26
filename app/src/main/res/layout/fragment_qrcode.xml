@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/my_qr_code_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/qr_code_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="center"
+            android:layout_margin="@dimen/_32sdp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My QR Code"
+            android:textColor="@color/card_title_text_color"
+            android:textSize="@dimen/text_size_medium"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera_icon_blue"
+            android:background="@color/transparent"
+            android:layout_above="@+id/btn_scan_qr_code"
+            android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/btn_scan_qr_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SCAN QR CODE"
+            android:textColor="@color/colorAccent"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:background="@color/transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_20sdp"
+            tools:ignore="RtlSymmetry" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/decorder_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+            android:id="@+id/qrdecoderview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_gallery_photo"
+            android:background="@color/transparent"
+            android:layout_above="@+id/btn_scan_qr_code_gallery"
+            android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/btn_scan_qr_code_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SCAN From Gallery"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:background="@color/transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_20sdp"
+            tools:ignore="RtlSymmetry" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorWhite">
+
+    <item
+        android:id="@+id/tab_explore"
+        android:enabled="true"
+        android:checked="true"
+        android:icon="@drawable/bottom_nav_icons_explore_s"
+        android:title="Explore"/>
+
+    <item
+        android:id="@+id/tab_updates"
+        android:enabled="true"
+        android:icon="@drawable/bottom_nav_icons_updates_s"
+        android:title="Updates"/>
+
+    <item
+        android:id="@+id/tab_post"
+        android:enabled="true"
+        android:icon="@drawable/bottom_nav_icons_post_s"
+        android:title="Post"/>
+
+    <item
+        android:id="@+id/tab_chats"
+        android:enabled="true"
+        android:icon="@drawable/bottom_nav_icons_chats_s"
+        android:title="Chats"/>
+
+    <item
+        android:id="@+id/tab_profile"
+        android:enabled="true"
+        android:icon="@drawable/bottom_nav_icons_profile_s"
+        android:title="Profile"/>
+
+</menu>

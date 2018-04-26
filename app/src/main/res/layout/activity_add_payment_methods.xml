@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar" />
+
+
+    <com.braintreepayments.cardform.view.CardForm
+        android:id="@+id/card_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_3sdp"
+        android:background="@drawable/shadow"/>
+
+    <Button
+        android:id="@+id/btn_set_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SET AS DEFAULT"
+        android:textColor="@color/colorAccent"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"/>
+
+</LinearLayout>

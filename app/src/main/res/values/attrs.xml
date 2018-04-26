@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CurrencyEditText">
+        <attr name="allow_negative_values" format="boolean" />
+        <attr name="decimal_digits" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="tab_style">
+        <attr name="selected" format="boolean"/>
+        <attr name="title" format="string"/>
+        <attr name="image" format="integer"/>
+    </declare-styleable>
+</resources>

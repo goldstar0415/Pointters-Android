@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F8F8F8"
+    android:orientation="vertical"
+    tools:context="com.pointters.activity.TermsActivity">
+
+    <include layout="@layout/common_toolbar" />
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_top"
+        app:srl_direction="both">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_notificaiton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:animateLayoutChanges="false"
+            />
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+
+</LinearLayout>

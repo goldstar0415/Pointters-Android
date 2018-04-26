@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.pointters.fragment.MenuScreenFragment">
+    <item
+        android:id="@+id/order"
+        android:icon="@drawable/icon_setting_order"
+        android:title="Orders"/>
+    <item
+        android:id="@+id/custom_offer"
+        android:icon="@drawable/icon_setting_custom_offer"
+        android:title="Offers"/>
+    <item
+        android:id="@+id/live_offer_request"
+        android:icon="@drawable/icon_setting_live_offer"
+        android:title="Live Request"/>
+    <item
+        android:id="@+id/watching"
+        android:icon="@drawable/icon_setting_watch"
+        android:title="Watching"/>
+    <item
+        android:id="@+id/likes"
+        android:icon="@drawable/icon_setting_like"
+        android:title="Likes"/>
+</menu>

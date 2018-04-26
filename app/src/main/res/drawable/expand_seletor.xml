@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/icons_expand_less" android:state_selected="true" />
+    <item android:drawable="@drawable/icons_expand_less" android:state_checked="true" />
+    <item android:drawable="@drawable/icons_expand_less" android:state_focused="true" />
+
+    <item android:drawable="@drawable/icons_expand_more" android:state_checked="false"  />
+    <item android:drawable="@drawable/icons_expand_more" android:state_selected="false"  />
+    <item android:drawable="@drawable/icons_expand_more" android:state_enabled="true"  />
+    <item android:drawable="@drawable/icons_expand_more" android:state_focused="false"  />
+</selector>

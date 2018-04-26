@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/_5sdp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/img_profile_round"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        app:riv_corner_radius="@dimen/_2sdp"
+        app:riv_oval="false"
+        android:src="@drawable/image_placeholder1"
+        app:riv_tile_mode="clamp"/>
+
+    <TextView
+        android:id="@+id/service_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_tiny"
+        android:text="House Cleaning"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/card_title_text_color"
+        android:gravity="center_horizontal"/>
+
+
+</LinearLayout>

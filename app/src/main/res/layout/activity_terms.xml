@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:orientation="vertical"
+    tools:context="com.pointters.activity.TermsActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_margin="@dimen/_16sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/header_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_header"
+                android:textSize="@dimen/text_size_tiny"
+                android:textColor="@color/card_title_text_color"/>
+
+            <TextView
+                android:id="@+id/txt_title_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_sub_1"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/card_title_text_color"
+                android:layout_marginTop="@dimen/_12sdp"/>
+
+            <TextView
+                android:id="@+id/txt_detail_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_detail_1"
+                android:textSize="@dimen/text_size_tiny"
+                android:textColor="@color/card_title_text_color"
+                android:layout_marginTop="@dimen/_8sdp"/>
+
+            <TextView
+                android:id="@+id/txt_title_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_sub_2"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/card_title_text_color"
+                android:layout_marginTop="@dimen/_12sdp"/>
+
+            <TextView
+                android:id="@+id/txt_detail_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_detail_2"
+                android:textSize="@dimen/text_size_tiny"
+                android:textColor="@color/card_title_text_color"
+                android:layout_marginTop="@dimen/_8sdp"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

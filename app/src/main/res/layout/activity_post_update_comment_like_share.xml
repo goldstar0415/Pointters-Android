@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F6F6F7"
+    tools:context="com.pointters.activity.CheckoutActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/toolbar_lft_img"
+            android:layout_width="@dimen/_44sdp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:scaleType="center"
+            android:src="@drawable/back_icon"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            fontPath="fonts/Montserrat-Light.ttf"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_toStartOf="@+id/toolbar_right_img"
+            android:layout_toEndOf="@+id/toolbar_lft_img"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Post Name"
+            android:textColor="@color/color_black_info"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="MissingPrefix" />
+
+        <ImageView
+            android:id="@+id/toolbar_right_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:src="@drawable/delete_icon"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/swipe_refresh_likes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabbar"
+        android:layout_above="@+id/view_write_comments"
+        app:srl_direction="both">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_likes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:animateLayoutChanges="false"
+            />
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/swipe_refresh_comments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabbar"
+        android:layout_above="@+id/view_write_comments"
+        app:srl_direction="both">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_comments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:animateLayoutChanges="false"
+            />
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/swipe_refresh_shares"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabbar"
+        android:layout_above="@+id/view_write_comments"
+        app:srl_direction="both">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_shares"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:animateLayoutChanges="false"
+            />
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+
+    <LinearLayout
+        android:id="@+id/tabbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolbar">
+
+        <com.pointters.utils.LikeTabLayout
+            android:id="@+id/tab_likes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:title="1k Likes"
+            app:image="@drawable/icons_likes"
+            app:selected="false"
+            />
+        <com.pointters.utils.LikeTabLayout
+            android:id="@+id/tab_comments"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:title="1k Comments"
+            app:image="@drawable/icons_comments"
+            app:selected="true"
+            />
+        <com.pointters.utils.LikeTabLayout
+            android:id="@+id/tab_shares"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:title="1k Shares"
+            app:image="@drawable/icons_shares"
+            app:selected="false"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_3sdp"
+        android:background="@drawable/shadow"
+        android:layout_below="@+id/tabbar"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fix_1dp"
+        android:background="@drawable/divider_option"
+        android:layout_above="@+id/view_write_comments"/>
+
+    <LinearLayout
+        android:id="@+id/view_write_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/img_profile3"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/user_avatar_placeholder"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"
+            app:riv_tile_mode="clamp"
+            android:layout_margin="@dimen/_10sdp"/>
+
+        <EditText
+            android:id="@+id/edt_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:hint="Write a Comment"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/text_size_small"
+            android:background="@color/transparent"
+            />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SEND"
+            android:background="@color/transparent"
+            android:textColor="@color/colorAccent"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

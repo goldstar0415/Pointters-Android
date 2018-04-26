@@ -1,0 +1,55 @@
+<root>
+    <units name="hour(s)">
+      <time name="1"/>
+      <time name="2"/>
+      <time name="3"/>
+      <time name="4"/>
+      <time name="5"/>
+      <time name="6"/>
+      <time name="7"/>
+      <time name="8"/>
+      <time name="9"/>
+      <time name="10"/>
+      <time name="11"/>
+      <time name="12"/>
+      <time name="13"/>
+      <time name="14"/>
+      <time name="15"/>
+      <time name="16"/>
+      <time name="17"/>
+      <time name="18"/>
+      <time name="19"/>
+      <time name="20"/>
+      <time name="21"/>
+      <time name="22"/>
+      <time name="23"/>
+    </units>
+    <units name="day(s)">
+      <time name="1"/>
+      <time name="2"/>
+      <time name="3"/>
+      <time name="4"/>
+      <time name="5"/>
+      <time name="6"/>
+      <time name="10"/>
+      <time name="15"/>
+      <time name="20"/>
+      <time name="25"/>
+      <time name="30"/>
+    </units>
+    <units name="week(s)">
+      <time name="1"/>
+      <time name="2"/>
+      <time name="3"/>
+      <time name="4"/>
+      <time name="5"/>
+      <time name="6"/>
+      <time name="7"/>
+      <time name="8"/>
+      <time name="9"/>
+      <time name="10"/>
+      <time name="11"/>
+      <time name="12"/>
+    </units>
+
+</root>

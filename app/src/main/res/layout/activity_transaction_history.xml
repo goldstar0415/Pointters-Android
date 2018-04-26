@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:focusableInTouchMode="true"
+    tools:ignore="MissingPrefix"
+    tools:context="com.pointters.activity.TransactionHistoryActivity">
+
+    <include
+        android:id="@+id/background_check_toolbar"
+        layout="@layout/common_toolbar" />
+
+    <com.yarolegovich.discretescrollview.DiscreteScrollView
+        android:id="@+id/transaction_carousel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_below="@+id/background_check_toolbar"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/transaction_carousel">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Statement Period"
+            android:layout_margin="@dimen/_12sdp" />
+
+        <EditText
+            android:id="@+id/edt_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_medium"
+            android:text="8 Oct 2018"
+            android:editable="false"
+            android:inputType="none"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:drawableRight="@drawable/icon_drop_dwon_arrow_down"
+            android:drawableEnd="@drawable/icon_drop_dwon_arrow_down"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            tools:ignore="RtlHardcoded,TextFields" />
+
+        <RelativeLayout
+            android:id="@+id/transaction_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txt_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Showing all Transactions"
+                android:textColor="@color/card_title_text_color"
+                android:textSize="@dimen/text_size_small"
+                android:layout_margin="@dimen/_12sdp"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/dropdown_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_filter"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/_12sdp"/>
+        </RelativeLayout>
+        <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srl_direction="both">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_transactions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:animateLayoutChanges="false"
+                />
+        </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+    </LinearLayout>
+
+</RelativeLayout>

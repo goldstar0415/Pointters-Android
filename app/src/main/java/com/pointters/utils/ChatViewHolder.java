@@ -1,12 +1,13 @@
 package com.pointters.utils;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,12 +21,17 @@ import com.pointters.activity.MediaPlayerActivity;
 import com.pointters.activity.PhotoViewerActivity;
 import com.pointters.activity.SendCustomOfferActivity;
 import com.pointters.activity.ServiceDetailActivity;
+import com.pointters.listener.AsyncResponse;
 import com.pointters.model.ChatMessageModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.TimeZone;
+
+import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JZVideoPlayerStandard;
 
 
 /**
@@ -40,13 +46,14 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     RoundedImageView mUserPhoto;
     TextView mMsgTextView;
     RelativeLayout mMsgMediaView;
-    ImageView mMediaPhoto;
+    RoundedImageView mMediaPhoto;
     RelativeLayout mMsgServiceView;
-    ImageView mServicePic;
-    TextView mServiceDesc, mServicePrice, mServiceName;
+    RoundedImageView mServicePic;
+    TextView mServiceDesc, mServicePrice, mServiceDuration, mServiceName;
     RelativeLayout mMsgOfferView;
-    ImageView mOfferServicePic;
-    TextView mOfferDesc, mOfferServiceDesc, mOfferServicePrice, mOfferServiceName, mChatTime;
+    RoundedImageView mOfferServicePic;
+    TextView mOfferDesc, mOfferServiceDesc, mOfferServicePrice, mOfferServiceDuration, mOfferServiceName, mChatTime;
+    JZVideoPlayerStandard mMediaVideoView;
 
     private String mLoginUserId = "";
     private int mRequestCode = 0;
@@ -66,24 +73,27 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
         mMsgMediaView = (RelativeLayout)itemView.findViewById(R.id.layout_chat_msg_photo);
         mMsgMediaView.setOnClickListener(this);
-        mMediaPhoto = (ImageView)itemView.findViewById(R.id.iv_chat_msg_photo);
+        mMediaPhoto = (RoundedImageView)itemView.findViewById(R.id.iv_chat_msg_photo);
+        mMediaVideoView = (JZVideoPlayerStandard) itemView.findViewById(R.id.iv_chat_msg_video);
 
         mMsgServiceView = (RelativeLayout)itemView.findViewById(R.id.layout_chat_msg_service);
         mMsgServiceView.setOnClickListener(this);
-        mServicePic = (ImageView)itemView.findViewById(R.id.iv_chat_service_photo);
+        mServicePic = (RoundedImageView)itemView.findViewById(R.id.iv_chat_service_photo);
         mServiceDesc = (TextView)itemView.findViewById(R.id.txt_chat_service_desc);
-        mServicePrice = (TextView)itemView.findViewById(R.id.txt_chat_service_duration);
+        mServicePrice = (TextView)itemView.findViewById(R.id.txt_chat_service_price);
+        mServiceDuration = (TextView)itemView.findViewById(R.id.txt_chat_service_duration);
         mServiceName = (TextView)itemView.findViewById(R.id.txt_chat_service_name);
 
         mMsgOfferView = (RelativeLayout)itemView.findViewById(R.id.layout_chat_msg_offer);
         mMsgOfferView.setOnClickListener(this);
         mOfferDesc = (TextView)itemView.findViewById(R.id.txt_chat_offer_content);
-        mOfferServicePic = (ImageView)itemView.findViewById(R.id.iv_chat_offer_photo);
+        mOfferServicePic = (RoundedImageView)itemView.findViewById(R.id.iv_chat_offer_photo);
         mOfferServiceDesc = (TextView)itemView.findViewById(R.id.txt_chat_offer_desc);
         mOfferServicePrice = (TextView)itemView.findViewById(R.id.txt_chat_offer_duration);
         mOfferServiceName = (TextView)itemView.findViewById(R.id.txt_chat_offer_name);
     }
 
+    @SuppressLint("SetTextI18n")
     public void bindData(ChatMessageModel chatMessage, String otherPic, int inComing) {
         message = chatMessage;
 
@@ -154,8 +164,22 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                         } else if (inComing == 2) {
                             mMediaPhoto.setImageResource(R.drawable.video_player_grey);
                         }
+                        mMediaVideoView.setUp(strPic, JZVideoPlayer.SCREEN_WINDOW_LIST, "");
+                        mMediaVideoView.setVisibility(View.VISIBLE);
+                        AndroidUtils.MyAsyncTask asyncTask =new AndroidUtils.MyAsyncTask();
+                        asyncTask.delegate = new AsyncResponse() {
+                            @Override
+                            public void processFinish(Bitmap output) {
+                                mMediaVideoView.thumbImageView.setImageBitmap(output);
+
+                            }
+                        };
+                        asyncTask.execute(strPic);
+                        mMediaPhoto.setVisibility(View.GONE);
                     } else {
                         ImageLoader.getInstance().displayImage(strPic, mMediaPhoto, options2);
+                        mMediaPhoto.setVisibility(View.VISIBLE);
+                        mMediaVideoView.setVisibility(View.GONE);
                     }
                 }
             }
@@ -180,7 +204,8 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                 }
 
                 if (chatMessage.getMessage().getService().getPrice() != null) {
-                    Integer valPrice = 0, valTime = 1;
+                    float valPrice = 0f;
+                    Integer valTime = 1;
                     if (chatMessage.getMessage().getService().getPrice().getPrice() != null && chatMessage.getMessage().getService().getPrice().getPrice() > 0) {
                         valPrice = chatMessage.getMessage().getService().getPrice().getPrice();
                     }
@@ -196,9 +221,11 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                     }
 
                     if (valTime > 1) {
-                        mServicePrice.setText("Starts at " + strSymbol + String.valueOf(valPrice) + " for " + String.valueOf(valTime) + " " + strUnit + "s");
+                        mServicePrice.setText(strSymbol + String.valueOf(valPrice));
+                        mServiceDuration.setText("for " + String.valueOf(valTime) + " " + strUnit + "s");
                     } else {
-                        mServicePrice.setText("Starts at " + strSymbol + String.valueOf(valPrice) + " for " + String.valueOf(valTime) + " " + strUnit);
+                        mServicePrice.setText(strSymbol + String.valueOf(valPrice));
+                        mServiceDuration.setText("for " + String.valueOf(valTime) + " " + strUnit);
                     }
                 }
 
@@ -272,7 +299,8 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                     }
 
                     if (chatMessage.getMessage().getOffer().getService().getPrice() != null) {
-                        Integer valServicePrice = 0, valServiceTime = 1;
+                        float valServicePrice = 0f;
+                        Integer valServiceTime = 1;
                         if (chatMessage.getMessage().getOffer().getService().getPrice().getPrice() != null && chatMessage.getMessage().getOffer().getService().getPrice().getPrice() > 0) {
                             valServicePrice = chatMessage.getMessage().getOffer().getService().getPrice().getPrice();
                         }
@@ -288,9 +316,9 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                         }
 
                         if (valTime > 1) {
-                            mOfferServicePrice.setText("Starts at " + strServiceSymbol + String.valueOf(valServicePrice) + " for " + String.valueOf(valServiceTime) + " " + strServiceUnit + "s");
+                            mOfferServicePrice.setText(strServiceSymbol + String.valueOf(valServicePrice) + " for " + String.valueOf(valServiceTime) + " " + strServiceUnit + "s");
                         } else {
-                            mOfferServicePrice.setText("Starts at " + strServiceSymbol + String.valueOf(valServicePrice) + " for " + String.valueOf(valServiceTime) + " " + strServiceUnit);
+                            mOfferServicePrice.setText(strServiceSymbol + String.valueOf(valServicePrice) + " for " + String.valueOf(valServiceTime) + " " + strServiceUnit);
                         }
                     }
 
@@ -336,8 +364,15 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                 break;
 
             case R.id.layout_chat_msg_service:
-                Intent intentService = new Intent(mContext, ServiceDetailActivity.class);
-                mContext.startActivity(intentService);
+                if (message.getMessage().getService() != null){
+                    Intent intentService = new Intent(mContext, ServiceDetailActivity.class);
+                    intentService.putExtra(ConstantUtils.SERVICE_ID, message.getMessage().getService().getServiceId());
+                    mContext.startActivity(intentService);
+                }else if (message.getMessage().getOffer() != null) {
+                    Intent intentOffer = new Intent(mContext, CustomOfferDetailsActivity.class);
+                    intentOffer.putExtra(ConstantUtils.SELECT_OFFER_ID, message.getMessage().getOffer().getOfferId());
+                    mContext.startActivity(intentOffer);
+                }
                 break;
 
             case R.id.layout_chat_msg_offer:
@@ -382,4 +417,5 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                 break;
         }
     }
+
 }

@@ -1,12 +1,18 @@
 package com.pointters.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,11 +28,13 @@ import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
 import com.pointters.activity.ChatActivity;
+import com.pointters.activity.FulfillmentActivity;
 import com.pointters.activity.ProfileScreenActivity;
 import com.pointters.adapter.BuyOrderAdapter;
 import com.pointters.adapter.LiveOfferRequestsAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.BuyOrderModel;
 import com.pointters.model.response.GetBuyOrderResponse;
 import com.pointters.rest.ApiClient;
@@ -56,10 +64,12 @@ public class BuyOrdersFragment extends Fragment implements OnApiFailDueToSession
     private List<BuyOrderModel> buyOrderModelList=new ArrayList<>();
     private SwipyRefreshLayout refreshLayout;
     private KProgressHUD loader;
+    private final int CALL_PHONE_REQUEST = 3;
 
     private String lastDocId = "";
     private int limitCnt = 0;
     private int totalCnt = 0;
+    private int selectedPosition = 0;
 
     @Nullable
     @Override
@@ -101,12 +111,28 @@ public class BuyOrdersFragment extends Fragment implements OnApiFailDueToSession
                         break;
 
                     case R.id.btn_phone:
+                        selectedPosition = position;
                         moveToCall(position);
                         break;
 
                     case R.id.txt_service_provider_name:
                         moveToProfile(position);
                         break;
+                }
+            }
+        });
+        buyOrderAdapter.setListener1(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (buyOrderModelList.get(position).getOrder() != null) {
+                    String strId = buyOrderModelList.get(position).getOrder().getId();
+
+                    if (!strId.equals("")) {
+                        Intent intent = new Intent(getActivity(), FulfillmentActivity.class);
+                        intent.putExtra(ConstantUtils.SELECT_ORDER_TYPE, ConstantUtils.BUYER);
+                        intent.putExtra(ConstantUtils.SELECT_ORDER_ID, strId);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -126,7 +152,7 @@ public class BuyOrdersFragment extends Fragment implements OnApiFailDueToSession
         refreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                getBuyOrdersApi(true, "");
+                getBuyOrdersApi(true, lastDocId);
             }
 
         });
@@ -167,6 +193,9 @@ public class BuyOrdersFragment extends Fragment implements OnApiFailDueToSession
     }
 
     private void moveToCall(int position) {
+        if (!checkPhoneCallPermission()) {
+            return;
+        }
         if (buyOrderModelList.get(position).getSeller() != null) {
             String strPhone = "";
             if (buyOrderModelList.get(position).getSeller().getPhone() != null && !buyOrderModelList.get(position).getSeller().getPhone().isEmpty()) {
@@ -182,6 +211,30 @@ public class BuyOrdersFragment extends Fragment implements OnApiFailDueToSession
                 callIntent.setData(Uri.parse("tel:" + strPhone));
                 startActivity(callIntent);
             }
+        }
+    }
+    private boolean checkPhoneCallPermission() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission( getActivity(), Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST);
+            return false;
+
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CALL_PHONE_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    moveToCall(selectedPosition);
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -202,9 +255,9 @@ public class BuyOrdersFragment extends Fragment implements OnApiFailDueToSession
     }
 
     void getBuyOrdersApi(final boolean inited, String lastId) {
-        if (inited) {
-            buyOrderModelList.clear();
-        }
+//        if (inited) {
+//            buyOrderModelList.clear();
+//        }
 
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<GetBuyOrderResponse> buyOrdersCall=apiService.getBuyOrder(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), lastId);
@@ -239,8 +292,8 @@ public class BuyOrdersFragment extends Fragment implements OnApiFailDueToSession
                     callLoginApiIfFails.OnApiFailDueToSessionListener(BuyOrdersFragment.this);
                 }
                 else if (response.code() == 404) {
-                    txtNotFound.setVisibility(View.VISIBLE);
-                    txtNotFound.setText("No order found");
+//                    txtNotFound.setVisibility(View.VISIBLE);
+//                    txtNotFound.setText("No order found");
                 }
             }
 

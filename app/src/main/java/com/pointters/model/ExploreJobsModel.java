@@ -1,8 +1,10 @@
 package com.pointters.model;
 
 import com.google.gson.internal.LinkedTreeMap;
+import com.pointters.activity.BackgroundCheckActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mac on 12/5/17.
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 
 public class ExploreJobsModel {
 
-    private Media media;
+    private Object media;
     private String description;
     private String createdAt;
     private String id;
@@ -23,6 +25,12 @@ public class ExploreJobsModel {
     private Integer maxPrice;
     private Integer numOffers;
     private UserModel user;
+    private Object offerSent;
+    private String userId;
+    private Integer __v;
+    private String _id;
+    private CategoryModel category;
+
 
 
     public String getCreatedAt() { return createdAt; }
@@ -33,11 +41,36 @@ public class ExploreJobsModel {
 
     public void setDescription(String description) { this.description = description; }
 
-    public Media getMedia() {
-        return media;
+    public ArrayList<Media> getMedia() {
+        if (media instanceof LinkedTreeMap) {
+            ArrayList<Media> m = new ArrayList<>();
+            LinkedTreeMap linkedTreeMap = (LinkedTreeMap) media;
+            Media me = new Media();
+            if (linkedTreeMap.containsKey("_id")) {
+                me.set_id(linkedTreeMap.get("_id").toString());
+            }
+            me.setFileName(linkedTreeMap.get("fileName").toString());
+            me.setMediaType(linkedTreeMap.get("mediaType").toString());
+            m.add(me);
+            return m;
+        }else if (media instanceof ArrayList) {
+            ArrayList<LinkedTreeMap> m = (ArrayList<LinkedTreeMap>) media;
+            ArrayList<Media> ml = new ArrayList<>();
+            for (LinkedTreeMap linkedTreeMap : m) {
+                Media me = new Media();
+                if (linkedTreeMap.containsKey("_id")) {
+                    me.set_id(linkedTreeMap.get("_id").toString());
+                }
+                me.setFileName(linkedTreeMap.get("fileName").toString());
+                me.setMediaType(linkedTreeMap.get("mediaType").toString());
+                ml.add(me);
+            }
+            return ml;
+        }
+        return new ArrayList<Media>();
     }
 
-    public void setMedia(Media media) {
+    public void setMedia(List<Media> media) {
         this.media = media;
     }
 
@@ -182,6 +215,47 @@ public class ExploreJobsModel {
     public void setUser(UserModel user) {
         this.user = user;
     }
+
+    public Object getOfferSent() {
+        return offerSent;
+    }
+
+    public void setOfferSent(Object offerSent) {
+        this.offerSent = offerSent;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Integer get__v() {
+        return __v;
+    }
+
+    public void set__v(Integer __v) {
+        this.__v = __v;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public CategoryModel getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryModel category) {
+        this.category = category;
+    }
+
 
 //    public Media getMedia() {
 //

@@ -21,6 +21,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/card_title_text_color"
+                android:text="Service Description"
+                android:textSize="@dimen/text_size_small"
+                android:layout_margin="@dimen/_10sdp"/>
+
+            <EditText
+                android:padding="@dimen/_12sdp"
+                android:id="@+id/edt_service_description"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:background="@color/colorWhite"
+                android:textSize="@dimen/text_size_tiny"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:hint="@string/servic_description"
+                android:textColor="@color/card_title_text_color"
+                tools:ignore="MissingPrefix" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,6 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:background="@color/colorWhite"
                     android:padding="@dimen/_5sdp">
 
                     <LinearLayout
@@ -118,13 +141,12 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <com.yarolegovich.discretescrollview.DiscreteScrollView
+                    <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_media"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipChildren="false"
                         android:clipToPadding="false"
-                        android:layout_below="@+id/background_check_toolbar"
                         android:padding="@dimen/_12sdp"/>
                     <!--<android.support.v7.widget.RecyclerView-->
                     <!--android:id="@+id/recycler_media"-->
@@ -133,28 +155,6 @@
                 </RelativeLayout>
 
             </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/card_title_text_color"
-                android:text="Service Description"
-                android:textSize="@dimen/text_size_small"
-                android:layout_margin="@dimen/_10sdp"/>
-
-            <EditText
-                android:padding="@dimen/_12sdp"
-                android:id="@+id/edt_service_description"
-                fontPath="fonts/Montserrat-Regular.ttf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:background="@color/colorWhite"
-                android:textSize="@dimen/text_size_tiny"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:hint="@string/servic_description"
-                android:textColor="@color/card_title_text_color"
-                tools:ignore="MissingPrefix" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -448,6 +448,7 @@
                         android:layout_below="@+id/button_miles"/>
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/rl_txt_local2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -488,8 +489,14 @@
                         android:background="@drawable/divider_option"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_below="@+id/check_button4"/>
+
                 </RelativeLayout>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_12sdp"
+                android:text="Your local service will not be posted until you have passed background check"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -498,7 +505,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"
-        android:background="@color/colorAccent"
+        android:background="@drawable/button_selector"
         android:text="Add Service"
         android:gravity="center_vertical|end"
         android:padding="@dimen/_10sdp"

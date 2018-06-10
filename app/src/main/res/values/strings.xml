@@ -5,6 +5,20 @@
     <string name="app_name">Pointters</string>
     <string name="loading">Loading</string>
 
+    <string name="subscribe_to_news">Subscribe To News</string>
+    <string name="log_token">Log Token</string>
+
+    <string name="msg_subscribed">Subscribed to news topic</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!--
+        This is the name that users will see when interacting with this channel.
+        It should describe the category of notifications that will be sent through this channel
+     -->
+    <string name="default_notification_channel_name" translatable="true">News</string>
+    <string name="msg_subscribe_failed">Failed to subscribe to news topic</string>
+
     <!--Intro-->
     <string name="welcome">Welcome</string>
     <string name="app_intro">Lorem Ipsum is dummy text\nyou\'ll ever need</string>
@@ -88,6 +102,7 @@
     <string name="services">Services</string>
     <string name="live_offers">Live Offers</string>
     <string name="jobs">Jobs</string>
+    <string name="job_detail">Job Detail</string>
 
     <!--Explore Service without login-->
     <string name="popular_categories">Popular Categories</string>
@@ -101,6 +116,9 @@
 
     <string name="enter_store_location">Enter Store Location</string>
     <string name="edit_store_location">Edit Store Location</string>
+
+    <string name="enter_shipping_address">Enter New Adreess</string>
+    <string name="edit_shipping_address">Edit Shipping Address</string>
 
     <!--Search Result-->
     <string name="get_live_offer">Get Live Offer</string>
@@ -201,6 +219,7 @@
     <string name="notification_settings">Notification Settings</string>
     <string name="edit_user_settings">Edit User Settings</string>
     <string name="paymemt_method">Payment Methods</string>
+    <string name="shipping_addresses">Shipping Addresses</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="watching">Watching</string>
@@ -288,7 +307,7 @@
 
     <!--Send Custom Offer Screen-->
     <string name="link_a_service">Link a Service</string>
-    <string name="link_another_service">LINK ANOTHER SERVICE</string>
+    <string name="link_another_service">Link Another Service</string>
     <string name="online">Online</string>
     <string name="shipment">Shipment</string>
     <string name="local">Local</string>
@@ -360,4 +379,7 @@
         <item>BUY</item>
         <item>SELL</item>
     </string-array>
+
+    <string name="purchase">Purchase</string>
+    <string name="bt_card_not_accepted">Card not accepted</string>
 </resources>

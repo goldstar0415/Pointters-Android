@@ -95,13 +95,13 @@ public class RelatedServiceAdapter extends RecyclerView.Adapter<RelatedServiceAd
                 if (serviceArrayList.get(position).getService().getPrices().get(0).getCurrencySymbol() != null && !serviceArrayList.get(position).getService().getPrices().get(0).getCurrencySymbol().isEmpty()) {
                     strSymbol = serviceArrayList.get(position).getService().getPrices().get(0).getCurrencySymbol();
                 }
-                int valPrice = 0;
+                float valPrice = 0;
                 if (serviceArrayList.get(position).getService().getPrices().get(0).getPrice() != null && serviceArrayList.get(position).getService().getPrices().get(0).getPrice() > 0) {
                     valPrice = serviceArrayList.get(position).getService().getPrices().get(0).getPrice();
                 }
                 holder.txtServicePrice.setText(strSymbol + String.valueOf(valPrice));
 
-                int valDiscount = 0;
+                float valDiscount = 0;
                 if (serviceArrayList.get(position).getService().getPrices().get(0).getPriceWithoutDiscount() != null && serviceArrayList.get(position).getService().getPrices().get(0).getPriceWithoutDiscount() > 0) {
                     valDiscount = serviceArrayList.get(position).getService().getPrices().get(0).getPriceWithoutDiscount();
                 }
@@ -223,6 +223,12 @@ public class RelatedServiceAdapter extends RecyclerView.Adapter<RelatedServiceAd
             txtTick=(TextView)itemView.findViewById(R.id.txt_tick);
             txtTime=(TextView)itemView.findViewById(R.id.txt_time);
             llpromoted = (LinearLayout) itemView.findViewById(R.id.ll_promoted);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listenerRef.get().onButtonClick(v, getAdapterPosition());
+                }
+            });
             txtName.setOnClickListener(this);
         }
 

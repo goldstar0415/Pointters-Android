@@ -1,5 +1,7 @@
 package com.pointters.model;
 
+import com.pointters.R;
+
 /**
  * Created by jkc on 3/20/18.
  */
@@ -15,6 +17,13 @@ public class CardModel {
         this.cardDetail = st;
         this.imageRes = res;
         this.isDefault = b;
+    }
+
+    public CardModel() {
+        this.cardName = "";
+        this.cardDetail = "";
+        this.imageRes = R.drawable.mastercard;
+        this.isDefault = false;
     }
 
     public String getCardName() {

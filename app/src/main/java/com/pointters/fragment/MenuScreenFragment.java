@@ -36,10 +36,12 @@ import com.pointters.activity.NotificationOptionsActivity;
 import com.pointters.activity.NotificationsActivity;
 import com.pointters.activity.PaymentMethodsActivity;
 import com.pointters.activity.ProfileScreenActivity;
+import com.pointters.activity.ShippingAddressesActivity;
 import com.pointters.activity.StoreLocationsActivity;
 import com.pointters.activity.TermsActivity;
 import com.pointters.activity.TransactionHistoryActivity;
 import com.pointters.activity.UserFollowersActivity;
+import com.pointters.activity.UserSettingShippingAddressesActivity;
 import com.pointters.activity.UserSettingsActivity;
 import com.pointters.activity.WatchingLikeActivity;
 import com.pointters.adapter.MenuAdapter;
@@ -124,6 +126,7 @@ public class MenuScreenFragment extends Fragment implements View.OnClickListener
         });
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -195,7 +198,7 @@ public class MenuScreenFragment extends Fragment implements View.OnClickListener
         divider = new DividerItemDecorationVer(ContextCompat.getDrawable(getActivity(), R.drawable.divider_option));
         userSettingsRecyclerView.addItemDecoration(divider);
 
-        menuAdapter4 = new MenuAdapter(getActivity(), userSettings, userseticons, new int[]{0, 0,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 });
+        menuAdapter4 = new MenuAdapter(getActivity(), userSettings, userseticons, new int[]{0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 });
         userSettingsRecyclerView.setAdapter(menuAdapter4);
 
         if (userMenu.getNotifications() == 0) {
@@ -277,31 +280,21 @@ public class MenuScreenFragment extends Fragment implements View.OnClickListener
             public void onItemClick(View view, int position) {
                 switch (position) {
                     case 0:
-                        editor.putString(ConstantUtils.SOURCE,getResources().getString(R.string.sell)).apply();
+                        editor.putString(ConstantUtils.SOURCE, getResources().getString(R.string.sell)).apply();
                         editor.putString(ConstantUtils.SELECTED_TAB,getResources().getString(R.string.orders)).apply();
                         fragment = new MeFragment();
                         getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment)
                                 .commitAllowingStateLoss();
-//                        Intent ordersIntent=new Intent(getActivity(), HomeActivity.class);
-//                        ordersIntent.putExtra(ConstantUtils.SOURCE,ConstantUtils.MENU_SCREEN);
-//                        editor.putString(ConstantUtils.SOURCE,getResources().getString(R.string.sell)).apply();
-//                        editor.putString(ConstantUtils.SELECTED_TAB,getResources().getString(R.string.orders)).apply();
-//                        startActivity(ordersIntent);
                         break;
                     case 1:
                         startActivity(new Intent(getActivity(), BecomeASellerActivity.class));
                         break;
                     case 2:
-                        editor.putString(ConstantUtils.SOURCE,getResources().getString(R.string.sell)).apply();
+                        editor.putString(ConstantUtils.SOURCE, getResources().getString(R.string.sell)).apply();
                         editor.putString(ConstantUtils.SELECTED_TAB,getResources().getString(R.string.offers)).apply();
                         fragment = new MeFragment();
                         getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment)
                                 .commitAllowingStateLoss();
-//                        Intent OffersIntent=new Intent(getActivity(), HomeActivity.class);
-//                        OffersIntent.putExtra(ConstantUtils.SOURCE,ConstantUtils.MENU_SCREEN);
-//                        editor.putString(ConstantUtils.SOURCE,getResources().getString(R.string.sell)).apply();
-//                        editor.putString(ConstantUtils.SELECTED_TAB,getResources().getString(R.string.offers)).apply();
-//                        startActivity(OffersIntent);
                         break;
                     case 3:
                         editor.putString(ConstantUtils.SOURCE,getResources().getString(R.string.sell)).apply();
@@ -346,6 +339,10 @@ public class MenuScreenFragment extends Fragment implements View.OnClickListener
                         break;
                     case 3:
                         startActivity(new Intent(getActivity(), PaymentMethodsActivity.class));
+                        break;
+
+                    case 4:
+                        startActivity(new Intent(getActivity(), UserSettingShippingAddressesActivity.class));
                         break;
 
                 }
@@ -406,8 +403,14 @@ public class MenuScreenFragment extends Fragment implements View.OnClickListener
             }
         }
         ));
-        getUserMenu();
         return view;
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getUserMenu();
     }
 
     public void getUserMenu(){

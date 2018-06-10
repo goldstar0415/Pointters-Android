@@ -37,6 +37,9 @@ public class ProfileServicesAdapter extends RecyclerView.Adapter<ProfileServices
         this.context = context;
         this.serviceArrayList = serviceArrayList;
     }
+    public void setData(ArrayList<ServicesModel> models) {
+        this.serviceArrayList = models;
+    }
 
     public ProfileServicesAdapter(Context context, ArrayList<ServicesModel> serviceArrayList, double lat, double lng, String userName, OnRecyclerViewButtonClickListener listener) {
         this.context = context;
@@ -92,13 +95,13 @@ public class ProfileServicesAdapter extends RecyclerView.Adapter<ProfileServices
                 if (serviceArrayList.get(position).getService().getPrices().getCurrencySymbol() != null && !serviceArrayList.get(position).getService().getPrices().getCurrencySymbol().isEmpty()) {
                     strSymbol = serviceArrayList.get(position).getService().getPrices().getCurrencySymbol();
                 }
-                int valPrice = 0;
+                float valPrice = 0;
                 if (serviceArrayList.get(position).getService().getPrices().getPrice() != null && serviceArrayList.get(position).getService().getPrices().getPrice() > 0) {
                     valPrice = serviceArrayList.get(position).getService().getPrices().getPrice();
                 }
                 holder.txtServicePrice.setText(strSymbol + String.valueOf(valPrice));
 
-                int valPriceDiscount = 0;
+                float valPriceDiscount = 0;
                 if (serviceArrayList.get(position).getService().getPrices().getPriceWithoutDiscount() != null && serviceArrayList.get(position).getService().getPrices().getPriceWithoutDiscount() > 0) {
                     valPriceDiscount = serviceArrayList.get(position).getService().getPrices().getPriceWithoutDiscount();
                 }

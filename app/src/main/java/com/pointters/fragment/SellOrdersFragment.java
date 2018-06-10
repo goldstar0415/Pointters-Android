@@ -1,12 +1,18 @@
 package com.pointters.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,11 +28,13 @@ import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
 import com.pointters.activity.ChatActivity;
+import com.pointters.activity.FulfillmentActivity;
 import com.pointters.activity.ProfileScreenActivity;
 import com.pointters.adapter.BuyOrderAdapter;
 import com.pointters.adapter.SellOrdersAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.SellOrderModel;
 import com.pointters.model.response.GetSellOrdersResponse;
 import com.pointters.rest.ApiClient;
@@ -56,6 +64,8 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
     private SellOrdersAdapter sellOrdersAdapter;
     private SwipyRefreshLayout refreshLayout;
     private KProgressHUD loader;
+    private final int CALL_PHONE_REQUEST = 3;
+    private int selectedPosition = 0;
 
     private String lastDocId = "";
     private int limitCnt = 0;
@@ -101,12 +111,29 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
                         break;
 
                     case R.id.btn_phone:
+                        selectedPosition = position;
                         moveToCall(position);
                         break;
 
                     case R.id.txt_service_provider_name:
                         moveToProfile(position);
                         break;
+                }
+            }
+
+        });
+        sellOrdersAdapter.setListener1(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (sellOrderModelList.get(position).getOrder() != null) {
+                    String strId = sellOrderModelList.get(position).getOrder().getId();
+
+                    if (!strId.equals("")) {
+                        Intent intent = new Intent(getActivity(), FulfillmentActivity.class);
+                        intent.putExtra(ConstantUtils.SELECT_ORDER_ID, strId);
+                        intent.putExtra(ConstantUtils.SELECT_ORDER_TYPE, ConstantUtils.SELLER);
+                        startActivity(intent);
+                    }
                 }
             }
 
@@ -168,6 +195,9 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
     }
 
     private void moveToCall(int position) {
+        if (!checkPhoneCallPermission()) {
+            return;
+        }
         if (sellOrderModelList.get(position).getBuyer() != null) {
             String strPhone = "";
             if (sellOrderModelList.get(position).getBuyer().getPhone() != null && !sellOrderModelList.get(position).getBuyer().getPhone().isEmpty()) {
@@ -183,6 +213,31 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
                 callIntent.setData(Uri.parse("tel:" + strPhone));
                 startActivity(callIntent);
             }
+        }
+    }
+
+    private boolean checkPhoneCallPermission() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission( getActivity(), Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST);
+            return false;
+
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CALL_PHONE_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    moveToCall(selectedPosition);
+                }
+                break;
+
+            default:
+                break;
         }
     }
 

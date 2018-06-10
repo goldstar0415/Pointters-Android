@@ -1,5 +1,6 @@
 package com.pointters.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,6 +10,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.utils.ConstantUtils;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.senab.photoview.PhotoView;
 
 /**
@@ -45,6 +48,11 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
             ImageLoader.getInstance().displayImage(photoUrl, imageView, options);
         }
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     @Override
     public void onClick(View v) {

@@ -9,11 +9,58 @@
     <include layout="@layout/common_toolbar" />
 
 
-    <com.braintreepayments.cardform.view.CardForm
-        android:id="@+id/card_form"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.braintreepayments.cardform.view.CardForm
+            android:id="@+id/card_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:layout_margin="@dimen/_16sdp"/>
+        <Button
+            android:id="@+id/unionpay_enroll_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="SEND SMS"
+            android:visibility="gone"
+            android:onClick="sendSms" />
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/text_input_layout"
+            android:id="@+id/sms_code_container"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:labelFor="@+id/sms_code"
+            android:visibility="gone">
+
+            <com.braintreepayments.cardform.view.ErrorEditText
+                style="@style/card_form_field"
+                android:id="@+id/sms_code"
+                android:contentDescription="SMS AUTH CODE"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/purchase_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:enabled="false"
+        android:text="@string/purchase"
+        android:onClick="onPurchase" />
+
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_3sdp"

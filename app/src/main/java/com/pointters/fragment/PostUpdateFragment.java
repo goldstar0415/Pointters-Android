@@ -43,6 +43,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -64,19 +65,23 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
+import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
 import com.pointters.activity.TagServiceActivity;
 import com.pointters.adapter.PostDataAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.model.ChatServiceModel;
 import com.pointters.model.Media;
 import com.pointters.model.Pusher;
 import com.pointters.model.TagServiceSellerModel;
+import com.pointters.model.TagServiceTotalModel;
 import com.pointters.model.Tags;
 import com.pointters.model.request.PostUpdateRequest;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
+import com.pointters.utils.AppUtils;
 import com.pointters.utils.CommonUtils;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.EqualSpacingItemDecoration;
@@ -98,7 +103,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -124,17 +128,9 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     private View view;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-//    private CustomTabLayout tabLayout;
-//    private AddFragmentsInCrosswallPagerAdapter addFragmentsInCrosswallPagerAdapter;
-//    private RelativeLayout layoutCamera, layoutCrossWall, layoutChooseFromGallery;
     private CollapsingToolbarLayout toolbarMedia, toolbarTags;
     private EditText messgeEditText;
-//    private TextView txtTimer, btnPost;
-//    private CameraView cameraPreview;
     private Boolean IS_RECORDING_START = false;
-//    private CountDownTimer countDownTimer;
-//    private ImageView takeImage;
-//    private ViewPager containerViewPager;
     private Runnable updateRecordingThread;
     private KProgressHUD loader;
     private String OBJECT_KEY, filePath, fileUrl;
@@ -153,6 +149,7 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     private String postMediaURL = "";
     private String postMediaType = "";
     private boolean isConnectedTag = false;
+    private CollapsingToolbarLayout addServiceTag;
 
     ImageButton galleryButton, cameraButton, videoButton;
     ImageButton addServiceTagButton;
@@ -188,20 +185,6 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                 .setAnimationSpeed(2)
                 .setDimAmount(0.5f);
 
-        //Set Up Crosswall
-//        addFragmentsInCrosswallPagerAdapter = new AddFragmentsInCrosswallPagerAdapter(getChildFragmentManager(), backgroundMedia, getActivity(), "ADDSERVICE");
-//        containerViewPager.setAdapter(addFragmentsInCrosswallPagerAdapter);
-//        containerViewPager.setClipChildren(false);
-//        containerViewPager.setOffscreenPageLimit(addFragmentsInCrosswallPagerAdapter.getCount());
-
-//        if (backgroundMedia != null && backgroundMedia.size() > 0) {
-//            toolbarMedia.setVisibility(View.GONE);
-//            toolbarTags.setVisibility(View.VISIBLE);
-//        } else {
-//            toolbarMedia.setVisibility(View.VISIBLE);
-//            toolbarTags.setVisibility(View.GONE);
-//        }
-
         //Set Up Aws S3 Bucket
         BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(ConstantUtils.AWS_ACCESS_KEY, ConstantUtils.AWS_SECRATE_KEY);
         s3 = new AmazonS3Client(basicAWSCredentials);
@@ -215,7 +198,7 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                     case "delete":
                         if (backgroundMedia.size() > 0) {
                             backgroundMedia.remove(intent.getIntExtra(ConstantUtils.POSITION, 0));
-                            getPostMediaInfo(backgroundMedia.size()-1);
+//                            getPostMediaInfo(backgroundMedia.size()-1);
                             toolbarTags.setVisibility(View.GONE);
                             allowPostUpdate();
 
@@ -237,7 +220,6 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
         intentFilter.addAction("delete");
         intentFilter.addAction("post");
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(message, intentFilter);
-
         return view;
     }
 
@@ -248,6 +230,8 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
 
     private void initViews() {
 
+        addServiceTag = (CollapsingToolbarLayout) view.findViewById(R.id.toolbar_add_service_tags);
+        addServiceTag.setOnClickListener(this);
 
         //Camera Layout
         galleryButton = (ImageButton) view.findViewById(R.id.btn_gallery);
@@ -258,13 +242,6 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
         cameraButton.setOnClickListener(this);
         videoButton.setOnClickListener(this);
         addServiceTagButton = (ImageButton) view.findViewById(R.id.btn_service_tags);
-
-        //Crosswall Layout
-//        layoutCrossWall = (RelativeLayout) view.findViewById(R.id.layout_crosswall);
-//        containerViewPager = (ViewPager) view.findViewById(R.id.container_viewpager);
-//
-        //Choose From Gallery Layout
-//        layoutChooseFromGallery = (RelativeLayout) view.findViewById(R.id.layout_choose_gallery);
 
         //Choose Tag Layout
         toolbarMedia = (CollapsingToolbarLayout) view.findViewById(R.id.toolbar_add_media);
@@ -284,15 +261,25 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
             @Override
             public void afterTextChanged(Editable s) {}
         });
+
         postDataRecyclerView = (RecyclerView)view.findViewById(R.id.post_data_recyclerView);
         StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         postDataRecyclerView.setLayoutManager(lm);
-        postDataAdapter = new PostDataAdapter(getContext());
+        postDataAdapter = new PostDataAdapter(getContext(), new PostDataAdapter.OnDeleteButtonClickListener() {
+            @Override
+            public void deleteButtonClickListener(View view, int position, int type) {
+                if (type == 0) {
+                    postDataAdapter.deleteTagData();
+                }else{
+                    backgroundMedia.remove(position);
+                    postDataAdapter.setPostDatas(backgroundMedia);
+                }
+            }
+        });
         postDataRecyclerView.setAdapter(postDataAdapter);
         postDataRecyclerView.addItemDecoration(new EqualSpacingItemDecoration(16));
         postDataAdapter.notifyDataSetChanged();
 
-//        btnPost = (TextView) view.findViewById(R.id.btn_post);
     }
 
     private void setOnClickListners() {
@@ -463,8 +450,10 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
 //                break;
 
             case R.id.btn_service_tags:
-                Intent intent = new Intent(getActivity(), TagServiceActivity.class);
-                startActivityForResult(intent, REQUEST_FOR_TAG_CODE);
+                startActivityForResult(new Intent(getActivity(), TagServiceActivity.class), REQUEST_FOR_TAG_CODE);
+                break;
+            case R.id.toolbar_add_service_tags:
+                startActivityForResult(new Intent(getActivity(), TagServiceActivity.class), REQUEST_FOR_TAG_CODE);
                 break;
             case R.id.img_choose_bg_images:
                 showDiag();
@@ -482,6 +471,7 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
             case R.id.btn_video:
                 if (checkCameraPermission()) {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    cameraIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
                     startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
                 }
                 break;
@@ -650,6 +640,8 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
 //                    layoutChooseFromGallery.setVisibility(View.VISIBLE);
 
                     allowPostUpdate();
+                    EventBus.getDefault().post(new Pusher("postUpdate"));
+                    getActivity().onBackPressed();
                 }
                 else {
                     Toast.makeText(getActivity(), "Update failed!", Toast.LENGTH_LONG).show();
@@ -849,13 +841,13 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
 //        txtTagName.setText(strName);
 //        txtTagPos.setText(strPos);
 
+
         postDataAdapter.setTagData(model);
         postDataAdapter.notifyDataSetChanged();
     }
 
     private void allowPostUpdate() {
         if (!postMessage.equals("") || (!postMediaURL.equals("") && !postMediaType.equals(""))) {
-//            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("en"))
             EventBus.getDefault().post(new Pusher("enable"));
         } else {
             EventBus.getDefault().post(new Pusher("disable"));
@@ -909,17 +901,21 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
             switch (requestCode) {
                 case REQUEST_FOR_TAG_CODE:
                     isConnectedTag = true;
-//                    layoutPostTag.setVisibility(View.VISIBLE);
-//                    TagServiceSellerModel model = (TagServiceSellerModel) data.getSerializableExtra(ConstantUtils.CHOOSE_TAG_ID);
+                    Gson gsonOffer = new Gson();
+                    TagServiceSellerModel model = new TagServiceSellerModel();
+                    String strOfferService = data.getStringExtra(ConstantUtils.CHOOSE_TAG);
+                    model = gsonOffer.fromJson(strOfferService, TagServiceSellerModel.class);
 
-//                    String strId = data.getStringExtra(ConstantUtils.CHOOSE_TAG_ID);
-//                    String strType = data.getStringExtra(ConstantUtils.CHOOSE_TAG_TYPE);
-//                    String strName = data.getStringExtra(ConstantUtils.CHOOSE_TAG_NAME);
-//                    String strPos = data.getStringExtra(ConstantUtils.CHOOSE_TAG_POS);
-//                    String strPic = data.getStringExtra(ConstantUtils.CHOOSE_TAG_PIC);
+                    String strId = data.getStringExtra(ConstantUtils.CHOOSE_TAG_ID);
+                    String strType = data.getStringExtra(ConstantUtils.CHOOSE_TAG_TYPE);
+                    String strName = data.getStringExtra(ConstantUtils.CHOOSE_TAG_NAME);
+                    String strPos = data.getStringExtra(ConstantUtils.CHOOSE_TAG_POS);
+                    String strPic = data.getStringExtra(ConstantUtils.CHOOSE_TAG_PIC);
 
 //                    setTagServiceView(strId, strType, strName, strPos, strPic);
-                    setTagServiceView(new TagServiceSellerModel());
+                    postTagId = strId;
+                    postTagType = strType;
+                    setTagServiceView(model);
                     allowPostUpdate();
                     break;
 
@@ -964,7 +960,8 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
                 case CAMERA_IMAGE_REQUEST:
                     if (resultCode == RESULT_OK) {
                         Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                        ;                       new fileFromBitmap(bitmap, getActivity()).execute();
+                        loader.show();
+                        new fileFromBitmap(bitmap, getActivity()).execute();
                     }
                     break;
 
@@ -1125,44 +1122,51 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
-//        if (cameraPreview != null)
-//            cameraPreview.start();
-//
+        if (!sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").isEmpty() && sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").equals("0")) {
+            messgeEditText.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (messgeEditText.getText().toString().equals("")) {
+                        InputMethodManager keyboard = (InputMethodManager)
+                                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    }
+                }
+            },200);
+        }else if (!sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").isEmpty() && sharedPreferences.getString(ConstantUtils.LAST_SELECTED_TAB, "").equals("1")) {
+        }
+        else {
+            messgeEditText.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (messgeEditText.getText().toString().equals("")) {
+                        InputMethodManager keyboard = (InputMethodManager)
+                                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    }
+                }
+            },200);
+        }
+
         allowPostUpdate();
     }
 
     @Override
     public void onPause() {
-//        if (cameraPreview != null) {
-//            //  cameraPreview.stop();
-//            if (IS_RECORDING_START) {
-//                if (countDownTimer != null)
-//                    countDownTimer.cancel();
-//                cameraPreview.stopRecordingVideoWithRecording();
-//                takeImage.setImageResource(R.drawable.capture_button);
-//                IS_RECORDING_START = false;
-//                txtTimer.setText("10 Secs");
-//            }
-//        }
-
         super.onPause();
+
+        InputMethodManager hide = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        hide.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        if (cameraPreview != null) {
-//            cameraPreview.stop();
-//            if (IS_RECORDING_START) {
-//                if (countDownTimer != null)
-//                    countDownTimer.cancel();
-//                cameraPreview.stopRecordingVideoWithRecording();
-//            }
-//        }
-
         if (message != null)
             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(message);
+
+
     }
 
 
@@ -1258,7 +1262,7 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
         protected String doInBackground(Void... params) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            file = new File(getActivity().getExternalFilesDir(null), "background_" + System.currentTimeMillis() + "_image.jpeg");
+            file = new File(getActivity().getExternalFilesDir(null), "post_" + System.currentTimeMillis() + "_image.jpeg");
 
             try {
                 FileOutputStream fo = new FileOutputStream(file);
@@ -1268,7 +1272,10 @@ public class PostUpdateFragment extends Fragment implements View.OnClickListener
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            filePath = file.getAbsolutePath();
+            OBJECT_KEY = generateFileName();
+            fileUrl = "https://s3.amazonaws.com/pointters_dev/dev/" + OBJECT_KEY;
+            uploadFilesToAws("image");
             return null;
         }
 

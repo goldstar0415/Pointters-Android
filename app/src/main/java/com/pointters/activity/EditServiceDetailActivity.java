@@ -18,6 +18,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.ExifInterface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +47,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -72,6 +75,7 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
+import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
 import com.pointters.adapter.AddFragmentsInCrosswallPagerAdapter;
@@ -102,6 +106,7 @@ import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
+import com.pointters.utils.CommonUtils;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.CustomTabLayout;
 import com.yarolegovich.discretescrollview.DSVOrientation;
@@ -120,6 +125,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -147,14 +153,13 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
 
     private final int REQUEST_ADD_PRICE = 0;
     private final int REQUEST_EDIT_PRICE = 1;
-    private final int REQUEST_CHOOSE_CATEGORY = 2;
 
     private Geocoder geocoder;
     private List<Address> addresses;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private CustomTabLayout tabLayout;
-    private DiscreteScrollView recyclerMedia;
+    private RecyclerView recyclerMedia;
     private RecyclerView recyclerViewPricing;
     private ArrayList<DeliveryMethod> deliveryMethods;
     private DeliveryMethodsRecyclerViewAdapter deliveryMethodsRecyclerViewAdapter;
@@ -202,8 +207,8 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
     public String serviceId = "";
     public String categoryId = "";
     private MediaAdapter adapter;
-    private InfiniteScrollAdapter infiniteScrollAdapter;
-
+    String cameraImageFilePath = "";
+    String cameraVideoFilePath = "";
 
     public static void try2CreateCompressDir() {
         File f = new File(Environment.getExternalStorageDirectory(), File.separator + APP_DIR);
@@ -223,7 +228,7 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_service_details);
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         if (intent.getStringExtra("serviceId") == null) {
             categoryId = intent.getStringExtra("categoryId");
             AppUtils.setToolBarWithBothIcon(EditServiceDetailActivity.this, "Add Service Detail", R.drawable.back_icon, 0);
@@ -235,10 +240,14 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
 //                callGetServiceInfoApi(serviceId);
             }
         }
+        if (intent.getStringExtra("categoryId") != null) {
+            categoryId = intent.getStringExtra("categoryId");
+            String categoryName = intent.getStringExtra("category");
+            categoryModel = new CategoryModel(categoryId, categoryName);
+        }
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
-
+        fulfillmentMethod = new FulfillmentMethodForCustom1();
         if (!sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "").equals("")) {
             mUserLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
         }
@@ -324,20 +333,39 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         layoutRadius.setOnClickListener(this);
 
         btnRadius = (Button) findViewById(R.id.button_miles);
+        btnRadius.setText(String.format("%d miles", fulfillmentMethod.getLocalServiceRadius()));
         btnRadius.setOnClickListener(this);
         layoutRadius.setVisibility(View.GONE);
         layoutShipping.setVisibility(View.GONE);
-
         recyclerViewPricing = (RecyclerView) findViewById(R.id.recycler_view_pricing);
-        recyclerMedia = (DiscreteScrollView) findViewById(R.id.recycler_media);
+        recyclerMedia = (RecyclerView) findViewById(R.id.recycler_media);
+
+        recyclerMedia.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new MediaAdapter(getBaseContext(), files);
-        infiniteScrollAdapter = InfiniteScrollAdapter.wrap(adapter);
-        recyclerMedia.setAdapter(infiniteScrollAdapter);
-        recyclerMedia.setOrientation(DSVOrientation.HORIZONTAL);
-        recyclerMedia.setItemTransitionTimeMillis(150);
-        recyclerMedia.addOnItemChangedListener(this);
-        recyclerMedia.setItemTransformer(new ScaleTransformer.Builder().setMinScale(1).build());
+        recyclerMedia.setAdapter(adapter);
+        adapter.setListener(new OnRecyclerViewButtonClickListener() {
+            @Override
+            public void onButtonClick(View v, int position) {
+                files.remove(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
+//        recyclerMedia.setOrientation(DSVOrientation.HORIZONTAL);
+//        recyclerMedia.setItemTransitionTimeMillis(150);
+//        recyclerMedia.addOnItemChangedListener(this);
+//        recyclerMedia.setItemTransformer(new ScaleTransformer.Builder().setMinScale(1).build());
         initRecycleViews();
+        edtServiceDescription.requestFocus();
+        edtServiceDescription.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (edtServiceDescription.getText().toString().equals("")) {
+                    InputMethodManager keyboard = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
+            }
+        },200);
 
     }
 
@@ -501,6 +529,7 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         switch (v.getId()){
 
             case R.id.btn_add_service:
+                CallAddServiceApi();
                 break;
             case R.id.btn_add_price_option:
                 Intent intent = new Intent(EditServiceDetailActivity.this, AddPriceOptionActivity.class);
@@ -516,14 +545,29 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
 
             case R.id.btn_camera:
                 if (checkCameraPermission()) {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_IMAGE_REQUEST);
+                    Intent pictureIntent = new Intent(
+                            MediaStore.ACTION_IMAGE_CAPTURE);
+                    if(pictureIntent.resolveActivity(getPackageManager()) != null){
+                        //Create a file to store the image
+                        File photoFile = null;
+                        try {
+                            photoFile = createImageFile();
+                        } catch (IOException ex) {
+                            // Error occurred while creating the File
+                        }
+                        if (photoFile != null) {
+                            Uri photoURI = FileProvider.getUriForFile(EditServiceDetailActivity.this,"com.pointters.androiddevelopment.provider", photoFile);
+                            pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                            startActivityForResult(pictureIntent, CAMERA_IMAGE_REQUEST);
+                        }
+                    }
                 }
                 break;
 
             case R.id.btn_video:
                 if (checkCameraPermission()) {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    cameraIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
                     startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
                 }
                 break;
@@ -538,6 +582,9 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
 
             case R.id.layout_shipping:
                 Intent intent1 = new Intent(EditServiceDetailActivity.this, AddShippingDetailActivity.class);
+                Gson gson = new Gson();
+                intent1.putExtra(ConstantUtils.ADD_ADDRESS, gson.toJson(fulfillmentMethod.getAddress()));
+                intent1.putExtra(ConstantUtils.ADD_PARCEL, gson.toJson(fulfillmentMethod.getParcel()));
                 startActivityForResult(intent1, REQUEST_SHIPPING_DETAIL);
                 break;
 
@@ -545,12 +592,77 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
 
     }
 
+    public void CallAddServiceApi(){
+//        if (files.size() > 0) {
+//            files.remove(files.size() - 1);
+//        }
+        serviceDesc = edtServiceDescription.getText().toString();
+        //SetUp fulFillment method
+//        fulfillmentMethod = new FulfillmentMethodForCustom1(deliveryMethods.get(0).isSelected(), deliveryMethods.get(1).isSelected(), deliveryMethods.get(2).isSelected(), deliveryMethods.get(3).isSelected(), mServiceRadius, "mile");
+        AddServiceRequest addServiceRequest = new AddServiceRequest(categoryModel, serviceDesc, fulfillmentMethod, files, pricesList);
+
+        loader.show();
+        if (fulfillmentMethod.getShipment()) {
+            try {
+                List<Double> coordinates = new ArrayList<>();
+                coordinates.add(0, mUserLng);
+                coordinates.add(1, mUserLat);
+                LongitudeLatitude longitudeLatitude = new LongitudeLatitude(coordinates, "Point");
+
+                addresses = geocoder.getFromLocation(mUserLat, mUserLng, 1);// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                String city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+
+                LocationRequestModel location = new LocationRequestModel(city, country, longitudeLatitude, postalCode, state, state);
+                ArrayList<LocationRequestModel> locations = new ArrayList<>();
+                locations.add(location);
+                addServiceRequest.setLocation(locations);
+                fulfillmentMethod.setAddress(addressModel);
+                fulfillmentMethod.setParcel(parcelModel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> updateServiceRequestCall = apiService.postService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), addServiceRequest);
+        updateServiceRequestCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (loader.isShowing()) {
+                    loader.dismiss();
+                }
+
+                if (response.code() == 200) {
+                    Toast.makeText(EditServiceDetailActivity.this, "Service Added successfully!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.putExtra(ConstantUtils.EDIT_SERVICE_DELETE, "no");
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    Log.e("Error: ", response.errorBody().toString());
+                    Toast.makeText(EditServiceDetailActivity.this, "adding service failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (loader.isShowing())     loader.dismiss();
+                Toast.makeText(EditServiceDetailActivity.this, "adding service failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 
     public void showRadiusDialog(){
+        int selectedIndex = fulfillmentMethod.getLocalServiceRadius() / 5 - 1;
         new MaterialDialog.Builder(this)
                 .title("Choose Radius")
                 .items(R.array.radius)
-                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                .itemsCallbackSingleChoice(selectedIndex, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         /**
@@ -560,6 +672,8 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
                         String radius = text.toString();
                         mServiceRadius = Integer.valueOf(radius.replace(" miles", ""));
                         btnRadius.setText(text);
+                        fulfillmentMethod.setLocalServiceRadius(Integer.parseInt(((String)text).replace(" miles", "")));
+                        fulfillmentMethod.setLocalServiceRadiusUom("mile");
                         return true;
                     }
                 })
@@ -623,8 +737,24 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
                 viewDialog.setVisibility(View.INVISIBLE);
 
                 if (isCamera) {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_IMAGE_REQUEST);
+                    Intent pictureIntent = new Intent(
+                            MediaStore.ACTION_IMAGE_CAPTURE);
+                    if(pictureIntent.resolveActivity(getPackageManager()) != null){
+                        //Create a file to store the image
+                        File photoFile = null;
+                        try {
+                            photoFile = createImageFile();
+                        } catch (IOException ex) {
+                            // Error occurred while creating the File
+                        }
+                        if (photoFile != null) {
+                            Uri photoURI = FileProvider.getUriForFile(EditServiceDetailActivity.this,"com.pointters.androiddevelopment.provider", photoFile);
+                            pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                            startActivityForResult(pictureIntent, CAMERA_IMAGE_REQUEST);
+                        }
+                    }
+//                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                    startActivityForResult(cameraIntent, CAMERA_IMAGE_REQUEST);
                 } else {
                     new ImagePicker.Builder(EditServiceDetailActivity.this)
                             .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
@@ -645,8 +775,25 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
                 viewDialog.setVisibility(View.INVISIBLE);
 
                 if (isCamera) {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
+                    Intent videoIntent = new Intent(
+                            MediaStore.ACTION_VIDEO_CAPTURE);
+                    if(videoIntent.resolveActivity(getPackageManager()) != null){
+                        //Create a file to store the image
+                        File videoFile = null;
+                        try {
+                            videoFile = createVideoFile();
+                        } catch (IOException ex) {
+                            // Error occurred while creating the File
+                        }
+                        if (videoFile != null) {
+                            Uri photoURI = FileProvider.getUriForFile(EditServiceDetailActivity.this,"com.pointters.androiddevelopment.provider", videoFile);
+                            videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                            videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+                            startActivityForResult(videoIntent, CAMERA_VIDEO_REQUEST);
+                        }
+                    }
+//                    Intent cameraIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+//                    startActivityForResult(cameraIntent, CAMERA_VIDEO_REQUEST);
                 } else {
                     new VideoPicker.Builder(EditServiceDetailActivity.this)
                             .mode(VideoPicker.Mode.GALLERY)
@@ -661,7 +808,12 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         dialog.show();
     }
 
-
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -689,9 +841,46 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                case CAMERA_IMAGE_REQUEST:
+                    if (resultCode == RESULT_OK) {
+                        if (!cameraImageFilePath.equals("")) {
+                            loader.show();
+                            filePath = cameraImageFilePath;
+                            saveBitmapToFile(new File(filePath));
+                            OBJECT_KEY = generateFileName();
+                            fileUrl = "https://s3.amazonaws.com/pointters_dev/dev/" + OBJECT_KEY;
+                            uploadFilesToAws(getResources().getString(R.string.image));
+                        }
+                    }
+                    break;
+
+                case CAMERA_VIDEO_REQUEST:
+                    if (resultCode == RESULT_OK) {
+                        Uri video;
+                        if (data.getData() != null)
+                            video = data.getData();
+                        else if (data.getDataString() != null) {
+                            String path = data.getDataString();
+                            video = Uri.parse(path);
+                        } else {
+                            return;
+                        }
+
+                        loader.show();
+                        uncompressedFilePath = CommonUtils.getVideoFilePathFromURI(EditServiceDetailActivity.this, video);
+                        loadFFMpegBinary();
+                        filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/compressed.mp4";
+                        String[] command = {"-y", "-i", uncompressedFilePath, "-s", "640x480", "-r", "25", "-vcodec", "mpeg4", "-b:v", "150k", "-b:a", "48000", "-ac", "2", "-ar", "22050", filePath};
+                        execFFmpegBinary(command);                    }
+                    break;
                 case REQUEST_SHIPPING_DETAIL:
-                    parcelModel = (ParcelModel) data.getSerializableExtra(ConstantUtils.ADD_PARCEL);
-                    addressModel = (AddressModel) data.getSerializableExtra(ConstantUtils.ADD_ADDRESS);
+                    Gson gson = new Gson();
+                    String strAddress = data.getStringExtra(ConstantUtils.ADD_ADDRESS);
+                    addressModel = gson.fromJson(strAddress, AddressModel.class);
+                    String strParcel = data.getStringExtra(ConstantUtils.ADD_PARCEL);
+                    parcelModel = gson.fromJson(strParcel, ParcelModel.class);
+                    fulfillmentMethod.setAddress(addressModel);
+                    fulfillmentMethod.setParcel(parcelModel);
                     allowUpdateService();
                     break;
                 case REQUEST_ADD_PRICE:
@@ -758,23 +947,20 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
     }
 
     private void allowUpdateService() {
-        if (!serviceDesc.equals("") && files.size() > 1 && pricesList.size() > 0 && isCategory) {
-            if (deliveryMethods.get(2).isSelected()) {
-                if (mServiceRadius > 0) {
-                    btnAddService.setSelected(true);
-                    btnAddService.setEnabled(true);
-                } else {
-                    btnAddService.setSelected(false);
-                    btnAddService.setEnabled(false);
-                }
-            } else {
-                btnAddService.setSelected(true);
-                btnAddService.setEnabled(true);
-            }
-        } else {
-            btnAddService.setSelected(false);
-            btnAddService.setEnabled(false);
-        }
+        btnAddService.setEnabled(true);
+//        if (!serviceDesc.equals("") && files.size() > 0 && pricesList.size() > 0 && isCategory) {
+//            if (fulfillmentMethod.getOnline() || fulfillmentMethod.getStore()) {
+//                btnAddService.setEnabled(true);
+//            } else if (fulfillmentMethod.getShipment()) {
+//                if (fulfillmentMethod.getParcel() != null) {
+//                    btnAddService.setEnabled(true);
+//                }
+//            } else if (fulfillmentMethod.getLocal()) {
+//                if (fulfillmentMethod.getLocalServiceRadius() > 0) {
+//                    btnAddService.setEnabled(true);
+//                }
+//            }
+//        }
     }
 
     private void uploadFilesToAws(final String mediaType) {
@@ -793,9 +979,9 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
                         files.add(media);
                     }
                     adapter.setData(files);
-                    adapter.notifyItemInserted(files.size() - 1);
-                    infiniteScrollAdapter.notifyItemInserted(files.size() - 1);
-                    recyclerMedia.scrollToPosition(files.size() - 1);
+//                    infiniteScrollAdapter = InfiniteScrollAdapter.wrap(adapter);
+//                    infiniteScrollAdapter.notifyDataSetChanged();
+//                    recyclerMedia.scrollToPosition(files.size() - 1);
 //
                     allowUpdateService();
                 } else if (state.equals(TransferState.FAILED)) {
@@ -922,9 +1108,77 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
 
                 // resize bitmap
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(roughBitmap, (int) (roughBitmap.getWidth() * values[0]), (int) (roughBitmap.getHeight() * values[4]), true);
+                ExifInterface ei = new ExifInterface(file.getAbsolutePath());
+                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_UNDEFINED);
+
+                Bitmap rotatedBitmap = null;
+                switch(orientation) {
+
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        rotatedBitmap = rotateImage(resizedBitmap, 90);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        rotatedBitmap = rotateImage(resizedBitmap, 180);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        rotatedBitmap = rotateImage(resizedBitmap, 270);
+                        break;
+
+                    case ExifInterface.ORIENTATION_NORMAL:
+                    default:
+                        rotatedBitmap = resizedBitmap;
+                }
 
                 // override resized bitmap image
                 file.createNewFile();
+                FileOutputStream out = new FileOutputStream(file);
+                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
+            }
+
+            return file;
+
+        } catch (IOException e) {
+            Log.e("Image", e.getMessage(), e);
+            return null;
+        }
+    }
+    public File saveBitmapToFile(Bitmap bitmap) {
+        File file = new File("pointters_capture_image"+generateFileName());
+        try {
+            // BitmapFactory options to downsize the image
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            options.inSampleSize = 6;
+
+            int originalWidth = options.outWidth;
+            int originalHeight = options.outHeight;
+
+            if (originalWidth > 160) {
+
+                int reqWidth = 640;
+                int reqHeight = (reqWidth * originalHeight) / originalWidth;
+
+                // decode full image pre-resized
+                options = new BitmapFactory.Options();
+
+                // calc rought re-size (this is no exact resize)
+                options.inSampleSize = Math.max(originalWidth / reqWidth, originalHeight / reqHeight);
+
+                // calc exact destination size
+                Matrix m = new Matrix();
+                RectF inRect = new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight());
+                RectF outRect = new RectF(0, 0, reqWidth, reqHeight);
+                m.setRectToRect(inRect, outRect, Matrix.ScaleToFit.CENTER);
+                float[] values = new float[9];
+                m.getValues(values);
+
+                // resize bitmap
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * values[0]), (int) (bitmap.getHeight() * values[4]), true);
+
+                // override resized bitmap image
                 FileOutputStream out = new FileOutputStream(file);
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
             }
@@ -935,6 +1189,40 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
             Log.e("Image", e.getMessage(), e);
             return null;
         }
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir =
+                getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        cameraImageFilePath = image.getAbsolutePath();
+        return image;
+    }
+
+    private File createVideoFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "VIDEO_" + timeStamp + "_";
+        File storageDir =
+                getExternalFilesDir(Environment.DIRECTORY_MOVIES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".mp4",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        cameraVideoFilePath = image.getAbsolutePath();
+        return image;
     }
 
     @Override
@@ -1029,25 +1317,30 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
             case 0:
                 check1.setSelected(true);
                 fulfillmentMethod.setOnline(true);
+                allowUpdateService();
                 break;
             case 1:
                 check2.setSelected(true);
                 fulfillmentMethod.setShipment(true);
                 layoutShipping.setVisibility(View.VISIBLE);
+                allowUpdateService();
                 break;
             case 2:
                 check3.setSelected(true);
                 fulfillmentMethod.setLocal(true);
                 layoutRadius.setVisibility(View.VISIBLE);
+                allowUpdateService();
                 break;
             case 3:
                 check4.setSelected(true);
                 fulfillmentMethod.setStore(true);
+                allowUpdateService();
                 break;
             default:
                 break;
         }
 
+        allowUpdateService();
     }
 
     private void initRecycleViews() {

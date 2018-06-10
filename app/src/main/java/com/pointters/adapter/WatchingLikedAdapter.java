@@ -136,12 +136,12 @@ public class WatchingLikedAdapter extends RecyclerView.Adapter<WatchingLikedAdap
 
                     if (strCity.equals("")) {
                         if (!strState.equals("")) {
-                            strPos = strKm + "@" + strState;
+                            strPos = strKm + " " + strState;
                         } else {
                             strPos = strKm;
                         }
                     } else {
-                        strPos = strKm + "@" + strCity + ", " + strState;
+                        strPos = strKm + " " + strCity + ", " + strState;
                     }
 
                     holder.txtDistance.setText(strPos);

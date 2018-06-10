@@ -88,18 +88,26 @@
                 android:layout_height="@dimen/fix_0.5dp"
                 android:background="@drawable/divider_option" />
 
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <cn.jzvd.JZVideoPlayerStandard
+                    android:id="@+id/video_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_140sdp" />
+
+            </RelativeLayout>
             <ImageView
                 android:id="@+id/post_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_140sdp"
-                android:src="@drawable/sample2"
                 android:scaleType="centerCrop"/>
+
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fix_0.5dp"
-                android:background="@drawable/divider_option"
-                android:layout_alignBottom="@+id/img_service"/>
+                android:background="@drawable/divider_option" />
 
         </RelativeLayout>
 
@@ -114,6 +122,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/fix_0.5dp"
+                    android:background="@drawable/divider_option"/>
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/img_profile1"
@@ -275,10 +287,6 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fix_0.5dp"
-                android:background="@drawable/divider_option"/>
 
         </LinearLayout>
         <LinearLayout
@@ -286,9 +294,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/colorWhite">
+            android:background="@color/colorWhite"
+            android:layout_marginTop="-0.5dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@drawable/divider_option"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_5sdp"
@@ -298,20 +311,20 @@
 
                 <LinearLayout
                     android:id="@+id/view_like"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_5sdp"
                     tools:ignore="RtlHardcoded">
 
-                    <ImageView
+                    <com.like.LikeButton
+                        app:icon_type="heart"
+                        app:icon_size="@dimen/_12sdp"
                         android:id="@+id/img_like"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/icon_setting_like"/>
+                        android:layout_gravity="center"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"/>
                     <TextView
                         android:id="@+id/txt_likes"
                         android:layout_width="wrap_content"
@@ -324,16 +337,14 @@
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/view_comment"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_toRightOf="@+id/view_like"
-                    android:layout_toEndOf="@+id/view_like"
+                    android:layout_gravity="center"
                     tools:ignore="ObsoleteLayoutParam,RtlHardcoded">
 
                     <ImageView
@@ -355,17 +366,12 @@
 
                 <LinearLayout
                     android:id="@+id/view_share"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_toRightOf="@+id/view_like"
-                    android:layout_toEndOf="@+id/view_like"
-                    tools:ignore="ObsoleteLayoutParam,RtlHardcoded">
+                    android:layout_marginEnd="@dimen/_5sdp">
 
                     <ImageView
                         android:id="@+id/img_share"
@@ -384,12 +390,13 @@
                         android:layout_margin="@dimen/_5sdp"/>
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fix_0.5dp"
-                android:background="@drawable/divider_option"/>
+                android:background="@drawable/divider_option"
+                android:layout_marginBottom="-0.5dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_comments"
@@ -424,8 +431,8 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/img_profile3"
-                    android:layout_width="@dimen/_36sdp"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/user_avatar_placeholder"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -434,17 +441,18 @@
                     app:riv_mutate_background="true"
                     app:riv_oval="true"
                     app:riv_tile_mode="clamp"
-                    android:layout_margin="@dimen/_10sdp"/>
+                    android:layout_marginStart="@dimen/_10sdp"/>
 
                 <EditText
                     android:id="@+id/edt_comment"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_32sdp"
                     android:layout_weight="3"
                     android:hint="Write a Comment"
                     android:layout_gravity="center_vertical"
                     android:textSize="@dimen/text_size_tiny"
                     android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_16sdp"
                     android:background="@color/transparent"
                     />
 

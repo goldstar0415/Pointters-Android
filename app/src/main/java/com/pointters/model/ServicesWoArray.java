@@ -65,35 +65,39 @@ public class ServicesWoArray {
             }
             return loc;
         }else if (location instanceof ArrayList) {
-            LinkedTreeMap linkedTreeMap = ((ArrayList<LinkedTreeMap>) location).get(0);
-            LocationModel loc = new LocationModel();
-            if (linkedTreeMap.containsKey("_id")) {
-                loc.set_id(linkedTreeMap.get("_id").toString());
+            if (((ArrayList<LinkedTreeMap>) location).size() > 0) {
+                LinkedTreeMap linkedTreeMap = ((ArrayList<LinkedTreeMap>) location).get(0);
+                LocationModel loc = new LocationModel();
+                if (linkedTreeMap.containsKey("_id")) {
+                    loc.set_id(linkedTreeMap.get("_id").toString());
+                }
+                if (linkedTreeMap.containsKey("city")){
+                    loc.setCity(linkedTreeMap.get("city").toString());
+                }
+                if (linkedTreeMap.containsKey("country")){
+                    loc.setCountry(linkedTreeMap.get("country").toString());
+                }
+                if (linkedTreeMap.containsKey("geoJson")){
+                    LinkedTreeMap gj = (LinkedTreeMap) linkedTreeMap.get("geoJson");
+                    GeoJsonModel geoJsonModel = new GeoJsonModel();
+                    geoJsonModel.setType(gj.get("type").toString());
+                    ArrayList<Double> doubles = (ArrayList<Double>) gj.get("coordinates");
+                    geoJsonModel.setCoordinates(doubles);
+                    loc.setGeoJson(geoJsonModel);
+                }
+                if (linkedTreeMap.containsKey("postalCode")){
+                    loc.setPostalCode(linkedTreeMap.get("postalCode").toString());
+                }
+                if (linkedTreeMap.containsKey("province")){
+                    loc.setProvince(linkedTreeMap.get("province").toString());
+                }
+                if (linkedTreeMap.containsKey("state")){
+                    loc.setState(linkedTreeMap.get("state").toString());
+                }
+                return loc;
+            }else {
+                return null;
             }
-            if (linkedTreeMap.containsKey("city")){
-                loc.setCity(linkedTreeMap.get("city").toString());
-            }
-            if (linkedTreeMap.containsKey("country")){
-                loc.setCountry(linkedTreeMap.get("country").toString());
-            }
-            if (linkedTreeMap.containsKey("geoJson")){
-                LinkedTreeMap gj = (LinkedTreeMap) linkedTreeMap.get("geoJson");
-                GeoJsonModel geoJsonModel = new GeoJsonModel();
-                geoJsonModel.setType(gj.get("type").toString());
-                ArrayList<Double> doubles = (ArrayList<Double>) gj.get("coordinates");
-                geoJsonModel.setCoordinates(doubles);
-                loc.setGeoJson(geoJsonModel);
-            }
-            if (linkedTreeMap.containsKey("postalCode")){
-                loc.setPostalCode(linkedTreeMap.get("postalCode").toString());
-            }
-            if (linkedTreeMap.containsKey("province")){
-                loc.setProvince(linkedTreeMap.get("province").toString());
-            }
-            if (linkedTreeMap.containsKey("state")){
-                loc.setState(linkedTreeMap.get("state").toString());
-            }
-            return loc;
         }
         return null;
     }

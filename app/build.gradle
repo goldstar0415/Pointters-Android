@@ -9,13 +9,18 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 26
     buildToolsVersion '27.0.3'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     defaultConfig {
         applicationId "com.pointters.androiddevelopment"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -38,6 +43,7 @@ android {
 repositories {
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://jitpack.io' }
     maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
 }
 
@@ -48,11 +54,16 @@ dependencies {
     })
     //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:26.1.0"
+    //noinspection GradleDependency
     implementation "com.android.support.constraint:constraint-layout:${rootProject.constraintLayout}"
     implementation "com.android.support:design:26.1.0"
-    //noinspection GradleCompatible,GradleDependency
-    implementation "com.google.android.gms:play-services-location:12.0.0"
-
+    implementation "com.google.android.gms:play-services-location:15.0.1"
+    //noinspection UseOfBundledGooglePlayServices
+//    implementation 'com.google.android.gms:play-services:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-wallet:15.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
     //for dp defined for muliple size phone
 
     //for custom fonts
@@ -65,7 +76,7 @@ dependencies {
 //    implementation project(':libs:zxing-android-embedded')
 //    implementation project(':bottom-navigation')
     implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
-    implementation 'com.squareup.leakcanary:leakcanary-android:1.5'
+//    implementation 'com.squareup.leakcanary:leakcanary-android:1.5'
 
     implementation 'com.google.zxing:core:3.3.2'
 //    implementation 'com.google.zxing:android-core:3.3.0'
@@ -74,7 +85,7 @@ dependencies {
     }
 //    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 
-    implementation "com.facebook.android:facebook-android-sdk:4.24.0"
+    implementation "com.facebook.android:facebook-android-sdk:4.32.0"
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
@@ -99,12 +110,21 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'at.blogc:expandabletextview:1.0.3'
     implementation 'com.amazonaws:aws-android-sdk-s3:2.2.+'
     // google play services
-    implementation 'com.google.android.gms:play-services-maps:12.0.0'
-    implementation 'com.afollestad:easyvideoplayer:0.3.0'
+//    implementation 'com.afollestad:easyvideoplayer:0.3.0'
+//    implementation 'com.jarvanmo:exoplayerview:2.0.2'
+//    implementation 'com.linsea:universalvideoview:1.1.0@aar'
+//    implementation 'com.github.tcking:giraffeplayer2:0.1.19-full'
+
+    implementation project(':jiaozivideoplayer')
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.4'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.4'
+    implementation 'com.danikula:videocache:2.7.0'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.7.1'
+
     implementation 'com.kaopiz:kprogresshud:1.1.0'
     implementation 'com.writingminds:FFmpegAndroid:0.3.2'
     implementation 'com.jaredrummler:material-spinner:1.2.5'
@@ -115,8 +135,15 @@ dependencies {
     implementation 'com.github.omadahealth:swipy:1.2.3@aar'
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
     implementation 'com.github.thunder413:DateTimeUtils:1.0'
+    implementation 'net.danlew:android.joda:2.9.9.4'
+    implementation 'com.github.marlonlom:timeago:3.0.2'
+    implementation 'com.chootdev:timezago:1.1.8'
+
+    implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
     implementation 'com.braintreepayments:card-form:3.3.0'
     implementation 'com.braintreepayments.api:braintree:2.12.0'
+    implementation 'com.braintreepayments.api:drop-in:3.3.0'
+
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.wdullaer:materialdatetimepicker:3.5.1'
     implementation 'com.github.skydoves:powermenu:2.0.1'
@@ -137,5 +164,8 @@ dependencies {
     //carousel View
     implementation 'com.yarolegovich:discrete-scrollview:1.4.4'
 
+    //Currency EditText
+    implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
+
 }
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'

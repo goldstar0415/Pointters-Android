@@ -14,6 +14,8 @@ import com.pointters.listener.OnRecycleItemClickListener;
 import com.pointters.listener.RecyclerViewItemClickWithSource;
 import com.pointters.model.Prices;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,12 +25,14 @@ import java.util.List;
 public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.MyViewHolder>{
     private Context context;
     private List<Prices> pricesList;
-    private int count=1;
+    private int count = 1;
     private MyViewHolder myViewHolder;
     private RecyclerViewItemClickWithSource recyclerViewItemClickWithSource;
+    private ArrayList<Integer> priceCountList;
     public PriceAdapter(Context context, List<Prices> pricesList, RecyclerViewItemClickWithSource listener) {
         this.context = context;
         this.pricesList = pricesList;
+        this.priceCountList = new ArrayList<Integer>(Collections.nCopies(pricesList.size(), 0));
         this.recyclerViewItemClickWithSource = listener;
     }
 
@@ -36,6 +40,10 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.MyViewHolder
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_price, parent, false);
         return new PriceAdapter.MyViewHolder(itemView);
+    }
+
+    public ArrayList<Integer> getPriceCountList() {
+        return priceCountList;
     }
 
     @Override
@@ -46,23 +54,39 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.MyViewHolder
             if (!prices.getDescription().isEmpty() && !prices.getTimeUnitOfMeasure().isEmpty() && !String.valueOf(prices.getTime()).isEmpty() && !String.valueOf(prices.getPrice()).isEmpty()) {
                 holder.txtPriceDesc.setText(prices.getCurrencySymbol() + String.valueOf(prices.getPrice()) + " For " + String.valueOf(prices.getTime()) + "" + prices.getTimeUnitOfMeasure() + " - " + prices.getDescription());
             }
-            holder.txtCount.setText("1");
+            if (priceCountList.size() > position) {
+                holder.txtCount.setText(String.valueOf(priceCountList.get(position)));
+            }else{
+                priceCountList = new ArrayList<Integer>(Collections.nCopies(pricesList.size(), 0));
+                holder.txtCount.setText(String.valueOf(priceCountList.get(position)));
+            }
             holder.imgPlus.setTag(position);
             holder.imgMinus.setTag(position);
-           /* holder.imgPlus.setOnClickListener(new View.OnClickListener() {
+            holder.imgPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    recyclerViewItemClickWithSource.onItemClick(position,"plus");
+                    int p = priceCountList.get(position);
+                    p++;
+                    priceCountList.remove(position);
+                    priceCountList.add(position, p);
+                    notifyItemChanged(position);
+                    recyclerViewItemClickWithSource.onItemClick(position, prices, 0);
                 }
             });
             holder.imgMinus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    recyclerViewItemClickWithSource.onItemClick(position,"minus");
+                    int p = priceCountList.get(position);
+                    if (p > 0) {
+                        p--;
+                    }
+                    priceCountList.remove(position);
+                    priceCountList.add(position, p);
+                    notifyItemChanged(position);
+                    recyclerViewItemClickWithSource.onItemClick(position, prices, 1);
                 }
             });
             holder.txtCount.setTag(holder);
-*/
 
         }
 

@@ -2,6 +2,7 @@ package com.pointters.adapter;
 
 import android.content.Context;
 import android.location.Location;
+import android.location.LocationManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.ReceivedOfferModel;
+import com.pointters.utils.GPSTracker;
 import com.pointters.utils.SquareImageView;
 
 import java.lang.ref.WeakReference;
@@ -141,10 +143,12 @@ public class CustomOffersAdapter extends RecyclerView.Adapter<CustomOffersAdapte
                         servicePos.setLatitude(geoJson.getCoordinates().get(1));
                         servicePos.setLongitude(geoJson.getCoordinates().get(0));
 
-                        Location userPos = new Location("");
-                        userPos.setLatitude(userLat);
-                        userPos.setLongitude(userLng);
+//                        Location userPos = new Location("");
+                        Location userPos = new GPSTracker(context).getLoc();
+//                        userPos.setLatitude(userLat);
+//                        userPos.setLongitude(userLng);
 
+                        if (userPos != null)
                         strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
                     }
                 }

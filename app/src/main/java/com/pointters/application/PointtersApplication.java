@@ -5,12 +5,14 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
+import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.pointters.R;
-import com.squareup.leakcanary.LeakCanary;
+
+import net.danlew.android.joda.JodaTimeAndroid;
 
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -55,21 +57,10 @@ public class PointtersApplication extends Application {
                 .build());
         sInstance = this;
          /*For UIL SDK initialization*/
+        JodaTimeAndroid.init(this);
         initImageLoader(getApplicationContext());
+        DateTimeUtils.setTimeZone("UTC");
 
-        initLeakCanary();
-    }
-
-    /**
-     * use LeakCanary to check mey leak
-     */
-    private void initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(this);
     }
 
     @Override

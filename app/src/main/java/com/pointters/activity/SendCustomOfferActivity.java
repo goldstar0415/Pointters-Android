@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,13 +32,18 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.model.AddressModel;
 import com.pointters.model.ChatServiceModel;
 import com.pointters.model.CustomOfferModels;
 import com.pointters.model.FulfillmentMethodForCustom;
+import com.pointters.model.FulfillmentMethodForCustom1;
 import com.pointters.model.LinkServiceModel;
 import com.pointters.model.Media;
+import com.pointters.model.ParcelModel;
 import com.pointters.model.Tags;
 import com.pointters.model.UserChatModel;
+import com.pointters.model.request.LocationRequestModel;
+import com.pointters.model.request.LongitudeLatitude;
 import com.pointters.model.request.PostUpdateRequest;
 import com.pointters.model.request.SendCustomOfferRequest;
 import com.pointters.model.response.GetCustomOfferDetailsResponse;
@@ -54,11 +60,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by mac on 12/25/17.
@@ -67,10 +76,11 @@ import retrofit2.Response;
 public class SendCustomOfferActivity extends AppCompatActivity implements OnApiFailDueToSessionListener {
 
     private final int LINK_SERVICE_REQUEST = 9;
+    private final int REQUEST_SHIPPING_DETAIL = 3;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private TextView txtTitle, txtLinked, btnSend;
+    private TextView txtTitle, txtLinked, btnSend, txtRemainCharacters, txtServiceDesc, txtServicePrice, txtServiceDuration, txtServiceUserName;
     private EditText editPrice, editOfferDesc, editWorkTime, editMiles;
     private RelativeLayout layoutShipping, layoutRadius, layoutLink;
     CardView layoutService;
@@ -104,6 +114,10 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
     private ChatServiceModel linkService = null;
 
     private Button btnRadius;
+    private ParcelModel parcelModel = new ParcelModel();
+    private AddressModel addressModel = new AddressModel();
+    private List<Address> addresses;
+    private FulfillmentMethodForCustom1 fulfillmentMethod = new FulfillmentMethodForCustom1();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +147,7 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
 
         initUI();
 
+
         if (isMessage == 2 || isMessage == 3) {
             btnSend.setSelected(true);
             btnSend.setEnabled(true);
@@ -142,7 +157,6 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
             callGetCustomOfferDetails(offer_id);
         } else {
             btnSend.setSelected(false);
-
             offer_buyerId = sharedPreferences.getString(ConstantUtils.CHAT_USER_ID, "");
             verified = sharedPreferences.getInt(ConstantUtils.USER_VERIFIED, 0);
             setDeliveryMethod(2);
@@ -150,6 +164,7 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private void initUI() {
         btnSend = (Button) findViewById(R.id.btn_send);
         layoutLink = (RelativeLayout) findViewById(R.id.layout_link);
@@ -160,19 +175,20 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         layoutRadius.setOnClickListener(mBaseClickListener);
         txtLinked = (TextView) findViewById(R.id.txt_link_service);
         txtLinked.setText(R.string.link_a_service);
-
+        txtRemainCharacters = (TextView) findViewById(R.id.txt_remain_character);
+        txtServiceDesc = (TextView) findViewById(R.id.txt_service_name);
+        txtServiceDuration = (TextView) findViewById(R.id.txt_price_desc);
+        txtServicePrice = (TextView) findViewById(R.id.txt_service_price);
+        txtServiceUserName = (TextView) findViewById(R.id.txt_service_provider_name);
         btnRadius = (Button) findViewById(R.id.button_miles);
         btnRadius.setOnClickListener(mBaseClickListener);
+        btnRadius.setText(String.format("%d miles", fulfillmentMethod.getLocalServiceRadius()));
         layoutRadius.setVisibility(View.GONE);
         layoutShipping.setVisibility(View.GONE);
 
         layoutService = (CardView) findViewById(R.id.layout_service);
         layoutService.setVisibility(View.GONE);
         imgService = (SquareImageView) findViewById(R.id.img_service_provider);
-//        txtServiceDesc = (TextView) findViewById(R.id.txt_linked_desc);
-////        btnCross = (ImageView) findViewById(R.id.btn_linked_close);
-////        btnCross.setOnClickListener(mBaseClickListener);
-//
         editPrice = (EditText) findViewById(R.id.edit_offer_price);
         editPrice.addTextChangedListener(new TextWatcher() {
             @Override
@@ -188,15 +204,17 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void afterTextChanged(Editable s) {
-                String str = s.toString();
-                if (str.length() < 2) {
-                    offer_price = 0;
-                } else {
-                    offer_price = Integer.parseInt(str.substring(1));
-                    offer_currencySymbol = "$";
-                    offer_currencyCode = "USD";
+                if (editPrice.isFocused()) {
+                    String str = s.toString();
+                    if (str.length() < 2) {
+                        offer_price = 0;
+                    } else {
+                        offer_price = Integer.parseInt(str.substring(1));
+                        offer_currencySymbol = "$";
+                        offer_currencyCode = "USD";
+                    }
+                    allowSendOffer();
                 }
-                allowSendOffer();
             }
         });
 
@@ -206,36 +224,19 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 offer_desc = String.valueOf(s);
+                int length = editOfferDesc.getText().toString().length();
+                txtRemainCharacters.setText(String.format("%d/120", length));
                 allowSendOffer();
             }
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                allowSendOffer();
+            }
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+                allowSendOffer();
+            }
         });
-//
-//        editWorkTime = (EditText) findViewById(R.id.edit_work_time);
-//        editWorkTime.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                String str = s.toString();
-//                if (str.length() > 0) {
-//                    offer_workTime = Integer.parseInt(str);
-//                } else {
-//                    offer_workTime = 0;
-//                }
-//                allowSendOffer();
-//            }
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-//            @Override
-//            public void afterTextChanged(Editable s) {}
-//        });
-
-//        txtWorkUnit = (TextView) findViewById(R.id.txt_work_unit);
-//        txtWorkUnit.setOnClickListener(mBaseClickListener);
-//        btnUnit = (ImageView) findViewById(R.id.img_down);
-//        btnUnit.setOnClickListener(mBaseClickListener);
 
         check1 = (ImageButton) findViewById(R.id.check_button1);
         check1.setOnClickListener(mRadioClickListener);
@@ -246,46 +247,6 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         check4 = (ImageButton) findViewById(R.id.check_button4);
         check4.setOnClickListener(mRadioClickListener);
 
-//        layoutMiles = (RelativeLayout) findViewById(R.id.layout_miles);
-//        editMiles = (EditText) findViewById(R.id.edit_miles_value);
-//        editMiles.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                String str = String.valueOf(s);
-//                if (str.length() > 0) {
-//                    offer_radius = Integer.parseInt(str);
-//                } else {
-//                    offer_radius = 0;
-//                }
-//                allowSendOffer();
-//            }
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-//            @Override
-//            public void afterTextChanged(Editable s) {}
-//        });
-
-//        layoutUnit = (LinearLayout) findViewById(R.id.layout_worktime_unit);
-//        layoutUnit.setVisibility(View.GONE);
-
-//        itemHour = (LinearLayout) findViewById(R.id.layout_hour_item);
-//        itemHour.setOnClickListener(mUnitClickListener);
-//        itemDay = (LinearLayout) findViewById(R.id.layout_day_item);
-//        itemDay.setOnClickListener(mUnitClickListener);
-//        itemWeek = (LinearLayout) findViewById(R.id.layout_week_item);
-//        itemWeek.setOnClickListener(mUnitClickListener);
-//
-//        imgHour = (ImageView) findViewById(R.id.img_hour_item);
-//        imgDay = (ImageView) findViewById(R.id.img_day_item);
-//        imgWeek = (ImageView) findViewById(R.id.img_week_item);
-
-////        txtAlert = (TextView) findViewById(R.id.txt_alert);
-//        if (verified == 1) {
-//            txtAlert.setVisibility(View.VISIBLE);
-//        } else {
-//            txtAlert.setVisibility(View.GONE);
-//        }
-//
         btnSend.setOnClickListener(mBaseClickListener);
     }
 
@@ -321,54 +282,39 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         check2.setSelected(false);
         check3.setSelected(false);
         check4.setSelected(false);
+        fulfillmentMethod.setLocal(false);
+        fulfillmentMethod.setOnline(false);
+        fulfillmentMethod.setShipment(false);
+        fulfillmentMethod.setStore(false);
         layoutRadius.setVisibility(View.GONE);
         layoutShipping.setVisibility(View.GONE);
         switch (index) {
             case 0:
                 check1.setSelected(true);
+                fulfillmentMethod.setOnline(true);
                 break;
             case 1:
                 check2.setSelected(true);
+                fulfillmentMethod.setShipment(true);
                 layoutShipping.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 check3.setSelected(true);
                 layoutRadius.setVisibility(View.VISIBLE);
+                if (fulfillmentMethod.getLocalServiceRadius() > 0) {
+                    btnRadius.setText(String.format("%d %ss", fulfillmentMethod.getLocalServiceRadius(), fulfillmentMethod.getLocalServiceRadiusUom()));
+                }
+                fulfillmentMethod.setLocal(true);
                 break;
             case 3:
                 check4.setSelected(true);
+                fulfillmentMethod.setStore(true);
                 break;
             default:
                 break;
         }
 
-//        allowSendOffer();
-    }
-
-    private void setPaidTime(int index) {
-        imgHour.setVisibility(View.INVISIBLE);
-        imgDay.setVisibility(View.INVISIBLE);
-        imgWeek.setVisibility(View.INVISIBLE);
-
-        switch (index) {
-            case 0:
-                imgHour.setVisibility(View.VISIBLE);
-                offer_workTimeUnit = "hour";
-                break;
-            case 1:
-                imgDay.setVisibility(View.VISIBLE);
-                offer_workTimeUnit = "day";
-                break;
-            case 2:
-                imgWeek.setVisibility(View.VISIBLE);
-                offer_workTimeUnit = "week";
-                break;
-            default:
-                break;
-        }
-
-        layoutUnit.setVisibility(View.GONE);
-        btnUnit.setImageResource(R.drawable.down_arrow);
+        allowSendOffer();
     }
 
     private void setOfferInfo(CustomOfferModels selected) {
@@ -386,9 +332,11 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         }
         if (selected.getDescription() != null && !selected.getDescription().isEmpty()) {
             offer_desc = selected.getDescription();
+            editOfferDesc.setText(offer_desc);
         }
-        if (selected.getPrice() != null && selected.getPrice() > 0) {
+        if (selected.getPrice() != null) {
             offer_price = selected.getPrice();
+            editPrice.setText(String.format("%s%d", offer_currencySymbol, offer_price));
         }
         if (selected.getWorkDuration() != null && selected.getWorkDuration() > 0) {
             offer_workTime = selected.getWorkDuration();
@@ -398,39 +346,43 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         }
 
         if (selected.getFulfillmentMethod() != null) {
-            if (selected.getFulfillmentMethod().getLocalServiceRadius() > 0) {
-                offer_radius = selected.getFulfillmentMethod().getLocalServiceRadius();
-            }
-            if (selected.getFulfillmentMethod().getOnline()) {
-                offer_delivery = 0;
-            }
-            if (selected.getFulfillmentMethod().getShipment()) {
-                offer_delivery = 1;
+            if (selected.getFulfillmentMethod().get_id() != null) {
+                fulfillmentMethod.set_id(selected.getFulfillmentMethod().get_id());
             }
             if (selected.getFulfillmentMethod().getLocal()) {
-                offer_delivery = 2;
-            }
-            if (selected.getFulfillmentMethod().getStore()) {
-                offer_delivery = 3;
+                offer_radius = selected.getFulfillmentMethod().getLocalServiceRadius();
+                fulfillmentMethod.setLocal(true);
+                fulfillmentMethod.setLocalServiceRadius(offer_radius);
+                fulfillmentMethod.setLocalServiceRadiusUom(selected.getFulfillmentMethod().getLocalServiceRadiusUom());
+                setDeliveryMethod(2);
+            }else if (selected.getFulfillmentMethod().getOnline()) {
+                fulfillmentMethod.setOnline(true);
+                setDeliveryMethod(0);
+            }else if (selected.getFulfillmentMethod().getStore()) {
+                fulfillmentMethod.setStore(true);
+                setDeliveryMethod(1);
+            }else if (selected.getFulfillmentMethod().getShipment()) {
+                fulfillmentMethod.setShipment(true);
+                setDeliveryMethod(3);
             }
         }
     }
 
     private void displayCustomOfferDetails() {
 //        editPrice.setText("$" + String.valueOf(offer_price));
-        editOfferDesc.setText(offer_desc);
-        editWorkTime.setText(String.valueOf(offer_workTime));
-        setDeliveryMethod(offer_delivery);
-
-        if (offer_workTimeUnit.equals("hour")) {
-            setPaidTime(0);
-        } else if (offer_workTimeUnit.equals("week")) {
-            setPaidTime(2);
-        } else {
-            setPaidTime(1);
-        }
-
-        editMiles.setText(String.valueOf(offer_radius));
+//        editOfferDesc.setText(offer_desc);
+//        editWorkTime.setText(String.valueOf(offer_workTime));
+//        setDeliveryMethod(offer_delivery);
+//
+//        if (offer_workTimeUnit.equals("hour")) {
+//            setPaidTime(0);
+//        } else if (offer_workTimeUnit.equals("week")) {
+//            setPaidTime(2);
+//        } else {
+//            setPaidTime(1);
+//        }
+//
+//        editMiles.setText(String.valueOf(offer_radius));
     }
 
     private void showLinkedService(LinkServiceModel service) {
@@ -489,22 +441,20 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
     }
 
     private void allowSendOffer() {
-        if (offer_delivery != 2) {
-            if (offer_price != 0 && !offer_currencySymbol.equals("") && !offer_desc.equals("") && offer_workTime != 0) {
-                btnSend.setSelected(true);
+        if (!editPrice.getText().toString().equals("") && !editOfferDesc.getText().toString().equals("")){
+            if (fulfillmentMethod.getStore() || fulfillmentMethod.getOnline()) {
                 btnSend.setEnabled(true);
-            } else {
-                btnSend.setSelected(false);
-                btnSend.setSelected(false);
-            }
-        } else {
-            if (offer_price != 0 && !offer_currencySymbol.equals("") && !offer_desc.equals("") && offer_workTime != 0 && offer_radius != 0) {
-                btnSend.setSelected(true);
+            }else if (fulfillmentMethod.getShipment() ) {
+                if (fulfillmentMethod.getAddress().getCity() != null) {
+                    btnSend.setEnabled(true);
+                }else{
+                    btnSend.setEnabled(false);
+                }
+            }else if (fulfillmentMethod.getLocal()) {
                 btnSend.setEnabled(true);
-            } else {
-                btnSend.setSelected(false);
-                btnSend.setSelected(false);
             }
+        }else{
+            btnSend.setEnabled(false);
         }
     }
 
@@ -512,37 +462,21 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         if (offer_serviceId.equals("")) {
             offer_serviceId = null;
         }
-
-        FulfillmentMethodForCustom offer_fulfillment = null;
-        if (offer_delivery == 2) {
-            offer_fulfillment = new FulfillmentMethodForCustom("false", "false", "true", "false", offer_radius, "mile");
-        }
-        else {
-            switch (offer_delivery) {
-                case 0:
-                    offer_fulfillment = new FulfillmentMethodForCustom("true", "false", "false", "false", 0, "mile");
-                    break;
-                case 1:
-                    offer_fulfillment = new FulfillmentMethodForCustom("false", "true", "false", "false", 0, "mile");
-                    break;
-                case 3:
-                    offer_fulfillment = new FulfillmentMethodForCustom("false", "false", "false", "true", 0, "mile");
-                    break;
-                default:
-                    break;
-            }
-        }
-
         if (isMessage == 2 || isMessage == 3) {
             if (!offer_id.equals("")) {
                 loader.show();
-                callUpdateCustomOffer(offer_id, offer_fulfillment);
+                callUpdateCustomOffer(offer_id, fulfillmentMethod);
             }
         } else {
             loader.show();
-            callPostCustomOffer(offer_fulfillment);
+            callPostCustomOffer(fulfillmentMethod);
         }
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     private void callGetCustomOfferDetails(final String offerId) {
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
@@ -618,7 +552,7 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         });
     }
 
-    private void callUpdateCustomOffer(final String offerId, FulfillmentMethodForCustom offer_fulfillment) {
+    private void callUpdateCustomOffer(final String offerId, FulfillmentMethodForCustom1 offer_fulfillment) {
         SendCustomOfferRequest sendCustomOfferRequest = new SendCustomOfferRequest(offer_sellerId, offer_buyerId, offer_currencyCode, offer_currencySymbol, offer_desc, offer_fulfillment, offer_price, offer_workTime, offer_workTimeUnit);
         if (offer_serviceId != null) {
             sendCustomOfferRequest.setServiceId(offer_serviceId);
@@ -669,7 +603,7 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
         });
     }
 
-    private void callPostCustomOffer(FulfillmentMethodForCustom offer_fulfillment) {
+    private void callPostCustomOffer(FulfillmentMethodForCustom1 offer_fulfillment) {
         SendCustomOfferRequest sendCustomOfferRequest = new SendCustomOfferRequest(offer_sellerId, offer_buyerId, offer_currencyCode, offer_currencySymbol, offer_desc, offer_fulfillment, offer_price, offer_workTime, offer_workTimeUnit);
         if (offer_serviceId != null) {
             sendCustomOfferRequest.setServiceId(offer_serviceId);
@@ -724,10 +658,11 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
     }
 
     public void showRadiusDialog(){
+        int selectedIndex = fulfillmentMethod.getLocalServiceRadius() / 5 - 1;
         new MaterialDialog.Builder(this)
                 .title("Choose Radius")
                 .items(R.array.radius)
-                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                .itemsCallbackSingleChoice(selectedIndex, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         /**
@@ -735,6 +670,8 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
                          * returning false here won't allow the newly selected radio button to actually be selected.
                          **/
                         btnRadius.setText(text);
+                        fulfillmentMethod.setLocalServiceRadius(Integer.parseInt(((String)text).replace(" miles", "")));
+                        fulfillmentMethod.setLocalServiceRadiusUom("mile");
                         return true;
                     }
                 })
@@ -760,6 +697,14 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
 
                 case R.id.layout_radius:
                     showRadiusDialog();
+                    break;
+
+                case R.id.layout_shipping:
+                    Intent intent1 = new Intent(SendCustomOfferActivity.this, AddShippingDetailActivity.class);
+                    Gson gson = new Gson();
+                    intent1.putExtra(ConstantUtils.ADD_ADDRESS, gson.toJson(fulfillmentMethod.getAddress()));
+                    intent1.putExtra(ConstantUtils.ADD_PARCEL, gson.toJson(fulfillmentMethod.getParcel()));
+                    startActivityForResult(intent1, REQUEST_SHIPPING_DETAIL);
                     break;
 
                 case R.id.button_miles:
@@ -840,7 +785,8 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
                 String strPic = data.getStringExtra(ConstantUtils.LINK_SERVICE_PIC);
                 String strDesc = data.getStringExtra(ConstantUtils.LINK_SERVICE_DESC);
 
-//                txtServiceDesc.setText(strDesc);
+                txtServiceDesc.setText(strDesc);
+                txtServiceUserName.setText(linkService.getSeller().getFirstName()+" "+linkService.getSeller().getLastName());
 
                 DisplayImageOptions options = new DisplayImageOptions.Builder()
                         .showImageOnLoading(R.drawable.user_avatar_placeholder)
@@ -855,9 +801,50 @@ public class SendCustomOfferActivity extends AppCompatActivity implements OnApiF
                 isLinked = true;
                 layoutService.setVisibility(View.VISIBLE);
                 txtLinked.setText(R.string.link_another_service);
+                if (linkService.getPrice() != null) {
+                    String strSymbol="$", strPrice="", strTime="", strTimeUnit="";
+                    if (linkService.getPrice().getCurrencySymbol() != null && !linkService.getPrice().getCurrencySymbol().isEmpty())
+                        strSymbol = linkService.getPrice().getCurrencySymbol();
+
+                    if (linkService.getPrice().getPrice() != null && linkService.getPrice().getPrice() > 0)
+                        strPrice = String.valueOf(linkService.getPrice().getPrice());
+
+                    if (linkService.getPrice().getTime() != null && linkService.getPrice().getTime() > 0)
+                        strTime = String.valueOf(linkService.getPrice().getTime());
+
+                    if (linkService.getPrice().getTimeUnitOfMeasure() != null && !linkService.getPrice().getTimeUnitOfMeasure().isEmpty())
+                        strTimeUnit = linkService.getPrice().getTimeUnitOfMeasure();
+
+                    String strDuration = strSymbol;
+                    if (!strPrice.equals("")) { strDuration += strPrice; }
+                    else                      { strDuration += "0"; }
+
+                    if (!strTime.equals("") && !strTimeUnit.equals("")) {
+                        if (strTime.equals("1")) { strDuration += " for " + strTime + " " + strTimeUnit; }
+                        else                     { strDuration += " for " + strTime + " " + strTimeUnit + "s"; }
+                    }
+
+                    txtServiceDuration.setText(strDuration);
+                    txtServicePrice.setText(strSymbol+strPrice);
+                } else {
+                    txtServicePrice.setText("NA");
+                    txtServiceDuration.setText("");
+                }
 
                 allowSendOffer();
             }
+        }else if (requestCode == REQUEST_SHIPPING_DETAIL) {
+            if (resultCode == RESULT_OK){
+                Gson gson = new Gson();
+                String strAddress = data.getStringExtra(ConstantUtils.ADD_ADDRESS);
+                addressModel = gson.fromJson(strAddress, AddressModel.class);
+                String strParcel = data.getStringExtra(ConstantUtils.ADD_PARCEL);
+                parcelModel = gson.fromJson(strParcel, ParcelModel.class);
+                fulfillmentMethod.setAddress(addressModel);
+                fulfillmentMethod.setParcel(parcelModel);
+                allowSendOffer();
+            }
+
         }
     }
 

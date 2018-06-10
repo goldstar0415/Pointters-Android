@@ -52,6 +52,7 @@ public class LiveOffersFragment extends Fragment {
     private int limitCnt = 10;
     private int page = 1;
     private int totalCnt = 0;
+    private int pages = 0;
     private KProgressHUD loader;
     private ArrayList<LiveOfferModel> serviceArrayList = new ArrayList<>();
     private io.socket.client.Socket mSocket;
@@ -109,8 +110,12 @@ public class LiveOffersFragment extends Fragment {
 
 
     private void getLiveOffers(){
+        if (page == 0) {
+            serviceArrayList = new ArrayList<>();
+        }
         final Map<String, String> params = new HashMap<>();
         params.put("page", String.valueOf(page));
+        params.put("limit", String.valueOf(limitCnt));
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<GetLiveOfferResponse> userServiceCall = apiService.getLiveOffer(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), params);
         userServiceCall.enqueue(new Callback<GetLiveOfferResponse>() {
@@ -126,23 +131,36 @@ public class LiveOffersFragment extends Fragment {
                     limitCnt = response.body().getLimit();
                     lastDocId = response.body().getLastDocId();
                     page = response.body().getPage();
-                    int pages = response.body().getPages();
-                    if (page > pages) {
-                        page = page - 1;
-                    }
+                    pages = response.body().getPages();
                     Log.e("data: ", String.valueOf(response.body()));
 
                     serviceArrayList.addAll(response.body().getDocs());
-                    liveOffersListFragment.serviceArrayList = serviceArrayList;
-                    liveOffersMapFragment.serviceArrayList = serviceArrayList;
-                    if (fab.isSelected()) {
-                        fragment = liveOffersMapFragment;
+                    if (page == pages) {
+                        liveOffersListFragment.serviceArrayList = serviceArrayList;
+                        liveOffersMapFragment.serviceArrayList = serviceArrayList;
+                        if (fab.isSelected()) {
+                            fragment = liveOffersMapFragment;
+                        }else{
+                            fragment = liveOffersListFragment;
+                        }
+                        if (getFragmentManager() != null) {
+                            getFragmentManager().beginTransaction().replace(R.id.frame_live_container, fragment)
+                                    .commitAllowingStateLoss();
+                        }
                     }else{
-                        fragment = liveOffersListFragment;
-                    }
-                    if (getFragmentManager() != null) {
-                        getFragmentManager().beginTransaction().replace(R.id.frame_live_container, fragment)
-                                .commitAllowingStateLoss();
+                        liveOffersListFragment.serviceArrayList = serviceArrayList;
+                        liveOffersMapFragment.serviceArrayList = serviceArrayList;
+                        if (fab.isSelected()) {
+                            fragment = liveOffersMapFragment;
+                        }else{
+                            fragment = liveOffersListFragment;
+                        }
+                        if (getFragmentManager() != null) {
+                            getFragmentManager().beginTransaction().replace(R.id.frame_live_container, fragment)
+                                    .commitAllowingStateLoss();
+                        }
+                        page++;
+                        getLiveOffers();
                     }
 
 
@@ -156,7 +174,10 @@ public class LiveOffersFragment extends Fragment {
             @Override
             public void onFailure(Call<GetLiveOfferResponse> call, Throwable t) {
 //                if (loader.isShowing()) { loader.dismiss(); }
-                Toast.makeText(getActivity(), "Can't find the service info.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                if (page < pages) {
+                    getLiveOffers();
+                }
             }
         });
 

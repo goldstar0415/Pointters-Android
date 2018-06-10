@@ -1,6 +1,7 @@
 package com.pointters.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,9 +19,11 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
+import com.pointters.activity.JobDetailActivity;
 import com.pointters.adapter.OffersAdapter;
 import com.pointters.adapter.SellJobsAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.SellJobsModel;
 import com.pointters.model.SentOfferModel;
 import com.pointters.model.response.GetSellJobsResponse;
@@ -91,7 +94,15 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
         sellJobsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         sellJobsAdapter = new SellJobsAdapter(getActivity(), sellJobsList);
         sellJobsRecyclerView.setAdapter(sellJobsAdapter);
-
+        sellJobsAdapter.setListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                SellJobsModel model = sellJobsList.get(position);
+                Intent intent = new Intent(getActivity(), JobDetailActivity.class);
+                intent.putExtra(ConstantUtils.SELECT_JOB_ID, model.getRequestOffers().getRequestOfferId());
+                startActivity(intent);
+            }
+        });
         sellJobsRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {

@@ -17,12 +17,15 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.pointters.R;
 import com.pointters.adapter.ExpandableRecyclerView;
 import com.pointters.adapter.UserSettingAdapter;
+import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.NotificationOption;
 import com.pointters.model.UserSettingsModel;
@@ -31,7 +34,9 @@ import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
+import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
+import com.pointters.utils.DividerItemDecorationVer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +49,7 @@ import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class NotificationOptionsActivity extends AppCompatActivity implements View.OnClickListener, OnRecyclerViewItemClickListener {
+public class NotificationOptionsActivity extends AppCompatActivity implements View.OnClickListener, OnRecyclerViewItemClickListener, OnApiFailDueToSessionListener {
 
     private ArrayList<NotificationOption> mNotificationOption = new ArrayList<>();
     private ExpandableRecyclerView recyclerViewNotificationOption;
@@ -54,6 +59,7 @@ public class NotificationOptionsActivity extends AppCompatActivity implements Vi
     private UserPutSettingsRequest userPutSettingsRequest;
     private String dailyWeeklySeletedItem="none", phoneViewPermission, locationViewPermission;
     private TextView btnSave;
+    private KProgressHUD loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,61 +73,66 @@ public class NotificationOptionsActivity extends AppCompatActivity implements Vi
 
         btnSave.setOnClickListener(this);
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
-        if (sharedPreferences.getString(ConstantUtils.USER_DATA, "") != null)
-            json = sharedPreferences.getString(ConstantUtils.USER_DATA, "");
-
-        try {
-            JSONObject jsonObject = new JSONObject(json);
-            if (jsonObject.has("settings")) {
-                JSONObject jsonObjectSettings = (JSONObject) jsonObject.get("settings");
-                if (jsonObjectSettings.get("generalNotifications") != null && !jsonObjectSettings.get("generalNotifications").toString().isEmpty()) {
-                    generalNotifications = jsonObjectSettings.get("generalNotifications").toString();
-
-                }
-                if (jsonObjectSettings.get("orderNotifications") != null && !jsonObjectSettings.get("orderNotifications").toString().isEmpty()) {
-                    orderNotifications = jsonObjectSettings.get("orderNotifications").toString();
-
-                }
-                if (jsonObjectSettings.get("offerNotifications") != null && !jsonObjectSettings.get("offerNotifications").toString().isEmpty()) {
-                    offerNotification = jsonObjectSettings.get("offerNotifications").toString();
-
-                }
-                if (jsonObjectSettings.get("summaryEmail") != null && !jsonObjectSettings.get("summaryEmail").toString().isEmpty()) {
-                    emailstatusSetting = jsonObjectSettings.get("offerNotifications").toString();
-//                    if (jsonObjectSettings.get("summaryEmail").toString().equals("all")) {
-//                        dailyWeeklySeletedItem = "all";
-//                        imgDaily.setSelected(true);
-//                        imgWeekly.setSelected(true);
-//                    } else if (jsonObjectSettings.get("summaryEmail").toString().equals("daily")) {
-//                        dailyWeeklySeletedItem = "daily";
-//                        imgDaily.setSelected(true);
-//                    } else if (jsonObjectSettings.get("summaryEmail").toString().equals("weekly")) {
-//                        dailyWeeklySeletedItem = "weekly";
-//                        imgWeekly.setSelected(true);
-//                    }
-                }
-                if (jsonObjectSettings.get("phoneViewPermission") != null && !jsonObjectSettings.get("phoneViewPermission").toString().isEmpty()) {
-                    phoneViewPermission = jsonObjectSettings.get("phoneViewPermission").toString();
-                }
-                if (jsonObjectSettings.get("locationViewPermission") != null && !jsonObjectSettings.get("locationViewPermission").toString().isEmpty()) {
-                    locationViewPermission = jsonObjectSettings.get("locationViewPermission").toString();
-
-
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        loader = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
 
 
         recyclerViewNotificationOption = (ExpandableRecyclerView) findViewById(R.id.rv_notification_option);
+        CallGetUserSetting();
+
+    }
+
+    public void CallGetUserSetting() {
+        loader.show();
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<UserPutSettingsRequest> customOfferDetailsCall = apiService.getUserSettings(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""));
+        customOfferDetailsCall.enqueue(new Callback<UserPutSettingsRequest>() {
+            @Override
+            public void onResponse(Call<UserPutSettingsRequest> call, Response<UserPutSettingsRequest> response) {
+                if (loader.isShowing()) {
+                    loader.dismiss();
+                }
+
+                if (response.code() == 200 && response.body() != null) {
+                    userPutSettingsRequest = response.body();
+                    setUserSettings();
+                }
+                else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(NotificationOptionsActivity.this, "callCustomOfferDetailsApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(NotificationOptionsActivity.this);
+                }
+                else if (response.code() == 404) {
+                    Toast.makeText(NotificationOptionsActivity.this, "Can't get the offer info!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserPutSettingsRequest> call, Throwable t) {
+                if (loader.isShowing()) { loader.dismiss(); }
+                Toast.makeText(NotificationOptionsActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void setUserSettings() {
+        generalNotifications = userPutSettingsRequest.getGeneralNotifications();
+        orderNotifications = userPutSettingsRequest.getOrderNotifications();
+        offerNotification = userPutSettingsRequest.getOfferNotifications();
+        emailstatusSetting = userPutSettingsRequest.getSummaryEmail();
+        phoneViewPermission = userPutSettingsRequest.getPhoneViewPermission();
+        locationViewPermission = userPutSettingsRequest.getLocationViewPermission();
         NotificationOption notificationOption = new NotificationOption();
         int selectedgeneralNotifications = 0;
-        if (generalNotifications.equals("Push")) {
+        if (generalNotifications.equals("pushNotification")) {
             selectedgeneralNotifications = 0;
-        }else if (generalNotifications.equals("Email")) {
+        }else if (generalNotifications.equals("email")) {
             selectedgeneralNotifications = 1;
-        }else if (generalNotifications.equals("All")) {
+        }else if (generalNotifications.equals("all")) {
             selectedgeneralNotifications = 2;
         }else{
             selectedgeneralNotifications = 3;
@@ -133,11 +144,11 @@ public class NotificationOptionsActivity extends AppCompatActivity implements Vi
         mNotificationOption.add(notificationOption);
 
         int selectedorderNotifications = 0;
-        if (orderNotifications.equals("Push")) {
+        if (orderNotifications.equals("pushNotification")) {
             selectedorderNotifications = 0;
-        }else if (orderNotifications.equals("Email")) {
+        }else if (orderNotifications.equals("email")) {
             selectedorderNotifications = 1;
-        }else if (orderNotifications.equals("All")) {
+        }else if (orderNotifications.equals("all")) {
             selectedorderNotifications = 2;
         }else{
             selectedorderNotifications = 3;
@@ -149,11 +160,11 @@ public class NotificationOptionsActivity extends AppCompatActivity implements Vi
         mNotificationOption.add(notificationOption1);
 
         int selectedofferNotification = 0;
-        if (offerNotification.equals("Push")) {
+        if (offerNotification.equals("pushNotification")) {
             selectedofferNotification = 0;
-        }else if (offerNotification.equals("Email")) {
+        }else if (offerNotification.equals("email")) {
             selectedofferNotification = 1;
-        }else if (offerNotification.equals("All")) {
+        }else if (offerNotification.equals("all")) {
             selectedofferNotification = 2;
         }else{
             selectedofferNotification = 3;
@@ -165,11 +176,11 @@ public class NotificationOptionsActivity extends AppCompatActivity implements Vi
         mNotificationOption.add(notificationOption2);
 
         int selectedemailStatus = 0;
-        if (emailstatusSetting.equals("Daily")) {
+        if (emailstatusSetting.equals("daily")) {
             selectedemailStatus = 0;
-        }else if (emailstatusSetting.equals("Weekly")) {
+        }else if (emailstatusSetting.equals("weekly")) {
             selectedemailStatus = 1;
-        }else if (emailstatusSetting.equals("All")) {
+        }else if (emailstatusSetting.equals("all")) {
             selectedemailStatus = 2;
         }else{
             selectedemailStatus = 3;
@@ -209,72 +220,68 @@ public class NotificationOptionsActivity extends AppCompatActivity implements Vi
                 break;
             case R.id.btnSave:
                 if(btnSave.isSelected()) {
+                    if (mNotificationOption.get(0).getSelectedItmes() == 0){
+                        generalNotifications = "pushNotification";
+                    }else if (mNotificationOption.get(0).getSelectedItmes() == 1){
+                        generalNotifications = "email";
+                    }else if (mNotificationOption.get(0).getSelectedItmes() == 2){
+                        generalNotifications = "all";
+                    }else{
+                        generalNotifications = "none";
+                    }
+                    if (mNotificationOption.get(1).getSelectedItmes() == 0){
+                        orderNotifications = "pushNotification";
+                    }else if (mNotificationOption.get(1).getSelectedItmes() == 1){
+                        orderNotifications = "email";
+                    }else if (mNotificationOption.get(1).getSelectedItmes() == 2){
+                        orderNotifications = "all";
+                    }else{
+                        orderNotifications = "none";
+                    }
+                    if (mNotificationOption.get(2).getSelectedItmes() == 0){
+                        offerNotification = "pushNotification";
+                    }else if (mNotificationOption.get(2).getSelectedItmes() == 1){
+                        offerNotification = "email";
+                    }else if (mNotificationOption.get(2).getSelectedItmes() == 2){
+                        offerNotification = "all";
+                    }else{
+                        offerNotification = "none";
+                    }
+                    if (mNotificationOption.get(3).getSelectedItmes() == 0){
+                        emailstatusSetting = "daily";
+                    }else if (mNotificationOption.get(3).getSelectedItmes() == 1){
+                        emailstatusSetting = "weekly";
+                    }else if (mNotificationOption.get(3).getSelectedItmes() == 2){
+                        emailstatusSetting = "all";
+                    }else{
+                        emailstatusSetting = "none";
+                    }
+
+                    loader.show();
                     userPutSettingsRequest = new UserPutSettingsRequest(phoneViewPermission, locationViewPermission, generalNotifications, orderNotifications, offerNotification, emailstatusSetting);
                     ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
                     Call<Object> putUserSetting = apiService.putUserSettings(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), userPutSettingsRequest);
                     putUserSetting.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
+                            loader.dismiss();
                             if (response.code() == 200) {
                                 onBackPressed();
                             } else if (response.code() == 400) {
-                                AndroidUtils.showToast(NotificationOptionsActivity.this, "Please choose atleast one option");
+                                AndroidUtils.showToast(NotificationOptionsActivity.this, "Please choose at east one option");
                             }
-
 
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-
+                            loader.dismiss();
                         }
                     });
                 }
 
 
                 break;
-//            case R.id.img_daily:
-//                btnSave.setBackground(ContextCompat.getDrawable(NotificationOptionsActivity.this, R.color.colorAccent));
-//                if (imgDaily.isSelected()) {
-//                    btnSave.setSelected(true);
-//                    imgDaily.setImageResource(R.drawable.ellipse_unchecked_grey);
-//                    imgDaily.setSelected(false);
-//
-//                    if (imgWeekly.isSelected())
-//                        dailyWeeklySeletedItem = "weekly";
-//                    else
-//                        dailyWeeklySeletedItem = "none";
-//
-//                } else {
-//                    btnSave.setSelected(true);
-//                    imgDaily.setImageResource(R.drawable.ellipse_checked_blue);
-//                    imgDaily.setSelected(true);
-//                    if (imgWeekly.isSelected())
-//                        dailyWeeklySeletedItem = "all";
-//                    else
-//                        dailyWeeklySeletedItem = "daily";
-//                }
-//                break;
-//            case R.id.img_weekly:
-//                btnSave.setBackground(ContextCompat.getDrawable(NotificationOptionsActivity.this, R.color.colorAccent));
-//                if (imgWeekly.isSelected()) {
-//                    btnSave.setSelected(true);
-//                    imgWeekly.setImageResource(R.drawable.ellipse_unchecked_grey);
-//                    imgWeekly.setSelected(false);
-//                    if (imgDaily.isSelected())
-//                        dailyWeeklySeletedItem = "daily";
-//                    else
-//                        dailyWeeklySeletedItem = "none";
-//                } else {
-//                    btnSave.setSelected(true);
-//                    imgWeekly.setImageResource(R.drawable.ellipse_checked_blue);
-//                    imgWeekly.setSelected(true);
-//                    if (imgDaily.isSelected())
-//                        dailyWeeklySeletedItem = "all";
-//                    else
-//                        dailyWeeklySeletedItem = "weekly";
-//                }
-//                break;
         }
 
     }
@@ -283,6 +290,11 @@ public class NotificationOptionsActivity extends AppCompatActivity implements Vi
     public void onItemClick(int position) {
         btnSave.setSelected(true);
         btnSave.setBackground(ContextCompat.getDrawable(NotificationOptionsActivity.this, R.color.colorAccent));
+
+    }
+
+    @Override
+    public void onApiFail(String apiSource) {
 
     }
 

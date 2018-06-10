@@ -84,12 +84,14 @@
         <item>@string/edit_user_settings</item>
         <item>@string/notification_settings</item>
         <item>@string/paymemt_method</item>
+        <item>@string/shipping_addresses</item>
     </string-array>
     <integer-array name="userseticons">
         <item>@drawable/icon_setting_edit_profile</item>
         <item>@drawable/icon_setting_edit_user_setting</item>
         <item>@drawable/icon_setting_notification_settings</item>
         <item>@drawable/icon_setting_payment_method</item>
+        <item>@drawable/location_pin_icon</item>
     </integer-array>
 
 

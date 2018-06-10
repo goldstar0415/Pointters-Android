@@ -69,6 +69,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by mac on 12/25/17.
@@ -132,6 +133,11 @@ public class GetLiveOffersActivity extends AppCompatActivity implements View.OnC
 //            Toast.makeText(this, "Invalid offer!", Toast.LENGTH_SHORT).show();
 ////            finish();
 //        }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void initUI() {

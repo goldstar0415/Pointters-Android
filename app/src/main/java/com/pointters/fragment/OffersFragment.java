@@ -1,13 +1,19 @@
 package com.pointters.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,6 +79,8 @@ public class OffersFragment extends Fragment implements OnApiFailDueToSessionLis
     private String lastDocId = "";
     private int limitCnt = 0;
     private int totalCnt = 0;
+    private final int CALL_PHONE_REQUEST = 5;
+    private int selectedPosition = 0;
 
     @Nullable
     @Override
@@ -134,6 +142,7 @@ public class OffersFragment extends Fragment implements OnApiFailDueToSessionLis
                         break;
 
                     case R.id.img_call_btn:
+                        selectedPosition = position;
                         moveToCall(position);
                         break;
                 }
@@ -184,33 +193,12 @@ public class OffersFragment extends Fragment implements OnApiFailDueToSessionLis
     }
 
     private void detailOffer(int position) {
-//        if (sentOffersList.get(position).getOfferId() != null && !sentOffersList.get(position).getOfferId().isEmpty()) {
-//            String offerId = sentOffersList.get(position).getOfferId();
-//
-//            if (sentOffersList.get(position).getSellerId() != null && sentOffersList.get(position).getSellerId().equals(mUserId)) {
-//                Intent intent = new Intent(getActivity(), SendCustomOfferActivity.class);
-//                intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offerId);
-//                intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 3);
-//                startActivity(intent);
-//            } else {
-//                Intent intent = new Intent(getActivity(), CustomOfferDetailsActivity.class);
-//                intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offerId);
-//                startActivity(intent);
-//            }
-//        } else {
-//            Toast.makeText(getActivity(), "Can't get the detail info", Toast.LENGTH_SHORT).show();
-//        }
+            String offerid = sentOffersList.get(position).getOfferId();
 
-            if (position % 2 == 0) {
-                Intent intent = new Intent(getActivity(), SendCustomOfferActivity.class);
-                intent.putExtra(ConstantUtils.SELECT_OFFER_ID, "0");
-                intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 3);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(getActivity(), CustomOfferDetailsActivity.class);
-                intent.putExtra(ConstantUtils.SELECT_OFFER_ID, "1");
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getActivity(), SendCustomOfferActivity.class);
+            intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offerid);
+            intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 3);
+            startActivity(intent);
     }
 
     private void moveToChat(int position) {
@@ -248,6 +236,9 @@ public class OffersFragment extends Fragment implements OnApiFailDueToSessionLis
     }
 
     private void moveToCall(int position) {
+        if(!checkPhoneCallPermission()) {
+            return;
+        }
         if (sentOffersList.get(position).getBuyer() != null) {
             String strPhone = "";
             if (sentOffersList.get(position).getBuyer().getPhone() != null && !sentOffersList.get(position).getBuyer().getPhone().isEmpty()) {
@@ -265,6 +256,31 @@ public class OffersFragment extends Fragment implements OnApiFailDueToSessionLis
             }
         }
     }
+    private boolean checkPhoneCallPermission() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission( getActivity(), Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST);
+            return false;
+
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CALL_PHONE_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    moveToCall(selectedPosition);
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
 
     private void moveToProfile(int position) {
         if (sentOffersList.get(position).getBuyer() != null) {

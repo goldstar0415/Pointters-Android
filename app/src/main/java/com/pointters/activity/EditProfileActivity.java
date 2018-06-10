@@ -69,6 +69,7 @@ import com.pointters.R;
 import com.pointters.adapter.EditProfileImageViewPagerAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnEditTextChangeListener;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.Media;
 import com.pointters.model.request.LocationRequestModel;
 import com.pointters.model.request.LongitudeLatitude;
@@ -142,7 +143,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private Double lat,lng;
     private FFmpeg ffmpeg;
     private KProgressHUD loader;
-
+    private TextView txtUserName;
     private Double mUserLat = 0.0;
     private Double mUserLng = 0.0;
 
@@ -243,6 +244,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     lastNameEditText.setText(jsonObject.get("lastName").toString());
             }
 
+            txtUserName.setText(String.format("%s %s", firstNameEditText.getText().toString(), lastNameEditText.getText().toString()));
 //            if (jsonObject.has("companyName")) {
 //                if (jsonObject.get("companyName") != null && !jsonObject.get("companyName").toString().isEmpty())
 //                    companyEditText.setText(jsonObject.get("companyName").toString());
@@ -258,21 +260,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     educationEditText.setText(jsonObject.get("education").toString());
             }
 
-//            if (jsonObject.has("insurance")) {
-//                if (jsonObject.get("insurance") != null && !jsonObject.get("insurance").toString().isEmpty())
-//                    insuranceEditText.setText(jsonObject.get("insurance").toString());
-//            }
 
             if (jsonObject.has("license")) {
                 if (jsonObject.get("license") != null && !jsonObject.get("license").toString().isEmpty())
                     licencesEditText.setText(jsonObject.get("license").toString());
             }
 
-//            if (jsonObject.has("awards")) {
-//                if (jsonObject.get("awards") != null && !jsonObject.get("awards").toString().isEmpty())
-//                    awardsEditText.setText(jsonObject.get("awards").toString());
-//            }
-//
             if (jsonObject.has("phone")) {
                 if (jsonObject.get("phone") != null && !jsonObject.get("phone").toString().isEmpty())
                     phoneEditText.setText(jsonObject.get("phone").toString());
@@ -327,17 +320,21 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         editProfileImageViewPagerAdapter = new EditProfileImageViewPagerAdapter(EditProfileActivity.this, bgFiles);
         viewpagerImages.setAdapter(editProfileImageViewPagerAdapter);
         viewpagerImages.setPageMargin((int) getResources().getDimension(R.dimen._5sdp));
+        editProfileImageViewPagerAdapter.setEdit(true);
 
-        int positionTxt = viewpagerImages.getCurrentItem() + 1;
-//        textIndicator.setText("" + positionTxt + " of " + bgFiles.size());
+        editProfileImageViewPagerAdapter.setListener(new OnRecyclerViewButtonClickListener() {
+            @Override
+            public void onButtonClick(View v, int position) {
+                bgFiles.remove(position);
+                editProfileImageViewPagerAdapter.notifyDataSetChanged();
+            }
+        });
         viewpagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
-                int positionTxt = position + 1;
-//                textIndicator.setText(positionTxt + " of " + bgFiles.size());
             }
 
             @Override
@@ -350,6 +347,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         imgCamera.setVisibility(View.VISIBLE);
         chooseBgImagesVideos = (ImageView) findViewById(R.id.img_choose_bg_images);
 
+        txtUserName = (TextView) findViewById(R.id.txt_username);
         firstNameTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_first_name);
         lastNamTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_last_name);
         aboutMeTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_about_me);
@@ -480,11 +478,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         userPutRequest.setFirstName(firstNameEditText.getText().toString().trim());
         userPutRequest.setLastName(lastNameEditText.getText().toString().trim());
         userPutRequest.setDescription(aboutMeEditText.getText().toString().trim());
-//        userPutRequest.setCompanyName(companyEditText.getText().toString().trim());
         userPutRequest.setEducation(educationEditText.getText().toString().trim());
-//        userPutRequest.setInsurance(insuranceEditText.getText().toString().trim());
         userPutRequest.setLicense(licencesEditText.getText().toString().trim());
-//        userPutRequest.setAwards(awardsEditText.getText().toString().trim());
         userPutRequest.setPhone(phoneEditText.getText().toString());
         userPutRequest.setLocation(getUserLocation());
         userPutRequest.setProfilePic(imageUrl);
@@ -560,7 +555,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     }
 
                     if (bgFiles.size() == 4) {
-                        imgCamera.setVisibility(View.INVISIBLE);
+                        chooseBgImagesVideos.setVisibility(View.INVISIBLE);
                     }
                 } else if (state.equals(TransferState.FAILED)) {
                     //AndroidUtils.showToast(RegistrationDetailsActivity.this, "Uploading failed please try again");
@@ -734,6 +729,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             ((TextInputLayout) editText.getParentForAccessibility()).setError(null);
             ((TextInputLayout) editText.getParentForAccessibility()).setErrorEnabled(false);
         }
+        txtUserName.setText(String.format("%s %s", firstNameEditText.getText().toString(), lastNameEditText.getText().toString()));
+
     }
 
     @Override

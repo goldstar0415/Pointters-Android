@@ -19,6 +19,7 @@ import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.SentOfferModel;
+import com.pointters.utils.SquareImageView;
 
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
@@ -55,7 +56,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        /*
+
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.photo_placeholder)
                 .showImageForEmptyUri(R.drawable.photo_placeholder)
@@ -64,10 +65,6 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
                 .cacheOnDisk(true)
                 .considerExifParams(true)
                 .build();
-        if (position == 0) {
-            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp),(int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
-            holder.layoutParent.setLayoutParams(holder.layoutParams);
-        }
         if (sentOffersList != null && sentOffersList.size() > 0) {
             if (sentOffersList.get(position).getMedia() != null) {
                 if (sentOffersList.get(position).getMedia().getFileName() != null && !sentOffersList.get(position).getMedia().getFileName().isEmpty()) {
@@ -118,7 +115,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
                 SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy  hh:mm a");
                 try {
-                    holder.txtCreateddate.setText("Posted on "+ String.valueOf(fmtOut.format(df.parse(sentOffersList.get(position).getCreatedAt()))));
+                    holder.txtCreateddate.setText(String.valueOf(fmtOut.format(df.parse(sentOffersList.get(position).getCreatedAt()))));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -157,39 +154,31 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
                     strPos = strKm + "@" + strCity + ", " + strState;
                 }
 
-                holder.txtPosition.setText(strPos);
             }
         }
-        */
     }
 
     @Override
     public int getItemCount() {
-//        return sentOffersList.size();
-        return 10;
+        return sentOffersList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView imgSeller, btnChat, btnCall;
-        private TextView txtServiceDesc,txtPosition,txtPrice,txtPriceDesc,txtCreateddate,txtSellerName, btnAccept;
-        private LinearLayout layoutParent;
+        private SquareImageView imgSeller;
+        ImageView btnChat, btnCall;
+        private TextView txtServiceDesc,txtPrice,txtPriceDesc,txtCreateddate,txtSellerName, btnAccept;
         RelativeLayout layoutUpper;
-        private FrameLayout.LayoutParams layoutParams;
         private WeakReference<OnRecyclerViewButtonClickListener> listenerRef;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             listenerRef = new WeakReference<>(listener);
 
-            layoutParent = (LinearLayout) itemView.findViewById(R.id.layout_parent);
-            layoutParams = (FrameLayout.LayoutParams) layoutParent.getLayoutParams();
-
-            imgSeller = (ImageView) itemView.findViewById(R.id.img_seller);
+            imgSeller = (SquareImageView) itemView.findViewById(R.id.img_seller);
             txtServiceDesc = (TextView) itemView.findViewById(R.id.txt_service_desc);
-//            txtPosition = (TextView) itemView.findViewById(R.id.txt_second_service_desc);
-            txtPrice = (TextView) itemView.findViewById(R.id.txt_price);
+            txtPrice = (TextView) itemView.findViewById(R.id.txt_service_price);
             txtPriceDesc = (TextView) itemView.findViewById(R.id.txt_price_desc);
-            txtCreateddate = (TextView) itemView.findViewById(R.id.txt_offer_created_date);
+            txtCreateddate = (TextView) itemView.findViewById(R.id.txt_service_posted_date);
 
             txtSellerName = (TextView) itemView.findViewById(R.id.txt_seller_name);
             txtSellerName.setOnClickListener(this);

@@ -1,6 +1,7 @@
 package com.pointters.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -50,6 +52,7 @@ import com.pointters.adapter.PriceAdapter;
 import com.pointters.adapter.RelatedServiceAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.listener.RecyclerViewItemClickWithSource;
 import com.pointters.model.Media;
 import com.pointters.model.MetricsModel;
@@ -98,15 +101,13 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     private RelativeLayout layoutMap, layoutReviewDesc1, layoutReviewDesc2;
     private TextView txtName, txtVerified, buttonToggle, txtGetCustomOffer, btnPoint, btnWatch;
     private TextView txtOnTime, txtQuality, txtHour, txtOrder, txtRating, txtBuyAgain, txtDeliveryMethod, txtPoint, txtLike, txtWatch;
-    private TextView txtRelatedTitle, txtReviewTitle, txtReviewQuality1, txtReviewQuality2, txtReviewDesc1, txtReviewDesc2, txtReviewRate1, txtReviewRate2;
+    private TextView txtRelatedTitle, txtReviewTitle;
     private Button btnShowMoreService, btnReviewMore, btnBuyforService;
-    private ImageView imgReviewTime1, imgReviewTime2, imgReviewAgain1, imgReviewAgain2;
     private GoogleMap mMap;
     private RoundedImageView imgProfile;
     private LikeButton imgLike;
     private ImageView btnCall, btnChat,imgWatching;
     private RelativeLayout  btnDirection;
-    private LinearLayout layoutLike, layoutReviewValue1, layoutReviewValue2;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private MapFragment mapFragment;
@@ -150,6 +151,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     private Boolean isExpanable = true;
     private String flagInappropriateComment = "";
     private LinearLayout btnFlagInappropriate;
+    private float buyPrice = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,15 +205,15 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                 .setAnimationSpeed(2)
                 .setDimAmount(0.5f);
 
-//        AppUtils.setToolBarWithBothIcon(ServiceDetailActivity.this, getResources().getString(R.string.service_detail), R.drawable.back_icon, R.drawable.more_icon_horizontal);
         txtName = (TextView) findViewById(R.id.txt_name);
         txtVerified = (TextView) findViewById(R.id.txt_verified);
         imgProfile = (RoundedImageView) findViewById(R.id.img_profile);
-//        btnPoint = (TextView) findViewById(R.id.txt_point);
-//        btnWatch = (TextView) findViewById(R.id.txt_watch);
-//        layoutLike = (LinearLayout) findViewById(R.id.layout_like);
         imgWatching = (ImageView) findViewById(R.id.img_watching_icon);
         imgLike = (LikeButton) findViewById(R.id.like_button);
+        LinearLayout llLike = (LinearLayout) findViewById(R.id.ll_like);
+        LinearLayout llWatch = (LinearLayout) findViewById(R.id.ll_watch);
+        llLike.setOnClickListener(this);
+        llWatch.setOnClickListener(this);
         txtGetCustomOffer = (TextView) findViewById(R.id.txt_get_custom_offer);
         moveToProfileScreen = (LinearLayout) findViewById(R.id.move_to_profile);
         moveToProfileScreen.setOnClickListener(this);
@@ -233,22 +235,8 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
 
         btnBuyforService = (Button) findViewById(R.id.buy_service_button);
         btnBuyforService.setOnClickListener(this);
-//        layoutReviewDesc1 = (RelativeLayout) findViewById(R.id.layout_review_desc1);
-//        layoutReviewValue1 = (LinearLayout) findViewById(R.id.layout_review_value1);
-//        txtReviewDesc1 = (TextView) findViewById(R.id.productPriceTextView1);
-//        txtReviewRate1 = (TextView) findViewById(R.id.buyNowButton1);
-//        txtReviewQuality1 = (TextView) findViewById(R.id.mQualityValue1);
-//        imgReviewTime1 = (ImageView) findViewById(R.id.mOnTimeImg1);
-//        imgReviewAgain1 = (ImageView) findViewById(R.id.mBuyAgainImg1);
-
-//        layoutReviewDesc2 = (RelativeLayout) findViewById(R.id.layout_review_desc2);
-//        layoutReviewValue2 = (LinearLayout) findViewById(R.id.layout_review_value2);
-//        txtReviewDesc2 = (TextView) findViewById(R.id.productPriceTextView2);
-//        txtReviewRate2 = (TextView) findViewById(R.id.buyNowButton2);
-//        txtReviewQuality2 = (TextView) findViewById(R.id.mQualityValue2);
-//        imgReviewTime2 = (ImageView) findViewById(R.id.mOnTimeImg2);
-//        imgReviewAgain2 = (ImageView) findViewById(R.id.mBuyAgainImg2);
-//
+        btnBuyforService.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.gray));
+        btnBuyforService.setEnabled(false);
         btnReviewMore = (Button) findViewById(R.id.btn_review_more);
         btnReviewMore.setOnClickListener(this);
 
@@ -263,16 +251,13 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
         recyclerViewPrice.setLayoutManager(new LinearLayoutManager(ServiceDetailActivity.this));
         priceAdapter = new PriceAdapter(ServiceDetailActivity.this, pricesList, new RecyclerViewItemClickWithSource() {
             @Override
-            public void onItemClick(int position, Prices source) {
-
+            public void onItemClick(int position, Prices source, int type) {
+                calculatePrice();
             }
+
         });
         recyclerViewPrice.setAdapter(priceAdapter);
 
-        //SetOn Click listener
-//        btnPoint.setOnClickListener(this);
-//        btnWatch.setOnClickListener(this);
-//        layoutLike.setOnClickListener(this);
         imgLike.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -295,25 +280,6 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
 
         // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
         txtServiceDesc = (TextView)findViewById(R.id.txt_service_description);
-//        txtServiceDesc.setAnimationDuration(750L);
-        // set interpolators for both expanding and collapsing animations
-//        txtServiceDesc.setInterpolator(new OvershootInterpolator());
-//        // or set them separately
-//        txtServiceDesc.setExpandInterpolator(new OvershootInterpolator());
-//        txtServiceDesc.setCollapseInterpolator(new OvershootInterpolator());
-//        // but, you can also do the checks yourself
-//        buttonToggle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(final View v) {
-//                if (txtServiceDesc.isExpanded()) {
-//                    txtServiceDesc.collapse();
-//                    buttonToggle.setText("more");
-//                } else {
-//                    txtServiceDesc.expand();
-//                    buttonToggle.setText("less");
-//                }
-//            }
-//        });
 
         txtRelatedTitle = (TextView) findViewById(R.id.txt_related_title);
         btnFlagInappropriate = (LinearLayout) findViewById(R.id.ll_flag_inappropriate);
@@ -322,14 +288,33 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.btn_share).setOnClickListener(this);
     }
 
+    @SuppressLint("DefaultLocale")
+    private void calculatePrice() {
+        float total = 0f;
+        String unit = "";
+        ArrayList<Integer> priceCountList = priceAdapter.getPriceCountList();
+        for (int i = 0; i < priceCountList.size(); i++) {
+            Prices prices = pricesList.get(i);
+            unit = prices.getCurrencySymbol();
+            int count = priceCountList.get(i);
+            total = prices.getPrice() * count;
+        }
+        if (total > 0) {
+            btnBuyforService.setText(String.format("BUY FOR %s%.2f", unit, total));
+            btnBuyforService.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent));
+            btnBuyforService.setEnabled(true);
+        }else{
+            btnBuyforService.setText("BUY FOR");
+            btnBuyforService.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.gray));
+            btnBuyforService.setEnabled(false);
+        }
+
+    }
+
     private void initRecyclerView() {
         recyclerViewRelatedService = (RecyclerView) findViewById(R.id.recyclerview_related_service);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ServiceDetailActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerViewRelatedService.setLayoutManager(linearLayoutManager);
-
-//        DividerItemDecoration divider = new DividerItemDecoration(getBaseContext(), DividerItemDecoration.VERTICAL);
-//        divider.setDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.divider_option));
-//        recyclerViewRelatedService.addItemDecoration(divider);
 
         serviceAdapter = new RelatedServiceAdapter(ServiceDetailActivity.this, relatedServiceList, mUserLat, mUserLng, new OnRecyclerViewButtonClickListener() {
             @Override
@@ -339,6 +324,10 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                         String userId = relatedServiceList.get(position).getSeller().getUserId();
                         moveToProfile(userId);
                     }
+                }else{
+                    Intent intentService = new Intent(ServiceDetailActivity.this, ServiceDetailActivity.class);
+                    intentService.putExtra(ConstantUtils.SERVICE_ID, relatedServiceList.get(position).getService().getId());
+                    startActivity(intentService);
                 }
             }
 
@@ -358,6 +347,13 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
 
         if (seller.getUserId() != null && !seller.getUserId().isEmpty()) {
             sellerId = seller.getUserId();
+            Log.e("seller id" , sellerId);
+            Log.e("loginuser id" , loginUserId);
+            if (sellerId.equals(loginUserId)) {
+                btnBuyforService.setVisibility(View.GONE);
+            }else{
+                btnBuyforService.setVisibility(View.VISIBLE);
+            }
         }
 
         String strFirst = "", strLast = "";
@@ -555,65 +551,65 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
 //            layoutReviewValue1.setVisibility(View.VISIBLE);
 //            btnReviewMore.setVisibility(View.VISIBLE);
 
-            if (reviewList.get(0).getComment() != null && !reviewList.get(0).getComment().isEmpty()) {
-                txtReviewDesc1.setText(reviewList.get(0).getComment());
-            } else {
-                txtReviewDesc1.setText("NA");
-            }
-
-            if (reviewList.get(0).getOverallRating() != null && reviewList.get(0).getOverallRating() >= 0) {
-                txtReviewRate1.setText(String.format("%.1f", reviewList.get(0).getOverallRating()) + "%");
-            } else {
-                txtReviewRate1.setText("NA");
-            }
-
-            if (reviewList.get(0).getQualityOfService() != null && reviewList.get(0).getQualityOfService() >= 0) {
-                txtReviewQuality1.setText(String.format("%.1f", reviewList.get(0).getQualityOfService()));
-            } else {
-                txtReviewQuality1.setText("NA'");
-            }
-
-            if (reviewList.get(0).getWillingToBuyServiceAgain() != null && reviewList.get(0).getWillingToBuyServiceAgain() > 0) {
-                imgReviewAgain1.setImageResource(R.drawable.ellipse_checked_blue);
-            } else {
-                imgReviewAgain1.setImageResource(R.drawable.ellipse_unchecked_grey);
-            }
-
-            if (reviewList.size() > 1) {
-                btnReviewMore.setEnabled(true);
-                btnReviewMore.setSelected(true);
-                layoutReviewDesc2.setVisibility(View.VISIBLE);
-                layoutReviewValue2.setVisibility(View.VISIBLE);
-
-                if (reviewList.get(1).getComment() != null && !reviewList.get(1).getComment().isEmpty()) {
-                    txtReviewDesc2.setText(reviewList.get(1).getComment());
-                } else {
-                    txtReviewDesc2.setText("NA");
-                }
-
-                if (reviewList.get(1).getOverallRating() != null && reviewList.get(1).getOverallRating() >= 0) {
-                    txtReviewRate2.setText(String.format("%.1f", reviewList.get(1).getOverallRating()) + "%");
-                } else {
-                    txtReviewRate2.setText("NA");
-                }
-
-                if (reviewList.get(1).getQualityOfService() != null && reviewList.get(1).getQualityOfService() >= 0) {
-                    txtReviewQuality2.setText(String.format("%.1f", reviewList.get(1).getQualityOfService()));
-                } else {
-                    txtReviewQuality2.setText("NA'");
-                }
-
-                if (reviewList.get(1).getWillingToBuyServiceAgain() != null && reviewList.get(1).getWillingToBuyServiceAgain() > 0) {
-                    imgReviewAgain2.setImageResource(R.drawable.ellipse_checked_blue);
-                } else {
-                    imgReviewAgain2.setImageResource(R.drawable.ellipse_unchecked_grey);
-                }
-            } else {
-                btnReviewMore.setEnabled(false);
-                btnReviewMore.setSelected(false);
-                layoutReviewDesc2.setVisibility(View.GONE);
-                layoutReviewValue2.setVisibility(View.GONE);
-            }
+//            if (reviewList.get(0).getComment() != null && !reviewList.get(0).getComment().isEmpty()) {
+//                txtReviewDesc1.setText(reviewList.get(0).getComment());
+//            } else {
+//                txtReviewDesc1.setText("NA");
+//            }
+//
+//            if (reviewList.get(0).getOverallRating() != null && reviewList.get(0).getOverallRating() >= 0) {
+//                txtReviewRate1.setText(String.format("%.1f", reviewList.get(0).getOverallRating()) + "%");
+//            } else {
+//                txtReviewRate1.setText("NA");
+//            }
+//
+//            if (reviewList.get(0).getQualityOfService() != null && reviewList.get(0).getQualityOfService() >= 0) {
+//                txtReviewQuality1.setText(String.format("%.1f", reviewList.get(0).getQualityOfService()));
+//            } else {
+//                txtReviewQuality1.setText("NA'");
+//            }
+//
+//            if (reviewList.get(0).getWillingToBuyServiceAgain() != null && reviewList.get(0).getWillingToBuyServiceAgain() > 0) {
+//                imgReviewAgain1.setImageResource(R.drawable.ellipse_checked_blue);
+//            } else {
+//                imgReviewAgain1.setImageResource(R.drawable.ellipse_unchecked_grey);
+//            }
+//
+//            if (reviewList.size() > 1) {
+//                btnReviewMore.setEnabled(true);
+//                btnReviewMore.setSelected(true);
+//                layoutReviewDesc2.setVisibility(View.VISIBLE);
+//                layoutReviewValue2.setVisibility(View.VISIBLE);
+//
+//                if (reviewList.get(1).getComment() != null && !reviewList.get(1).getComment().isEmpty()) {
+//                    txtReviewDesc2.setText(reviewList.get(1).getComment());
+//                } else {
+//                    txtReviewDesc2.setText("NA");
+//                }
+//
+//                if (reviewList.get(1).getOverallRating() != null && reviewList.get(1).getOverallRating() >= 0) {
+//                    txtReviewRate2.setText(String.format("%.1f", reviewList.get(1).getOverallRating()) + "%");
+//                } else {
+//                    txtReviewRate2.setText("NA");
+//                }
+//
+//                if (reviewList.get(1).getQualityOfService() != null && reviewList.get(1).getQualityOfService() >= 0) {
+//                    txtReviewQuality2.setText(String.format("%.1f", reviewList.get(1).getQualityOfService()));
+//                } else {
+//                    txtReviewQuality2.setText("NA'");
+//                }
+//
+//                if (reviewList.get(1).getWillingToBuyServiceAgain() != null && reviewList.get(1).getWillingToBuyServiceAgain() > 0) {
+//                    imgReviewAgain2.setImageResource(R.drawable.ellipse_checked_blue);
+//                } else {
+//                    imgReviewAgain2.setImageResource(R.drawable.ellipse_unchecked_grey);
+//                }
+//            } else {
+//                btnReviewMore.setEnabled(false);
+//                btnReviewMore.setSelected(false);
+//                layoutReviewDesc2.setVisibility(View.GONE);
+//                layoutReviewValue2.setVisibility(View.GONE);
+//            }
         }
     }
 
@@ -692,6 +688,15 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     private void setUpSuggestedCategoryViewPager() {
         ViewPager viewPagerSuggestedServices = (ViewPager) findViewById(R.id.view_pager_suggested_services);
         editProfileImageViewPagerAdapter = new EditProfileImageViewPagerAdapter(ServiceDetailActivity.this, mediaList);
+        editProfileImageViewPagerAdapter.setListener1(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Media media = mediaList.get(position);
+                Intent intent = new Intent(ServiceDetailActivity.this, PhotoViewerActivity.class);
+                intent.putExtra(ConstantUtils.CHAT_TAP_PHOTO, media.getFileName());
+                startActivity(intent);
+            }
+        });
         viewPagerSuggestedServices.setAdapter(editProfileImageViewPagerAdapter);
         CirclePageIndicator circlePageIndicator = (CirclePageIndicator) findViewById(R.id.indicator_view_pager_suggested_services);
         circlePageIndicator.setViewPager(viewPagerSuggestedServices);
@@ -718,6 +723,10 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                 moveToProfile(sellerId);
                 break;
 
+            case R.id.ll_like:
+                break;
+            case R.id.ll_watch:
+                break;
             case R.id.show_more_service_button:
                 if (totalCnt > limitCnt * pageCnt) {
                     callGetRelatedServiceApi(serviceId, false, pageCnt+1, limitCnt, true);
@@ -726,7 +735,8 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.txt_get_custom_offer:
                 Intent chatintent = new Intent(ServiceDetailActivity.this, ChatActivity.class);
-                editor.putInt(ConstantUtils.USER_VERIFIED, seller.getVerified() ? 1 : 0).apply();
+//                editor.putInt(ConstantUtils.USER_VERIFIED, seller.getVerified() ? 1 : 0).apply();
+                editor.putInt(ConstantUtils.USER_VERIFIED, 0).apply();
                 editor.putString(ConstantUtils.CHAT_USER_ID, seller.getUserId()).apply();
                 editor.putString(ConstantUtils.CHAT_USER_NAME, seller.getFirstName() + " " + seller.getLastName()).apply();
                 editor.putString(ConstantUtils.CHAT_USER_PIC, seller.getProfilePic()).apply();
@@ -734,7 +744,9 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                 startActivity(chatintent);
                 break;
             case R.id.buy_service_button:
-                startActivity(new Intent(ServiceDetailActivity.this, CheckoutActivity.class));
+                Intent intent1 = new Intent(ServiceDetailActivity.this, CheckoutActivity.class);
+                intent1.putExtra(ConstantUtils.SERVICE_ID, serviceId);
+                startActivity(intent1);
                 break;
 //            case R.id.txt_point:
 //                if (isShared) {
@@ -855,6 +867,11 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                 if (response.code() == 200) {
                     if (response.body().getResult().getSeller() != null) {
                         seller = response.body().getResult().getSeller();
+                        if (seller.getUserId().equals(loginUserId)) {
+                            btnBuyforService.setVisibility(View.GONE);
+                        }else{
+                            btnBuyforService.setVisibility(View.VISIBLE);
+                        }
                     }
                     if (response.body().getResult().getService() != null) {
                         service = response.body().getResult().getService();

@@ -77,7 +77,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by vishalsharma on 1/8/17.
  */
 
-public class SearchServiceActivity extends AppCompatActivity implements View.OnTouchListener, OnApiFailDueToSessionListener, OnEditTextChangeListener, View.OnClickListener, OnSearchItemClickListener, GoogleApiClient.ConnectionCallbacks, LocationListener, GoogleApiClient.OnConnectionFailedListener {
+public class SearchServiceActivity extends AppCompatActivity implements View.OnTouchListener, OnApiFailDueToSessionListener,
+        OnEditTextChangeListener, View.OnClickListener, OnSearchItemClickListener, GoogleApiClient.ConnectionCallbacks, LocationListener, GoogleApiClient.OnConnectionFailedListener {
     private final int REQUEST_CHECK_SETTINGS = 1000;
     private final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 2000;
     private LocationRequest locationRequest;

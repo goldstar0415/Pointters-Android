@@ -16,10 +16,10 @@ public class Prices implements Serializable {
     private String description;
     @SerializedName("price")
     @Expose
-    private Integer price;
+    private Float price;
     @SerializedName("priceWithoutDiscount")
     @Expose
-    private Integer priceWithoutDiscount;
+    private Float priceWithoutDiscount;
     @SerializedName("currencySymbol")
     @Expose
     private String currencySymbol;
@@ -34,7 +34,7 @@ public class Prices implements Serializable {
     private String timeUnitOfMeasure;
 
 
-    public Prices(String description, Integer price, Integer time, String timeUnitOfMeasure, String currencySymbol, String currencyCode) {
+    public Prices(String description, Float price, Integer time, String timeUnitOfMeasure, String currencySymbol, String currencyCode) {
         this.description = description;
         this.price = price;
         this.time = time;
@@ -52,19 +52,19 @@ public class Prices implements Serializable {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
-    public Integer getPriceWithoutDiscount() {
+    public Float getPriceWithoutDiscount() {
         return priceWithoutDiscount;
     }
 
-    public void setPriceWithoutDiscount(Integer priceWithoutDiscount) {
+    public void setPriceWithoutDiscount(Float priceWithoutDiscount) {
         this.priceWithoutDiscount = priceWithoutDiscount;
     }
 

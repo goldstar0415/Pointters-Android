@@ -103,7 +103,7 @@
             android:layout_margin="@dimen/_5sdp"
             android:background="@color/gg_color"
             app:cardCornerRadius="@dimen/_2sdp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:elevation="@dimen/_3sdp">
             <RelativeLayout
                 android:layout_width="match_parent"

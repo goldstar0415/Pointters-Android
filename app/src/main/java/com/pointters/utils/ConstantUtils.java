@@ -75,6 +75,7 @@ public interface ConstantUtils {
     String CHOOSE_TAG_NAME = "choose_tag_name";
     String CHOOSE_TAG_POS = "choose_tag_pos";
     String CHOOSE_TAG_PIC = "choose_tag_pic";
+    String CHOOSE_TAG = "choose_tag";
 
     String FOLLOW_TYPE="follow_type";
     String USER_LATITUDE="user_latitude";
@@ -103,6 +104,11 @@ public interface ConstantUtils {
     String LINK_SERVICE_PIC = "link_service_pic";
     String LINK_SERVICE_INFO = "link_service_info";
 
+    String SELECT_JOB_ID = "select_job_id";
+    String SELECT_ORDER_ID = "select_order_id";
+    String SELECT_ORDER_TYPE = "buyer_seller";
+    String SELLER = "seller";
+    String BUYER = "buyer";
     String SELECT_OFFER_ID = "select_offer_id";
     String CUSTOM_OFFER_UPDATE = "custom_offer_update";
 

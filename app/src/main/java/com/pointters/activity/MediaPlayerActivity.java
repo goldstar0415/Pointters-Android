@@ -13,6 +13,8 @@ import com.pointters.R;
 import com.pointters.utils.ConstantUtils;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 /**
  * Created by mac on 1/8/18.
@@ -36,6 +38,11 @@ public class MediaPlayerActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_media_player);
         initUI();
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     private void initUI() {
         String videoUrl = getIntent().getStringExtra(ConstantUtils.CHAT_TAP_VIDEO);

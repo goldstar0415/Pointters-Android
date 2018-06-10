@@ -8,11 +8,15 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.MediaMetadataRetriever;
+import android.net.ParseException;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spannable;
@@ -30,11 +34,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pointters.R;
+import com.pointters.listener.AsyncResponse;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -43,15 +51,71 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AndroidUtils {
+    public static class MyAsyncTask extends AsyncTask<String, Void, Bitmap> {
+        public AsyncResponse delegate = null;
+
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bitmap = null;
+            MediaMetadataRetriever mediaMetadataRetriever = null;
+            try {
+                mediaMetadataRetriever = new MediaMetadataRetriever();
+                mediaMetadataRetriever.setDataSource(strings[0], new HashMap<String, String>());
+
+                bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (mediaMetadataRetriever != null) {
+                    mediaMetadataRetriever.release();
+                }
+            }
+            if (bitmap != null) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, 360 ,240, false);
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            delegate.processFinish(result);
+        }
+    }
+
+    public static Bitmap retriveVideoFrameFromVideo(String videoPath)
+            throws Throwable {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+
+            bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Throwable(
+                    "Exception in retriveVideoFrameFromVideo(String videoPath)"
+                            + e.getMessage());
+
+        } finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
+        return bitmap;
+    }
 
     public static void hideKeyBoard(Context context) {
         InputMethodManager manager = (InputMethodManager) context
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager != null) {
-            if (((Activity) context).getCurrentFocus() != null){
-                if (((Activity) context).getCurrentFocus().getWindowToken() != null) {
-                    manager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus()
-                            .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            if (context instanceof Activity) {
+                if (((Activity) context).getCurrentFocus() != null){
+                    if (((Activity) context).getCurrentFocus().getWindowToken() != null) {
+                        manager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus()
+                                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
                 }
             }
 
@@ -59,7 +123,9 @@ public class AndroidUtils {
     }
 
     public static void showKeyBoard(Context context) {
-        ((Activity) context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     public static void getHashKey(Context context) {
@@ -387,5 +453,22 @@ public class AndroidUtils {
 
     private static double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
+    }
+
+    public static String convertInLocalTime(String serverDate) throws ParseException {
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:sss";
+        String strDate = "";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        try {
+            TimeZone utcZone = TimeZone.getTimeZone("UTC");
+            sdf.setTimeZone(utcZone);// Set UTC time zone
+            Date myDate = sdf.parse(serverDate);
+            sdf.setTimeZone(TimeZone.getDefault());// Set device time zone
+            strDate = sdf.format(myDate);
+            return strDate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return strDate;
     }
 }

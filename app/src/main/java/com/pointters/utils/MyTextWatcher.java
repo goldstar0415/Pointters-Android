@@ -27,6 +27,7 @@ public class MyTextWatcher implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         onEditTextChangeListener.onTextChange(s.toString(), editText);
+
     }
 
     @Override

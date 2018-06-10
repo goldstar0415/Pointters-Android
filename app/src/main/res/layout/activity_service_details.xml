@@ -63,9 +63,6 @@
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite"
                         android:orientation="vertical">
-
-
-
                         <RelativeLayout
                             android:id="@+id/rl_txt_name"
                             android:layout_width="match_parent"
@@ -206,6 +203,7 @@
                                     android:layout_marginLeft="@dimen/_5sdp" />
                             </LinearLayout>
                             <LinearLayout
+                                android:id="@+id/ll_like"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
@@ -230,6 +228,7 @@
                                     android:layout_marginLeft="@dimen/_5sdp" />
                             </LinearLayout>
                             <LinearLayout
+                                android:id="@+id/ll_watch"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
@@ -787,7 +786,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:textColor="@color/colorWhite"
-            android:text="Buy for $30"
+            android:text="Buy for "
             android:gravity="end|center_vertical"
             android:paddingEnd="@dimen/_16sdp"
             android:layout_alignParentBottom="true"

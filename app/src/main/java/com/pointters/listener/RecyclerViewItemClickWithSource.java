@@ -7,5 +7,5 @@ import com.pointters.model.Prices;
  */
 
 public interface RecyclerViewItemClickWithSource {
-    void onItemClick(int position, Prices source);
+    void onItemClick(int position, Prices source, int type);
 }

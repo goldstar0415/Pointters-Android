@@ -1,6 +1,5 @@
 package com.pointters.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -17,22 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.VideoView;
 
-//import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pointters.R;
 import com.pointters.activity.PlayVideoActivity;
-import com.pointters.model.FileAndBitmapModel;
 import com.pointters.utils.ConstantUtils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 
-import static com.pointters.R.id.player;
-import static com.pointters.R.id.video_view;
-import static com.pointters.R.string.video;
+//import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 
 /**
  * Created by Vishal Sharma on 29-Jul-17.

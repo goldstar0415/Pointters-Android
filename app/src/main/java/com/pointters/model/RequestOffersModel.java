@@ -11,6 +11,7 @@ public class RequestOffersModel {
     private String createdAt;
     private Integer numOffers;
     private Integer expiresIn;
+    private String requestOfferId;
 
 
     public JobRequestModel getRequest() { return request; }
@@ -49,5 +50,13 @@ public class RequestOffersModel {
 
     public void setExpiresIn(Integer expiresIn) {
         this.expiresIn = expiresIn;
+    }
+
+    public String getRequestOfferId() {
+        return requestOfferId;
+    }
+
+    public void setRequestOfferId(String requestOfferId) {
+        this.requestOfferId = requestOfferId;
     }
 }

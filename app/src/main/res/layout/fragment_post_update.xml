@@ -31,7 +31,9 @@
         android:scrollHorizontally="false"
         android:textColor="@color/text_color_dark_gray"
         android:textSize="@dimen/text_size_small"
-        tools:ignore="MissingPrefix" />
+        tools:ignore="MissingPrefix" >
+        <requestFocus/>
+    </EditText>
 
 
     <android.support.v7.widget.RecyclerView

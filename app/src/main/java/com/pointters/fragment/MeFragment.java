@@ -53,6 +53,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
         if (sharedPreferences.getString(ConstantUtils.USER_DATA, "") != null)
             json = sharedPreferences.getString(ConstantUtils.USER_DATA, "");
+
         toolbarLeftIamge = (ImageView) view.findViewById(R.id.toolbar_lft_img);
         searchButton = (ImageButton) view.findViewById(R.id.search_button);
         buySellViewPager = (NonSwipeableViewPager) view.findViewById(R.id.viewpager_buy_sell);
@@ -66,7 +67,14 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 buySellViewPager.setCurrentItem(position);
             }
         });
-
+        if (sharedPreferences.getString(ConstantUtils.SOURCE, "") != null) {
+            String tabString = sharedPreferences.getString(ConstantUtils.SOURCE, "");
+            if (tabString.equals(getResources().getString(R.string.sell))){
+                spinner.setSelectedIndex(1);
+            }else{
+                spinner.setSelectedIndex(0);
+            }
+        }
         setupViewPager(buySellViewPager);
 
         RelativeLayout tabOne = (RelativeLayout) LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);

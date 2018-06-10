@@ -33,6 +33,7 @@ public class SelectCategoryAdapter extends ExpandableRecyclerView.Adapter<Select
     private List<CategoryDetails> settingsModelList;
     private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
     public String selectedCategory = "";
+    public String selectedCategoryid = "";
     public SelectCategoryAdapter(Context context, List<CategoryDetails> settingsModelList, OnRecyclerViewItemClickListener onRecyclerViewItemClickListener) {
         this.context = context;
         this.settingsModelList = settingsModelList;
@@ -42,6 +43,11 @@ public class SelectCategoryAdapter extends ExpandableRecyclerView.Adapter<Select
     public String getSelectedCategory() {
         return selectedCategory;
     }
+
+    public String getSelectedCategoryId() {
+        return selectedCategoryid;
+    }
+
 
     @Override
     public int getGroupItemCount() {
@@ -122,7 +128,8 @@ public class SelectCategoryAdapter extends ExpandableRecyclerView.Adapter<Select
 
         holder.checkbox.setTag(group+"0"+position);
         holder.checkbox.setTag(models.getSubCategories().get(position).get_id());
-        if (selectedCategory.equals(models.getSubCategories().get(position).get_id())){
+        if (selectedCategoryid.equals(models.getSubCategories().get(position).get_id())){
+            selectedCategory = models.getName();
             holder.checkbox.setSelected(true);
         }else{
             holder.checkbox.setSelected(false);
@@ -134,7 +141,7 @@ public class SelectCategoryAdapter extends ExpandableRecyclerView.Adapter<Select
     public void onClick(View v) {
         if ((ImageButton)v != null) {
             ((ImageButton)v).setSelected(!((ImageButton)v).isSelected());
-            selectedCategory = (String) ((ImageButton)v).getTag();
+            selectedCategoryid = (String) ((ImageButton)v).getTag();
             notifyDataSetChanged();
         }
     }

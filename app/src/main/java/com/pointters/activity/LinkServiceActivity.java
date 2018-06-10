@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.pointters.adapter.SendServiceAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.ChatServiceModel;
+import com.pointters.model.GetserviceSearch;
 import com.pointters.model.Media;
 import com.pointters.model.Prices;
 import com.pointters.model.SearchSendServicesModel;
@@ -53,6 +56,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by mac on 12/22/17.
@@ -68,7 +72,7 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
 
     LinkServiceAdapter sendServiceAdapter;
     List<SendServicesModel> arrSendServices = new ArrayList<>();
-    List<SearchSendServicesModel> arrSearchServices = new ArrayList<>();
+    List<GetserviceSearch> arrSearchServices = new ArrayList<>();
 
     private Boolean isSearch = false;
 
@@ -93,6 +97,9 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
     private String service_desc = "";
     private String service_pic = "";
 
+    private RelativeLayout searchLayout;
+    private EditText edtSearch;
+    private ImageView backIImageView, crossImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +108,7 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         AppUtils.setToolBarWithBothIconWithShadow(LinkServiceActivity.this, getResources().getString(R.string.send_service),
-                R.drawable.icon_menu, R.drawable.icon_search_medium);
+                R.drawable.icon_back_arrow, R.drawable.icon_search_medium);
 
         getLoginUserInfo();
         serviceType = sharedPreferences.getString(ConstantUtils.SERVICE_TYPE, "");
@@ -125,12 +132,15 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
                 .setAnimationSpeed(2)
                 .setDimAmount(0.5f);
 
+
+
+
         recyclerSendServices = (RecyclerView) findViewById(R.id.recycler_services);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(LinkServiceActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerSendServices.setLayoutManager(linearLayoutManager);
         recyclerSendServices.setItemAnimator(new DefaultItemAnimator());
 
-        sendServiceAdapter = new LinkServiceAdapter(LinkServiceActivity.this, arrSendServices, mUsername, serviceType, new OnRecyclerViewButtonClickListener(){
+        sendServiceAdapter = new LinkServiceAdapter(LinkServiceActivity.this, mUsername, serviceType, new OnRecyclerViewButtonClickListener(){
             @Override
             public void onButtonClick(View v, int position) {
                 getServiceInfo(position);
@@ -157,9 +167,6 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if (isSearch) {
-                    if (totalSearchCnt - arrSearchServices.size() > 0) {
-                        getSendServicesSearchApiCall(false, strKey, arrSearchServices.size());
-                    }
                 } else {
                     if (totalCnt > limitCnt) {
                         getSendServicesApiCall(false, lastDocId);
@@ -168,15 +175,84 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
+        searchLayout = (RelativeLayout) findViewById(R.id.layout_search);
+        backIImageView = (ImageView) findViewById(R.id.btn_back);
+        crossImageView = (ImageView) findViewById(R.id.img_cross_search_here);
+        edtSearch = (EditText) findViewById(R.id.edt_search_here);
+        edtSearch.setOnEditorActionListener(mEditorActionListener);
+
+        crossImageView.setOnClickListener(this);
+        backIImageView.setOnClickListener(this);
         loader.show();
         getSendServicesApiCall(true, "");
+
     }
 
+    public void CallGetSearchService(String query) {
+        Map<String, String> params = new HashMap<>();
+        params.put("q", query);
+
+        ApiInterface apiService = ApiClient.getClient(true).create(ApiInterface.class);
+        final Call<List<GetserviceSearch>> searchSendServicesRequest = apiService.getServiceSearch(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), params);
+        searchSendServicesRequest.enqueue(new Callback<List<GetserviceSearch>>() {
+            @Override
+            public void onResponse(Call<List<GetserviceSearch>> call, Response<List<GetserviceSearch>> response) {
+                if (loader.isShowing()) {
+                    loader.dismiss();
+                }
+
+                if (response.code() == 200 && response.body() != null) {
+                    arrSearchServices = response.body();
+                    sendServiceAdapter.setType(true);
+                    sendServiceAdapter.setSearchServicesList(arrSearchServices);
+                    sendServiceAdapter.notifyDataSetChanged();
+                    if (arrSearchServices.size() > 0) {
+                        txtNotFound.setVisibility(View.GONE);
+                    }else{
+                        txtNotFound.setVisibility(View.VISIBLE);
+                    }
+                }
+                else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(LinkServiceActivity.this, "callSearchSendServicesApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(LinkServiceActivity.this);
+                }
+                else if (response.code() == 404) {
+                    txtNotFound.setText("No service found.");
+                    txtNotFound.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onFailure(Call<List<GetserviceSearch>> call, Throwable t) {
+                if (loader.isShowing())     loader.dismiss();
+                Toast.makeText(LinkServiceActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar_lft_img:
                 onBackPressed();
+                break;
+            case R.id.toolbar_right_img:
+                searchLayout.setVisibility(View.VISIBLE);
+                isSearch = true;
+                sendServiceAdapter.setType(true);
+                sendServiceAdapter.notifyDataSetChanged();
+                break;
+
+            case R.id.btn_back:
+                onBackPressed();
+                break;
+
+            case R.id.img_cross_search_here:
+                isSearch = false;
+                searchLayout.setVisibility(View.GONE);
+                sendServiceAdapter.setType(false);
+                sendServiceAdapter.notifyDataSetChanged();
                 break;
 
             default:
@@ -199,7 +275,8 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
                     isSearch = true;
                     loader.show();
                     txtYourServices.setVisibility(View.GONE);
-                    getSendServicesSearchApiCall(true, strKey, 0);
+                    CallGetSearchService(edtSearch.getText().toString());
+//                    getSendServicesSearchApiCall(true, strKey, 0);
                 }
 
                 hideKeyboard((EditText)v);
@@ -249,26 +326,26 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
         String strMediaType = "image";
         Prices chatPrices = null;
         if (isSearch) {
-            if (arrSearchServices.get(index).getId() != null && !arrSearchServices.get(index).getId().isEmpty()) {
-                service_Id = arrSearchServices.get(index).getId();
+            if (arrSearchServices.get(index).get_id() != null && !arrSearchServices.get(index).get_id().isEmpty()) {
+                service_Id = arrSearchServices.get(index).get_id();
             }
-            if (arrSearchServices.get(index).getSource() != null) {
-                if (arrSearchServices.get(index).getSource().getDescription() != null && (!arrSearchServices.get(index).getSource().getDescription().isEmpty())) {
-                    service_desc = arrSearchServices.get(index).getSource().getDescription();
+            if (arrSearchServices.get(index).get_source() != null) {
+                if (arrSearchServices.get(index).get_source().getDescription() != null && (!arrSearchServices.get(index).get_source().getDescription().isEmpty())) {
+                    service_desc = arrSearchServices.get(index).get_source().getDescription();
                 }
-                if (arrSearchServices.get(index).getSource().getMedia() != null && arrSearchServices.get(index).getSource().getMedia().size() > 0) {
-                    if (arrSearchServices.get(index).getSource().getMedia().get(0).getFileName() != null && !arrSearchServices.get(index).getSource().getMedia().get(0).getFileName().isEmpty()) {
-                        service_pic = arrSearchServices.get(index).getSource().getMedia().get(0).getFileName();
+                if (arrSearchServices.get(index).get_source().getMedia() != null && arrSearchServices.get(index).get_source().getMedia().size() > 0) {
+                    if (arrSearchServices.get(index).get_source().getMedia().get(0).getFileName() != null && !arrSearchServices.get(index).get_source().getMedia().get(0).getFileName().isEmpty()) {
+                        service_pic = arrSearchServices.get(index).get_source().getMedia().get(0).getFileName();
                         if (!service_pic.contains("https://s3.amazonaws.com")) {
 //                            service_pic = "https://s3.amazonaws.com" + service_pic;
                         }
                     }
-                    if (arrSearchServices.get(index).getSource().getMedia().get(0).getMediaType() != null && !arrSearchServices.get(index).getSource().getMedia().get(0).getMediaType().isEmpty()) {
-                        strMediaType = arrSearchServices.get(index).getSource().getMedia().get(0).getMediaType();
+                    if (arrSearchServices.get(index).get_source().getMedia().get(0).getMediaType() != null && !arrSearchServices.get(index).get_source().getMedia().get(0).getMediaType().isEmpty()) {
+                        strMediaType = arrSearchServices.get(index).get_source().getMedia().get(0).getMediaType();
                     }
                 }
-                if (arrSearchServices.get(index).getSource().getPrices() != null && arrSearchServices.get(index).getSource().getPrices().size() > 0) {
-                    chatPrices = arrSearchServices.get(index).getSource().getPrices().get(0);
+                if (arrSearchServices.get(index).get_source().getPrices() != null && arrSearchServices.get(index).get_source().getPrices().size() > 0) {
+                    chatPrices = arrSearchServices.get(index).get_source().getPrices().get(0);
                 }
             }
         }
@@ -308,6 +385,11 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
         chatService.setPrice(chatPrices);
         chatService.setSeller(seller);
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     private void getSendServicesApiCall(final boolean inited, String lastId) {
         if (inited) {
@@ -331,6 +413,8 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
                     lastDocId = response.body().getLastDocId();
 
                     arrSendServices.addAll(response.body().getDocs());
+                    sendServiceAdapter.setType(false);
+                    sendServiceAdapter.setSendServicesList(arrSendServices);
                     sendServiceAdapter.notifyItemRangeInserted(sendServiceAdapter.getItemCount(), arrSendServices.size()-1);
 
                     if (inited && arrSendServices.size() == 0) {
@@ -384,18 +468,18 @@ public class LinkServiceActivity extends AppCompatActivity implements View.OnCli
                 if (response.code() == 200 && response.body() != null) {
                     totalSearchCnt = response.body().getUpHits().getTotal();
 
-                    arrSearchServices.addAll(response.body().getUpHits().getHits());
-                    for (int i = 0; i < arrSearchServices.size(); i ++) {
-                        ServicesWoArray subTemp = new ServicesWoArray();
-                        subTemp.setDescription(arrSearchServices.get(i).getSource().getDescription());
-                        subTemp.setMedia(arrSearchServices.get(i).getSource().getMedia().get(0));
-                        subTemp.setPrices(arrSearchServices.get(i).getSource().getPrices().get(0));
-
-                        SendServicesModel temp = new SendServicesModel();
-                        temp.setService(subTemp);
-
-                        arrSendServices.add(temp);
-                    }
+//                    arrSearchServices.addAll(response.body().getUpHits().getHits());
+//                    for (int i = 0; i < arrSearchServices.size(); i ++) {
+//                        ServicesWoArray subTemp = new ServicesWoArray();
+//                        subTemp.setDescription(arrSearchServices.get(i).getSource().getDescription());
+//                        subTemp.setMedia(arrSearchServices.get(i).getSource().getMedia().get(0));
+//                        subTemp.setPrices(arrSearchServices.get(i).getSource().getPrices().get(0));
+//
+//                        SendServicesModel temp = new SendServicesModel();
+//                        temp.setService(subTemp);
+//
+//                        arrSendServices.add(temp);
+//                    }
 
                     sendServiceAdapter.notifyItemRangeInserted(sendServiceAdapter.getItemCount(), arrSendServices.size()-1);
 

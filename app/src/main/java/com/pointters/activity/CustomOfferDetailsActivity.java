@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,23 +16,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -42,20 +33,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
-import com.pointters.adapter.RelatedServiceAdapter;
-import com.pointters.fragment.ChatFragment;
-import com.pointters.fragment.SellOrdersFragment;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.model.CustomOfferModels;
 import com.pointters.model.LinkServiceModel;
 import com.pointters.model.response.GetCustomOfferDetailsResponse;
-import com.pointters.model.response.GetSellOrdersResponse;
 import com.pointters.model.response.GetServiceByIdResponse;
-import com.pointters.model.response.SearchConversationsResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.CallLoginApiIfFails;
@@ -63,14 +48,12 @@ import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.SquareImageView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by mac on 12/25/17.
@@ -131,7 +114,7 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this).build();
         googleApiClient.connect();
-        turnOnLocation();
+//        turnOnLocation();
 
         initUI();
         hideLinkedService();
@@ -174,6 +157,12 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
         btnAccept.setSelected(true);
         btnAccept.setOnClickListener(this);
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     private void showLinkedService(LinkServiceModel linked) {
 //        txtLinked.setVisibility(View.VISIBLE);
@@ -279,16 +268,14 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
                 }
 
                 latLng = new LatLng(service_pos.get(1), service_pos.get(0));
-                if (latLng != null) {
-                    mapFragment.getMapAsync(new OnMapReadyCallback() {
-                        @Override
-                        public void onMapReady(GoogleMap googleMap) {
-                            mMap = googleMap;
-                            mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_location_big)));
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
-                        }
-                    });
-                }
+                mapFragment.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+                        mMap = googleMap;
+                        mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_location_big)));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
+                    }
+                });
             } else {
                 layoutDirection.setVisibility(View.INVISIBLE);
                 layoutMap.setVisibility(View.INVISIBLE);
@@ -407,51 +394,51 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
         Log.e("Custom Offer Details Api Failed: ", apiSource);
     }
 
-    private void turnOnLocation() {
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(30 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-
-        //**************************
-        builder.setAlwaysShow(true); //this is the key ingredient
-        //**************************
-
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(LocationSettingsResult result) {
-                final Status status = result.getStatus();
-                final LocationSettingsStates state = result.getLocationSettingsStates();
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        requestCurrentLocation();
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        // LocationRequestModel settings are not satisfied. But could be fixed by showing the user
-                        // a dialog.
-                        try {
-                            // Show the dialog by calling startResolutionForResult(),
-                            // and check the result in onActivityResult().
-                            status.startResolutionForResult(CustomOfferDetailsActivity.this, REQUEST_CHECK_SETTINGS);
-                        } catch (IntentSender.SendIntentException e) {
-                            // Ignore the error.
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        // LocationRequestModel settings are not satisfied. However, we have no way to fix the
-                        // settings so we won't show the dialog.
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
-    }
+//    private void turnOnLocation() {
+//        locationRequest = LocationRequest.create();
+//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        locationRequest.setInterval(30 * 1000);
+//        locationRequest.setFastestInterval(5 * 1000);
+//
+//        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+//
+//        //**************************
+//        builder.setAlwaysShow(true); //this is the key ingredient
+//        //**************************
+//
+//        PendingResult<LocationSettingsResult> result =
+//                LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+//        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+//            @Override
+//            public void onResult(LocationSettingsResult result) {
+//                final Status status = result.getStatus();
+//                final LocationSettingsStates state = result.getLocationSettingsStates();
+//                switch (status.getStatusCode()) {
+//                    case LocationSettingsStatusCodes.SUCCESS:
+//                        requestCurrentLocation();
+//                        break;
+//                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+//                        // LocationRequestModel settings are not satisfied. But could be fixed by showing the user
+//                        // a dialog.
+//                        try {
+//                            // Show the dialog by calling startResolutionForResult(),
+//                            // and check the result in onActivityResult().
+//                            status.startResolutionForResult(CustomOfferDetailsActivity.this, REQUEST_CHECK_SETTINGS);
+//                        } catch (IntentSender.SendIntentException e) {
+//                            // Ignore the error.
+//                        }
+//                        break;
+//                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+//                        // LocationRequestModel settings are not satisfied. However, we have no way to fix the
+//                        // settings so we won't show the dialog.
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        });
+//
+//    }
 
     private void requestCurrentLocation() {
         if (ContextCompat.checkSelfPermission(CustomOfferDetailsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

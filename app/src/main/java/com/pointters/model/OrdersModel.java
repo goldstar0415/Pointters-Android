@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class OrdersModel {
 
+    private String id;
     private String currencyCode;
     private String currencySymbol;
     private Integer totalAmount;
@@ -26,7 +27,6 @@ public class OrdersModel {
     private String description;
     private String priceDescription;
     private Integer notificationCount;
-
 
     public String getCurrencyCode() {
         return currencyCode;
@@ -124,4 +124,11 @@ public class OrdersModel {
         this.notificationCount = notificationCount;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

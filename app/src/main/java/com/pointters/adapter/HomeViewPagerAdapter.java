@@ -5,8 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.pointters.fragment.MenuContainerFragment;
-import com.pointters.fragment.MenuScreenFragment;
-import com.pointters.fragment.BlankFragment;
+import com.pointters.fragment.CurrentUpdateFragment;
 import com.pointters.fragment.CameraFragment;
 import com.pointters.fragment.ChatFragment;
 import com.pointters.fragment.ExploreServiceFragment;
@@ -32,7 +31,7 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
                 fragment = new ExploreServiceFragment();
                 break;
             case 1:
-                fragment = new BlankFragment();
+                fragment = new CurrentUpdateFragment();
                 break;
             case 2:
                 fragment = new CameraFragment();

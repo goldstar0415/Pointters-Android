@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +26,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.pointters.R;
 import com.pointters.model.CategoryModel;
 import com.pointters.model.FulfillmentDetails;
@@ -61,8 +64,15 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
 
     private OrdersDetailModel ordersDetailModel;
 
+    private String viewType = "";
     private String orderId = "";
-    private Button startNowButton, cancelOrderButton, reviewOrderButton;
+    private Button  cancelOrderButton, reviewOrderButton;
+    private TextView txtStartData, txtOrderId, txtTotalFiles, txtUserName, txtUserDescription, txtTotalBudget, txtPaidDate, txtWorkTime, txtDeliberyMethod;
+    private RoundedImageView userImage;
+    private ImageView sellerAcceptScheduleTime;
+    private RecyclerView serviceOrderd;
+    private EditText edtStartScheduleDate, edtStartScheduleTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +89,11 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         Intent intent = getIntent();
-        if (intent.getStringExtra("orderId") != null) {
-            orderId = intent.getStringExtra("orderId");
+        if (intent.getStringExtra(ConstantUtils.SELECT_ORDER_ID) != null) {
+            orderId = intent.getStringExtra(ConstantUtils.SELECT_ORDER_ID);
+            viewType = intent.getStringExtra(ConstantUtils.SELECT_ORDER_TYPE);
         }else{
-         //   finish();
+            finish();
         }
 
 
@@ -105,8 +116,6 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
 
         orderAccept = (RelativeLayout) findViewById(R.id.view_order_accept);
         orderAccept.setOnClickListener(this);
-        startNowButton = (Button) findViewById(R.id.btn_start_now);
-        startNowButton.setOnClickListener(this);
         cancelOrderButton = (Button) findViewById(R.id.btn_cancel_order);
         cancelOrderButton.setOnClickListener(this);
         reviewOrderButton = (Button) findViewById(R.id.btn_review);
@@ -136,11 +145,13 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void CallGetOrderDetail(String orderid) {
+        loader.show();
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
         Call<OrdersDetailModel> callGetCategoryApi = apiService.getOrderDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), orderid);
         callGetCategoryApi.enqueue(new Callback<OrdersDetailModel>() {
             @Override
             public void onResponse(Call<OrdersDetailModel> call, Response<OrdersDetailModel> response) {
+                loader.dismiss();
                 if (response.code() == 200 && response.body() != null) {
                     ordersDetailModel = response.body();
                     updateUI();
@@ -148,7 +159,9 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
             }
 
             @Override
-            public void onFailure(Call<OrdersDetailModel> call, Throwable t) {}
+            public void onFailure(Call<OrdersDetailModel> call, Throwable t) {
+                loader.dismiss();
+            }
         });
     }
 
@@ -196,14 +209,14 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
                 startActivityForResult(orderProcessingIntent, REQUEST_ORDER_PROCESSING);
                 break;
 
-            case R.id.btn_start_now:
-                MaterialDialog dialog = new MaterialDialog.Builder(this)
-                        .title("Schedule Start Now")
-                        .content("Add Not Here\n6 Oct 2018   12:30 PM")
-                        .positiveText("OK")
-                        .negativeText("CANCEL")
-                        .show();
-                break;
+//            case R.id.btn_start_now:
+//                MaterialDialog dialog = new MaterialDialog.Builder(this)
+//                        .title("Schedule Start Now")
+//                        .content("Add Not Here\n6 Oct 2018   12:30 PM")
+//                        .positiveText("OK")
+//                        .negativeText("CANCEL")
+//                        .show();
+//                break;
             case R.id.btn_cancel_order:
                 Intent cancelOrderIntent = new Intent(FulfillmentActivity.this, CancelOrderActivity.class);
                 cancelOrderIntent.putExtra("orderId", orderId);

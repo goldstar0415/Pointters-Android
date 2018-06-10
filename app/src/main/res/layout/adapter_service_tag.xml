@@ -148,6 +148,7 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="end">
                             <ImageView
+                                android:id="@+id/delete_tag_button"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/icons_delete"

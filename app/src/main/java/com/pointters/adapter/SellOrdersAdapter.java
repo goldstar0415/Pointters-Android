@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.SellOrderModel;
 
@@ -36,11 +37,16 @@ public class SellOrdersAdapter extends RecyclerView.Adapter<SellOrdersAdapter.My
     private Context context;
     private List<SellOrderModel> sellOrderModelList;
     private OnRecyclerViewButtonClickListener listener;
+    private OnRecyclerViewItemClickListener listener1;
 
     public SellOrdersAdapter(Context context, List<SellOrderModel> sellOrderModelList, OnRecyclerViewButtonClickListener listener) {
         this.context = context;
         this.sellOrderModelList = sellOrderModelList;
         this.listener = listener;
+    }
+
+    public void setListener1(OnRecyclerViewItemClickListener listener1){
+        this.listener1 = listener1;
     }
 
     @Override
@@ -144,6 +150,14 @@ public class SellOrdersAdapter extends RecyclerView.Adapter<SellOrdersAdapter.My
                 }
             }
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener1 != null) {
+                    listener1.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override

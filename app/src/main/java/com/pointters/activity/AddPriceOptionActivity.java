@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ import com.pointters.utils.CurrencyEditText;
 import com.pointters.utils.MyTextWatcher;
 import com.pointters.utils.wheelpicker.listener.OnCityWheelComfirmListener;
 import com.pointters.utils.wheelpicker.ppw.CityWheelPickerPopupWindow;
+
+import org.greenrobot.eventbus.EventBus;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -116,12 +119,14 @@ public class AddPriceOptionActivity extends AppCompatActivity implements View.On
                     deliverytime = time;
                 }
                 timeUnitOfMeasure = unit;
+                String strunit = timeUnitOfMeasure;
+                timeUnitOfMeasure = timeUnitOfMeasure.replace("(s)", "");
                 if (Integer.valueOf(deliverytime) > 1){
-                    timeUnitOfMeasure = timeUnitOfMeasure.replace("(s)", "s");
+                    strunit = strunit.replace("(s)", "s");
                 }else{
-                    timeUnitOfMeasure = timeUnitOfMeasure.replace("(s)", "");
+                    strunit = strunit.replace("(s)", "");
                 }
-                btnDeliveryTime.setText(deliverytime + " " + timeUnitOfMeasure);
+                btnDeliveryTime.setText(deliverytime + " " + strunit);
                 setAddButtonState();
             }
 
@@ -133,31 +138,48 @@ public class AddPriceOptionActivity extends AppCompatActivity implements View.On
         addPriceButton = (Button) findViewById(R.id.btn_add);
         priceAmountEditText = (CurrencyEditText) findViewById(R.id.edt_price_amount);
         btnDeliveryTime = (Button) findViewById(R.id.btn_deivery_time);
-        btnDeliveryTime.setText(String.format("%s %s", deliverytime, deliveryUnit));
+        if (Integer.valueOf(deliverytime) > 1) {
+            btnDeliveryTime.setText(String.format("%s %ss", deliverytime, deliveryUnit));
+        }else{
+            btnDeliveryTime.setText(String.format("%s %s", deliverytime, deliveryUnit));
+        }
+        priceAmountEditText.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager keyboard = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        },200);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar_lft_img:
-                AndroidUtils.hideKeyBoard(AddPriceOptionActivity.this);
+                InputMethodManager hide = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                hide.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
                 onBackPressed();
                 break;
 
             case R.id.btn_add:
+                AndroidUtils.hideKeyBoard(AddPriceOptionActivity.this);
                 String description = editTextPriceOptionDescription.getText().toString();
                 Integer price = Math.toIntExact(priceAmountEditText.getRawValue());
                 Integer time = Integer.parseInt(deliverytime);
-                prices = new Prices(description, price, time, timeUnitOfMeasure, currencySymbol, currencyCode);
+                prices = new Prices(description, Float.valueOf(price), time, timeUnitOfMeasure, currencySymbol, currencyCode);
                 Intent intent = new Intent();
                 intent.putExtra(ConstantUtils.DELETE, "no");
                 intent.putExtra(ConstantUtils.POSITION,getIntent().getStringExtra(ConstantUtils.POSITION));
                 intent.putExtra(ConstantUtils.PRICE, prices);
                 setResult(RESULT_OK, intent);
                 finish();
-                AndroidUtils.hideKeyBoard(AddPriceOptionActivity.this);
                 break;
 
             case R.id.toolbar_right_img:

@@ -145,6 +145,7 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
 
 
                 googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
                     @Override
                     public View getInfoWindow(Marker marker) {
                         return null;
@@ -164,13 +165,10 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
                                 .cacheOnDisk(true)
                                 .considerExifParams(true)
                                 .build();
-                        if (model == null) {
+                        if (model != null) {
                             if (model.getMedia() != null) {
                                 if (model.getMedia().getFileName() != null && !model.getMedia().getFileName().isEmpty()) {
                                     String strPic = model.getMedia().getFileName();
-                                    if (!strPic.contains("https://s3.amazonaws.com")) {
-//                                        strPic = "https://s3.amazonaws.com" + strPic;
-                                    }
                                     ImageLoader.getInstance().displayImage(strPic, imgUser, options);
                                 }
 
@@ -235,22 +233,27 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
 
     private void addMakers(ArrayList<LiveOfferModel> models) {
 
-        LatLng sydney = new LatLng(Float.parseFloat("37.422"), Float.parseFloat("-122.084"));
+//        LatLng sydney = new LatLng(Float.parseFloat("37.422"), Float.parseFloat("-122.084"));
         for (int position = 0; position < models.size(); position++) {
             LiveOfferModel model = models.get(position);
-            sydney = new LatLng(Float.parseFloat("37.422"), Float.parseFloat("-122.084"));
-            ArrayList<Double> coordinates = model.getLocation().get(0).getGeoJson().getCoordinates();
-            if (coordinates.size() > 1) {
-                sydney = new LatLng(coordinates.get(1), coordinates.get(0));
+            if (model.getLocation().size() > 0) {
+                ArrayList<Double> coordinates = model.getLocation().get(0).getGeoJson().getCoordinates();
+                if (coordinates.size() > 1) {
+                    LatLng sydney = new LatLng(coordinates.get(1), coordinates.get(0));
+                    googleMap.addMarker(new MarkerOptions().position(sydney).
+                            title("Title").snippet(String.valueOf(position)).icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.plus_icon, position + 1))));
+                }
             }
-            googleMap.addMarker(new MarkerOptions().position(sydney).
-                    title("Title").snippet(String.valueOf(position)).icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.plus_icon, position + 1))));
 
         }
         // For zooming automatically to the location of the marker
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition
-                (cameraPosition ));
+        if (models.size() > 0) {
+            ArrayList<Double> coordinate = models.get(models.size() - 1).getLocation().get(0).getGeoJson().getCoordinates();
+            LatLng camera = new LatLng(coordinate.get(1), coordinate.get(0));
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(camera).zoom(12).build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition
+                    (cameraPosition ));
+        }
 
 
     }

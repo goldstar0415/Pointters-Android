@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.optimus.edittextfield.EditTextField;
 import com.pointters.R;
@@ -102,6 +103,8 @@ public class TagServiceActivity extends AppCompatActivity implements View.OnClic
         searchButton = (ImageButton) findViewById(R.id.search_button);
         checkButton = (ImageButton) findViewById(R.id.check_button);
         searchCardview = (CardView) findViewById(R.id.search_cardview);
+        searchCardview.setVisibility(View.VISIBLE);
+        searchButton.setVisibility(View.INVISIBLE);
 
 
         editSearch.setOnEditorActionListener(mEditorActionListener);
@@ -117,62 +120,64 @@ public class TagServiceActivity extends AppCompatActivity implements View.OnClic
         recyclerTagServices.addOnItemTouchListener(new OnRecycleItemClickListener(this, new OnRecycleItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                String strName="", strPos="", strPic="";
-//                String strId = arrTagServices.get(position).getId();
-//                String strType = arrTagServices.get(position).getType();
-//
-//                if (strType != null && strType.equals("user")) {
-//                    strName = arrTagServices.get(position).getSource().getFirstName() + " " + arrTagServices.get(position).getSource().getLastName();
-//                } else {
-//                    strName = arrTagServices.get(position).getSource().getDescription();
-//                }
-//
-//                if (arrTagServices.get(position).getSource().getLocation() != null) {
-//                    String strCity = "", strState = "", strKm="NA";
-//                    if (arrTagServices.get(position).getSource().getLocation().getCity() != null && !arrTagServices.get(position).getSource().getLocation().getCity().equals(""))
-//                        strCity = arrTagServices.get(position).getSource().getLocation().getCity();
-//                    if (arrTagServices.get(position).getSource().getLocation().getState() != null && !arrTagServices.get(position).getSource().getLocation().getState().equals(""))
-//                        strState = arrTagServices.get(position).getSource().getLocation().getState();
-//                    if (arrTagServices.get(position).getSource().getLocation().getGeoJson() != null) {
-//                        GeoJsonModel geoJson = arrTagServices.get(position).getSource().getLocation().getGeoJson();
-//                        if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
-//                            Location servicePos = new Location("");
-//                            servicePos.setLatitude(geoJson.getCoordinates().get(1));
-//                            servicePos.setLongitude(geoJson.getCoordinates().get(0));
-//
-//                            Location userPos = new Location("");
-//                            userPos.setLatitude(mUserLat);
-//                            userPos.setLongitude(mUserLng);
-//
-//                            strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
-//                        }
-//                    }
-//
-//                    if (strCity.equals("")) {
-//                        if (!strState.equals("")) {
-//                            strPos = strKm + "@" + strState;
-//                        } else {
-//                            strPos = strKm;
-//                        }
-//                    } else {
-//                        strPos = strKm + "@" + strCity + ", " + strState;
-//                    }
-//                }
-//
-//                if (arrTagServices.get(position).getSource().getProfilePic() != null && !arrTagServices.get(position).getSource().getProfilePic().isEmpty()) {
-//                    strPic = arrTagServices.get(position).getSource().getProfilePic();
-//                    if (!strPic.contains("https://s3.amazonaws.com")) {
-//                        strPic = "https://s3.amazonaws.com" + strPic;
-//                    }
-//                }
-//
+                String strName="", strPos="", strPic="";
+                String strId = arrTagServices.get(position).getService().getId();
+                String strType = arrTagServices.get(position).getType();
+
+                if (strType != null && strType.equals("user")) {
+                    strName = arrTagServices.get(position).getService().getSeller().getFirstName() + " " + arrTagServices.get(position).getService().getSeller().getLastName();
+                } else {
+                    strName = arrTagServices.get(position).getService().getDescription();
+                }
+
+                if (arrTagServices.get(position).getService().getLocation() != null) {
+                    String strCity = "", strState = "", strKm="NA";
+                    if (arrTagServices.get(position).getService().getLocation().getCity() != null && !arrTagServices.get(position).getService().getLocation().getCity().equals(""))
+                        strCity = arrTagServices.get(position).getService().getLocation().getCity();
+                    if (arrTagServices.get(position).getService().getLocation().getState() != null && !arrTagServices.get(position).getService().getLocation().getState().equals(""))
+                        strState = arrTagServices.get(position).getService().getLocation().getState();
+                    if (arrTagServices.get(position).getService().getLocation().getGeoJson() != null) {
+                        GeoJsonModel geoJson = arrTagServices.get(position).getService().getLocation().getGeoJson();
+                        if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
+                            Location servicePos = new Location("");
+                            servicePos.setLatitude(geoJson.getCoordinates().get(1));
+                            servicePos.setLongitude(geoJson.getCoordinates().get(0));
+
+                            Location userPos = new Location("");
+                            userPos.setLatitude(mUserLat);
+                            userPos.setLongitude(mUserLng);
+
+                            strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
+                        }
+                    }
+
+                    if (strCity.equals("")) {
+                        if (!strState.equals("")) {
+                            strPos = strKm + "@" + strState;
+                        } else {
+                            strPos = strKm;
+                        }
+                    } else {
+                        strPos = strKm + "@" + strCity + ", " + strState;
+                    }
+                }
+
+                if (arrTagServices.get(position).getService().getSeller().getProfilePic() != null && !arrTagServices.get(position).getService().getSeller().getProfilePic().isEmpty()) {
+                    strPic = arrTagServices.get(position).getService().getSeller().getProfilePic();
+                    if (!strPic.contains("https://s3.amazonaws.com")) {
+                        strPic = "https://s3.amazonaws.com" + strPic;
+                    }
+                }
+
                 Intent intent = new Intent();
-//                intent.putExtra(ConstantUtils.CHOOSE_TAG_ID, strId);
-//                intent.putExtra(ConstantUtils.CHOOSE_TAG_TYPE, strType);
-//                intent.putExtra(ConstantUtils.CHOOSE_TAG_NAME, strName);
-//                intent.putExtra(ConstantUtils.CHOOSE_TAG_POS, strPos);
-//                intent.putExtra(ConstantUtils.CHOOSE_TAG_PIC, strPic);
-//                intent.putExtra(ConstantUtils.CHOOSE_TAG_ID, (Serializable) arrTagServices.get(position));
+                intent.putExtra(ConstantUtils.CHOOSE_TAG_ID, strId);
+                intent.putExtra(ConstantUtils.CHOOSE_TAG_TYPE, strType);
+                intent.putExtra(ConstantUtils.CHOOSE_TAG_NAME, strName);
+                intent.putExtra(ConstantUtils.CHOOSE_TAG_POS, strPos);
+                intent.putExtra(ConstantUtils.CHOOSE_TAG_PIC, strPic);
+
+                Gson gson = new Gson();
+                intent.putExtra(ConstantUtils.CHOOSE_TAG, gson.toJson(arrTagServices.get(position)));
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -196,6 +201,18 @@ public class TagServiceActivity extends AppCompatActivity implements View.OnClic
 
         searchButton.setOnClickListener(this);
         checkButton.setOnClickListener(this);
+
+        editSearch.requestFocus();
+        editSearch.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (editSearch.getText().toString().equals("")) {
+                    InputMethodManager keyboard = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
+            }
+        },200);
     }
     @Override
     protected void attachBaseContext(Context newBase) {

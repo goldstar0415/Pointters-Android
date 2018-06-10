@@ -13,14 +13,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_add_price_option"
-        android:layout_above="@id/btn_add"
+        android:layout_below="@+id/toolbar_add_price_option"
+        android:layout_above="@+id/btn_add"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8sdp"
+            android:padding="@dimen/_8sdp"
             android:background="@drawable/bg_service"
             android:orientation="vertical">
 
@@ -28,8 +28,7 @@
                 android:id="@+id/layout_edt_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_17sdp">
+                android:layout_marginBottom="@dimen/_15sdp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -77,14 +76,16 @@
                 android:padding="@dimen/_5sdp"
                 android:textColor="@color/color_sub_categories"
                 android:textSize="@dimen/text_size_small"
-                android:maxLength="200"
+                android:singleLine="false"
+                android:maxLines="4"
+                android:maxLength="120"
                 tools:ignore="MissingPrefix"/>
 
             <TextView
                 android:id="@+id/txt_remain_character"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="200/200"
+                android:text="0/120"
                 android:textSize="@dimen/text_size_mini_tiny"
                 android:gravity="end"
                 android:layout_gravity="end"/>

@@ -138,6 +138,7 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
         private ImageView imgTagService;
         private TextView txtTagName;
         private CardView layoutRoot;
+        private ImageView deleteButton;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -145,7 +146,8 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
             layoutRoot=(CardView) itemView.findViewById(R.id.card_view);
             imgTagService = (ImageView) itemView.findViewById(R.id.img_tag_service);
             txtTagName = (TextView) itemView.findViewById(R.id.txt_tag_name);
-
+            deleteButton = (ImageView) itemView.findViewById(R.id.delete_tag_button);
+            deleteButton.setVisibility(View.GONE);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

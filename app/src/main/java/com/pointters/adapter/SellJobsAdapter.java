@@ -12,10 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.thunder413.datetimeutils.DateTimeStyle;
+import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
+import com.pointters.model.JobRequesterModel;
+import com.pointters.model.Media;
+import com.pointters.model.RequestOffersModel;
 import com.pointters.model.SellJobsModel;
 import com.pointters.utils.SquareImageView;
 
@@ -34,9 +40,14 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
     private Context context;
     private List<SellJobsModel> sellJobsList;
 
+    private OnRecyclerViewItemClickListener listener;
     public SellJobsAdapter(Context context, List<SellJobsModel> sellJobsList) {
         this.context = context;
         this.sellJobsList = sellJobsList;
+    }
+
+    public void setListener(OnRecyclerViewItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -56,84 +67,79 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
                 .considerExifParams(true)
                 .build();
 
-//        if (position == 0) {
-//            holder.layoutParams.setMargins((int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp),(int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._8sdp));
-//            holder.layoutParent.setLayoutParams(holder.layoutParams);
-//        }
-//        if (sellJobsList != null && sellJobsList.size() > 0) {
-//            if (sellJobsList.get(position).getRequestOffers() != null) {
-//                if (sellJobsList.get(position).getRequestOffers().getRequest() != null) {
-//                    if (sellJobsList.get(position).getRequestOffers().getRequest().getMedia() != null) {
-//                        if (sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName() != null && !sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName().isEmpty()) {
-//                            String strPic = sellJobsList.get(position).getRequestOffers().getRequest().getMedia().getFileName();
-//                            if (!strPic.contains("https://s3.amazonaws.com")) {
-//                                strPic = "https://s3.amazonaws.com" + strPic;
-//                            }
-//                            ImageLoader.getInstance().displayImage(strPic, holder.imgProfile, options);
-//                        }
-//                    }
-//
-//                    if (sellJobsList.get(position).getRequestOffers().getRequest().getDescription() != null && !sellJobsList.get(position).getRequestOffers().getRequest().getDescription().isEmpty())
-//                        holder.txtJobsDesc.setText(sellJobsList.get(position).getRequestOffers().getRequest().getDescription());
-//                    else
-//                        holder.txtJobsDesc.setText("NA");
-//
-//                    if (sellJobsList.get(position).getRequestOffers().getRequest().getCreatedAt() != null) {
-//                        TimeZone tz = TimeZone.getTimeZone("UTC");
-//                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-//                        df.setTimeZone(tz);
-//
-//                        SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy  hh:mm a");
-//                        try {
-//                            holder.txtCreateddate.setText("Posted on " + String.valueOf(fmtOut.format(df.parse(String.valueOf(sellJobsList.get(position).getRequestOffers().getRequest().getCreatedAt())))));
-//                        } catch (ParseException e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else
-//                        holder.txtCreateddate.setText("NA");
-//                }
-//
-//                if (sellJobsList.get(position).getRequestOffers().getRequester() != null) {
-//                    if (sellJobsList.get(position).getRequestOffers().getRequester().getLow() != null && sellJobsList.get(position).getRequestOffers().getRequester().getHigh() != null) {
-//                        holder.txtPriceRange.setText("Price range: $" + sellJobsList.get(position).getRequestOffers().getRequester().getLow() + "-" + sellJobsList.get(position).getRequestOffers().getRequester().getHigh());
-//                    } else
-//                        holder.txtPriceRange.setText("Price range: NA");
-//                }
-//
-//                if (sellJobsList.get(position).getRequestOffers().getCreatedAt() != null) {
-//                    TimeZone tz = TimeZone.getTimeZone("UTC");
-//                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-//                    df.setTimeZone(tz);
-//
-//                    long offer_time = 0;
-//                    try {
-//                        offer_time = df.parse(sellJobsList.get(position).getRequestOffers().getCreatedAt()).getTime();
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//                    String strDuration = getDateDuration(offer_time);
-//
-//                    holder.txtOfferDuration.setText("You sent an offer " + strDuration + " ago");
-//                } else
-//                    holder.txtOfferDuration.setText("");
-//
-//
-//                if (sellJobsList.get(position).getRequestOffers().getNumOffers() != null && sellJobsList.get(position).getRequestOffers().getNumOffers() > 0) {
-//                    holder.txtSellerCnt.setText(sellJobsList.get(position).getRequestOffers().getNumOffers() + " other sellers sent offers");
-//                } else
-//                    holder.txtSellerCnt.setText("0 other sellers sent offers");
-//
-//                if (sellJobsList.get(position).getRequestOffers().getExpiresIn() != null) {
-//                    if (sellJobsList.get(position).getRequestOffers().getExpiresIn() < 0) {
-//                        holder.txtValidity.setText("Expired");
-//                    } else {
-//                        holder.txtValidity.setText("Expires in " + sellJobsList.get(position).getRequestOffers().getExpiresIn() + " days");
-//                    }
-//                }
-//                else
-//                    holder.txtValidity.setText("Expires in NA days");
-//            }
-//        }
+        SellJobsModel model = sellJobsList.get(position);
+        if (model.getRequestOffers() != null) {
+            RequestOffersModel requestOffersModel = model.getRequestOffers();
+            if(requestOffersModel.getRequest() != null){
+                if (requestOffersModel.getRequest().getMedia() != null) {
+                    Media media = requestOffersModel.getRequest().getMedia();
+                    if (media.getFileName() != null) {
+                        ImageLoader.getInstance().displayImage(media.getFileName(), holder.imgMedia, options);
+                    }
+                }
+                if (requestOffersModel.getRequest().getDescription() != null) {
+                    holder.txtjobDescription.setText(requestOffersModel.getRequest().getDescription());
+                }else{
+                    holder.txtjobDescription.setText("NA");
+                }
+
+            }
+            if (requestOffersModel.getRequester() != null) {
+                JobRequesterModel requesterModel = requestOffersModel.getRequester();
+            }
+            if (requestOffersModel.getExpiresIn() > 0) {
+                holder.txtexpiresDate.setText(String.format("Expires in %d days", requestOffersModel.getExpiresIn()));
+                holder.editOfferButton.setVisibility(View.VISIBLE);
+                holder.makeOfferButton.setVisibility(View.VISIBLE);
+            }else{
+                holder.txtexpiresDate.setText("Job Expired");
+                holder.editOfferButton.setVisibility(View.GONE);
+                holder.makeOfferButton.setVisibility(View.GONE);
+            }
+            if (requestOffersModel.getNumOffers() > 0) {
+                holder.txtNumOffers.setText(String.format("%d", requestOffersModel.getNumOffers()));
+            }else{
+                holder.txtNumOffers.setText("0");
+            }
+
+            if (requestOffersModel.getCreatedAt() != null) {
+                String createdDate = DateTimeUtils.getTimeAgo(context, DateTimeUtils.formatDate(requestOffersModel.getCreatedAt()), DateTimeStyle.AGO_FULL_STRING);
+                String agoString = createdDate.replace(" ago", "");
+                if (agoString.contains("hours")) {
+                    agoString = agoString.replace("hours", "h");
+                }else if (agoString.contains("hour")) {
+                    agoString = agoString.replace("hour", "h");
+                }else if (agoString.contains("months")) {
+                    agoString = agoString.replace("months", "M");
+                }else if (agoString.contains("month")) {
+                    agoString = agoString.replace("month", "M");
+                }else if (agoString.contains("days")) {
+                    agoString = agoString.replace("days", "d");
+                }else if (agoString.contains("day")) {
+                    agoString = agoString.replace("day", "d");
+                }else if (agoString.contains("seconds")) {
+                    agoString = agoString.replace("seconds", "s");
+                }else if (agoString.contains("second")) {
+                    agoString = agoString.replace("second", "s");
+                }else if (agoString.contains("minutes")) {
+                    agoString = agoString.replace("minutes", "m");
+                }else if (agoString.contains("minute")) {
+                    agoString = agoString.replace("minute", "m");
+                }
+                holder.txtcreatedAt.setText(agoString);
+            }else{
+                holder.txtcreatedAt.setText("NA");
+            }
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override

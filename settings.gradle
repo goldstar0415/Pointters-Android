@@ -1,1 +1,1 @@
-include ':app', ':libs:mediaPickerLibrary', ':libs:camerakit'
+include ':app', ':libs:mediaPickerLibrary', ':libs:camerakit', ':jiaozivideoplayer'

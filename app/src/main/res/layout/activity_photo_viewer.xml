@@ -8,7 +8,7 @@
         android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/color_black_info">
+        android:background="@color/colorWhite">
 
         <ImageView
             android:id="@+id/toolbar_lft_img"
@@ -21,6 +21,7 @@
             android:src="@drawable/back_icon" />
 
         <TextView
+            fontPath="fonts/Montserrat-Medium.ttf"
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -29,8 +30,9 @@
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_toRightOf="@id/toolbar_lft_img"
             android:text="Photo Viewer"
-            android:textColor="@color/color_service_rate_time"
-            android:textSize="@dimen/text_size_medium" />
+            android:textColor="@color/color_black_info"
+            android:textSize="@dimen/text_size_medium"
+            tools:ignore="MissingPrefix" />
 
     </RelativeLayout>
 

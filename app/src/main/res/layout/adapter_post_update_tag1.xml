@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_100sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_view"
     android:layout_gravity="center"
     android:gravity="center">
@@ -14,6 +15,15 @@
         android:src="@drawable/image_placeholder1"
         android:scaleType="centerCrop"/>
 
+    <cn.jzvd.JZVideoPlayerStandard
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/toolbar_shadow"
+        android:scaleType="centerCrop"/>
     <ImageButton
         android:id="@+id/delete_button"
         android:layout_width="@dimen/_24sdp"

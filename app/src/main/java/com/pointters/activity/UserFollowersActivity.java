@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,8 @@ import com.pointters.adapter.FollowersAdapter;
 import com.pointters.adapter.FollowingAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecycleItemClickListener;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.Followers;
 import com.pointters.model.FollowersModel;
 import com.pointters.model.FollowingModel;
@@ -43,6 +46,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by prashantkumar on 16/8/17.
@@ -112,13 +116,14 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UserFollowersActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerFollowers.setLayoutManager(linearLayoutManager);
         recyclerFollowers.setItemAnimator(new DefaultItemAnimator());
-        recyclerFollowers.addOnItemTouchListener(new OnRecycleItemClickListener(this, new OnRecycleItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                moveToProfile(position);
-            }
-        }));
 
+//        recyclerFollowers.set(new OnRecycleItemClickListener(this, new OnRecycleItemClickListener.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                moveToProfile(position);
+//            }
+//        }));
+//
         DividerItemDecorationVer divider = new DividerItemDecorationVer(ContextCompat.getDrawable(this, R.drawable.divider_option));
         divider = new DividerItemDecorationVer(ContextCompat.getDrawable(this, R.drawable.divider_option));
         recyclerFollowers.addItemDecoration(divider);
@@ -135,6 +140,23 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
                     }
                 }
             });
+            followersAdapter.setListener(new OnRecyclerViewButtonClickListener() {
+                @Override
+                public void onButtonClick(View v, int position) {
+                    if (((Button)v).getText().toString().equals("FOLLOWING")){
+                        CallUnfollowApi(position);
+                    }else{
+                        CallFollowApi(position);
+                    }
+                }
+            });
+            followersAdapter.setItemListener(new OnRecyclerViewItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    moveToProfile(position);
+                }
+
+            });
             loader.show();
             getUserFollowersApi(true, "");
         }
@@ -150,9 +172,132 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
                     }
                 }
             });
+            followingAdapter.setListener(new OnRecyclerViewButtonClickListener() {
+                @Override
+                public void onButtonClick(View v, int position) {
+                    if (((Button)v).getText().toString().equals("FOLLOWING")){
+                        CallUnfollowApi(position);
+                    }else{
+                        CallFollowApi(position);
+                    }
+
+                }
+            });
+            followingAdapter.setItemListener(new OnRecyclerViewItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    moveToProfile(position);
+                }
+
+            });
             loader.show();
             getUserFollowingApi(true, "");
         }
+    }
+
+    public void CallUnfollowApi(int position) {
+        loader.show();
+        String id = "";
+        if (followType.equals("Followers")) {
+            id = userFollowers.get(position).getFollowFrom().getId();
+        }else{
+            id = userFollowings.get(position).getFollowTo().getId();
+        }
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> unfollowuser = apiService.unFollowUser(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        unfollowuser.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (loader.isShowing()){
+                    loader.dismiss();
+                }
+                if (response.code() == 200) {
+                    if (followType.equals("Followers")) {
+                        FollowersModel followersModel = userFollowers.get(position);
+                        Followers followers = followersModel.getFollowFrom();
+                        followers.setMutualFollow(false);
+                        followersModel.setFollowFrom(followers);
+                        userFollowers.remove(position);
+                        userFollowers.add(position, followersModel);
+                        followersAdapter.notifyItemChanged(position);
+                    }else{
+                        FollowingModel followeringModel = userFollowings.get(position);
+                        Followers followers = followeringModel.getFollowTo();
+                        followers.setMutualFollow(false);
+                        followeringModel.setFollowTo(followers);
+                        userFollowings.remove(position);
+                        userFollowings.add(position, followeringModel);
+                        followingAdapter.notifyItemChanged(position);
+                    }
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(UserFollowersActivity.this, "callDeleteFollowUserApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(UserFollowersActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (loader.isShowing()){
+                    loader.dismiss();
+                }
+                Toast.makeText(UserFollowersActivity.this, "Can't unfollow the user.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void CallFollowApi(int position) {
+        loader.show();
+        String id = "";
+        if (followType.equals("Followers")) {
+            id = userFollowers.get(position).getFollowFrom().getId();
+        }else{
+            id = userFollowings.get(position).getFollowTo().getId();
+        }
+        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+        Call<Object> followuser = apiService.followUser(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), id);
+        followuser.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (loader.isShowing()){
+                    loader.dismiss();
+                }
+                if (response.code() == 200) {
+                    if (followType.equals("Followers")) {
+                        FollowersModel followersModel = userFollowers.get(position);
+                        Followers followers = followersModel.getFollowFrom();
+                        followers.setMutualFollow(true);
+                        followersModel.setFollowFrom(followers);
+                        userFollowers.remove(position);
+                        userFollowers.add(position, followersModel);
+                        followersAdapter.notifyItemChanged(position);
+                    }else{
+                        FollowingModel followeringModel = userFollowings.get(position);
+                        Followers followers = followeringModel.getFollowTo();
+                        followers.setMutualFollow(true);
+                        followeringModel.setFollowTo(followers);
+                        userFollowings.remove(position);
+                        userFollowings.add(position, followeringModel);
+                        followingAdapter.notifyItemChanged(position);
+                    }
+                } else if (response.code() == 401) {
+                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(UserFollowersActivity.this, "callPostUserFollowApi");
+                    callLoginApiIfFails.OnApiFailDueToSessionListener(UserFollowersActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (loader.isShowing()){
+                    loader.dismiss();
+                }
+                Toast.makeText(UserFollowersActivity.this, "Can't follow the user.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 
     private void moveToProfile(int position) {
@@ -191,6 +336,11 @@ public class UserFollowersActivity extends AppCompatActivity implements View.OnC
                 break;
         }
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     void getUserFollowersApi(final boolean inited, String lastId) {
         if (inited) {

@@ -144,7 +144,12 @@ public class TagSourceModel {
                 loc.setState(linkedTreeMap.get("state").toString());
             }
             return loc;
+
+
         }else if (location instanceof ArrayList) {
+            if (((ArrayList<LinkedTreeMap>) location).size() == 0) {
+                return null;
+            }
             LinkedTreeMap linkedTreeMap = ((ArrayList<LinkedTreeMap>) location).get(0);
             LocationModel loc = new LocationModel();
             if (linkedTreeMap.containsKey("_id")) {

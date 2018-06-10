@@ -16,16 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
+import com.pointters.activity.GetLiveOffersActivity;
+import com.pointters.activity.JobDetailActivity;
 import com.pointters.activity.SendCustomOfferActivity;
 import com.pointters.activity.ServiceDetailActivity;
 import com.pointters.adapter.JobsExploreAdapter;
 import com.pointters.adapter.ServicesExploreAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.listener.RecyclerViewListener;
 import com.pointters.model.ExploreJobsModel;
 import com.pointters.model.ServicesExploreModel;
@@ -100,6 +104,17 @@ public class JobsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
                     intent.putExtra(ConstantUtils.SERVICE_ID, serviceArrayList.get(position).getId());
                     startActivity(intent);
                 }
+            }
+        });
+
+        serviceAdapter.setListener1(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(getActivity(), JobDetailActivity.class);
+                ExploreJobsModel model = serviceArrayList.get(position);
+                intent.putExtra(ConstantUtils.SELECT_JOB_ID, model.getId());
+                startActivity(intent);
+
             }
         });
 

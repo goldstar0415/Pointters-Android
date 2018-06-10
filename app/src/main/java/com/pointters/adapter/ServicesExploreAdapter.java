@@ -20,6 +20,7 @@ import com.pointters.model.GeoJsonModel;
 import com.pointters.model.Prices;
 import com.pointters.model.ServicesExploreModel;
 import com.pointters.model.ServicesModel;
+import com.pointters.utils.GPSTracker;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -97,13 +98,13 @@ public class ServicesExploreAdapter extends RecyclerView.Adapter<ServicesExplore
                 if (prices.getCurrencySymbol() != null && !prices.getCurrencySymbol().isEmpty()) {
                     strSymbol = prices.getCurrencySymbol();
                 }
-                int valPrice = 0;
+                float valPrice = 0;
                 if (prices.getPrice() != null && prices.getPrice() > 0) {
                     valPrice = serviceArrayList.get(position).getPrices().getPrice();
                 }
                 holder.txtServicePrice.setText(strSymbol + String.valueOf(valPrice));
 
-                int valPriceDiscount = 0;
+                float valPriceDiscount = 0;
                 if (prices.getPriceWithoutDiscount() != null && prices.getPriceWithoutDiscount() > 0) {
                     valPriceDiscount = prices.getPriceWithoutDiscount();
                 }
@@ -175,10 +176,12 @@ public class ServicesExploreAdapter extends RecyclerView.Adapter<ServicesExplore
                         servicePos.setLatitude(geoJson.getCoordinates().get(1));
                         servicePos.setLongitude(geoJson.getCoordinates().get(0));
 
-                        Location userPos = new Location("");
-                        userPos.setLatitude(userLat);
-                        userPos.setLongitude(userLng);
+//                        Location userPos = new Location("");
+                        Location userPos = new GPSTracker(context).getLoc();
+//                        userPos.setLatitude(userLat);
+//                        userPos.setLongitude(userLng);
 
+                        if (userPos != null)
                         strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
                     }
                 }

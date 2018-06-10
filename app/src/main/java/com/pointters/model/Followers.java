@@ -10,6 +10,8 @@ public class Followers {
     private String firstName;
     private String lastName;
     private String profilePic;
+    private String companyName;
+    private boolean isMutualFollow = true;
 
     public String getId() {
         return id;
@@ -49,5 +51,21 @@ public class Followers {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public boolean isMutualFollow() {
+        return isMutualFollow;
+    }
+
+    public void setMutualFollow(boolean mutualFollow) {
+        isMutualFollow = mutualFollow;
     }
 }

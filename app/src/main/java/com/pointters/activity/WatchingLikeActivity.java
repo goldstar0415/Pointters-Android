@@ -47,6 +47,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by mac on 12/18/17.
@@ -158,6 +159,12 @@ public class WatchingLikeActivity extends AppCompatActivity implements View.OnCl
             getLikedApi(true, "");
         }
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     @Override
     public void onClick(View view) {

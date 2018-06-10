@@ -34,11 +34,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginRight="@dimen/_80sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
@@ -47,12 +46,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp"
+                android:text="test"
+                android:textColor="@color/color_black_info"
                 android:paddingTop="8dp"
-                android:minEms="12"
                 android:textSize="12sp"
-                android:background="@drawable/bg_chat_msg_white" />
+                android:background="@drawable/left_bubble" />
 
             <RelativeLayout
                 android:id="@+id/layout_chat_msg_photo"
@@ -63,78 +63,111 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:background="@drawable/bg_chat_msg_white" />
-                <ImageView
+                    android:background="@drawable/left_bubble" />
+                <cn.jzvd.JZVideoPlayerStandard
+                    android:id="@+id/iv_chat_msg_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_8sdp"
+                    />
+
+                <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/iv_chat_msg_photo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="8dp"
-                    android:scaleType="fitXY"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:scaleType="centerCrop"
+                    android:layout_centerInParent="true"
                     android:src="@drawable/photo_placeholder" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_chat_msg_service"
                 android:layout_gravity="start"
-                android:layout_width="190dp"
-                android:layout_height="78dp">
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_65sdp">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:background="@drawable/bg_chat_msg_white" />
+                    android:background="@drawable/left_service_bubble" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingBottom="10dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="10dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="10dp"
                     android:paddingTop="10dp">
-                    <ImageView
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/iv_chat_service_photo"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
                         android:scaleType="fitXY"
-                        android:src="@drawable/photo_placeholder"/>
+                        android:src="@drawable/photo_placeholder"
+                        app:riv_corner_radius="@dimen/_3sdp"/>
                     <TextView
+                        fontPath="fonts/Montserrat-Medium.ttf"
                         android:id="@+id/txt_chat_service_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/iv_chat_service_photo"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@id/iv_chat_service_photo"
-                        android:layout_marginLeft="6dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@id/iv_chat_service_photo"
+                        android:layout_marginStart="6dp"
                         android:gravity="left"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="NA"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        tools:ignore="MissingPrefix" />
+                    <TextView
+                        fontPath="fonts/Montserrat-Medium.ttf"
+                        android:id="@+id/txt_chat_service_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/iv_chat_service_photo"
+                        android:layout_marginStart="6dp"
+                        android:gravity="left"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="NA"
+                        android:textSize="12sp"
+                        tools:ignore="MissingPrefix" />
                     <TextView
                         android:id="@+id/txt_chat_service_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/iv_chat_service_photo"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@id/iv_chat_service_photo"
-                        android:layout_marginLeft="6dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@id/txt_chat_service_price"
+                        android:layout_marginStart="6dp"
                         android:gravity="left"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="NA"
-                        android:textSize="11sp" />
+                        android:textSize="10sp" />
+                    <TextView
+                        android:id="@+id/txt_by"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/iv_chat_service_photo"
+                        android:layout_toEndOf="@id/iv_chat_service_photo"
+                        android:layout_marginStart="6dp"
+                        android:gravity="left"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="By: "
+                        android:textSize="10sp" />
                     <TextView
                         android:id="@+id/txt_chat_service_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/iv_chat_service_photo"
-                        android:layout_marginTop = "5dp"
+                        android:layout_alignBottom="@id/iv_chat_service_photo"
+                        android:layout_toEndOf="@id/txt_by"
+                        android:layout_alignParentEnd="true"
                         android:gravity="left"
                         android:ellipsize="end"
                         android:singleLine="true"
@@ -146,13 +179,13 @@
             <RelativeLayout
                 android:id="@+id/layout_chat_msg_offer"
                 android:layout_gravity="start"
-                android:layout_width="190dp"
-                android:layout_height="125dp">
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_90sdp">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:background="@drawable/bg_chat_msg_white" />
+                    android:background="@drawable/left_service_bubble" />
                 <TextView
                     android:id="@+id/txt_chat_offer_content"
                     android:layout_width="match_parent"
@@ -182,53 +215,60 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp">
-                    <ImageView
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/iv_chat_offer_photo"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_alignParentLeft="true"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:scaleType="fitXY"
-                        android:src="@drawable/photo_placeholder"/>
+                        android:src="@drawable/photo_placeholder"
+                        app:riv_corner_radius="@dimen/_3sdp"/>
                     <TextView
+                        fontPath="fonts/Montserrat-Medium.ttf"
                         android:id="@+id/txt_chat_offer_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/iv_chat_offer_photo"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@id/iv_chat_offer_photo"
-                        android:layout_marginLeft="6dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@id/iv_chat_offer_photo"
+                        android:layout_marginStart="6dp"
                         android:gravity="left"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="NA"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        tools:ignore="MissingPrefix" />
                     <TextView
+                        fontPath="fonts/Montserrat-Medium.ttf"
                         android:id="@+id/txt_chat_offer_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/iv_chat_offer_photo"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@id/iv_chat_offer_photo"
-                        android:layout_marginLeft="6dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@id/iv_chat_offer_photo"
+                        android:layout_marginStart="6dp"
                         android:gravity="left"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="NA"
-                        android:textSize="11sp" />
+                        android:textSize="12sp"
+                        tools:ignore="MissingPrefix" />
                     <TextView
                         android:id="@+id/txt_chat_offer_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/iv_chat_offer_photo"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@id/iv_chat_offer_photo"
+                        android:layout_alignBottom="@id/iv_chat_offer_photo"
                         android:layout_marginTop = "5dp"
+                        android:layout_marginStart="6dp"
                         android:gravity="left"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="NA"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        tools:ignore="RtlHardcoded" />
                 </RelativeLayout>
             </RelativeLayout>
 

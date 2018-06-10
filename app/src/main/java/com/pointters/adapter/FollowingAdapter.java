@@ -4,15 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.FollowersModel;
 import com.pointters.model.FollowingModel;
 
@@ -26,10 +30,20 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
     private Context context;
     private List<FollowingModel> userfollowings;
 
+    private OnRecyclerViewButtonClickListener listener;
+    private OnRecyclerViewItemClickListener listener1;
 
     public FollowingAdapter(Context context, List<FollowingModel> userfollowings) {
         this.context = context;
         this.userfollowings = userfollowings;
+    }
+
+    public void setListener(OnRecyclerViewButtonClickListener listener){
+        this.listener = listener;
+    }
+
+    public void setItemListener(OnRecyclerViewItemClickListener listener){
+        this.listener1 = listener;
     }
 
     @Override
@@ -41,7 +55,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(FollowingAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(FollowingAdapter.ViewHolder holder, final int position) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.photo_placeholder)
                 .showImageForEmptyUri(R.drawable.photo_placeholder)
@@ -56,8 +70,42 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
 
             if (userfollowings.get(position).getFollowTo().getProfilePic() != null && !userfollowings.get(position).getFollowTo().getProfilePic().isEmpty())
                 ImageLoader.getInstance().displayImage(userfollowings.get(position).getFollowTo().getProfilePic(), holder.userAvatar, options);
+            if (userfollowings.get(position).getCategories().size() > 0){
+                String categoires = "";
+                for (int i = 0; i < userfollowings.get(position).getCategories().size(); i++) {
+                    String category = userfollowings.get(position).getCategories().get(i);
+                    if (categoires.equals("")){
+                        categoires = category;
+                    }else{
+                        categoires = String.format("%s, %s", categoires, category);
+                    }
+                }
+                holder.dutyText.setText(categoires);
+            }else{
+                holder.dutyText.setText("");
+            }
         }
-        //holder.userAvatar.setText(menu_options[position]);
+        holder.followButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                    listener.onButtonClick(v, position);
+            }
+        });
+        if (userfollowings.get(position).getFollowTo().isMutualFollow()) {
+            holder.followButton.setText("FOLLOWING");
+        }else{
+            holder.followButton.setText("FOLLOW");
+        }
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener1 != null){
+                    listener1.onItemClick(position);
+                }
+
+            }
+        });
     }
 
 
@@ -75,9 +123,11 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
         Button followButton;
         RoundedImageView userAvatar;
 
+        RelativeLayout rootView;
         public ViewHolder(View view) {
 
             super(view);
+            rootView = (RelativeLayout) view.findViewById(R.id.root_view);
             userName = (TextView) view.findViewById(R.id.txt_name);
             dutyText = (TextView) view.findViewById(R.id.txt_duty);
             followButton = (Button) view.findViewById(R.id.follow_unfollow_button);

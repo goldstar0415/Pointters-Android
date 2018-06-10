@@ -27,6 +27,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -119,6 +120,7 @@ import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 /**
@@ -143,7 +145,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView btnSend;
     private RoundedImageView imgProfile;
     private LinearLayout layoutTabs;
-    private RelativeLayout tabSend, tabCustom, tabCamera, tabPhoto, tabLink, tabSmile;
+    private RelativeLayout tabSend, tabCustom, tabCamera, tabPhoto;
     private String uncompressedFilePath;
     private FFmpeg ffmpeg;
     private String OBJECT_KEY, filePath, fileUrl;
@@ -169,6 +171,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private String lastDocId = "";
     private int limitCnt = 0;
     private int totalCnt = 0;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
     @Override
@@ -225,8 +232,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String convId = sharedPreferences.getString(ConstantUtils.CHAT_CONVERSATION_ID, "");
         otherUserId = sharedPreferences.getString(ConstantUtils.CHAT_USER_ID, "");
         getSocketForChatting(convId, otherUserId);
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatActivity.this, ProfileScreenActivity.class);
+                intent.putExtra(ConstantUtils.PROFILE_LOGINUSER, false);
+                intent.putExtra(ConstantUtils.PROFILE_USERID, otherUserId);
+                startActivity(intent);
+            }
+        });
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initUI() {
         editMsg = (EditText) findViewById(R.id.edit_send_msg);
         editMsg.addTextChangedListener(new TextWatcher() {
@@ -256,10 +274,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         chatRecycler.setLayoutManager(linearLayoutManager);
         chatRecycler.setItemAnimator(new DefaultItemAnimator());
         DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        divider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_option));
+        divider.setDrawable(ContextCompat.getDrawable(this, R.drawable.bg_transparent_divider));
         chatRecycler.addItemDecoration(divider);
         chatMessageAdapter = new ChatMessageAdapter(ChatActivity.this, chatHistoryList, mUserId, CUSTOM_OFFER_REQUEST);
         chatRecycler.setAdapter(chatMessageAdapter);
+        chatRecycler.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+            }
+        });
         chatRecycler.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -282,10 +306,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         tabCamera.setOnClickListener(this);
         tabPhoto = (RelativeLayout) findViewById(R.id.chat_photo_tool);
         tabPhoto.setOnClickListener(this);
-        tabLink = (RelativeLayout) findViewById(R.id.chat_link_tool);
-        tabLink.setOnClickListener(this);
-        tabSmile = (RelativeLayout) findViewById(R.id.chat_smile_tool);
-        tabSmile.setOnClickListener(this);
     }
 
     private void getLoginUserInfo() {
@@ -935,14 +955,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 showDiag(false);
                 break;
 
-            case R.id.chat_link_tool:
-                Intent liveIntent = new Intent(ChatActivity.this, LinkServiceActivity.class);
-                editor.putString(ConstantUtils.SERVICE_TYPE, "Send Service").apply();
-                startActivityForResult(liveIntent, SEND_SERVICE_REQUEST);
-                break;
-
-            case R.id.chat_smile_tool:
-                 break;
 
             default:
                 break;

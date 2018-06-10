@@ -39,7 +39,7 @@
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
-                fontPath="fonts/Montserrat-Light.ttf"
+                fontPath="fonts/Montserrat-Medium.ttf"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
                 android:gravity="center_vertical"

@@ -20,14 +20,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.Media;
-import com.pointters.model.PostData;
-import com.pointters.model.TagData;
 import com.pointters.model.TagServiceSellerModel;
-import com.pointters.utils.AutoSpanGridLayoutManager;
-import com.pointters.utils.AutoSpannable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JZVideoPlayerStandard;
 
 /**
  * Created by jkc on 3/8/18.
@@ -44,8 +43,14 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     boolean isTagdata = false;
     RecyclerView parentView;
 
-    public  PostDataAdapter(Context ctx){
+    OnDeleteButtonClickListener listener;
+    public interface OnDeleteButtonClickListener {
+        public void deleteButtonClickListener(View view, int position, int type);
+    }
+
+    public  PostDataAdapter(Context ctx, OnDeleteButtonClickListener listener){
         this.context = ctx;
+        this.listener = listener;
     }
 
     @Override
@@ -74,15 +79,6 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
                 MediaViewHolder holder = new MediaViewHolder(view);
-//                if (holder.rootView.getLayoutParams().height != mItemHeight){
-//                    DisplayMetrics metrics = new DisplayMetrics();
-//                    metrics = context.getResources().getDisplayMetrics();
-//                    int width = metrics.widthPixels;
-//
-//                    layoutParams = new RecyclerView.LayoutParams((int) (width / 2.2f), mItemHeight);
-//                    holder.rootView.setLayoutParams(layoutParams);
-//                }
-
                 return holder;
             }
             case 1:{
@@ -166,8 +162,15 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.tagData = tagData;
     }
 
+    public void deleteTagData() {
+        this.isTagdata = false;
+        this.tagData = null;
+        notifyDataSetChanged();
+    }
+
     public class MediaViewHolder extends RecyclerView.ViewHolder {
 
+        private JZVideoPlayerStandard videoView;
         RelativeLayout rootView;
         ImageView postImage;
         ImageButton deleteButton;
@@ -176,7 +179,7 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             rootView = (RelativeLayout) itemView.findViewById(R.id.root_view);
             postImage = (ImageView) itemView.findViewById(R.id.post_image);
             deleteButton = (ImageButton) itemView.findViewById(R.id.delete_button);
-
+            videoView = (JZVideoPlayerStandard) itemView.findViewById(R.id.video_view);
         }
 
         public void bindTo(int position){
@@ -189,23 +192,41 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .considerExifParams(true)
                     .build();
             Media media = postDatas.get(position);
-//            if (media.getMediaType().equals("image")) {
+            if (media.getMediaType().equals("image")) {
                 ImageLoader.getInstance().displayImage(media.getFileName(), postImage, options);
-//            }
+                videoView.setVisibility(View.INVISIBLE);
+                postImage.setVisibility(View.VISIBLE);
+            }else{
+                videoView.setVisibility(View.VISIBLE);
+                postImage.setVisibility(View.INVISIBLE);
+                videoView.setUp(media.getFileName(), JZVideoPlayer.SCREEN_WINDOW_LIST, "");
+            }
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        listener.deleteButtonClickListener(v, position, 1);
+                    }
+                }
+            });
 
         }
     }
+
+
     public class TagViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardView;
         private ImageView imgTagService;
         private TextView txtTagName;
+        private ImageView deleteButton;
 
         public TagViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             imgTagService = (ImageView) itemView.findViewById(R.id.img_tag_service);
             txtTagName = (TextView) itemView.findViewById(R.id.txt_tag_name);
+            deleteButton = (ImageView) itemView.findViewById(R.id.delete_tag_button);
         }
         public void bindTo(int position){
             DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -217,31 +238,34 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .considerExifParams(true)
                     .build();
 
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        listener.deleteButtonClickListener(v, 0, 0);
+                    }
+                }
+            });
             if (tagData != null ) {
                 if (tagData.getService() != null) {
                     if (tagData.getType() != null && tagData.getType().equals("user")) {
                         imgTagService.setVisibility(View.GONE);
-//                    holder.imgTagUser.setVisibility(View.VISIBLE);
 
                         if (tagData.getService().getMedia().size() > 0 && !tagData.getService().getMedia().isEmpty()) {
 
                             String strPic = tagData.getService().getMedia().get(0).getFileName();
                             if (!strPic.contains("https://s3.amazonaws.com")) {
-//                            strPic = "https://s3.amazonaws.com" + strPic;
                             }
-//                        ImageLoader.getInstance().displayImage(strPic, holder.imgTagUser, options);
                         }
 
                         txtTagName.setText(tagData.getService().getSeller().getFirstName() + " " + tagData.getService().getSeller().getLastName());
                     }
                     else {
-//                    holder.imgTagUser.setVisibility(View.GONE);
                         imgTagService.setVisibility(View.VISIBLE);
 
                         if (tagData.getService().getMedia().size() > 0) {
                             String strPic = tagData.getService().getMedia().get(0).getFileName();
                             if (!strPic.contains("https://s3.amazonaws.com")) {
-//                            strPic = "https://s3.amazonaws.com" + strPic;
                             }
                             ImageLoader.getInstance().displayImage(strPic, imgTagService, options);
                         }

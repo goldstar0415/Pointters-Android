@@ -1,19 +1,15 @@
 package com.pointters.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -31,28 +28,23 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
-import com.pointters.adapter.UpdatesAdapterAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
-import com.pointters.model.CommentModel;
 import com.pointters.model.CommentsModel;
 import com.pointters.model.LikesModel;
-import com.pointters.model.NotificationModel;
 import com.pointters.model.ShareModel;
 import com.pointters.model.request.CommentRequest;
 import com.pointters.model.response.BaseResponse;
 import com.pointters.model.response.CommentsResponse;
-import com.pointters.model.response.GetNotificationsResponse;
 import com.pointters.model.response.LikesResponse;
 import com.pointters.model.response.SharesResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
-import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.LikeTabLayout;
-import com.pointters.utils.RoundedCornerLayout;
-import com.pointters.utils.TypefaceSpan;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -512,25 +504,25 @@ public class LikeCommentsShareActivity extends AppCompatActivity implements View
                 ImageLoader.getInstance().displayImage(model.getUser().getProfilePic(), hold.profileImageView, options);
                 hold.title.setText(model.getUser().getFirstName() + " " + model.getUser().getLastName());
                 hold.txtComment.setText("");
-
-                String time = DateTimeUtils.getTimeAgo(getBaseContext(), model.getLikeDate());
-                hold.timeago.setText(time);
+                DateTime dateTime = new DateTime(model.getLikeDate());
+                String timeago = TimeAgo.using(dateTime.toDate().getTime());
+                hold.timeago.setText(timeago);
             }else if (type == 1){
                 CommentsModel model = commentsModels.get(position);
                 ImageLoader.getInstance().displayImage(model.getUser().getProfilePic(), hold.profileImageView, options);
                 hold.title.setText(model.getUser().getFirstName() + " " + model.getUser().getLastName());
                 hold.txtComment.setText(model.getCommentText());
-
-                String time = DateTimeUtils.getTimeAgo(getBaseContext(), model.getUpdatedAt());
-                hold.timeago.setText(time);
+                DateTime dateTime = new DateTime(model.getUpdatedAt());
+                String timeago = TimeAgo.using(dateTime.toDate().getTime());
+                hold.timeago.setText(timeago);
             }else{
                 ShareModel model = shareModels.get(position);
                 ImageLoader.getInstance().displayImage(model.getUser().getProfilePic(), hold.profileImageView, options);
                 hold.title.setText(model.getUser().getFirstName() + " " + model.getUser().getLastName());
                 hold.txtComment.setText("");
-
-                String time = DateTimeUtils.getTimeAgo(getBaseContext(), model.getShareDate());
-                hold.timeago.setText(time);
+                DateTime dateTime = new DateTime(model.getShareDate());
+                String timeago = TimeAgo.using(dateTime.toDate().getTime());
+                hold.timeago.setText(timeago);
             }
 
         }

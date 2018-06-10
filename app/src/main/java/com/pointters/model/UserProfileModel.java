@@ -22,6 +22,7 @@ public class UserProfileModel {
     private String profilePic;
     private MetricsModel userMetrics;
     private Boolean verified;
+    private LocationModel location;
 
     public String getId() {
         return id;
@@ -133,5 +134,13 @@ public class UserProfileModel {
 
     public void setUserMetrics(MetricsModel userMetrics) {
         this.userMetrics = userMetrics;
+    }
+
+    public LocationModel getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationModel location) {
+        this.location = location;
     }
 }

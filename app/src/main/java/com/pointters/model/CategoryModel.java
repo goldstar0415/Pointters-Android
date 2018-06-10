@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class CategoryModel implements Serializable{
 
     private String _id;
+    private String id;
     private String name;
 
     public CategoryModel(String id, String name) {
@@ -17,6 +18,9 @@ public class CategoryModel implements Serializable{
     }
 
     public String getId() {
+        if (id != null) {
+            return id;
+        }
         return _id;
     }
 

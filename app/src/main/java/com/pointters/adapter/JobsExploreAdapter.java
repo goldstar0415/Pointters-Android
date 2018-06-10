@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.ExploreJobsModel;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.ServicesExploreModel;
@@ -38,6 +39,7 @@ public class JobsExploreAdapter extends RecyclerView.Adapter<JobsExploreAdapter.
     private double userLat;
     private double userLng;
     private OnRecyclerViewButtonClickListener listener;
+    private OnRecyclerViewItemClickListener listener1;
 
     public JobsExploreAdapter(Context context, ArrayList<ExploreJobsModel> serviceArrayList, OnRecyclerViewButtonClickListener listener1) {
         this.context = context;
@@ -54,6 +56,9 @@ public class JobsExploreAdapter extends RecyclerView.Adapter<JobsExploreAdapter.
         this.listener = listener;
     }
 
+    public void setListener1(OnRecyclerViewItemClickListener listener1) {
+        this.listener1 = listener1;
+    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_jobs, parent, false);
@@ -74,8 +79,8 @@ public class JobsExploreAdapter extends RecyclerView.Adapter<JobsExploreAdapter.
         ExploreJobsModel model = serviceArrayList.get(position);
         if (model != null) {
             if (model.getMedia() != null) {
-                if (model.getMedia().getFileName() != null && !model.getMedia().getFileName().isEmpty()) {
-                    String strPic = model.getMedia().getFileName();
+                if (model.getMedia().get(0).getFileName() != null && !model.getMedia().get(0).getFileName().isEmpty()) {
+                    String strPic = model.getMedia().get(0).getFileName();
                     if (!strPic.contains("https://s3.amazonaws.com")) {
 //                        strPic = "https://s3.amazonaws.com" + strPic;
                     }
@@ -135,61 +140,53 @@ public class JobsExploreAdapter extends RecyclerView.Adapter<JobsExploreAdapter.
             if (model.getScheduleDate() != null ) {
                 long timeInMilliseconds = DateTimeUtils.getDateDiff(model.getScheduleDate(), new Date(), DateTimeUnits.DAYS);
                 if (timeInMilliseconds < 0) {
-                    holder.txtexpiresDate.setText("Job expored");
+                    holder.txtexpiresDate.setText("Job expired");
+                    holder.makeOfferButton.setVisibility(View.GONE);
+                    holder.editOfferButton.setVisibility(View.GONE);
                 }else{
                     if (timeInMilliseconds > 30) {
-                        holder.txtexpiresDate.setText(String.format("Job expores in %d months", timeInMilliseconds / 30));
+                        holder.txtexpiresDate.setText(String.format("Job expires in %d months", timeInMilliseconds / 30));
                     }else if (timeInMilliseconds > 1) {
-                        holder.txtexpiresDate.setText(String.format("Job expores in %d days", timeInMilliseconds));
+                        holder.txtexpiresDate.setText(String.format("Job expires in %d days", timeInMilliseconds));
                     }else if (timeInMilliseconds == 1) {
-                        holder.txtexpiresDate.setText(String.format("Job expores in %d day", timeInMilliseconds));
+                        holder.txtexpiresDate.setText(String.format("Job expires in %d day", timeInMilliseconds));
                     }else{
                         long hoursdiff = DateTimeUtils.getDateDiff(model.getScheduleDate(), new Date(), DateTimeUnits.HOURS);
                         if (hoursdiff > 1) {
-                            holder.txtexpiresDate.setText(String.format("Job expores in %d hours", hoursdiff));
+                            holder.txtexpiresDate.setText(String.format("Job expires in %d hours", hoursdiff));
                         }else if (hoursdiff == 1) {
-                            holder.txtexpiresDate.setText(String.format("Job expores in %d hour", hoursdiff));
+                            holder.txtexpiresDate.setText(String.format("Job expires in %d hour", hoursdiff));
                         }else{
                             long minutesDiff = DateTimeUtils.getDateDiff(model.getScheduleDate(), new Date(), DateTimeUnits.MINUTES);
                             if (minutesDiff > 1) {
-                                holder.txtexpiresDate.setText(String.format("Job expores in %d minutes", minutesDiff));
+                                holder.txtexpiresDate.setText(String.format("Job expires in %d minutes", minutesDiff));
                             }else if (minutesDiff == 1) {
-                                holder.txtexpiresDate.setText(String.format("Job expores in %d minute", minutesDiff));
+                                holder.txtexpiresDate.setText(String.format("Job expires in %d minute", minutesDiff));
                             }else{
                                 long secondsdiff = DateTimeUtils.getDateDiff(model.getScheduleDate(), new Date(), DateTimeUnits.SECONDS);
                                 if (secondsdiff > 0) {
-                                    holder.txtexpiresDate.setText(String.format("Job expores in %d seconds", secondsdiff));
+                                    holder.txtexpiresDate.setText(String.format("Job expires in %d seconds", secondsdiff));
                                 }
                             }
                         }
                     }
                 }
-//                String date = CommonUtils.getDateDuration(timeInMilliseconds);
-//                holder.txtexpiresDate.setText(String.format("Job expores in %s", date));
-//
-//                int diff = DateTimeUtils.getDateDiff( DateTimeUtils.formatDate(model.getScheduleDate()), new Date(), DateTimeUnits.MINUTES);
-//                if (diff >= 60) {
-//                    diff = DateTimeUtils.getDateDiff( DateTimeUtils.formatDate(model.getScheduleDate()), new Date(), DateTimeUnits.HOURS);
-//                    if (diff >= 24) {
-//                        diff = DateTimeUtils.getDateDiff( DateTimeUtils.formatDate(model.getScheduleDate()), new Date(), DateTimeUnits.DAYS);
-//                        if (diff >= 7) {
-//                            diff = diff / 7;
-//                            if (diff >= 4) {
-//                                holder.txtexpiresDate.setText(String.format("Job expores in %d months", diff / 4));
-//                            }else{
-//                                holder.txtexpiresDate.setText(String.format("Job expores in %d weeks", diff));
-//                            }
-//                        }else{
-//                            holder.txtexpiresDate.setText(String.format("Job expores in %d days", diff));
-//                        }
-//                    }else{
-//                        holder.txtexpiresDate.setText(String.format("Job expores in %d hours", diff));
-//                    }
-//                }else{
-//                    holder.txtexpiresDate.setText(String.format("Job expores in %d minutes", diff));
-//                }
+            }
+            if (model.getOfferSent() != null) {
+                holder.editOfferButton.setVisibility(View.VISIBLE);
+            }else{
+                holder.editOfferButton.setVisibility(View.GONE);
             }
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener1 != null) {
+                    listener1.onItemClick(position);
+                }
+            }
+        });
+
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
+import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.BuyOrderModel;
 
 import java.lang.ref.WeakReference;
@@ -34,11 +35,16 @@ public class BuyOrderAdapter extends RecyclerView.Adapter<BuyOrderAdapter.MyView
     private Context context;
     private List<BuyOrderModel> buyOrderList;
     private OnRecyclerViewButtonClickListener listener;
+    private OnRecyclerViewItemClickListener listener1;
 
     public BuyOrderAdapter(Context context, List<BuyOrderModel> buyOrderList, OnRecyclerViewButtonClickListener listener) {
         this.context = context;
         this.buyOrderList = buyOrderList;
         this.listener = listener;
+    }
+
+    public void setListener1(OnRecyclerViewItemClickListener listener1){
+        this.listener1 = listener1;
     }
 
     @Override
@@ -141,6 +147,14 @@ public class BuyOrderAdapter extends RecyclerView.Adapter<BuyOrderAdapter.MyView
                     holder.btnPhone.setVisibility(View.INVISIBLE);
                 }
             }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener1 != null) {
+                        listener1.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 

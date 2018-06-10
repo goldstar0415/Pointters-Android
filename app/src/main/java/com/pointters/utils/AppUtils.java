@@ -2,8 +2,11 @@ package com.pointters.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
+import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pointters.R;
+
+import java.util.HashMap;
 
 /**
  * Created by Vishal Sharma on 19-Jul-17.
@@ -129,6 +134,34 @@ public class AppUtils {
         }
 
         return isRequiredFieldsFilled;
+    }
+
+
+
+    public static Bitmap retriveVideoFrameFromVideo(String videoPath)
+            throws Throwable {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+            if (Build.VERSION.SDK_INT >= 14)
+                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            else
+                mediaMetadataRetriever.setDataSource(videoPath);
+
+            bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Throwable(
+                    "Exception in retriveVideoFrameFromVideo(String videoPath)"
+                            + e.getMessage());
+
+        } finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
+        return bitmap;
     }
 
 }

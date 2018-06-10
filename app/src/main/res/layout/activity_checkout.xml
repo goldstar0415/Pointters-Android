@@ -14,9 +14,9 @@
         android:id="@+id/inner_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@+id/toolbar"
         android:fillViewport="true"
-        android:layout_above="@id/btn_pay">
+        android:layout_above="@+id/btn_pay">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,6 +43,7 @@
                         android:layout_width="@dimen/_60sdp"
                         android:layout_height="@dimen/_60sdp"
                         android:layout_marginLeft="@dimen/_10sdp"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/service_thumb_big" />
 
                     <RelativeLayout
@@ -75,16 +76,15 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginRight="@dimen/_10sdp"
-                            android:src="@drawable/right_arrow_icon"
                             android:layout_alignParentEnd="true"
                             android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_alignBottom="@+id/txt_detail"/>
+                            tools:ignore="RtlHardcoded" />
 
                         <TextView
                             android:id="@+id/txt_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Detail"
+                            android:text="Detail >"
                             android:textSize="@dimen/text_size_tiny"
                             android:layout_toLeftOf="@id/txt_service_type"
                             android:layout_marginEnd="@dimen/_3sdp"
@@ -106,7 +106,7 @@
                                 android:layout_centerVertical="true"
                                 android:text="$50"
                                 android:textColor="@color/text_color_dark_gray"
-                                android:textSize="@dimen/text_size_small"
+                                android:textSize="@dimen/text_size_tiny"
                                 tools:ignore="MissingPrefix" />
 
                             <TextView
@@ -117,8 +117,8 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/_5sdp"
                                 android:layout_toRightOf="@+id/txt_service_price"
-                                android:text="$100"
-                                android:textColor="@color/color_service_actual_price"
+                                android:text=""
+                                android:textColor="@color/text_color_dark_gray"
                                 android:textSize="@dimen/text_size_tiny"
                                 tools:ignore="MissingPrefix"
                                 android:layout_marginStart="@dimen/_5sdp"
@@ -142,7 +142,7 @@
                                 android:layout_marginLeft="@dimen/_5sdp"
                                 android:layout_toRightOf="@+id/txt_service_actual_price"
                                 android:text="For 2 hr"
-                                android:textColor="@color/color_service_actual_price"
+                                android:textColor="@color/text_color_dark_gray"
                                 android:textSize="@dimen/text_size_tiny"
                                 tools:ignore="MissingPrefix" />
 
@@ -155,10 +155,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:ellipsize="end"
-                            android:maxLines="2"
-                            android:maxWidth="@dimen/_60sdp"
+                            android:maxLines="1"
                             android:layout_alignParentBottom="true"
-                            android:text="Jhons"
+                            android:text="Jhonssadfasdfa sdf asdf asdf asd fasdf asd"
                             android:layout_toRightOf="@+id/txt_by"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/text_size_tiny"
@@ -194,158 +193,10 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:background="#F6F6F7" />
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_price"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:visibility="gone">
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/_50sdp">
-
-                    <ImageView
-                        android:id="@+id/img_tempr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/icon_price_plus"
-                        android:visibility="invisible" />
-
-                    <ImageView
-                        android:id="@+id/img_templ"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/icon_price_minus"
-                        android:visibility="invisible" />
-
-                </RelativeLayout>
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/colorWhite"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="$10 For 1 hours of service"
-                    android:textSize="@dimen/text_size_tiny" />
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/_50sdp">
-
-                    <ImageView
-                        android:id="@+id/img_add_service"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:padding="@dimen/_10sdp"
-                        android:src="@drawable/icon_price_plus" />
-
-                    <ImageView
-                        android:id="@+id/img_minus_service"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:padding="@dimen/_10sdp"
-                        android:src="@drawable/icon_price_minus" />
-
-                    <TextView
-                        android:id="@+id/txt_count_service"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/img_add_service"
-                        android:layout_toRightOf="@+id/img_minus_service"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_small" />
-
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/colorWhite"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp">
-
-                <TextView
-                    android:id="@+id/mAddOn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="$15 Add on"
-                    android:textSize="@dimen/text_size_tiny" />
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/_50sdp">
-
-                    <ImageView
-                        android:id="@+id/img_add_addon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:padding="@dimen/_10sdp"
-                        android:src="@drawable/icon_price_plus" />
-
-                    <ImageView
-                        android:id="@+id/img_minus_addon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:padding="@dimen/_10sdp"
-                        android:src="@drawable/icon_price_minus" />
-
-                    <TextView
-                        android:id="@+id/txt_count_addon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/img_add_addon"
-                        android:layout_toRightOf="@+id/img_minus_addon"
-                        android:gravity="center"
-
-                        android:text="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_small" />
-
-
-                </RelativeLayout>
-            </LinearLayout>
-
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -450,15 +301,15 @@
                         android:layout_alignParentStart="true" />
 
                     <TextView
+                        android:id="@+id/txt_complete_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:text="3 days"
+                        android:text="0 days"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_small"
                         android:layout_alignParentEnd="true" />
-
 
                 </RelativeLayout>
 
@@ -484,6 +335,7 @@
                         android:layout_alignParentStart="true" />
 
                     <TextView
+                        android:id="@+id/txt_total_budget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -567,10 +419,11 @@
                         tools:ignore="MissingPrefix" />
 
                     <TextView
-                        fontPath="fonts/Montserrat-Medium.ttf"
+                        android:id="@+id/txt_payment_method"
+                        fontPath="fonts/Montserrat-Regular.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="user@email.com"
+                        android:text=""
                         android:textColor="@color/text_color_dark_gray"
                         android:textSize="@dimen/text_size_small"
                         tools:ignore="MissingPrefix" />
@@ -625,10 +478,11 @@
                         tools:ignore="MissingPrefix" />
 
                     <TextView
-                        fontPath="fonts/Montserrat-Medium.ttf"
+                        android:id="@+id/txt_shipping_address"
+                        fontPath="fonts/Montserrat-Regular.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="123, Lake Shore..."
+                        android:text=""
                         android:textColor="@color/text_color_dark_gray"
                         android:textSize="@dimen/text_size_small"
                         tools:ignore="MissingPrefix" />

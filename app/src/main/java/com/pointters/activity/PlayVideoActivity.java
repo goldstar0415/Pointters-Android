@@ -1,5 +1,6 @@
 package com.pointters.activity;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import com.pointters.R;
 import com.pointters.model.FileAndBitmapModel;
 import com.pointters.utils.ConstantUtils;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class PlayVideoActivity extends AppCompatActivity {//implements EasyVideoCallback {
@@ -34,6 +37,11 @@ public class PlayVideoActivity extends AppCompatActivity {//implements EasyVideo
         // Make sure the player stops playing if the user presses the home button.
 //        player.pause();
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
 
 

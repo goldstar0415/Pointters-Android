@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.hbb20.CountryCodePicker;
 import com.pointters.R;
 import com.pointters.model.AddressModel;
 import com.pointters.model.LocationModel;
@@ -31,7 +34,8 @@ public class AddShippingDetailActivity extends AppCompatActivity implements View
     private ParcelModel parcel;
 
     TextInputLayout tilName, tilStreet, tilApt, tilState, tilCity, tilZip, tilCountry;
-    EditText edtName, edtStreet, edtApt, edtState, edtCity, edtZip, edtCountry;
+    EditText edtName, edtStreet, edtApt, edtState, edtCity, edtZip;
+    CountryCodePicker edtCountry;
 
     TextInputLayout tiHeight, tiWeight, tiLength, tiWidth;
     EditText edtHegiht, edtWeight, edtLength, edtWidth;
@@ -41,6 +45,14 @@ public class AddShippingDetailActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shipping_detail);
         AppUtils.setToolBarWithBothIcon(AddShippingDetailActivity.this, getResources().getString(R.string.shipping_details), R.drawable.back_icon, 0);
+
+        Intent intent = getIntent();
+
+        Gson gson = new Gson();
+        String strAddress = intent.getStringExtra(ConstantUtils.ADD_ADDRESS);
+        addressModel = gson.fromJson(strAddress, AddressModel.class);
+        String strParcel = intent.getStringExtra(ConstantUtils.ADD_PARCEL);
+        parcel = gson.fromJson(strParcel, ParcelModel.class);
 
         btnSave= (Button) findViewById(R.id.btn_save);
         btnReset = (Button) findViewById(R.id.btn_reset);
@@ -53,7 +65,7 @@ public class AddShippingDetailActivity extends AppCompatActivity implements View
         edtState = (EditText)findViewById(R.id.edt_state);
         edtCity = (EditText)findViewById(R.id.edt_city);
         edtZip = (EditText)findViewById(R.id.edt_zip);
-        edtCountry = (EditText)findViewById(R.id.edt_country);
+        edtCountry = (CountryCodePicker) findViewById(R.id.country_code_picker);
         edtHegiht = (EditText)findViewById(R.id.edt_height);
         edtLength = (EditText)findViewById(R.id.edt_length);
         edtWeight = (EditText)findViewById(R.id.edt_weight);
@@ -70,6 +82,56 @@ public class AddShippingDetailActivity extends AppCompatActivity implements View
         tiWeight= (TextInputLayout) findViewById(R.id.text_input_weight);
         tiLength = (TextInputLayout) findViewById(R.id.text_input_length);
         tiWidth = (TextInputLayout) findViewById(R.id.text_input_width);
+        setupData();
+    }
+
+    public void setupData() {
+        edtStreet.setText("");
+        edtCity.setText("");
+        edtApt.setText("");
+        edtState.setText("");
+        edtZip.setText("");
+        edtWeight.setText("");
+        edtHegiht.setText("");
+        edtLength.setText("");
+        edtWidth.setText("");
+
+        if (addressModel.getName() != null) {
+            edtName.setText(addressModel.getName());
+        }
+        if (addressModel.getStreet1() != null) {
+            edtStreet.setText(addressModel.getStreet1());
+        }
+        if (addressModel.getCity() != null) {
+            edtCity.setText(addressModel.getCity());
+        }
+        if (addressModel.getStreet2() != null) {
+            edtApt.setText(addressModel.getStreet2());
+        }
+        if (addressModel.getState() != null) {
+            edtState.setText(addressModel.getState());
+        }
+        if (addressModel.getZip() != null) {
+            edtZip.setText(addressModel.getZip());
+        }
+        if (addressModel.getCountry() != null) {
+            edtCountry.setCountryForNameCode(addressModel.getCountry());
+        }
+        edtWeight.setText(String.valueOf(parcel.getWeight()));
+        edtHegiht.setText(String.valueOf(parcel.getHeight()));
+        edtLength.setText(String.valueOf(parcel.getLength()));
+        edtWidth.setText(String.valueOf(parcel.getWidth()));
+
+        edtName.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager keyboard = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        },200);
+
+
     }
 
     public boolean checkValidateData(){
@@ -109,13 +171,6 @@ public class AddShippingDetailActivity extends AppCompatActivity implements View
         }else{
             tilZip.setErrorEnabled(false);
         }
-        if (edtCountry.getText().toString().length() == 0 || edtCountry.getText().toString().equals(" ")) {
-            tilCountry.setError("You need to enter a Country");
-            tilCountry.setErrorEnabled(true);
-            valid++;
-        }else{
-            tilCountry.setErrorEnabled(false);
-        }
         if (edtWeight.getText().toString().length() == 0 || edtWeight.getText().toString().equals(" ")) {
             tiWeight.setError("You need to enter a Weight");
             tiWeight.setErrorEnabled(true);
@@ -154,23 +209,23 @@ public class AddShippingDetailActivity extends AppCompatActivity implements View
         edtApt.setText("");
         edtState.setText("");
         edtZip.setText("");
-        edtCountry.setText("");
+        edtCountry.resetToDefaultCountry();
         edtWeight.setText("");
         edtHegiht.setText("");
         edtLength.setText("");
         edtWidth.setText("");
 
-        tilName.setEnabled(false);
-        tilStreet.setEnabled(false);
-        tilApt.setEnabled(false);
-        tilCountry.setEnabled(false);
-        tilCity.setEnabled(false);
-        tilState.setEnabled(false);
-        tilZip.setEnabled(false);
-        tiHeight.setEnabled(false);
-        tiWeight.setEnabled(false);
-        tiWidth.setEnabled(false);
-        tiLength.setEnabled(false);
+//        tilName.setEnabled(false);
+//        tilStreet.setEnabled(false);
+//        tilApt.setEnabled(false);
+//        tilCountry.setEnabled(false);
+//        tilCity.setEnabled(false);
+//        tilState.setEnabled(false);
+//        tilZip.setEnabled(false);
+//        tiHeight.setEnabled(false);
+//        tiWeight.setEnabled(false);
+//        tiWidth.setEnabled(false);
+//        tiLength.setEnabled(false);
     }
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -202,10 +257,11 @@ public class AddShippingDetailActivity extends AppCompatActivity implements View
     }
 
     public void saveShippingDetail(){
+        AndroidUtils.hideKeyBoard(AddShippingDetailActivity.this);
         addressModel = new AddressModel();
         addressModel.setState(edtState.getText().toString());
         addressModel.setZip(edtZip.getText().toString());
-        addressModel.setCountry(edtCountry.getText().toString());
+        addressModel.setCountry(edtCountry.getSelectedCountryNameCode());
         addressModel.setCity(edtCity.getText().toString());
         addressModel.setStreet1(edtStreet.getText().toString());
         addressModel.setStreet2(edtApt.getText().toString());
@@ -216,13 +272,13 @@ public class AddShippingDetailActivity extends AppCompatActivity implements View
         parcel.setLength(Float.valueOf(edtLength.getText().toString()));
         parcel.setWeight(Float.valueOf(edtWeight.getText().toString()));
         parcel.setWidth(Float.valueOf(edtWidth.getText().toString()));
+        Gson gson = new Gson();
 
         Intent intent = new Intent();
-        intent.putExtra(ConstantUtils.ADD_ADDRESS, addressModel);
-        intent.putExtra(ConstantUtils.ADD_PARCEL, parcel);
+        intent.putExtra(ConstantUtils.ADD_ADDRESS, gson.toJson(addressModel));
+        intent.putExtra(ConstantUtils.ADD_PARCEL, gson.toJson(parcel));
         setResult(RESULT_OK, intent);
         finish();
-        AndroidUtils.hideKeyBoard(AddShippingDetailActivity.this);
 
     }
 }

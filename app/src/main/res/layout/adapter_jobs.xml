@@ -21,8 +21,7 @@
         <RelativeLayout
             android:id="@+id/upper_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
+            android:layout_height="wrap_content">
 
 
             <com.pointters.utils.SquareImageView
@@ -36,12 +35,13 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/img_media"
                 android:paddingLeft="@dimen/_8sdp"
                 android:layout_alignBaseline="@+id/img_media"
                 android:layout_toEndOf="@+id/img_media"
-                android:paddingStart="@dimen/_8sdp">
+                android:paddingStart="@dimen/_8sdp"
+                tools:ignore="RtlHardcoded">
 
 
                 <RelativeLayout
@@ -51,6 +51,7 @@
                     android:orientation="horizontal"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:gravity="center">
                     <TextView
                         android:id="@+id/txt_created_date"
@@ -59,27 +60,12 @@
                         android:text="1d"
                         android:textSize="@dimen/text_size_tiny"
                         android:textColor="@color/color_black_info"
-                        android:gravity="end"
-                        android:layout_alignEnd="@+id/invisible_btn"
-                        android:layout_alignRight="@+id/invisible_btn" />
-                    <Button
-                        android:id="@+id/invisible_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_gravity="center"
-                        android:textColor="@color/color_black_info"
-                        android:text="MAKE OFFER"
-                        android:layout_alignParentBottom="true"
-                        android:background="@android:color/transparent"
-                        android:visibility="invisible"/>
-
+                        android:gravity="end" />
 
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_toLeftOf="@+id/paid_layout"
                     android:layout_toStartOf="@+id/paid_layout">
@@ -90,18 +76,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:includeFontPadding="false"
-                        android:maxLines="2"
+                        android:lines="2"
                         android:gravity="top"
                         android:layout_gravity="top"
-                        android:text="IT service loafsdfasdfasd asdf asdf asdf af re"
+                        android:text="IT service loafsdfasdfasd sdf af re"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_small"
                         android:layout_marginEnd="@dimen/_10sdp" />
                     <LinearLayout
                         android:id="@+id/txt_price_name"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -125,6 +110,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/_5sdp"
                                 android:text="$50 ~ $100"
+                                android:maxLines="1"
                                 android:textColor="@color/color_black_info"
                                 android:textSize="@dimen/text_size_tiny"
                                 tools:ignore="MissingPrefix"
@@ -188,13 +174,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <RelativeLayout
-                android:id="@+id/divider_view"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp">
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/fix_1dp"
-                android:background="@drawable/bg_light_gray_divider" />
+                android:layout_height="@dimen/fix_0.5dp"
+                android:background="@drawable/divider_option" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

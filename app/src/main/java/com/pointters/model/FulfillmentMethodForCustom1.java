@@ -15,7 +15,19 @@ public class FulfillmentMethodForCustom1 implements Serializable{
     private boolean store;
     private int localServiceRadius;
     private String localServiceRadiusUom;
+    private AddressModel address;
+    private ParcelModel parcel;
 
+    public FulfillmentMethodForCustom1(){
+        this.online = false;
+        this.shipment = false;
+        this.local = false;
+        this.store = false;
+        this.localServiceRadius = 25;
+        this.localServiceRadiusUom = "mile";
+        this.address = new AddressModel();
+        this.parcel = new ParcelModel();
+    }
 
     public FulfillmentMethodForCustom1(boolean online, boolean shipment, boolean local, boolean store, int localServiceRadius, String localServiceRadiusUom) {
         this.online = online;
@@ -80,5 +92,21 @@ public class FulfillmentMethodForCustom1 implements Serializable{
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public AddressModel getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressModel address) {
+        this.address = address;
+    }
+
+    public ParcelModel getParcel() {
+        return parcel;
+    }
+
+    public void setParcel(ParcelModel parcel) {
+        this.parcel = parcel;
     }
 }

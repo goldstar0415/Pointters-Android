@@ -184,21 +184,34 @@
                     app:errorTextAppearance="@style/error_appearance"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <EditText
-                        android:id="@+id/edt_country"
-                        fontPath="fonts/Montserrat-Regular.ttf"
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/country_code_picker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#e8e8e9"
-                        android:hint="@string/country"
-                        android:imeOptions="actionNext"
-                        android:focusableInTouchMode="true"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="@dimen/_15sdp"
-                        android:textColor="@color/color_black_info"
-                        android:textColorHint="#a8a8aa"
-                        android:textSize="@dimen/text_size_small"
-                        tools:ignore="MissingPrefix" />
+                        app:ccpDialog_keyboardAutoPopup="false"
+                        app:ccp_showFullName="true"
+                        app:ccp_showPhoneCode="false"
+                        app:ccp_showNameCode="true"
+                        app:ccp_defaultNameCode="US"
+                        app:ccp_autoDetectCountry="true"
+                        app:ccpDialog_allowSearch="true" />
+
+                    <!--<EditText-->
+                        <!--android:id="@+id/edt_country"-->
+                        <!--fontPath="fonts/Montserrat-Regular.ttf"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:backgroundTint="#e8e8e9"-->
+                        <!--android:hint="@string/country"-->
+                        <!--android:imeOptions="actionNext"-->
+                        <!--android:focusableInTouchMode="true"-->
+                        <!--android:inputType="textEmailAddress"-->
+                        <!--android:paddingBottom="@dimen/_15sdp"-->
+                        <!--android:textColor="@color/color_black_info"-->
+                        <!--android:textColorHint="#a8a8aa"-->
+                        <!--android:textSize="@dimen/text_size_small"-->
+                        <!--tools:ignore="MissingPrefix" />-->
                 </android.support.design.widget.TextInputLayout>
 
 

@@ -1,6 +1,7 @@
 package com.pointters.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -94,15 +95,18 @@ public class BecomeASellerActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case R.id.btn_addService:
-
+                editor.putString(ConstantUtils.LAST_SELECTED_TAB, "1");
+                editor.commit();
+                editor.apply();
+                startActivity(new Intent(BecomeASellerActivity.this, AddServiceActivity.class));
                 break;
 
             case R.id.btn_paymentSetup:
-
+                startActivity(new Intent(BecomeASellerActivity.this, PaymentMethodsActivity.class));
                 break;
 
             case R.id.btn_backgroundCheck:
-
+                startActivity(new Intent(BecomeASellerActivity.this, BackgroundCheckActivity.class));
                 break;
 
             case R.id.btn_businessVerification:

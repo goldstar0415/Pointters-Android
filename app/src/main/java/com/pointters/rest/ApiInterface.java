@@ -1,18 +1,28 @@
 package com.pointters.rest;
 
 
+import android.support.v4.content.ContextCompat;
+
+import com.braintreepayments.api.models.ClientToken;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.google.gson.internal.LinkedTreeMap;
+import com.pointters.model.ClientTokenModel;
+import com.pointters.model.ExploreJobsModel;
+import com.pointters.model.GetserviceSearch;
 import com.pointters.model.InviteSuggestedUserModel;
 import com.pointters.model.LocationModel;
 import com.pointters.model.Media;
 import com.pointters.model.OrdersDetailModel;
+import com.pointters.model.PaymentMethod;
+import com.pointters.model.PaymentMethodNonceString;
+import com.pointters.model.PaymentMethodResponse;
 import com.pointters.model.ResetPasswordModel;
 import com.pointters.model.ReviewOrderModel;
 import com.pointters.model.SearchModel;
 import com.pointters.model.Service;
 import com.pointters.model.StoreLocationModel;
 import com.pointters.model.TagServiceSellerModel;
+import com.pointters.model.UserSettingsModel;
 import com.pointters.model.request.AddServiceRequest;
 import com.pointters.model.request.CancelOrderRequest;
 import com.pointters.model.request.CommentRequest;
@@ -150,6 +160,10 @@ public interface ApiInterface {
     putUserSettings(@Header("Authorization") String token,
                     @Body UserPutSettingsRequest params);
 
+    @GET("user/setting")
+    Call<UserPutSettingsRequest>
+    getUserSettings(@Header("Authorization") String token);
+
 
     @POST("service")
     Call<Object>
@@ -209,23 +223,28 @@ public interface ApiInterface {
     Call<GetStoreLocationResponse>
     getShipmentAddresses(@Header("Authorization") String token);
 
-    @GET("shipment-addresses/{id}")
+    @GET("shipment-address/{id}")
     Call<StoreLocationModel>
     getShipmentAddressesDetail(@Header("Authorization") String token,
-                   @Path("id") String id);
+                               @Path("id") String id);
 
-    @PUT("shipment-addresses/{id}")
+    @GET("shipment/{id}/rate")
+    Call<JSONObject>
+    getShipmentRate(@Header("Authorization") String token,
+                               @Path("id") String id);
+
+    @PUT("shipment-address/{id}")
     Call<StoreLocationModel>
     putShipmentAddresses(@Header("Authorization") String token,
                      @Path("id") String id,
                      @Body StoreLocationRequest request);
 
-    @POST("shipment-addresses")
+    @POST("shipment-address")
     Call<StoreLocationModel>
     postShipmentAddresses(@Header("Authorization") String token,
               @Body StoreLocationRequest id);
 
-    @DELETE("shipment-addresses/{id}")
+    @DELETE("shipment-address/{id}")
     Call<BaseResponse>
     deleteShipmentAddresses(@Header("Authorization") String token,
                 @Path("id") String id);
@@ -421,13 +440,13 @@ public interface ApiInterface {
     //==================================================================================//
 
     @GET("braintree/client-token")
-    Call<JSONObject>
+    Call<ClientTokenModel>
     getBrainTreeClientToken(@Header("Authorization") String token);
 
     @POST("braintree/payment-method")
-    Call<JSONObject>
+    Call<PaymentMethodResponse>
     postBrainTreePaymentMethod(@Header("Authorization") String token,
-                               @Body PaymentMethodNonce paymentMethodNonce);
+                               @Body PaymentMethodNonceString paymentMethodNonce);
 
     //==================================================================================//
     //                              PaymentMethod                                 //
@@ -502,9 +521,9 @@ public interface ApiInterface {
     getUserServices(@Header("Authorization") String token,
                     @QueryMap Map<String, String> params);
 
-    @GET("services/explore")
-    Call<GetServicesExploreReponse>
-    getServicesExplore(@Header("Authorization") String token,
+    @GET("services/search")
+    Call<List<GetserviceSearch>>
+    getServiceSearch(@Header("Authorization") String token,
                        @QueryMap Map<String, String> params);
 
     @GET("services/live-offer-suggested")
@@ -522,6 +541,10 @@ public interface ApiInterface {
     Call<GetUserMenuResponse>
     getUserMenu(@Header("Authorization") String token);
 
+    @GET("services/explore")
+    Call<GetServicesExploreReponse>
+    getServicesExplore(@Header("Authorization") String token,
+                       @QueryMap Map<String, String> params);
 
     // ==============================================================================================
 
@@ -614,7 +637,10 @@ public interface ApiInterface {
     getLiveOfferRequests(@Header("Authorization") String token,
                          @Query("lt_id") String id);
 
-
+    @GET("request/{id}")
+    Call<ExploreJobsModel>
+    getJobsDetail(@Header("Authorization") String token,
+                         @Path("id") String id);
 
     @GET("service/{id}/like")
     Call<LikeUnlikeResponse>

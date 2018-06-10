@@ -17,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -103,8 +104,10 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
     private int totalCnt = 0;
     private LikeButton likeButton;
     private Button followButton;
-
+    private ImageButton cameraButton;
+    private Button getCustomOfferButton;
     private boolean isMe = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,10 +139,12 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
                     e.printStackTrace();
                 }
             }
+            cameraButton.setVisibility(View.VISIBLE);
             txtFollow.setText("Edit Profile");
         } else {
             txtFollow.setText("");
             userId = getIntent().getStringExtra(ConstantUtils.PROFILE_USERID);
+            cameraButton.setVisibility(View.INVISIBLE);
         }
 
         if (!userId.equals("")) {
@@ -165,8 +170,6 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
                 .setDimAmount(0.5f);
 
         txtName = (TextView) findViewById(R.id.txt_name);
-//        txtTitle = (TextView) findViewById(R.id.toolbar_title);
-//        txtTitle.setText(getResources().getString(R.string.profile));
         txtFollow = (Button) findViewById(R.id.btn_follow_edit_profile);
         txtFollow.setOnClickListener(this);
         txtCompany = (TextView) findViewById(R.id.txt_company);
@@ -187,9 +190,9 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
         txtPointNum = (TextView) findViewById(R.id.mPointsValue);
         txtLikeNum = (TextView) findViewById(R.id.mLikesNum);
         txtWatchNum = (TextView) findViewById(R.id.mWatchingValue);
-//        txtOffer = (TextView) findViewById(R.id.txt_custom_offer);
-//        txtOffer.setOnClickListener(this);
-
+        cameraButton = (ImageButton) findViewById(R.id.camera_button);
+        getCustomOfferButton = (Button) findViewById(R.id.btn_get_custom_offer);
+        getCustomOfferButton.setOnClickListener(this);
         findViewById(R.id.btn_back).setOnClickListener(this);
         findViewById(R.id.btn_share).setOnClickListener(this);
     }
@@ -243,6 +246,12 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
         mFullName = strFirst + " " + strLast;
         txtName.setText(mFullName);
 
+        if (userProfile.getPhone() != null) {
+            txtPhone.setText(userProfile.getPhone());
+        }
+        if (userProfile.getLocation() != null){
+            txtLocation.setText(userProfile.getLocation().FullAddress());
+        }
         initRecyclerView();
 
 
@@ -338,7 +347,7 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
         ViewPager viewPagerSuggestedServices = (ViewPager) findViewById(R.id.profile_bg_viewpager);
         editProfileImageViewPagerAdapter = new EditProfileImageViewPagerAdapter(ProfileScreenActivity.this, bgFiles);
         viewPagerSuggestedServices.setAdapter(editProfileImageViewPagerAdapter);
-
+        editProfileImageViewPagerAdapter.setEdit(false);
         ViewPagerIndicator circlePageIndicator = (ViewPagerIndicator) findViewById(R.id.indicator_view_pager_suggested_services);
     }
 
@@ -413,11 +422,11 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
                 }
                 break;
 
-//            case R.id.txt_custom_offer:
-//                if (!userType) {
-//                    moveToChat();
-//                }
-//                break;
+            case R.id.btn_get_custom_offer:
+                if (!userType) {
+                    moveToChat();
+                }
+                break;
 
             default:
                 break;
@@ -464,12 +473,9 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
 
     // Get user services
     private void getUserServiceApiCall(String id, Boolean inited, String lastId) {
-        if (inited) {
-            arrServiceList.clear();
-        }
 
         Map<String, String> params = new HashMap<>();
-        params.put("userId", id);
+//        params.put("userId", id);
         if (!lastId.equals("")) {
             params.put("lt_id", lastId);
         }
@@ -484,12 +490,16 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
                 }
 
                 if (response.code() == 200 && response.body() != null) {
+                    if (inited) {
+                        arrServiceList.clear();
+                    }
                     totalCnt = response.body().getTotal();
                     limitCnt = response.body().getLimit();
                     lastDocId = response.body().getLastDocId();
 
                     arrServiceList.addAll(response.body().getDocs());
-                    serviceAdapter.notifyItemRangeInserted(serviceAdapter.getItemCount(), arrServiceList.size()-1);
+                    serviceAdapter.setData(arrServiceList);
+                    serviceAdapter.notifyItemRangeInserted(serviceAdapter.getItemCount(), arrServiceList.size());
                     serviceAdapter.notifyDataSetChanged();
                 }
                 else if (response.code() == 401) {
@@ -647,4 +657,6 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
             postUserFollowingApi(userId);
         }
     }
+
+
 }

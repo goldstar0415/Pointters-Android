@@ -33,6 +33,9 @@ public class GetBuyOrderResponse {
     }
 
     public Integer getLimit() {
+        if (limit == null) {
+            return 0;
+        }
         return limit;
     }
 

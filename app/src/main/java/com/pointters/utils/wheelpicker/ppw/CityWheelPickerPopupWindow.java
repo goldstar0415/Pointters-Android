@@ -113,6 +113,5 @@ public class CityWheelPickerPopupWindow extends BasePopupWindow implements View.
             times = new String[] { "" };
         }
         mTime.setViewAdapter(new ArrayWheelAdapter<String>(activity, times));
-        mTime.setCurrentItem(0);
     }
 }

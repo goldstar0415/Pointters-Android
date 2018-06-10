@@ -46,7 +46,8 @@ public class PricingRvAdapter extends RecyclerView.Adapter<PricingRvAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         if (pricesList != null && pricesList.size() > 0) {
-            Integer valPrice = 0, valTime = 0;
+            float valPrice = 0;
+            int valTime = 0;
             String strSymbol = "$", strUnit = "", strDesc = "";
 
             if (pricesList.get(position).getPrice() != null && pricesList.get(position).getPrice() > 0) {

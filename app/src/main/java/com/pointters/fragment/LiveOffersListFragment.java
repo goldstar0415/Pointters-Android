@@ -123,66 +123,12 @@ public class LiveOffersListFragment extends Fragment implements SwipyRefreshLayo
         spinnerCategories = (LinearLayout)view.findViewById(R.id.spinner_categories);
         spinnerCategories.setOnClickListener(this);
 
-//        getLiveOffers();
     }
 
-//    private void getLiveOffers(){
-//        final Map<String, String> params = new HashMap<>();
-//        params.put("page", String.valueOf(page));
-//        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-//        Call<GetLiveOfferResponse> userServiceCall = apiService.getLiveOffer(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), params);
-//        userServiceCall.enqueue(new Callback<GetLiveOfferResponse>() {
-//            @Override
-//            public void onResponse(Call<GetLiveOfferResponse> call, Response<GetLiveOfferResponse> response) {
-//                if (loader.isShowing()) {
-//                    loader.dismiss();
-//                }
-//                if (swipyRefreshLayout.isRefreshing()){
-//                    swipyRefreshLayout.setRefreshing(false);
-//                }
-//
-//                if (response.code() == 200 && response.body() != null) {
-//                    totalCnt = response.body().getTotal();
-//                    limitCnt = response.body().getLimit();
-//                    lastDocId = response.body().getLastDocId();
-//                    page = response.body().getPage();
-//                    int pages = response.body().getPages();
-//                    if (page > pages) {
-//                        page = page - 1;
-//                    }
-//                    Log.e("data: ", String.valueOf(response.body()));
-//
-//                    serviceArrayList.addAll(response.body().getDocs());
-//                    serviceAdapter.notifyItemRangeInserted(serviceAdapter.getItemCount(), serviceArrayList.size()-1);
-//                    serviceAdapter.notifyDataSetChanged();
-//                }
-//                else if (response.code() == 401) {
-//                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(getContext(), "callGetUserServiceApi");
-//                    callLoginApiIfFails.OnApiFailDueToSessionListener((OnApiFailDueToSessionListener) getContext());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<GetLiveOfferResponse> call, Throwable t) {
-//                if (loader.isShowing()) { loader.dismiss(); }
-//                Toast.makeText(getActivity(), "Can't find the service info.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//    }
 
     @Override
     public void onRefresh(SwipyRefreshLayoutDirection direction) {
         swipyRefreshLayout.setRefreshing(false);
-//        if (direction == SwipyRefreshLayoutDirection.BOTTOM){
-//            page++;
-//            getLiveOffers();
-//        }else{
-//            page = 1;
-//            serviceArrayList.clear();
-//            getLiveOffers();
-//        }
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

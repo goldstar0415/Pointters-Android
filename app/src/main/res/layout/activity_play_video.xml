@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.pointters.activity.PlayVideoActivity">
-    <com.afollestad.easyvideoplayer.EasyVideoPlayer
-        android:id="@+id/player"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-      />
+    <!--<com.afollestad.easyvideoplayer.EasyVideoPlayer-->
+        <!--android:id="@+id/player"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+      <!--/>-->
 
 <!--
     <ImageView android:id="@+id/btn_full_screen"

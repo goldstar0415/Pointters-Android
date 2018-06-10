@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.EventLog;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -25,6 +26,7 @@ import com.pointters.fragment.AddServiceFragment;
 import com.pointters.fragment.JobsFragment;
 import com.pointters.fragment.PostUpdateFragment;
 import com.pointters.model.Pusher;
+import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.CustomTabLayout;
 import com.pointters.utils.NonSwipeableViewPager;
@@ -50,7 +52,7 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
     private SharedPreferences.Editor editor;
     private NonSwipeableViewPager viewPager;
     public Button postButton;
-
+    AddServicePageAdapter exploreServiceAdapter;
 
 
     @Override
@@ -94,6 +96,9 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch ((view.getId())) {
             case R.id.img_close:
+                InputMethodManager hide = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                hide.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+
                 onBackPressed();
                 break;
             case R.id.btn_post:
@@ -107,24 +112,26 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
     public void postUpdate(){
         EventBus.getDefault().post(new Pusher("post"));
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-//        Fragment fragment =getSupportFragmentManager().findFragmentById(R.id.frame_container);
-//        if (fragment != null) {
-//            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        }
+        Fragment fragment =getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if (fragment != null) {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-//        if (fragment != null) {
-//            fragment.onActivityResult(requestCode, resultCode, data);
-//        }
+        if (requestCode == 998) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
+        }
+        exploreServiceAdapter.getItem(viewPager.getCurrentItem()).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -173,7 +180,7 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
         }
     }
     private void setupViewPager(ViewPager viewPager) {
-        AddServicePageAdapter exploreServiceAdapter = new AddServicePageAdapter(getSupportFragmentManager());
+        exploreServiceAdapter = new AddServicePageAdapter(getSupportFragmentManager());
         //JobsFragment jobsFragment = new JobsFragment();
 
         exploreServiceAdapter.addFrag(new PostUpdateFragment(), getResources().getString(R.string.post_update));
@@ -183,6 +190,33 @@ public class AddServiceActivity extends AppCompatActivity implements View.OnClic
         tabLayout = (CustomTabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(this);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Fragment fragment = exploreServiceAdapter.getItem(position);
+                if (position == 0) {
+                    if ((PostUpdateFragment)fragment != null) {
+                        InputMethodManager keyboard = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                        keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    }
+                }else{
+                    if (getCurrentFocus() != null) {
+                        InputMethodManager hide = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        hide.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public class AddServicePageAdapter extends FragmentStatePagerAdapter {

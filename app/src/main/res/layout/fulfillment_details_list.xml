@@ -14,6 +14,7 @@
             android:src="@drawable/thumb_small_two"/>
 
         <TextView
+            android:id="@+id/txt_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mUserDpOfFulfillment"

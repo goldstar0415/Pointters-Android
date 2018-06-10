@@ -32,10 +32,15 @@ import com.pointters.BuildConfig;
 import com.pointters.R;
 import com.pointters.adapter.HomeViewPagerAdapter;
 import com.pointters.model.BottomTabSeletedModel;
+import com.pointters.model.Pusher;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.GPSTracker;
 import com.pointters.utils.NonSwipeableViewPager;
 import com.pointters.utils.SocketManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,24 +58,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private final int READ_STORAGE_REQUEST = 4;
     private final int WRITE_STORAGE_REQUEST = 5;
 
-//    private ImageView imgFlag;
-//    private ImageView imgService;
-//    private ImageView imgCamera;
-//    private ImageView imgChat;
-//    private ImageView imgProfile;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-//    private LinearLayout imgFlagRelative;
-//    private LinearLayout imgServiceRelative;
-//    private LinearLayout imgCameraRelative;
-//    private LinearLayout imgChatRelative;
-//    private LinearLayout imgProfileRelative;
     RelativeLayout rootLayout;
-//    private TextView txtCamera, txtFlag, txtExplore, txtChat, txtMe;
-    private TextView searchBar;
-    private List<BottomTabSeletedModel> bottomTabSeletedModels = new ArrayList<>(5);
-    private NonSwipeableViewPager viewPager;
-    private CameraView mCamera;
+    public NonSwipeableViewPager viewPager;
     private GPSTracker mTrackGPS;
     private boolean doubleBackToExitPressedOnce = false;
     BottomNavigationViewEx bnve;
@@ -78,11 +69,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        BottomNavigation.DEBUG = BuildConfig.DEBUG;
         setContentView(R.layout.activity_home);
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         setUpToolBar();
+        EventBus.getDefault().register(this);
 
         initViews();
         enablePermissions();
@@ -93,12 +84,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setUpViewPager();
 
         setOnClick();
-//        bottomTabSeletedModels.add(0, new BottomTabSeletedModel(imgServiceRelative, txtExplore));
-//        bottomTabSeletedModels.add(1, new BottomTabSeletedModel(imgFlagRelative, txtFlag));
-//        bottomTabSeletedModels.add(2, new BottomTabSeletedModel(imgCameraRelative, txtCamera));
-//        bottomTabSeletedModels.add(3, new BottomTabSeletedModel(imgChatRelative, txtChat));
-//        bottomTabSeletedModels.add(4, new BottomTabSeletedModel(imgProfileRelative, txtMe));
-
         if (getIntent() != null && getIntent().getStringExtra(ConstantUtils.SOURCE) != null) {
             if (getIntent().getStringExtra(ConstantUtils.SOURCE).equals(ConstantUtils.MENU_SCREEN))
                 viewPager.setCurrentItem(4);
@@ -129,6 +114,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             }
         });
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void omEventMainThread(Pusher pusher){
+        switch (pusher.getAction()) {
+            case "postUpdate":
+                viewPager.setCurrentItem(1);
+                break;
+        }
     }
 
     private void setOnClick() {
@@ -372,6 +367,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
         SocketManager.getInstance().disconnectSocket();
+        EventBus.getDefault().unregister(this);
     }
 
 //    @Override

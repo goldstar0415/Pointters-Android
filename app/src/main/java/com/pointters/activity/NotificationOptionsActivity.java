@@ -24,11 +24,9 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.pointters.R;
 import com.pointters.adapter.ExpandableRecyclerView;
-import com.pointters.adapter.UserSettingAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.NotificationOption;
-import com.pointters.model.UserSettingsModel;
 import com.pointters.model.request.UserPutSettingsRequest;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
@@ -36,10 +34,6 @@ import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
-import com.pointters.utils.DividerItemDecorationVer;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 

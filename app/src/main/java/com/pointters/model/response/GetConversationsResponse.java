@@ -1,7 +1,6 @@
 package com.pointters.model.response;
 
 import com.pointters.model.ConversationsModel;
-import com.pointters.model.ReceivedOfferModel;
 
 import java.util.List;
 

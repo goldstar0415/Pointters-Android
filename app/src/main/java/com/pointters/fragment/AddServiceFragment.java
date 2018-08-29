@@ -25,7 +25,6 @@ import com.pointters.adapter.SelectCategoryAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.CategoryDetails;
-import com.pointters.model.CategoryModel;
 import com.pointters.model.response.GetCategoryResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
@@ -34,7 +33,6 @@ import com.pointters.utils.DividerItemDecorationVer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

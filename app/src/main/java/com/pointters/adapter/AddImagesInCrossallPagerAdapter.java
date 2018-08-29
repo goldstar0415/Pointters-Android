@@ -1,9 +1,7 @@
 package com.pointters.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -11,16 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-//import com.afollestad.easyvideoplayer.EasyVideoCallback;
-//import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
-import com.pointters.activity.PlayVideoActivity;
 import com.pointters.model.Media;
 
 import java.util.ArrayList;
+
+//import com.afollestad.easyvideoplayer.EasyVideoCallback;
+//import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 
 
 /**

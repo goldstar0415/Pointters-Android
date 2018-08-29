@@ -23,7 +23,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,15 +63,12 @@ import com.klinker.android.link_builder.LinkConsumableTextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pointters.R;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnEditTextChangeListener;
 import com.pointters.model.Media;
 import com.pointters.model.request.LocationRequestModel;
 import com.pointters.model.request.LongitudeLatitude;
-import com.pointters.model.request.UserPutRequest;
 import com.pointters.model.request.UserRegisterPutRequest;
 import com.pointters.model.response.ResponsePutUser;
 import com.pointters.rest.ApiClient;
@@ -113,8 +109,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.pointters.R.id.ifRoom;
-import static com.pointters.R.id.image;
 import static com.pointters.R.id.img_profile;
 
 /**

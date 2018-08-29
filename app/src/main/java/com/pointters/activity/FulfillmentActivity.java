@@ -1,6 +1,5 @@
 package com.pointters.activity;
 
-import android.app.backup.FullBackupDataOutput;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -28,11 +26,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pointters.R;
-import com.pointters.model.CategoryModel;
 import com.pointters.model.FulfillmentDetails;
-import com.pointters.model.FulfillmentMethod;
 import com.pointters.model.OrdersDetailModel;
-import com.pointters.model.response.GetCategoryResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AppUtils;

@@ -3,11 +3,8 @@ package com.pointters.utils;
 import android.arch.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.view.View;
 
 import com.pointters.R;
-import com.skydoves.powermenu.CustomPowerMenu;
 import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;

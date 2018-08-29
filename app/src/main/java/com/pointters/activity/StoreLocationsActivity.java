@@ -19,13 +19,9 @@ import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
-import com.pointters.adapter.ChooseCategoryAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
-import com.pointters.model.AddressModel;
-import com.pointters.model.CategoryModel;
 import com.pointters.model.StoreLocationModel;
-import com.pointters.model.response.GetCategoryResponse;
 import com.pointters.model.response.GetStoreLocationResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;

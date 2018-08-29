@@ -1,7 +1,6 @@
 package com.pointters.model;
 
 import com.google.gson.internal.LinkedTreeMap;
-import com.pointters.activity.BackgroundCheckActivity;
 
 import java.util.ArrayList;
 import java.util.List;

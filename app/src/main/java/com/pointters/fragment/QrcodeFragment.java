@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,6 @@ import android.widget.RelativeLayout;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
-import com.flurgle.camerakit.CameraKit;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -41,7 +39,6 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
-import com.pointters.activity.EditProfileActivity;
 import com.pointters.activity.ProfileScreenActivity;
 import com.pointters.utils.ConstantUtils;
 
@@ -50,7 +47,6 @@ import net.alhazmy13.mediapicker.Image.ImagePicker;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;

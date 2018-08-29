@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -17,14 +16,11 @@ import com.pointters.adapter.ChooseCategoryAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.model.CategoryModel;
 import com.pointters.model.response.GetCategoryResponse;
-import com.pointters.model.response.GetTagServiceSellerResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;

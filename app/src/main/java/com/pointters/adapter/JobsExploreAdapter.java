@@ -2,13 +2,11 @@ package com.pointters.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,9 +19,6 @@ import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.ExploreJobsModel;
-import com.pointters.model.GeoJsonModel;
-import com.pointters.model.ServicesExploreModel;
-import com.pointters.utils.CommonUtils;
 import com.pointters.utils.SquareImageView;
 
 import java.lang.ref.WeakReference;

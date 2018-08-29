@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
@@ -16,8 +15,6 @@ import com.pointters.model.Media;
 import com.pointters.utils.ConstantUtils;
 
 import java.util.ArrayList;
-
-import javax.xml.transform.Source;
 
 /**
  * Created by aniljha on 21/9/17.

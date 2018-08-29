@@ -25,17 +25,13 @@ import com.pointters.adapter.FeaturedStyle3Adapter;
 import com.pointters.adapter.FeaturedStyle4Adapter;
 import com.pointters.adapter.FeaturedStyle5Adapter;
 import com.pointters.adapter.PopularCategoriesAdapter;
-import com.pointters.adapter.ServiceAdapter;
 import com.pointters.adapter.SuggestedCategoriesAdapter;
-import com.pointters.model.CategoryDetails;
 import com.pointters.model.ServiceModel;
-import com.pointters.model.response.GetCategoryResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;

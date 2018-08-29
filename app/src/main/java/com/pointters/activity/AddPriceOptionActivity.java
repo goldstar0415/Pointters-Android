@@ -10,14 +10,11 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pointters.R;
 import com.pointters.listener.OnEditTextChangeListener;
@@ -29,8 +26,6 @@ import com.pointters.utils.CurrencyEditText;
 import com.pointters.utils.MyTextWatcher;
 import com.pointters.utils.wheelpicker.listener.OnCityWheelComfirmListener;
 import com.pointters.utils.wheelpicker.ppw.CityWheelPickerPopupWindow;
-
-import org.greenrobot.eventbus.EventBus;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 

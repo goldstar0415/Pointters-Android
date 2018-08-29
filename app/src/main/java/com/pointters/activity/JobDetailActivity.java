@@ -22,21 +22,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.utils.L;
 import com.pointters.R;
 import com.pointters.listener.OnApiFailDueToSessionListener;
-import com.pointters.model.CustomOfferModels;
 import com.pointters.model.ExploreJobsModel;
-import com.pointters.model.FulfillmentDetails;
 import com.pointters.model.Media;
-import com.pointters.model.response.GetCustomOfferDetailsResponse;
 import com.pointters.model.response.GetServiceByIdResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
@@ -45,9 +40,6 @@ import com.pointters.utils.ConstantUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import org.joda.time.DateTimeUtils;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

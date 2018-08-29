@@ -2,60 +2,15 @@ package com.pointters.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-import com.klinker.android.link_builder.Link;
-import com.klinker.android.link_builder.LinkBuilder;
-import com.klinker.android.link_builder.LinkConsumableTextView;
 import com.pointters.R;
-import com.pointters.listener.OnApiFailDueToSessionListener;
-import com.pointters.listener.OnEditTextChangeListener;
-import com.pointters.model.request.UserEmailLoginRequest;
-import com.pointters.model.request.UserFacebookLoginRequest;
-import com.pointters.model.response.UserEmailLoginResponse;
-import com.pointters.model.response.UserFacebookLoginResponse;
-import com.pointters.rest.ApiClient;
-import com.pointters.rest.ApiInterface;
-import com.pointters.service.GetUserDataService;
-import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;
-import com.pointters.utils.CallLoginApiIfFails;
-import com.pointters.utils.ConnectivityController;
-import com.pointters.utils.ConstantUtils;
-import com.pointters.utils.MyTextWatcher;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
-
-import dmax.dialog.SpotsDialog;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**

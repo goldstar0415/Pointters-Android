@@ -15,13 +15,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
-import com.pointters.model.InviteAurSuggestedDetails;
 import com.pointters.model.InviteSuggestedUserModel;
 import com.pointters.model.InviteUserServiceModel;
 import com.pointters.model.Media;
-import com.pointters.model.OrdersDetailModel;
-import com.pointters.model.Service;
-import com.pointters.model.Services;
 import com.pointters.utils.EqualSpacingItemDecoration;
 
 import java.util.ArrayList;

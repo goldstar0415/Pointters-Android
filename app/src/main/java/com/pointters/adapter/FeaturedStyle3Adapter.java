@@ -1,7 +1,6 @@
 package com.pointters.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 /**
  * Created by vishalsharma on 1/8/17.

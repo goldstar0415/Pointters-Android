@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.pointters.R;
 import com.pointters.model.DeliveryMethod;
-import com.pointters.model.SellerCancelOrderDetails;
 
 import java.util.ArrayList;
 

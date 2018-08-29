@@ -14,7 +14,6 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.model.response.GetSellerEligibilityResponse;
-import com.pointters.model.response.GetSendServicesResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AppUtils;

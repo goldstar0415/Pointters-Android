@@ -1,13 +1,8 @@
 package com.pointters.model;
 
-import android.location.LocationManager;
-
 import com.google.gson.internal.LinkedTreeMap;
-import com.nostra13.universalimageloader.utils.L;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**

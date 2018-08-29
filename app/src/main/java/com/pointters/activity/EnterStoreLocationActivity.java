@@ -12,26 +12,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.hbb20.CountryCodePicker;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
 import com.pointters.listener.OnApiFailDueToSessionListener;
-import com.pointters.model.AddressModel;
 import com.pointters.model.StoreLocationModel;
 import com.pointters.model.request.StoreLocationRequest;
 import com.pointters.model.response.BaseResponse;
-import com.pointters.model.response.GetStoreLocationResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;

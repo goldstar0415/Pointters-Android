@@ -1,9 +1,6 @@
 package com.pointters.model.response;
 
-import com.pointters.model.FollowingModel;
 import com.pointters.model.TagServiceTotalModel;
-
-import java.util.List;
 
 /**
  * Created by mac on 12/8/17.

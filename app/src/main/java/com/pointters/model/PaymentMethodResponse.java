@@ -1,8 +1,5 @@
 package com.pointters.model;
 
-import com.braintreepayments.api.PaymentMethod;
-import com.braintreepayments.api.models.PaymentMethodNonce;
-
 public class PaymentMethodResponse {
         private boolean success;
         private PaymentMethodNonceModel paymentMethod;

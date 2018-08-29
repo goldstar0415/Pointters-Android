@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.widget.PopupWindow;
 
-
 import com.pointters.utils.wheelpicker.model.DeliveryTimeModel;
 import com.pointters.utils.wheelpicker.service.XmlParserHandler;
 

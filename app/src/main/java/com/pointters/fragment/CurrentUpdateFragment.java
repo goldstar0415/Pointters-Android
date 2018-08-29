@@ -24,7 +24,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.activity.AddServiceActivity;
-import com.pointters.activity.HomeActivity;
 import com.pointters.activity.LikeCommentsShareActivity;
 import com.pointters.adapter.CurrentUpdatesAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
@@ -46,10 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.jzvd.JZMediaManager;
-import cn.jzvd.JZUtils;
 import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

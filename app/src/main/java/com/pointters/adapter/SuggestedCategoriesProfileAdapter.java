@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.pointters.fragment.SuggestedFragment;
 import com.pointters.fragment.SuggestedProfileFragment;
 
 /**

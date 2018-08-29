@@ -3,7 +3,6 @@ package com.pointters.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.Prices;
 import com.pointters.model.ServicesExploreModel;
-import com.pointters.model.ServicesModel;
 import com.pointters.utils.GPSTracker;
 
 import java.lang.ref.WeakReference;

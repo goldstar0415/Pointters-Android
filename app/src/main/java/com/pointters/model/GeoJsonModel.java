@@ -1,8 +1,5 @@
 package com.pointters.model;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

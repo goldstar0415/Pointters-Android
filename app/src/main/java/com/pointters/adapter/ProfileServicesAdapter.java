@@ -2,7 +2,6 @@ package com.pointters.adapter;
 
 import android.content.Context;
 import android.location.Location;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
-import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.ServicesModel;
-import com.pointters.utils.AndroidUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

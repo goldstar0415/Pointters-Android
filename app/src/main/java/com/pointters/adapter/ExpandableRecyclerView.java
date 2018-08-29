@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.pointters.R;
 
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
+import com.pointters.R;
 
 public class ExpandableRecyclerView extends android.support.v7.widget.RecyclerView
 {

@@ -1,7 +1,6 @@
 package com.pointters.adapter;
 
 import android.content.Context;
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -18,7 +16,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
-import com.pointters.model.GeoJsonModel;
 import com.pointters.model.SellOrderModel;
 
 import java.lang.ref.WeakReference;

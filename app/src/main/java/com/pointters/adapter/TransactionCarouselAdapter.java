@@ -5,24 +5,14 @@ package com.pointters.adapter;
  */
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.pointters.R;
-import com.pointters.listener.OnRecycleItemClickListener;
-import com.pointters.listener.OnSearchItemClickListener;
-import com.pointters.model.CategoryModel;
-import com.pointters.utils.ConstantUtils;
-import com.pointters.utils.DividerItemDecorationVer;
 
-import java.util.HashMap;
 import java.util.List;
 
 

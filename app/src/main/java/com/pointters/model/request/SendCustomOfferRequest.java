@@ -1,6 +1,5 @@
 package com.pointters.model.request;
 
-import com.pointters.model.FulfillmentMethodForCustom;
 import com.pointters.model.FulfillmentMethodForCustom1;
 
 /**

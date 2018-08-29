@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import static java.security.AccessController.getContext;
-
 /**
  * Created by prashantkumar on 25/9/17.
  */

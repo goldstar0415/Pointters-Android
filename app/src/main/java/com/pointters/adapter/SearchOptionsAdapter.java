@@ -1,8 +1,6 @@
 package com.pointters.adapter;
 
 import android.content.Context;
-import android.media.Image;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pointters.R;
-import com.pointters.model.SearchHint;
 
 import java.util.ArrayList;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * Created by vishalsharma on 2/8/17.

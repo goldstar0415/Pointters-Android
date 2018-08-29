@@ -3,7 +3,6 @@ package com.pointters.model;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by mac on 12/26/17.

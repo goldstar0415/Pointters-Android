@@ -15,8 +15,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 /**

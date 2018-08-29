@@ -1,17 +1,16 @@
 package com.pointters.activity;
 
 import android.content.Context;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.pointters.R;
+import com.pointters.model.FileAndBitmapModel;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 //import com.afollestad.easyvideoplayer.EasyVideoCallback;
 //import com.afollestad.easyvideoplayer.EasyVideoPlayer;
-import com.pointters.R;
-import com.pointters.model.FileAndBitmapModel;
-import com.pointters.utils.ConstantUtils;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class PlayVideoActivity extends AppCompatActivity {//implements EasyVideoCallback {

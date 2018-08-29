@@ -1,10 +1,6 @@
 package com.pointters.rest;
 
 
-import android.support.v4.content.ContextCompat;
-
-import com.braintreepayments.api.models.ClientToken;
-import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.google.gson.internal.LinkedTreeMap;
 import com.pointters.model.ClientTokenModel;
 import com.pointters.model.ExploreJobsModel;
@@ -13,16 +9,13 @@ import com.pointters.model.InviteSuggestedUserModel;
 import com.pointters.model.LocationModel;
 import com.pointters.model.Media;
 import com.pointters.model.OrdersDetailModel;
-import com.pointters.model.PaymentMethod;
 import com.pointters.model.PaymentMethodNonceString;
 import com.pointters.model.PaymentMethodResponse;
 import com.pointters.model.ResetPasswordModel;
 import com.pointters.model.ReviewOrderModel;
 import com.pointters.model.SearchModel;
-import com.pointters.model.Service;
 import com.pointters.model.StoreLocationModel;
 import com.pointters.model.TagServiceSellerModel;
-import com.pointters.model.UserSettingsModel;
 import com.pointters.model.request.AddServiceRequest;
 import com.pointters.model.request.CancelOrderRequest;
 import com.pointters.model.request.CommentRequest;
@@ -40,12 +33,12 @@ import com.pointters.model.request.UserPutSettingsRequest;
 import com.pointters.model.request.UserRegisterPutRequest;
 import com.pointters.model.response.BaseResponse;
 import com.pointters.model.response.CommentsResponse;
+import com.pointters.model.response.CurrentUpdateModel;
 import com.pointters.model.response.FollowUnfollowResponse;
 import com.pointters.model.response.GetBuyOrderResponse;
 import com.pointters.model.response.GetCategoryResponse;
 import com.pointters.model.response.GetChatHistoryResponse;
 import com.pointters.model.response.GetConversationsResponse;
-import com.pointters.model.response.CurrentUpdateModel;
 import com.pointters.model.response.GetCustomOfferDetailsResponse;
 import com.pointters.model.response.GetFollowersResponse;
 import com.pointters.model.response.GetFollowingResponse;

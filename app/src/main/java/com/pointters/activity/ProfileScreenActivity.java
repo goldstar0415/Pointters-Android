@@ -25,9 +25,7 @@ import android.widget.Toast;
 import com.itsronald.widget.ViewPagerIndicator;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.like.LikeButton;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.adapter.EditProfileImageViewPagerAdapter;
 import com.pointters.adapter.ProfileServicesAdapter;
@@ -45,7 +43,6 @@ import com.pointters.rest.ApiInterface;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.EndlessRecyclerViewScrollListener;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONException;
 import org.json.JSONObject;

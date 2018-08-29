@@ -1,8 +1,6 @@
 package com.pointters.model.response;
 
-import com.pointters.model.CommentModel;
 import com.pointters.model.CommentsModel;
-import com.pointters.model.LikesModel;
 
 import java.util.ArrayList;
 

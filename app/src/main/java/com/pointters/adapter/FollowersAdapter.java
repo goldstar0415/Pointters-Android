@@ -14,7 +14,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
-import com.pointters.listener.OnRecycleItemClickListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.FollowersModel;

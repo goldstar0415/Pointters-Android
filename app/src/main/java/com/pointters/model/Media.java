@@ -1,12 +1,5 @@
 package com.pointters.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.google.gson.internal.LinkedTreeMap;
-
-import java.io.Serializable;
-
 /**
  * Created by prashantkumar on 27/9/17.
  */

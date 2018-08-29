@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.pointters.R;
 import com.pointters.model.CommentsModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

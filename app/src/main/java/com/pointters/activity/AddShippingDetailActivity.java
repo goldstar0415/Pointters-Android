@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.pointters.R;
 import com.pointters.model.AddressModel;
-import com.pointters.model.LocationModel;
 import com.pointters.model.ParcelModel;
 import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.AppUtils;

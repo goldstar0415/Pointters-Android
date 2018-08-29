@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pointters.R;
-import com.pointters.listener.OnRecycleItemClickListener;
 import com.pointters.listener.RecyclerViewItemClickWithSource;
 import com.pointters.model.Prices;
 

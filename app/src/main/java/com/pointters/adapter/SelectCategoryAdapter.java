@@ -16,11 +16,8 @@ import com.nineoldandroids.view.ViewHelper;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.CategoryDetails;
-import com.pointters.model.CategoryModel;
-import com.pointters.model.UserSettingsModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 

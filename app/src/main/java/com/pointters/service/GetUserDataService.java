@@ -9,13 +9,7 @@ import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.model.response.GetUserResponse;
-import com.pointters.rest.ApiClient;
-import com.pointters.rest.ApiInterface;
 import com.pointters.utils.ConstantUtils;
-import com.pointters.utils.CallLoginApiIfFails;
-
-import retrofit2.Call;
-import retrofit2.Callback;
 
 /**
  * Created by aniljha on 10/8/17.

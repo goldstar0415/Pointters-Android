@@ -12,7 +12,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.Media;
-import com.pointters.utils.ConstantUtils;
 
 import java.util.ArrayList;
 

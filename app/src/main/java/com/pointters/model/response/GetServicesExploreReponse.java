@@ -1,7 +1,6 @@
 package com.pointters.model.response;
 
 import com.pointters.model.ServicesExploreModel;
-import com.pointters.model.ServicesModel;
 
 import java.util.List;
 

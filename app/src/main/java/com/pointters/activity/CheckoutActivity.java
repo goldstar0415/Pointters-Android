@@ -14,12 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -28,10 +22,8 @@ import com.pointters.R;
 import com.pointters.adapter.PriceAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.RecyclerViewItemClickWithSource;
-import com.pointters.model.AddressModel;
 import com.pointters.model.Media;
 import com.pointters.model.MetricsModel;
-import com.pointters.model.ParcelModel;
 import com.pointters.model.PaymentMethod;
 import com.pointters.model.Prices;
 import com.pointters.model.SellerModel;
@@ -44,7 +36,6 @@ import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

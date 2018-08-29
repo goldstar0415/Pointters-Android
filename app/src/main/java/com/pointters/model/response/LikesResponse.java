@@ -1,8 +1,6 @@
 package com.pointters.model.response;
 
-import com.amazonaws.services.cognitoidentity.model.LimitExceededException;
 import com.pointters.model.LikesModel;
-import com.pointters.model.ShareModel;
 
 import java.util.ArrayList;
 

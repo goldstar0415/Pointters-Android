@@ -1,7 +1,6 @@
 package com.pointters.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -33,9 +30,7 @@ import com.pointters.model.ChatServiceModel;
 import com.pointters.model.GetserviceSearch;
 import com.pointters.model.Media;
 import com.pointters.model.Prices;
-import com.pointters.model.SearchSendServicesModel;
 import com.pointters.model.SendServicesModel;
-import com.pointters.model.ServicesWoArray;
 import com.pointters.model.UserChatModel;
 import com.pointters.model.request.SendServicesRequest;
 import com.pointters.model.response.GetSendServicesResponse;

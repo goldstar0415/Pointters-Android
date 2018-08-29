@@ -31,16 +31,13 @@ import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecycleItemClickListener;
 import com.pointters.model.GeoJsonModel;
 import com.pointters.model.TagServiceSellerModel;
-import com.pointters.model.response.GetTagServiceSellerResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
-import com.pointters.utils.AppUtils;
 import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.EndlessRecyclerViewScrollListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

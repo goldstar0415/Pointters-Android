@@ -1,12 +1,9 @@
 package com.pointters.model.response;
 
 import com.pointters.model.CommentModel;
-import com.pointters.model.CommentsModel;
 import com.pointters.model.PostData;
 import com.pointters.model.Service;
-import com.pointters.model.UserModel;
 import com.pointters.model.UserProfileModel;
-import com.pointters.model.request.PostUpdateRequest;
 
 import java.util.ArrayList;
 

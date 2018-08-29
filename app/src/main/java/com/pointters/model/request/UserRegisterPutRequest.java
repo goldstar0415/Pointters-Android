@@ -1,9 +1,5 @@
 package com.pointters.model.request;
 
-import com.pointters.model.Media;
-
-import java.util.ArrayList;
-
 /**
  * Created by prashantkumar on 17/8/17.
  */

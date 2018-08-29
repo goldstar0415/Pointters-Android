@@ -1,12 +1,6 @@
 package com.pointters.model;
 
-import com.google.gson.internal.LinkedTreeMap;
-
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.concurrent.LinkedTransferQueue;
 
 /**
  * Created by mac on 12/8/17.

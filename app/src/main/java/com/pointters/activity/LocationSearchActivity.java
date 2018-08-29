@@ -1,7 +1,5 @@
 package com.pointters.activity;
 
-import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,22 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 
-import com.braintreepayments.cardform.view.CardForm;
 import com.pointters.R;
 import com.pointters.adapter.PlacesAutoCompleteAdapter;
-import com.pointters.rest.PlaceAPI;
-import com.pointters.utils.AppUtils;
-
-import java.util.ArrayList;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class LocationSearchActivity extends AppCompatActivity implements View.OnClickListener{

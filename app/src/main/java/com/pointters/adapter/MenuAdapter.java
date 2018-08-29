@@ -10,9 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pointters.R;
-import com.pointters.model.MenuScreenDetails;
-
-import java.util.ArrayList;
 
 /**
  * Created by prashantkumar on 16/8/17.

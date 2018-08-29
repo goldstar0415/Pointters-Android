@@ -17,8 +17,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.pointters.R;
-import com.pointters.fragment.AddServiceFragment;
-import com.pointters.fragment.PostUpdateFragment;
 import com.pointters.fragment.QrcodeFragment;
 import com.pointters.fragment.SuggestedInviteFriendsFragment;
 import com.pointters.utils.ConstantUtils;

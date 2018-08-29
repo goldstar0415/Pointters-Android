@@ -1,28 +1,19 @@
 package com.pointters.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.braintreepayments.api.AmericanExpress;
 import com.braintreepayments.api.BraintreeFragment;
 import com.braintreepayments.api.Card;
 import com.braintreepayments.api.DataCollector;
-import com.braintreepayments.api.ThreeDSecure;
 import com.braintreepayments.api.UnionPay;
 import com.braintreepayments.api.exceptions.InvalidArgumentException;
 import com.braintreepayments.api.interfaces.AmericanExpressListener;
@@ -34,11 +25,9 @@ import com.braintreepayments.api.interfaces.ConfigurationListener;
 import com.braintreepayments.api.interfaces.PaymentMethodNonceCreatedListener;
 import com.braintreepayments.api.interfaces.UnionPayListener;
 import com.braintreepayments.api.models.AmericanExpressRewardsBalance;
-import com.braintreepayments.api.models.Authorization;
 import com.braintreepayments.api.models.BinData;
 import com.braintreepayments.api.models.BraintreePaymentResult;
 import com.braintreepayments.api.models.CardBuilder;
-import com.braintreepayments.api.models.CardNonce;
 import com.braintreepayments.api.models.Configuration;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.braintreepayments.api.models.UnionPayCapabilities;
@@ -49,10 +38,7 @@ import com.braintreepayments.cardform.utils.CardType;
 import com.braintreepayments.cardform.view.CardEditText;
 import com.braintreepayments.cardform.view.CardForm;
 import com.pointters.R;
-import com.pointters.model.CardModel;
 import com.pointters.utils.AppUtils;
-
-import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 

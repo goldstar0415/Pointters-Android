@@ -1,6 +1,5 @@
 package com.pointters.activity;
 
-import android.animation.RectEvaluator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,12 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
 import com.pointters.model.ReviewOrderModel;
-import com.pointters.model.request.CancelOrderRequest;
 import com.pointters.model.response.BaseResponse;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;

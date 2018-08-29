@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.File;
-import java.io.Serializable;
 
 /**
  * Created by vikas on 8/17/2017.

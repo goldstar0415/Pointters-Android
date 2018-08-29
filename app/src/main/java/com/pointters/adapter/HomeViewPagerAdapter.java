@@ -4,11 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.pointters.fragment.MenuContainerFragment;
-import com.pointters.fragment.CurrentUpdateFragment;
 import com.pointters.fragment.CameraFragment;
 import com.pointters.fragment.ChatFragment;
+import com.pointters.fragment.CurrentUpdateFragment;
 import com.pointters.fragment.ExploreServiceFragment;
+import com.pointters.fragment.MenuContainerFragment;
 
 /**
  * Created by Vishal Sharma on 29-Jul-17.

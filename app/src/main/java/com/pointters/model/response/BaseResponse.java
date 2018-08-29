@@ -1,9 +1,5 @@
 package com.pointters.model.response;
 
-import com.pointters.model.FollowersAndFollowing;
-
-import java.util.List;
-
 /**
  * Created by prashantkumar on 9/11/17.
  */

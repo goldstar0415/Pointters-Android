@@ -1,13 +1,5 @@
 package com.pointters.model;
 
-import android.location.Location;
-
-import com.pointters.model.LocationModel;
-import com.pointters.model.Media;
-import com.pointters.model.OrderMilestoneStatus;
-
-import java.util.ArrayList;
-
 /**
  * Created by mac on 12/20/17.
  */

@@ -2,23 +2,19 @@ package com.pointters.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.location.Location;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
-import com.pointters.model.GeoJsonModel;
 import com.pointters.model.LiveOfferModel;
-import com.pointters.model.ServicesModel;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

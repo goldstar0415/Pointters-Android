@@ -1,7 +1,5 @@
 package com.pointters.model;
 
-import com.google.android.gms.location.Geofence;
-
 import java.util.ArrayList;
 
 /**

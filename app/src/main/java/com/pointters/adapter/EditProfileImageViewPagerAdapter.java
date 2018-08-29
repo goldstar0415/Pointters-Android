@@ -2,7 +2,6 @@ package com.pointters.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,20 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.VideoView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.listener.AsyncResponse;
-import com.pointters.listener.OnRecycleItemClickListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
 import com.pointters.model.Media;
 import com.pointters.utils.AndroidUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 import cn.jzvd.JZVideoPlayer;

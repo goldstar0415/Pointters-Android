@@ -1,7 +1,5 @@
 package com.pointters.model;
 
-import android.widget.LinearLayout;
-
 import com.google.gson.internal.LinkedTreeMap;
 
 /**

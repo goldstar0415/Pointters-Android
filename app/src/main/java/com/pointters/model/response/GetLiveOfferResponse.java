@@ -1,7 +1,6 @@
 package com.pointters.model.response;
 
 import com.pointters.model.LiveOfferModel;
-import com.pointters.model.LiveOfferRequestsModel;
 
 import java.util.List;
 

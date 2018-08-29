@@ -47,7 +47,6 @@ import com.pointters.model.response.CurrentUpdateModel;
 import com.pointters.rest.ApiClient;
 import com.pointters.rest.ApiInterface;
 import com.pointters.utils.AndroidUtils;
-import com.pointters.utils.AppUtils;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.GPSTracker;
 import com.pointters.utils.TypefaceSpan;

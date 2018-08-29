@@ -1,22 +1,15 @@
 package com.pointters.activity;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.pointters.R;
 import com.pointters.utils.AppUtils;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 

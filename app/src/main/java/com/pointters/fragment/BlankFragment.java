@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -27,10 +26,8 @@ import com.pointters.activity.LikeCommentsShareActivity;
 import com.pointters.adapter.UpdatesAdapterAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
-import com.pointters.model.BuyOrderModel;
 import com.pointters.model.CommentModel;
 import com.pointters.model.CommentsModel;
-import com.pointters.model.NotificationModel;
 import com.pointters.model.PostData;
 import com.pointters.model.response.CommentsResponse;
 import com.pointters.model.response.CurrentUpdateModel;

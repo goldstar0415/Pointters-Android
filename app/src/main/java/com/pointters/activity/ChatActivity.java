@@ -5,14 +5,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -24,10 +21,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -51,8 +46,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.Protocol;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
@@ -92,7 +85,6 @@ import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.CommonUtils;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.EndlessRecyclerViewScrollListener;
-import com.pointters.utils.GPSTracker;
 import com.pointters.utils.SocketManager;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
@@ -244,7 +236,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initUI() {
         editMsg = (EditText) findViewById(R.id.edit_send_msg);
         editMsg.addTextChangedListener(new TextWatcher() {
@@ -278,12 +269,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         chatRecycler.addItemDecoration(divider);
         chatMessageAdapter = new ChatMessageAdapter(ChatActivity.this, chatHistoryList, mUserId, CUSTOM_OFFER_REQUEST);
         chatRecycler.setAdapter(chatMessageAdapter);
-        chatRecycler.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-            }
-        });
         chatRecycler.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {

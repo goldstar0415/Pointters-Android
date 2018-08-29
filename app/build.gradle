@@ -167,5 +167,8 @@ dependencies {
     //Currency EditText
     implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
 
+    // logging interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

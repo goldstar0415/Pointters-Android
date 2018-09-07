@@ -120,53 +120,87 @@ public class TagServiceActivity extends AppCompatActivity implements View.OnClic
         recyclerTagServices.addOnItemTouchListener(new OnRecycleItemClickListener(this, new OnRecycleItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String strName="", strPos="", strPic="";
-                String strId = arrTagServices.get(position).getService().getId();
+                String strName="", strId="", strPos="", strPic="";
+
                 String strType = arrTagServices.get(position).getType();
 
                 if (strType != null && strType.equals("user")) {
-                    strName = arrTagServices.get(position).getService().getSeller().getFirstName() + " " + arrTagServices.get(position).getService().getSeller().getLastName();
+                    strId = arrTagServices.get(position).getUser().get_id();
+                    strName = arrTagServices.get(position).getUser().getFirstName() + " " + arrTagServices.get(position).getUser().getLastName();
                 } else {
+                    strId = arrTagServices.get(position).getService().getId();
                     strName = arrTagServices.get(position).getService().getDescription();
+
+//                    String strCity = "", strState = "", strKm="NA";
+//                    if (arrTagServices.get(position).getService().getLocation().getCity() != null && !arrTagServices.get(position).getService().getLocation().getCity().equals(""))
+//                        strCity = arrTagServices.get(position).getService().getLocation().getCity();
+//                    if (arrTagServices.get(position).getService().getLocation().getState() != null && !arrTagServices.get(position).getService().getLocation().getState().equals(""))
+//                        strState = arrTagServices.get(position).getService().getLocation().getState();
+//                    if (arrTagServices.get(position).getService().getLocation().getGeoJson() != null) {
+//                        GeoJsonModel geoJson = arrTagServices.get(position).getService().getLocation().getGeoJson();
+//                        if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
+//                            Location servicePos = new Location("");
+//                            servicePos.setLatitude(geoJson.getCoordinates().get(1));
+//                            servicePos.setLongitude(geoJson.getCoordinates().get(0));
+//
+//                            Location userPos = new Location("");
+//                            userPos.setLatitude(mUserLat);
+//                            userPos.setLongitude(mUserLng);
+//
+//                            strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
+//                        }
+//                    }
+//
+//                    if (strCity.equals("")) {
+//                        if (!strState.equals("")) {
+//                            strPos = strKm + "@" + strState;
+//                        } else {
+//                            strPos = strKm;
+//                        }
+//                    } else {
+//                        strPos = strKm + "@" + strCity + ", " + strState;
+//                    }
                 }
 
-                if (arrTagServices.get(position).getService().getLocation() != null) {
-                    String strCity = "", strState = "", strKm="NA";
-                    if (arrTagServices.get(position).getService().getLocation().getCity() != null && !arrTagServices.get(position).getService().getLocation().getCity().equals(""))
-                        strCity = arrTagServices.get(position).getService().getLocation().getCity();
-                    if (arrTagServices.get(position).getService().getLocation().getState() != null && !arrTagServices.get(position).getService().getLocation().getState().equals(""))
-                        strState = arrTagServices.get(position).getService().getLocation().getState();
-                    if (arrTagServices.get(position).getService().getLocation().getGeoJson() != null) {
-                        GeoJsonModel geoJson = arrTagServices.get(position).getService().getLocation().getGeoJson();
-                        if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
-                            Location servicePos = new Location("");
-                            servicePos.setLatitude(geoJson.getCoordinates().get(1));
-                            servicePos.setLongitude(geoJson.getCoordinates().get(0));
+//                if (arrTagServices.get(position).getService().getLocation() != null) {
+//                    String strCity = "", strState = "", strKm="NA";
+//                    if (arrTagServices.get(position).getService().getLocation().getCity() != null && !arrTagServices.get(position).getService().getLocation().getCity().equals(""))
+//                        strCity = arrTagServices.get(position).getService().getLocation().getCity();
+//                    if (arrTagServices.get(position).getService().getLocation().getState() != null && !arrTagServices.get(position).getService().getLocation().getState().equals(""))
+//                        strState = arrTagServices.get(position).getService().getLocation().getState();
+//                    if (arrTagServices.get(position).getService().getLocation().getGeoJson() != null) {
+//                        GeoJsonModel geoJson = arrTagServices.get(position).getService().getLocation().getGeoJson();
+//                        if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
+//                            Location servicePos = new Location("");
+//                            servicePos.setLatitude(geoJson.getCoordinates().get(1));
+//                            servicePos.setLongitude(geoJson.getCoordinates().get(0));
+//
+//                            Location userPos = new Location("");
+//                            userPos.setLatitude(mUserLat);
+//                            userPos.setLongitude(mUserLng);
+//
+//                            strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
+//                        }
+//                    }
+//
+//                    if (strCity.equals("")) {
+//                        if (!strState.equals("")) {
+//                            strPos = strKm + "@" + strState;
+//                        } else {
+//                            strPos = strKm;
+//                        }
+//                    } else {
+//                        strPos = strKm + "@" + strCity + ", " + strState;
+//                    }
+//                }
 
-                            Location userPos = new Location("");
-                            userPos.setLatitude(mUserLat);
-                            userPos.setLongitude(mUserLng);
-
-                            strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
-                        }
-                    }
-
-                    if (strCity.equals("")) {
-                        if (!strState.equals("")) {
-                            strPos = strKm + "@" + strState;
-                        } else {
-                            strPos = strKm;
-                        }
-                    } else {
-                        strPos = strKm + "@" + strCity + ", " + strState;
-                    }
+                if (arrTagServices.get(position).getType().equals("user")) {
+                    strPic = arrTagServices.get(position).getUser().getProfilePic();
+                } else {
+                    strPic = arrTagServices.get(position).getService().getMedia().get(0).getFileName();
                 }
-
-                if (arrTagServices.get(position).getService().getSeller().getProfilePic() != null && !arrTagServices.get(position).getService().getSeller().getProfilePic().isEmpty()) {
-                    strPic = arrTagServices.get(position).getService().getSeller().getProfilePic();
-                    if (!strPic.contains("https://s3.amazonaws.com")) {
-                        strPic = "https://s3.amazonaws.com" + strPic;
-                    }
+                if (!strPic.contains("https://s3.amazonaws.com")) {
+                    strPic = "https://s3.amazonaws.com" + strPic;
                 }
 
                 Intent intent = new Intent();

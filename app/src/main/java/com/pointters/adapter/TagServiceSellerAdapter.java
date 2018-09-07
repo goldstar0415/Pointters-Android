@@ -57,74 +57,48 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
 
         if (tagServiceSellerList != null && tagServiceSellerList.size() > 0) {
             TagServiceSellerModel model = tagServiceSellerList.get(position);
+
             if (model.getService() != null) {
-                if (model.getType() != null && model.getType().equals("user")) {
-                    holder.imgTagService.setVisibility(View.GONE);
-//                    holder.imgTagUser.setVisibility(View.VISIBLE);
 
-                    if (tagServiceSellerList.get(position).getService().getMedia().size() > 0 && !tagServiceSellerList.get(position).getService().getMedia().isEmpty()) {
-
-                        String strPic = model.getService().getMedia().get(0).getFileName();
-                        if (!strPic.contains("https://s3.amazonaws.com")) {
+                if (model.getService().getMedia().size() > 0) {
+                    String strPic = model.getService().getMedia().get(0).getFileName();
+                    if (!strPic.contains("https://s3.amazonaws.com")) {
 //                            strPic = "https://s3.amazonaws.com" + strPic;
-                        }
-//                        ImageLoader.getInstance().displayImage(strPic, holder.imgTagUser, options);
                     }
-
-                    holder.txtTagName.setText(model.getService().getSeller().getFirstName() + " " + model.getService().getSeller().getLastName());
-                }
-                else {
-//                    holder.imgTagUser.setVisibility(View.GONE);
-                    holder.imgTagService.setVisibility(View.VISIBLE);
-
-                    if (model.getService().getMedia().size() > 0) {
-                        String strPic = model.getService().getMedia().get(0).getFileName();
-                        if (!strPic.contains("https://s3.amazonaws.com")) {
-//                            strPic = "https://s3.amazonaws.com" + strPic;
-                        }
-                        ImageLoader.getInstance().displayImage(strPic, holder.imgTagService, options);
-                    }
-
-                    if (model.getService().getDescription() != null) {
-                        holder.txtTagName.setText(model.getService().getDescription());
-                    } else {
-                        holder.txtTagName.setText("");
-                    }
+                    ImageLoader.getInstance().displayImage(strPic, holder.imgTagService, options);
                 }
 
-                if (model.getService().getLocation() != null) {
-                    String strCity = "", strState = "", strPos="", strKm="NA";
-                    if (model.getService().getLocation().getCity() != null && !model.getService().getLocation().getCity().equals(""))
-                        strCity = model.getService().getLocation().getCity();
-                    if (model.getService().getLocation().getState() != null && !model.getService().getLocation().getState().equals(""))
-                        strState = model.getService().getLocation().getState();
-                    if (model.getService().getLocation().getGeoJson() != null) {
-                        GeoJsonModel geoJson = model.getService().getLocation().getGeoJson();
-                        if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
-                            Location servicePos = new Location("");
-                            servicePos.setLatitude(geoJson.getCoordinates().get(1));
-                            servicePos.setLongitude(geoJson.getCoordinates().get(0));
-
-                            Location userPos = new Location("");
-                            userPos.setLatitude(userLat);
-                            userPos.setLongitude(userLng);
-
-                            strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
-                        }
-                    }
-
-                    if (strCity.equals("")) {
-                        if (!strState.equals("")) {
-                            strPos = strKm + "@" + strState;
-                        } else {
-                            strPos = strKm;
-                        }
-                    } else {
-                        strPos = strKm + "@" + strCity + ", " + strState;
-                    }
-
-//                    holder.txtTagPos.setText(strPos);
+                if (model.getService().getDescription() != null) {
+                    holder.txtTagName.setText(model.getService().getDescription());
+                } else {
+                    holder.txtTagName.setText("");
                 }
+
+                holder.txtName.setText(model.getService().getSeller().getFirstName());
+                holder.txtFlag.setText(String.valueOf(model.getService().getNumOrders()));
+                holder.txtTick.setText(String.valueOf(model.getService().getAvgRating()));
+                holder.txtTime.setText(String.valueOf(model.getService().getPointValue()));
+//                holder.txtServicePrice.setText("");
+//                holder.txtServiceDesc.setText("");
+
+                holder.txtStatus.setText("By:");
+            } else {
+
+                String strPic = model.getUser().getProfilePic();
+                if (!strPic.contains("https://s3.amazonaws.com")) {
+                    strPic = "https://s3.amazonaws.com" + strPic;
+                }
+                ImageLoader.getInstance().displayImage(strPic, holder.imgTagService, options);
+
+                holder.txtTagName.setText(model.getUser().getFirstName() + " " + model.getUser().getLastName());
+
+                holder.txtName.setText(model.getUser().getLocation().getProvince());
+
+                holder.txtFlag.setText(String.valueOf(model.getUser().getNumOrders()));
+                holder.txtTick.setText(String.valueOf(model.getUser().getAvgRating()));
+                holder.txtTime.setText(String.valueOf(model.getUser().getPointValue()));
+
+                holder.txtStatus.setText("@ ");
             }
         }
     }
@@ -136,7 +110,7 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgTagService;
-        private TextView txtTagName;
+        private TextView txtTagName, txtName, txtFlag, txtTick, txtTime, txtServicePrice, txtServiceDesc, txtStatus;
         private CardView layoutRoot;
         private ImageView deleteButton;
 
@@ -146,6 +120,16 @@ public class TagServiceSellerAdapter extends RecyclerView.Adapter<TagServiceSell
             layoutRoot=(CardView) itemView.findViewById(R.id.card_view);
             imgTagService = (ImageView) itemView.findViewById(R.id.img_tag_service);
             txtTagName = (TextView) itemView.findViewById(R.id.txt_tag_name);
+
+            txtName = (TextView) itemView.findViewById(R.id.txt_name);
+            txtFlag = (TextView) itemView.findViewById(R.id.txt_flag);
+            txtTick = (TextView) itemView.findViewById(R.id.txt_tick);
+            txtTime = (TextView) itemView.findViewById(R.id.txt_time);
+            txtServicePrice = (TextView) itemView.findViewById(R.id.txt_service_price);
+            txtServiceDesc = (TextView) itemView.findViewById(R.id.txt_price_desc);
+
+            txtStatus = (TextView) itemView.findViewById(R.id.txt_status);
+
             deleteButton = (ImageView) itemView.findViewById(R.id.delete_tag_button);
             deleteButton.setVisibility(View.GONE);
             itemView.setOnClickListener(new View.OnClickListener() {

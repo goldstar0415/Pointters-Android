@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,6 +109,9 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
     private Button getCustomOfferButton;
     private boolean isMe = true;
 
+    private LinearLayout ll_education, ll_license, ll_insurance, ll_award;
+    private TextView txt_education, txt_license, txt_insurance, txt_award;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,6 +199,22 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
         getCustomOfferButton.setOnClickListener(this);
         findViewById(R.id.btn_back).setOnClickListener(this);
         findViewById(R.id.btn_share).setOnClickListener(this);
+
+        ll_education = (LinearLayout) findViewById(R.id.ll_education);
+        ll_license = (LinearLayout) findViewById(R.id.ll_license);
+        ll_insurance = (LinearLayout) findViewById(R.id.ll_insurance);
+        ll_award = (LinearLayout) findViewById(R.id.ll_award);
+
+        ll_education.setOnClickListener(this);
+        ll_license.setOnClickListener(this);
+        ll_insurance.setOnClickListener(this);
+        ll_award.setOnClickListener(this);
+
+        txt_education = (TextView) findViewById(R.id.txt_education);
+        txt_license = (TextView) findViewById(R.id.txt_license);
+        txt_insurance = (TextView) findViewById(R.id.txt_insurance);
+        txt_award = (TextView) findViewById(R.id.txt_award);
+
     }
 
     private void initRecyclerView() {
@@ -275,6 +295,22 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
             txtDescription.setText(userProfile.getDescription());
         }
 
+        if (userProfile.getEducation() != null && !userProfile.getEducation().isEmpty()) {
+            txt_education.setText(userProfile.getEducation());
+        }
+
+        if (userProfile.getLicense() != null && !userProfile.getLicense().isEmpty()) {
+            txt_license.setText(userProfile.getLicense());
+        }
+
+        if (userProfile.getInsurance() != null && !userProfile.getInsurance().isEmpty()) {
+            txt_insurance.setText(userProfile.getInsurance());
+        }
+
+        if (userProfile.getAwards() != null && !userProfile.getAwards().isEmpty()) {
+            txt_award.setText(userProfile.getAwards());
+        }
+
         if (userMetrics.getAvgOnTime() != null && !userMetrics.getAvgOnTime().isEmpty() && !userMetrics.getAvgOnTime().equals("NA")) {
             float valOnTime = Float.parseFloat(userMetrics.getAvgOnTime());
             txtOnTime.setText(String.format("%.1f", valOnTime) + "%");
@@ -331,6 +367,8 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
         } else {
             txtWatchNum.setText("NA");
         }
+
+
     }
 
     private void setFollowStatus() {
@@ -397,7 +435,30 @@ public class ProfileScreenActivity extends AppCompatActivity implements View.OnC
 
             case R.id.btn_share:
                 break;
-
+            case R.id.ll_education:
+                txt_education.setVisibility(View.VISIBLE);
+                txt_license.setVisibility(View.GONE);
+                txt_insurance.setVisibility(View.GONE);
+                txt_award.setVisibility(View.GONE);
+                break;
+            case R.id.ll_license:
+                txt_education.setVisibility(View.GONE);
+                txt_license.setVisibility(View.VISIBLE);
+                txt_insurance.setVisibility(View.GONE);
+                txt_award.setVisibility(View.GONE);
+                break;
+            case R.id.ll_insurance:
+                txt_education.setVisibility(View.GONE);
+                txt_license.setVisibility(View.GONE);
+                txt_insurance.setVisibility(View.VISIBLE);
+                txt_award.setVisibility(View.GONE);
+                break;
+            case R.id.ll_award:
+                txt_education.setVisibility(View.GONE);
+                txt_license.setVisibility(View.GONE);
+                txt_insurance.setVisibility(View.GONE);
+                txt_award.setVisibility(View.VISIBLE);
+                break;
             case R.id.btn_follow_edit_profile:
                 if (userType) {
                     startActivityForResult(new Intent(ProfileScreenActivity.this, EditProfileActivity.class), REQUEST_EDIT_PROFILE);

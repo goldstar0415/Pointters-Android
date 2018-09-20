@@ -97,7 +97,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
     private final int CALL_PHONE_REQUEST = 3;
     private final int DELETE_SERVICE_REQUEST = 4;
 
-    private LinearLayout moveToProfileScreen;
+    private RelativeLayout moveToProfileScreen;
     private RelativeLayout layoutMap, layoutReviewDesc1, layoutReviewDesc2;
     private TextView txtName, txtVerified, buttonToggle, txtGetCustomOffer, btnPoint, btnWatch;
     private TextView txtOnTime, txtQuality, txtHour, txtOrder, txtRating, txtBuyAgain, txtDeliveryMethod, txtPoint, txtLike, txtWatch;
@@ -215,7 +215,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
         llLike.setOnClickListener(this);
         llWatch.setOnClickListener(this);
         txtGetCustomOffer = (TextView) findViewById(R.id.txt_get_custom_offer);
-        moveToProfileScreen = (LinearLayout) findViewById(R.id.move_to_profile);
+        moveToProfileScreen = (RelativeLayout) findViewById(R.id.rl_txt_name);
         moveToProfileScreen.setOnClickListener(this);
         txtGetCustomOffer.setOnClickListener(this);
         buttonToggle = (TextView) this.findViewById(R.id.button_toggle);
@@ -696,6 +696,7 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                 intent.putExtra(ConstantUtils.CHAT_TAP_PHOTO, media.getFileName());
                 startActivity(intent);
             }
+
         });
         viewPagerSuggestedServices.setAdapter(editProfileImageViewPagerAdapter);
         CirclePageIndicator circlePageIndicator = (CirclePageIndicator) findViewById(R.id.indicator_view_pager_suggested_services);
@@ -719,13 +720,19 @@ public class ServiceDetailActivity extends AppCompatActivity implements View.OnC
                 shareintent.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(shareintent, "Share Pointters"));
                 break;
-            case R.id.move_to_profile:
+            case R.id.rl_txt_name:
                 moveToProfile(sellerId);
                 break;
 
             case R.id.ll_like:
                 break;
             case R.id.ll_watch:
+                if (isWatched) {
+                    callDeleteWatchServiceApi(serviceId);
+                } else {
+                    callPostWatchServiceApi(serviceId);
+                }
+                moveToProfile(sellerId);
                 break;
             case R.id.show_more_service_button:
                 if (totalCnt > limitCnt * pageCnt) {

@@ -2,7 +2,9 @@ package com.pointters.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -169,14 +171,34 @@ public class AddServiceFragment extends Fragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.btn_next:
 
-                Intent intent = new Intent(getActivity(), EditServiceDetailActivity.class);
-                intent.putExtra("categoryId", homeCategoryAdapter.getSelectedCategoryId());
-                intent.putExtra("category", homeCategoryAdapter.getSelectedCategory());
-                startActivityForResult(intent, 998);
+                if (homeCategoryAdapter.getSelectedCategoryId().equals("")) {
+                    showConfirmAlert();
+                } else {
+                    Intent intent = new Intent(getActivity(), EditServiceDetailActivity.class);
+                    intent.putExtra("categoryId", homeCategoryAdapter.getSelectedCategoryId());
+                    intent.putExtra("category", homeCategoryAdapter.getSelectedCategory());
+                    startActivityForResult(intent, 998);
+                }
                 break;
             case R.id.txt_choose_categories:
                 break;
         }
+    }
+
+    public void showConfirmAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+
+        alertDialog.setTitle("Warning");
+
+        alertDialog.setMessage("Please choose a category");
+
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
     }
 
     @Override

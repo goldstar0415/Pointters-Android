@@ -17,12 +17,14 @@ import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.LiveOfferRequestsModel;
 import com.pointters.model.ReceivedOfferModel;
 import com.pointters.utils.CommonUtils;
 
 import org.w3c.dom.Text;
 
+import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,10 +38,12 @@ import java.util.TimeZone;
 public class LiveOfferRequestsAdapter extends RecyclerView.Adapter<LiveOfferRequestsAdapter.MyViewHolder> {
     private Context context;
     private List<LiveOfferRequestsModel> liveOfferrequestsList;
+    private OnRecyclerViewButtonClickListener listener;
 
-    public LiveOfferRequestsAdapter(Context context, List<LiveOfferRequestsModel> liveOfferrequestsList) {
+    public LiveOfferRequestsAdapter(Context context, List<LiveOfferRequestsModel> liveOfferrequestsList, OnRecyclerViewButtonClickListener listener) {
         this.context = context;
         this.liveOfferrequestsList = liveOfferrequestsList;
+        this.listener = listener;
     }
 
     @Override
@@ -137,14 +141,19 @@ public class LiveOfferRequestsAdapter extends RecyclerView.Adapter<LiveOfferRequ
         return liveOfferrequestsList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imgProfile;
         private TextView txtOfferDesc,txtOffersCnt,txtPriceRange,txtCreateddate,txtValidity;
         Button txtNewCnt;
         private LinearLayout layoutParent;
+        RelativeLayout layoutUpper;
         private FrameLayout.LayoutParams layoutParams;
+        private WeakReference<OnRecyclerViewButtonClickListener> listenerRef;
+
         public MyViewHolder(View itemView) {
             super(itemView);
+            listenerRef = new WeakReference<>(listener);
+
             layoutParent=(LinearLayout)itemView.findViewById(R.id.layout_parent);
             layoutParams=( FrameLayout.LayoutParams)layoutParent.getLayoutParams();
 
@@ -152,10 +161,20 @@ public class LiveOfferRequestsAdapter extends RecyclerView.Adapter<LiveOfferRequ
             txtOfferDesc=(TextView)itemView.findViewById(R.id.txt_offer_desc);
             txtCreateddate=(TextView)itemView.findViewById(R.id.txt_created_date);
             txtOffersCnt=(TextView)itemView.findViewById(R.id.txt_no_of_offers);
+
+            layoutUpper=(RelativeLayout)itemView.findViewById(R.id.upper_view);
+            layoutUpper.setOnClickListener(this);
+
             txtNewCnt=(Button) itemView.findViewById(R.id.btn_new_offers);
+            txtNewCnt.setOnClickListener(this);
 
             txtPriceRange=(TextView)itemView.findViewById(R.id.txt_price_range);
             txtValidity=(TextView)itemView.findViewById(R.id.txt_validity);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listenerRef.get().onButtonClick(v, getAdapterPosition());
         }
     }
 }

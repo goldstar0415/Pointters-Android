@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_itemview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/img_payment"
         android:layout_width="@dimen/_48sdp"
         android:layout_height="wrap_content"
-        android:src="@drawable/location_pin_icon"
         android:layout_centerVertical="true"
-        android:padding="@dimen/_10sdp"/>
+        android:padding="@dimen/_10sdp"
+        android:src="@drawable/location_pin_icon" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/img_payment"
-        android:layout_centerVertical="true">
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/txt_title"
             fontPath="fonts/Montserrat-Medium.ttf"
@@ -36,10 +38,10 @@
             fontPath="fonts/Montserrat-Light.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:text="user@email.com\nsfaefasefasef"
             android:textColor="@color/text_color_dark_gray"
             android:textSize="@dimen/text_size_tiny"
-            android:lines="1"
             tools:ignore="MissingPrefix" />
 
 
@@ -49,16 +51,17 @@
         android:id="@+id/right_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/icon_edit_gray"
-        android:layout_alignParentEnd="true"
-        android:padding="@dimen/_10sdp"/>
+        android:padding="@dimen/_10sdp"
+        android:src="@drawable/icon_edit_gray" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/fix_0.5dp"
-        android:background="@drawable/divider_option"
         android:layout_below="@+id/img_payment"
-        android:layout_marginTop="@dimen/_10sdp"/>
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/divider_option" />
 
 </RelativeLayout>

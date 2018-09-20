@@ -9,7 +9,7 @@ public class ServiceModel {
     private LikedWatchingServiceModel service;
     private UserServiceModel user;
     private int numOrders;
-    private int avgRating;
+    private float avgRating;
     private int ratingCount;
     private int pointValue;
     private boolean promoted;
@@ -47,11 +47,11 @@ public class ServiceModel {
         this.numOrders = numOrders;
     }
 
-    public int getAvgRating() {
+    public float getAvgRating() {
         return avgRating;
     }
 
-    public void setAvgRating(int avgRating) {
+    public void setAvgRating(float avgRating) {
         this.avgRating = avgRating;
     }
 

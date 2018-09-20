@@ -89,15 +89,15 @@
                     android:layout_height="@dimen/fix_0.5dp"
                     android:background="@drawable/divider_option"/>
 
-                <TextView
+                <EditText
                     android:id="@+id/txt_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="@dimen/text_size_medium"
                     android:layout_margin="@dimen/_10sdp"
+                    android:maxLines="10"
+                    android:text=""
                     android:textColor="@color/text_color_dark_gray"
-                    android:maxLines="10"/>
+                    android:textSize="@dimen/text_size_medium" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -170,9 +170,9 @@
                     android:id="@+id/recycler_snap_photos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/_10sdp"
                     android:clipChildren="false"
-                    android:clipToPadding="false"/>
+                    android:clipToPadding="false"
+                    android:padding="@dimen/_10sdp" />
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/fix_0.5dp"

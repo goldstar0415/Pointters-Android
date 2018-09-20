@@ -2,12 +2,15 @@ package com.pointters.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -46,6 +50,8 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.joda.time.DateTimeUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -87,11 +93,15 @@ public class JobDetailActivity extends AppCompatActivity implements View.OnClick
 
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
+    private String job_id = "";
+    private String buyer_id = "";
     private String offer_id = "";
     private ExploreJobsModel offerInfo;
     private List<Double> service_pos = new ArrayList<>();
 
     private String dateString, timeString;
+
+    private String sellerVerified, sellerId, sellerName,sellerPic ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +118,10 @@ public class JobDetailActivity extends AppCompatActivity implements View.OnClick
             mUserLng = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LONGITUDE, "0"));
         }
 
+        buyer_id = getIntent().getStringExtra(ConstantUtils.BUYER);
+        offer_id = getIntent().getStringExtra(ConstantUtils.SELECT_OFFER_ID);
+        job_id = getIntent().getStringExtra(ConstantUtils.SELECT_JOB_ID);
+
         loader = KProgressHUD.create(this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -117,10 +131,11 @@ public class JobDetailActivity extends AppCompatActivity implements View.OnClick
 
         initUI();
 
-        offer_id = getIntent().getStringExtra(ConstantUtils.SELECT_JOB_ID);
-        if (!offer_id.equals("")) {
+        getLoginUserInfo();
+
+        if (!job_id.equals("")) {
             loader.show();
-            callGEtJobDetail(offer_id);
+            callGEtJobDetail(job_id);
         } else {
             Toast.makeText(this, "Invalid offer!", Toast.LENGTH_SHORT).show();
             finish();
@@ -141,6 +156,7 @@ public class JobDetailActivity extends AppCompatActivity implements View.OnClick
         recyclerMedia = (RecyclerView) findViewById(R.id.recycler_media);
         txtCategory = (TextView) findViewById(R.id.txt_category_name);
         txtLocation = (TextView) findViewById(R.id.txt_location);
+
         btnMinPrice = (Button) findViewById(R.id.btn_min_price);
         btnMaxPrice = (Button) findViewById(R.id.btn_max_price);
         btnScheduleTime = (Button) findViewById(R.id.btn_schedule);
@@ -153,17 +169,23 @@ public class JobDetailActivity extends AppCompatActivity implements View.OnClick
         layoutCategory = (LinearLayout)findViewById(R.id.category_view);
         layoutLocation = (LinearLayout)findViewById(R.id.location_view);
 
+
+        chatButton.setOnClickListener(this);
+        sendOfferButton.setOnClickListener(this);
         layoutCategory.setOnClickListener(this);
         layoutLocation.setOnClickListener(this);
         btnScheduleTime.setOnClickListener(this);
-
     }
 
     @SuppressLint({"DefaultLocale", "SimpleDateFormat"})
     private void setJobDetail() {
         txtDesc.setText(offerInfo.getDescription());
-        btnMinPrice.setText(String.format("$%.2f", Float.valueOf(offerInfo.getMinPrice())));
-        btnMaxPrice.setText(String.format("$%.2f", Float.valueOf(offerInfo.getMaxPrice())));
+        if (offerInfo.getMinPrice() != null) {
+            btnMinPrice.setText(String.format("$%.2f", Float.valueOf(offerInfo.getMinPrice())));
+        }
+        if (offerInfo.getMaxPrice() != null) {
+            btnMaxPrice.setText(String.format("$%.2f", Float.valueOf(offerInfo.getMaxPrice())));
+        }
         txtLocation.setText(offerInfo.getLocation().FullAddress());
         txtCategory.setText(offerInfo.getCategory().getName());
         ArrayList<Media> mediaArrayList = offerInfo.getMedia();
@@ -171,28 +193,32 @@ public class JobDetailActivity extends AppCompatActivity implements View.OnClick
         recyclerMedia.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerMedia.setAdapter(adapter);
         adapter.setActivity(this);
-        if (offerInfo.getOfferSent() != null) {
+
+        if (!offer_id.equals("")) {
             sendOfferButton.setText("EDIT OFFER");
         }else{
             sendOfferButton.setText("SEND OFFER");
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        try {
-            Date date = sdf.parse(offerInfo.getScheduleDate());
-            if (date != null) {
-                sdf = new SimpleDateFormat("d MMM yyyy h:mm a");
-                btnScheduleTime.setText(sdf.format(date));
-            }else{
 
+        if(offerInfo.getScheduleDate() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            try {
+                Date date = sdf.parse(offerInfo.getScheduleDate());
+                if (date != null) {
+                    sdf = new SimpleDateFormat("d MMM yyyy h:mm a");
+                    btnScheduleTime.setText(sdf.format(date));
+                } else {
+
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
     }
 
-    private void callGEtJobDetail(final String offerId) {
+    private void callGEtJobDetail(final String job_id) {
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<ExploreJobsModel> customOfferDetailsCall = apiService.getJobsDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), offerId);
+        Call<ExploreJobsModel> customOfferDetailsCall = apiService.getJobsDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), job_id);
         customOfferDetailsCall.enqueue(new Callback<ExploreJobsModel>() {
             @Override
             public void onResponse(Call<ExploreJobsModel> call, Response<ExploreJobsModel> response) {
@@ -226,43 +252,78 @@ public class JobDetailActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private void callGetServiceInfo(final String serviceId) {
-        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<GetServiceByIdResponse> getServiceByIdResponseCall = apiService.getServiceById(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), serviceId);
-        getServiceByIdResponseCall.enqueue(new Callback<GetServiceByIdResponse>() {
-            @Override
-            public void onResponse(Call<GetServiceByIdResponse> call, Response<GetServiceByIdResponse> response) {
-                if (loader.isShowing()) {
-                    loader.dismiss();
+    private void getLoginUserInfo() {
+
+        String userDetails, firstname = "", lastname = "";
+
+        if (sharedPreferences.getString(ConstantUtils.USER_DATA, "") != null) {
+            userDetails = sharedPreferences.getString(ConstantUtils.USER_DATA, "");
+            try {
+                JSONObject jsonObject = new JSONObject(userDetails);
+
+                if (jsonObject.has("_id")) {
+                    if (jsonObject.get("_id") != null && !jsonObject.get("_id").toString().isEmpty())
+                        sellerId = jsonObject.get("_id").toString();
                 }
 
-                if (response.code() == 200 && response.body() != null) {
-                    if (response.body().getService() != null) {
-                    } else {
-                    }
+                if (jsonObject.has("firstName")) {
+                    if (jsonObject.get("firstName") != null && !jsonObject.get("firstName").toString().isEmpty())
+                        firstname = jsonObject.get("firstName").toString();
                 }
-                else if (response.code() == 401) {
-                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(JobDetailActivity.this, "callServiceByIdApi");
-                    callLoginApiIfFails.OnApiFailDueToSessionListener(JobDetailActivity.this);
-                }
-                else if (response.code() == 404) {
-                    Toast.makeText(JobDetailActivity.this, "No linked service info!", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<GetServiceByIdResponse> call, Throwable t) {
-                if (loader.isShowing()) { loader.dismiss(); }
-                Toast.makeText(JobDetailActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
+                if (jsonObject.has("lastName")) {
+                    if (jsonObject.get("lastName") != null && !jsonObject.get("lastName").toString().isEmpty())
+                        lastname = jsonObject.get("lastName").toString();
+                }
+
+                if (jsonObject.has("profilePic")) {
+                    if (jsonObject.get("profilePic") != null && !jsonObject.get("profilePic").toString().isEmpty())
+                        sellerPic = jsonObject.get("profilePic").toString();
+                }
+
+                sellerName = String.format("%s %s", firstname, lastname);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }
     }
 
     @Override
     public void onClick(View v) {
+
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.toolbar_lft_img:
                 onBackPressed();
+                break;
+            case R.id.btn_send_offer:
+                intent = new Intent(this, SendCustomOfferActivity.class);
+
+                if (offer_id.equals("")) {  //send offer
+                    intent.putExtra(ConstantUtils.SELECT_JOB_ID, job_id);
+                    intent.putExtra(ConstantUtils.BUYER, buyer_id);
+                } else {    //edit offer
+                    intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offer_id);
+                    intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 2);
+                    intent.putExtra(ConstantUtils.BUYER, buyer_id);
+                }
+
+                startActivity(intent);
+                break;
+            case R.id.btn_chat:
+                intent = new Intent(JobDetailActivity.this, ChatActivity.class);
+                editor.putInt(ConstantUtils.USER_VERIFIED, 1).apply();
+                editor.putString(ConstantUtils.CHAT_USER_ID, sellerId).apply();
+                editor.putString(ConstantUtils.CHAT_USER_NAME, sellerName).apply();
+                editor.putString(ConstantUtils.CHAT_USER_PIC, sellerPic).apply();
+                editor.putString(ConstantUtils.CHAT_CONVERSATION_ID, "");
+
+                intent.putExtra(ConstantUtils.SELECT_JOB_ID, job_id);
+                intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offer_id);
+                intent.putExtra(ConstantUtils.BUYER, buyer_id);
+
+                startActivity(intent);
                 break;
             case R.id.btn_schedule:
                 Calendar now = Calendar.getInstance();

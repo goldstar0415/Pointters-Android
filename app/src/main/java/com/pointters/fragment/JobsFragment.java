@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -97,11 +98,14 @@ public class JobsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
             public void onButtonClick(View v, int position) {
                 if (v.getId() == R.id.btn_make_offer) {
                     Intent intent = new Intent(getActivity(), SendCustomOfferActivity.class);
-                    intent.putExtra(ConstantUtils.SERVICE_ID, serviceArrayList.get(position).getId());
+                    intent.putExtra(ConstantUtils.SELECT_JOB_ID, serviceArrayList.get(position).getId());
+                    intent.putExtra(ConstantUtils.BUYER, serviceArrayList.get(position).getUser().getId());
                     startActivity(intent);
                 }else if (v.getId() == R.id.btn_edit_offer) {
                     Intent intent = new Intent(getActivity(), SendCustomOfferActivity.class);
-                    intent.putExtra(ConstantUtils.SERVICE_ID, serviceArrayList.get(position).getId());
+                    intent.putExtra(ConstantUtils.SELECT_OFFER_ID, ((LinkedTreeMap) ((ArrayList) serviceArrayList.get(position).getOfferSent()).get(0)).get("_id").toString());
+                    intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 2);
+                    intent.putExtra(ConstantUtils.BUYER, serviceArrayList.get(position).getUser().getId());
                     startActivity(intent);
                 }
             }
@@ -113,6 +117,13 @@ public class JobsFragment extends Fragment implements SwipyRefreshLayout.OnRefre
                 Intent intent = new Intent(getActivity(), JobDetailActivity.class);
                 ExploreJobsModel model = serviceArrayList.get(position);
                 intent.putExtra(ConstantUtils.SELECT_JOB_ID, model.getId());
+                intent.putExtra(ConstantUtils.BUYER, serviceArrayList.get(position).getUser().getId());
+
+                if (serviceArrayList.get(position).getOfferSent() != null) {
+                    intent.putExtra(ConstantUtils.SELECT_OFFER_ID, ((LinkedTreeMap) ((ArrayList) serviceArrayList.get(position).getOfferSent()).get(0)).get("_id").toString());
+                } else {
+                    intent.putExtra(ConstantUtils.SELECT_OFFER_ID, "");
+                }
                 startActivity(intent);
 
             }

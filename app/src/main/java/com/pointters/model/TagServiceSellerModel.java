@@ -10,7 +10,7 @@ public class TagServiceSellerModel implements Serializable {
 
     private String type;
     private Service service;
-
+    private UserTabModel user;
 
     public String getType() {
         return type;
@@ -26,5 +26,13 @@ public class TagServiceSellerModel implements Serializable {
 
     public void setService(Service service) {
         this.service = service;
+    }
+
+    public UserTabModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserTabModel user) {
+        this.user = user;
     }
 }

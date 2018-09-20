@@ -256,6 +256,149 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Our brands and products are of genuine quality and the services that we provide are a premium touch including premiu" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/fix_5dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/_6sdp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:id="@+id/ll_education"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/_5sdp">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_16sdp"
+                                            android:layout_height="@dimen/_16sdp"
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/profile_education" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="@dimen/_10sdp"
+                                            android:layout_marginStart="@dimen/_10sdp"
+                                            android:text="Education"
+                                            android:textColor="@color/text_color_dark" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:id="@+id/txt_education"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_marginLeft="@dimen/_32sdp"
+                                        android:gravity="center_vertical"
+                                        android:text="Education"
+                                        android:visibility="gone" />
+
+                                    <LinearLayout
+                                        android:id="@+id/ll_license"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/_5sdp">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_16sdp"
+                                            android:layout_height="@dimen/_16sdp"
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/profile_license" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="@dimen/_10sdp"
+                                            android:layout_marginStart="@dimen/_10sdp"
+                                            android:text="License"
+                                            android:textColor="@color/text_color_dark" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:id="@+id/txt_license"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_marginLeft="@dimen/_32sdp"
+                                        android:gravity="center_vertical"
+                                        android:text="License"
+                                        android:visibility="gone" />
+
+                                    <LinearLayout
+                                        android:id="@+id/ll_insurance"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/_5sdp">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_16sdp"
+                                            android:layout_height="@dimen/_16sdp"
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/profile_insurance" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="@dimen/_10sdp"
+                                            android:layout_marginStart="@dimen/_10sdp"
+                                            android:text="Insurance"
+                                            android:textColor="@color/text_color_dark" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:id="@+id/txt_insurance"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_marginLeft="@dimen/_32sdp"
+                                        android:gravity="center_vertical"
+                                        android:text="Insurance"
+                                        android:visibility="gone" />
+
+                                    <LinearLayout
+                                        android:id="@+id/ll_award"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/_5sdp">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_16sdp"
+                                            android:layout_height="@dimen/_16sdp"
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/profile_award" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="@dimen/_10sdp"
+                                            android:layout_marginStart="@dimen/_10sdp"
+                                            android:text="Award"
+                                            android:textColor="@color/text_color_dark" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:id="@+id/txt_award"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_marginLeft="@dimen/_32sdp"
+                                        android:gravity="center_vertical"
+                                        android:text="Award"
+                                        android:visibility="gone" />
+                                </LinearLayout>
+
+                            </RelativeLayout>
                         </LinearLayout>
 
                         <View

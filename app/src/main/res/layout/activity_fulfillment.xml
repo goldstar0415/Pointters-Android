@@ -394,10 +394,10 @@
                 fontPath="fonts/Montserrat-Medium.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order Pending Please Accept"
-                android:textAllCaps="false"
                 android:layout_margin="@dimen/_10sdp"
                 android:background="@color/transparent"
+                android:text="Order Pending Please Accept"
+                android:textAllCaps="false"
                 android:textColor="@color/color_orange"
                 tools:ignore="MissingPrefix" />
 
@@ -429,15 +429,16 @@
                         android:id="@+id/txt_stated_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/card_title_text_color"
                         android:text="Started On 03 / 18"
-                        android:textSize="@dimen/text_size_small"/>
+                        android:textColor="@color/card_title_text_color"
+                        android:textSize="@dimen/text_size_small" />
+
                     <TextView
                         android:id="@+id/txt_order_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_tiny"
-                        android:text="Order #1234567890"/>
+                        android:text="Order #1234567890"
+                        android:textSize="@dimen/text_size_tiny" />
                 </LinearLayout>
                 <ImageView
                     android:layout_width="wrap_content"
@@ -449,28 +450,29 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_review"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorWhite"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingStart="@dimen/_10sdp">
 
                 <Button
                     android:id="@+id/btn_review"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@color/transparent"
                     android:text="REVIEW"
-                    android:textColor="@color/colorAccent"
-                    android:background="@color/transparent"/>
+                    android:textColor="@color/colorAccent" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/right_arrow_icon"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true" />
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow_icon" />
             </RelativeLayout>
 
             <LinearLayout
@@ -541,21 +543,20 @@
                 <RelativeLayout
                     android:id="@+id/add_file_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:layout_height="wrap_content">
 
                     <Button
                         fontPath="fonts/Montserrat-Regular.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:background="@color/transparent"
+                        android:paddingLeft="@dimen/_10sdp"
                         android:paddingStart="@dimen/_10sdp"
                         android:text="Add Download"
                         android:textColor="#03BBFF"
                         android:textSize="@dimen/text_size_small"
-                        tools:ignore="MissingPrefix"
-                        android:background="@color/transparent"
-                        android:paddingLeft="@dimen/_10sdp" />
+                        tools:ignore="MissingPrefix" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -663,9 +664,9 @@
                     android:id="@+id/txt_user_descriptiom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Home security and alarm installing service with CCTV Camera installation."
                     android:padding="@dimen/_10sdp"
-                    android:textColor="@color/text_color_dark_gray"/>
+                    android:text="Home security and alarm installing service with CCTV Camera installation."
+                    android:textColor="@color/text_color_dark_gray" />
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/fix_0.5dp"
@@ -674,7 +675,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_service_ordered"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/fix_0.5dp"
@@ -687,17 +689,20 @@
                     android:padding="@dimen/_10sdp">
 
                     <TextView
+                        android:id="@+id/txt_one_hour_service"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1 hour of Service"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:text="1 hour of Service" />
+
                     <TextView
+                        android:id="@+id/txt_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="$10"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true" />
+                        android:text="$10" />
                 </RelativeLayout>
 
                 <ImageView
@@ -739,13 +744,15 @@
                         android:layout_height="wrap_content"
                         android:text="Service fee"
                         android:layout_centerVertical="true"/>
+
                     <TextView
+                        android:id="@+id/txt_service_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="$5"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true" />
+                        android:text="$5" />
                 </RelativeLayout>
 
                 <ImageView
@@ -763,13 +770,15 @@
                         android:layout_height="wrap_content"
                         android:text="Taxes"
                         android:layout_centerVertical="true"/>
+
                     <TextView
+                        android:id="@+id/txt_taxes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="$5"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true" />
+                        android:text="$5" />
                 </RelativeLayout>
 
                 <ImageView
@@ -787,13 +796,15 @@
                         android:layout_height="wrap_content"
                         android:text="Shipping fee"
                         android:layout_centerVertical="true"/>
+
                     <TextView
+                        android:id="@+id/txt_shipping_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="$5"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true" />
+                        android:text="$5" />
                 </RelativeLayout>
 
                 <ImageView
@@ -833,14 +844,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_10sdp">
+
                 <TextView
                     android:id="@+id/txt_paid_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="Paid on 8 Mar 2018"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true" />
+                    android:text="Paid on 8 Mar 2018" />
             </RelativeLayout>
 
             <TextView
@@ -857,45 +869,62 @@
                 android:background="@color/colorWhite">
 
                 <TextView
+                    android:id="@+id/txt_starts_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_dark"
-                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    android:text="Starts"/>
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Starts (click to change)"
+                    android:textColor="@color/text_color_dark" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edt_date"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:id="@+id/ll_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_medium"
-                        android:text="8 Oct 2018"
-                        android:editable="false"
-                        android:inputType="none"
-                        android:drawableRight="@drawable/icon_drop_dwon_arrow_down"
-                        android:drawableEnd="@drawable/icon_drop_dwon_arrow_down"
-                        android:layout_margin="@dimen/_5sdp"/>
+                        android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edt_time"
-                        android:layout_width="0dp"
+                        <EditText
+                            android:id="@+id/edt_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:drawableEnd="@drawable/icon_drop_dwon_arrow_down"
+                            android:drawableRight="@drawable/icon_drop_dwon_arrow_down"
+                            android:editable="false"
+                            android:inputType="none"
+                            android:text="8 Oct 2018"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_medium"
-                        android:text="11:00 AM"
-                        android:editable="false"
-                        android:inputType="none"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:drawableRight="@drawable/icon_drop_dwon_arrow_down"
-                        android:drawableEnd="@drawable/icon_drop_dwon_arrow_down" />
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edt_time"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:drawableEnd="@drawable/icon_drop_dwon_arrow_down"
+                            android:drawableRight="@drawable/icon_drop_dwon_arrow_down"
+                            android:editable="false"
+                            android:inputType="none"
+                            android:text="11:00 AM"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
                 </LinearLayout>
                 <RelativeLayout
@@ -914,20 +943,12 @@
                         android:id="@+id/txt_work_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/time_icon"
-                        android:layout_toEndOf="@+id/time_icon"
-                        android:text="Walk to complete 3 days after"
-                        android:padding="@dimen/_10sdp"
-                        android:layout_centerVertical="true"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/right_arrow_icon"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:padding="@dimen/_10sdp"/>
+                        android:layout_toEndOf="@+id/time_icon"
+                        android:layout_toRightOf="@+id/time_icon"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Walk to complete 3 days after" />
+
                 </RelativeLayout>
 
                 <ImageView
@@ -943,9 +964,9 @@
                         android:id="@+id/check_seller_accepted_schedule_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/checkbox_seletor"
+                        android:layout_centerVertical="true"
                         android:layout_margin="@dimen/_10sdp"
-                        android:layout_centerVertical="true" />
+                        android:src="@drawable/checkbox_seletor" />
 
                     <TextView
                         android:id="@+id/txt_seller_accepted_schedule_time"
@@ -972,18 +993,19 @@
                     android:layout_margin="@dimen/_10sdp"/>
 
                 <LinearLayout
+                    android:id="@+id/ll_delivery_method"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/colorWhite">
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txt_delivery_method"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Servicing Locally at Store Locations"
                         android:layout_margin="@dimen/_10sdp"
-                        android:textColor="@color/text_color_dark_gray"/>
+                        android:text="Servicing Locally at Store Locations"
+                        android:textColor="@color/text_color_dark_gray" />
 
                     <fragment
                         android:id="@+id/map_fragment"
@@ -1000,34 +1022,34 @@
                             android:id="@+id/direct_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icons_recent_searches"
+                            android:layout_centerVertical="true"
                             android:layout_margin="@dimen/_10sdp"
-                            android:layout_centerVertical="true"/>
+                            android:src="@drawable/icons_recent_searches" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/direct_icon"
+                            android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/direct_icon"
-                            android:text="Get Directions"
-                            android:textColor="@color/colorAccent"
+                            android:layout_toRightOf="@+id/direct_icon"
                             android:padding="@dimen/_10sdp"
-                            android:layout_centerVertical="true"/>
+                            android:text="Get Directions"
+                            android:textColor="@color/colorAccent" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/right_arrow_icon"
-                            android:layout_centerVertical="true"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:padding="@dimen/_10sdp"/>
+                            android:layout_centerVertical="true"
+                            android:padding="@dimen/_10sdp"
+                            android:src="@drawable/right_arrow_icon" />
                     </RelativeLayout>
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/fix_0.5dp"
-                        android:background="@drawable/divider_option"/>
+                        android:background="@drawable/divider_option" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -1037,26 +1059,27 @@
                             android:id="@+id/loc_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/location_icon_grey"
+                            android:layout_centerVertical="true"
                             android:layout_margin="@dimen/_10sdp"
-                            android:layout_centerVertical="true"/>
+                            android:paddingLeft="@dimen/_4sdp"
+                            android:src="@drawable/location_icon_grey" />
 
                         <TextView
                             android:id="@+id/txt_service_location"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/loc_icon"
+                            android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/loc_icon"
-                            android:text="2200 Wilshine Building, Los Angeles, CA 9100"
+                            android:layout_toRightOf="@+id/loc_icon"
                             android:padding="@dimen/_10sdp"
-                            android:layout_centerVertical="true"/>
+                            android:text="2200 Wilshine Building, Los Angeles, CA 9100" />
 
                     </RelativeLayout>
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/fix_0.5dp"
-                        android:background="@drawable/divider_option"/>
+                        android:background="@drawable/divider_option" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -1066,24 +1089,24 @@
                             android:id="@+id/check_seller_accepted_location"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/checkbox_seletor"
+                            android:layout_centerVertical="true"
                             android:layout_margin="@dimen/_10sdp"
-                            android:layout_centerVertical="true" />
+                            android:src="@drawable/checkbox_seletor" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/check_seller_accepted_location"
+                            android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/check_seller_accepted_location"
-                            android:text="Location accepted by seller"
+                            android:layout_toRightOf="@+id/check_seller_accepted_location"
                             android:padding="@dimen/_10sdp"
-                            android:layout_centerVertical="true"/>
+                            android:text="Location accepted by seller" />
                     </RelativeLayout>
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/fix_0.5dp"
-                        android:background="@drawable/divider_option"/>
+                        android:background="@drawable/divider_option" />
 
                     <RelativeLayout
                         android:id="@+id/change_location_view"
@@ -1093,28 +1116,28 @@
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Change Location"
-                            android:paddingStart="@dimen/_10sdp"
-                            android:paddingLeft="@dimen/_10sdp"
                             android:layout_centerVertical="true"
-                            android:textColor="@color/colorAccent"
                             android:background="@color/transparent"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:text="Change Location"
+                            android:textColor="@color/colorAccent"
                             tools:ignore="RtlSymmetry" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/right_arrow_icon"
-                            android:layout_centerVertical="true"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:padding="@dimen/_10sdp"/>
+                            android:layout_centerVertical="true"
+                            android:padding="@dimen/_10sdp"
+                            android:src="@drawable/right_arrow_icon" />
                     </RelativeLayout>
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/fix_0.5dp"
-                        android:background="@drawable/divider_option"/>
+                        android:background="@drawable/divider_option" />
 
 
                 </LinearLayout>
@@ -1142,14 +1165,15 @@
                             android:layout_height="wrap_content"
                             android:text="Package shipped on"
                             android:layout_centerVertical="true"/>
+
                         <TextView
                             android:id="@+id/txt_shipment_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="9 Mar 2018"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_alignParentRight="true" />
+                            android:text="9 Mar 2018" />
 
                     </RelativeLayout>
 
@@ -1168,14 +1192,15 @@
                             android:layout_height="wrap_content"
                             android:text="Carrier"
                             android:layout_centerVertical="true"/>
+
                         <TextView
                             android:id="@+id/txt_carrier"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="Fedex"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_alignParentRight="true" />
+                            android:text="Fedex" />
 
                     </RelativeLayout>
 
@@ -1194,14 +1219,15 @@
                             android:layout_height="wrap_content"
                             android:text="Tracking"
                             android:layout_centerVertical="true"/>
+
                         <TextView
                             android:id="@+id/txt_tracking_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="AB123456FG"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_alignParentRight="true" />
+                            android:text="AB123456FG" />
 
                     </RelativeLayout>
 
@@ -1220,14 +1246,15 @@
                             android:layout_height="wrap_content"
                             android:text="Expected Arrival"
                             android:layout_centerVertical="true"/>
+
                         <TextView
                             android:id="@+id/txt_expectedArrival"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="30 Mar 2018"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_alignParentRight="true" />
+                            android:text="30 Mar 2018" />
 
                     </RelativeLayout>
 
@@ -1242,30 +1269,30 @@
                     android:id="@+id/cancel_order_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginBottom="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:background="@color/colorWhite">
 
                     <Button
                         android:id="@+id/btn_cancel_order"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Request to cancel order"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:paddingLeft="@dimen/_10sdp"
                         android:layout_centerVertical="true"
-                        android:textColor="@color/colorAccent"
                         android:background="@color/transparent"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:text="Request to cancel order"
+                        android:textColor="@color/colorAccent"
                         tools:ignore="RtlSymmetry" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/right_arrow_icon"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:padding="@dimen/_10sdp"/>
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/_10sdp"
+                        android:src="@drawable/right_arrow_icon" />
                 </RelativeLayout>
 
 

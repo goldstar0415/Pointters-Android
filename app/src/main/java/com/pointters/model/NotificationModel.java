@@ -9,10 +9,53 @@ public class NotificationModel {
     private String names;
     private String profilePic;
     private String serviceId;
-    private Media media;
     private String userId;
     private String postId;
+    private String requestOfferId;
+    private String offerId;
+    private String orderId;
+    private String requestId;
+    private LinkModel link;
 
+    public String getRequestOfferId() {
+        return requestOfferId;
+    }
+
+    public void setRequestOfferId(String requestOfferId) {
+        this.requestOfferId = requestOfferId;
+    }
+
+    public String getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public LinkModel getLink() {
+        return link;
+    }
+
+    public void setLink(LinkModel link) {
+        this.link = link;
+    }
 
     public String getActivity() {
         return activity;
@@ -76,14 +119,6 @@ public class NotificationModel {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
-    }
-
-    public Media getMedia() {
-        return media;
-    }
-
-    public void setMedia(Media media) {
-        this.media = media;
     }
 
     public String getUserId() {

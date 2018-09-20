@@ -64,8 +64,8 @@
         android:id="@+id/recycler_chat_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_layout"
-        android:layout_above="@+id/layout_bottom_bar"/>
+        android:layout_above="@+id/layout_bottom_bar"
+        android:layout_below="@id/toolbar_layout" />
 
     <LinearLayout
         android:id="@id/layout_bottom_bar"
@@ -123,14 +123,15 @@
             <RelativeLayout
                 android:id="@+id/chat_custom_tool"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
-                    android:scaleType="center"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/icon_chat_send_money"/>
+                    android:scaleType="center"
+                    android:src="@drawable/icon_chat_send_money" />
             </RelativeLayout>
 
         </LinearLayout>

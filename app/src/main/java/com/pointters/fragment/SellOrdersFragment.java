@@ -277,7 +277,7 @@ public class SellOrdersFragment extends Fragment implements OnApiFailDueToSessio
 
                 if (response.code() == 200 && response.body() != null) {
                     totalCnt = response.body().getTotal();
-                    limitCnt = response.body().getLimit();
+//                    limitCnt = response.body().getLimit();
                     lastDocId = response.body().getLastDocId();
 
                     sellOrderModelList.addAll(response.body().getDocs());

@@ -193,12 +193,13 @@ public class OffersFragment extends Fragment implements OnApiFailDueToSessionLis
     }
 
     private void detailOffer(int position) {
-            String offerid = sentOffersList.get(position).getOfferId();
+        String offerid = sentOffersList.get(position).getOfferId();
 
-            Intent intent = new Intent(getActivity(), SendCustomOfferActivity.class);
-            intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offerid);
-            intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 3);
-            startActivity(intent);
+        Intent intent = new Intent(getActivity(), SendCustomOfferActivity.class);
+        intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offerid);
+        intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 3);
+        intent.putExtra(ConstantUtils.BUYER, sentOffersList.get(position).getBuyer().getBuyerId());
+        startActivity(intent);
     }
 
     private void moveToChat(int position) {

@@ -256,47 +256,51 @@ public class CurrentUpdatesAdapter extends RecyclerView.Adapter<CurrentUpdatesAd
             }
         }else if (postData.getType().equals("service")) {
             Service service = model.getService();
-            Media media = service.getMedia().get(0);
-            if (media.getMediaType().equals("image")) {
-                ImageLoader.getInstance().displayImage(media.getFileName(), holder.postImageView, options);
-                holder.videoView.setVisibility(View.INVISIBLE);
-                holder.postImageView.setVisibility(View.VISIBLE);
-            }else{
-                if (media.getFileName() != null) {
-                    if (!media.getFileName().equals("")) {
-                        holder.videoView.setUp(media.getFileName(), JZVideoPlayer.SCREEN_WINDOW_LIST, "");
-                        holder.videoView.setVisibility(View.VISIBLE);
-                        AndroidUtils.MyAsyncTask asyncTask =new AndroidUtils.MyAsyncTask();
-                        asyncTask.delegate = new AsyncResponse() {
-                            @Override
-                            public void processFinish(Bitmap output) {
-                                holder.videoView.thumbImageView.setImageBitmap(output);
+            if (service.getMedia().size() != 0) {
+                Media media = service.getMedia().get(0);
+                if (media.getMediaType().equals("image")) {
+                    ImageLoader.getInstance().displayImage(media.getFileName(), holder.postImageView, options);
+                    holder.videoView.setVisibility(View.INVISIBLE);
+                    holder.postImageView.setVisibility(View.VISIBLE);
+                } else {
+                    if (media.getFileName() != null) {
+                        if (!media.getFileName().equals("")) {
+                            holder.videoView.setUp(media.getFileName(), JZVideoPlayer.SCREEN_WINDOW_LIST, "");
+                            holder.videoView.setVisibility(View.VISIBLE);
+                            AndroidUtils.MyAsyncTask asyncTask = new AndroidUtils.MyAsyncTask();
+                            asyncTask.delegate = new AsyncResponse() {
+                                @Override
+                                public void processFinish(Bitmap output) {
+                                    holder.videoView.thumbImageView.setImageBitmap(output);
 
-                            }
-                        };
-                        asyncTask.execute(media.getFileName());
+                                }
+                            };
+                            asyncTask.execute(media.getFileName());
 
-                        holder.postImageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                holder.postImageView.setVisibility(View.INVISIBLE);
-                                holder.videoView.setVisibility(View.VISIBLE);
-                            }
-                        });
-                    }else{
+                            holder.postImageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    holder.postImageView.setVisibility(View.INVISIBLE);
+                                    holder.videoView.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        } else {
+                            holder.videoView.setVisibility(View.INVISIBLE);
+                        }
+                    } else {
                         holder.videoView.setVisibility(View.INVISIBLE);
                     }
-                }else{
-                    holder.videoView.setVisibility(View.INVISIBLE);
+                    Log.e("media:", media.getMediaType() + " " + media.getFileName());
                 }
-                Log.e("media:", media.getMediaType()+" " + media.getFileName());
             }
             holder.view1.setVisibility(View.GONE);
             holder.view2.setVisibility(View.VISIBLE);
             holder.txtName2.setText(service.getDescription());
-            Prices prices = service.getPrices().get(0);
             String strPrice = "";
-            strPrice = String.format("Starting at %s%.2f for %d%s of Service", prices.getCurrencySymbol(), prices.getPrice(), prices.getTime(), prices.getTimeUnitOfMeasure());
+            if (service.getPrices().size() != 0) {
+                Prices prices = service.getPrices().get(0);
+                strPrice = String.format("Starting at %s%.2f for %d%s of Service", prices.getCurrencySymbol(), prices.getPrice(), prices.getTime(), prices.getTimeUnitOfMeasure());
+            }
             holder.txtServiceDesc.setText(strPrice);
             if (service.getLocation() != null) {
                 LocationModel locationModel = service.getLocation();
@@ -558,13 +562,13 @@ public class CurrentUpdatesAdapter extends RecyclerView.Adapter<CurrentUpdatesAd
         private LikeButton imgLike;
         private ImageView imgComment;
         private Button viewallCommentsButton, sendCommentButton;
-        private RelativeLayout view1, view2;
+        private RelativeLayout view1, view2, upper_view;
         private RecyclerView commentRecyclerView;
 
         private LikeButton likeButton;
 
         private EditText edtComment;
-        private LinearLayout bottomView;
+        private LinearLayout bottomView, ll_service;
         private WeakReference<OnRecyclerViewButtonClickListener> listenerRef;
 
         private JZVideoPlayerStandard videoView;
@@ -614,6 +618,11 @@ public class CurrentUpdatesAdapter extends RecyclerView.Adapter<CurrentUpdatesAd
             commentRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             bottomView = (LinearLayout) itemView.findViewById(R.id.bottomView);
             videoView = (JZVideoPlayerStandard) itemView.findViewById(R.id.video_view);
+
+            upper_view = (RelativeLayout) itemView.findViewById(R.id.upper_view);
+            upper_view.setOnClickListener(this);
+            ll_service = (LinearLayout) itemView.findViewById(R.id.ll_service);
+            ll_service.setOnClickListener(this);
         }
 
         @Override

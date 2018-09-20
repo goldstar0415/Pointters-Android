@@ -24,7 +24,7 @@ public class ExploreJobsModel {
     private Integer minPrice;
     private Integer maxPrice;
     private Integer numOffers;
-    private UserModel user;
+    private UserProfileModel user;
     private Object offerSent;
     private String userId;
     private Integer __v;
@@ -208,11 +208,11 @@ public class ExploreJobsModel {
         this.numOffers = numOffers;
     }
 
-    public UserModel getUser() {
+    public UserProfileModel getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(UserProfileModel user) {
         this.user = user;
     }
 

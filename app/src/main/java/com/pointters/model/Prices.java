@@ -11,6 +11,9 @@ import java.io.Serializable;
 
 public class Prices implements Serializable {
 
+    @SerializedName("_id")
+    @Expose
+    private String _id;
     @SerializedName("description")
     @Expose
     private String description;
@@ -42,6 +45,14 @@ public class Prices implements Serializable {
         this.currencySymbol = currencySymbol;
         this.currencyCode = currencyCode;
         this.priceWithoutDiscount = price;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getDescription() {

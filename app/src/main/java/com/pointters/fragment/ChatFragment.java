@@ -221,6 +221,8 @@ public class ChatFragment extends Fragment implements OnApiFailDueToSessionListe
                 editor.putString(ConstantUtils.CHAT_USER_NAME, select_username).apply();
                 editor.putString(ConstantUtils.CHAT_USER_PIC, strPic).apply();
                 editor.putString(ConstantUtils.CHAT_CONVERSATION_ID, conversation_id);
+
+                intent.putExtra(ConstantUtils.SELL_OFFER_POST, 1);
                 startActivity(intent);
             }
         }));

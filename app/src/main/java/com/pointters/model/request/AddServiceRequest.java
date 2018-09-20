@@ -1,6 +1,7 @@
 package com.pointters.model.request;
 
 import com.pointters.model.CategoryModel;
+import com.pointters.model.FulfillmentMethodForCustom;
 import com.pointters.model.FulfillmentMethodForCustom1;
 import com.pointters.model.Media;
 import com.pointters.model.Prices;
@@ -15,12 +16,16 @@ public class AddServiceRequest {
 
     private CategoryModel category;
     private String description;
-    private FulfillmentMethodForCustom1 fulfillmentMethod;
+    private Object fulfillmentMethod;
     private ArrayList<LocationRequestModel> location;
     private ArrayList<Media> media;
     private ArrayList<Prices> prices;
 
-    public AddServiceRequest(CategoryModel category, String description, FulfillmentMethodForCustom1 fulfillmentMethod, ArrayList<Media> media, ArrayList<Prices> prices) {
+    public ArrayList<LocationRequestModel> getLocation() {
+        return location;
+    }
+
+    public AddServiceRequest(CategoryModel category, String description, Object fulfillmentMethod, ArrayList<Media> media, ArrayList<Prices> prices) {
         this.category = category;
         this.description = description;
         this.fulfillmentMethod = fulfillmentMethod;

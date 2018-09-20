@@ -25,6 +25,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp">
@@ -60,36 +61,36 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
+                            android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_marginRight="@dimen/_10sdp"
                             android:layout_toLeftOf="@+id/txt_detail"
+                            android:layout_toStartOf="@+id/txt_detail"
                             android:maxLines="2"
                             android:text="IT service lorem ipsum dummy text"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_small"
-                            android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_toStartOf="@+id/txt_detail" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <ImageView
                             android:id="@+id/txt_service_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_alignParentEnd="true"
                             android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
                             tools:ignore="RtlHardcoded" />
 
                         <TextView
                             android:id="@+id/txt_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Detail >"
-                            android:textSize="@dimen/text_size_tiny"
-                            android:layout_toLeftOf="@id/txt_service_type"
                             android:layout_marginEnd="@dimen/_3sdp"
                             android:layout_marginRight="@dimen/_3sdp"
-                            android:layout_toStartOf="@id/txt_service_type" />
+                            android:layout_toLeftOf="@id/txt_service_type"
+                            android:layout_toStartOf="@id/txt_service_type"
+                            android:text="Detail >"
+                            android:textSize="@dimen/text_size_tiny" />
 
                         <RelativeLayout
                             android:id="@+id/txt_price_name"
@@ -116,13 +117,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_toEndOf="@+id/txt_service_price"
                                 android:layout_toRightOf="@+id/txt_service_price"
                                 android:text=""
                                 android:textColor="@color/text_color_dark_gray"
                                 android:textSize="@dimen/text_size_tiny"
-                                tools:ignore="MissingPrefix"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_toEndOf="@+id/txt_service_price" />
+                                tools:ignore="MissingPrefix" />
 
                             <View
                                 android:layout_width="match_parent"
@@ -153,12 +154,12 @@
                             fontPath="fonts/Montserrat-Light.ttf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
                             android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/txt_by"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:layout_alignParentBottom="true"
                             android:text="Jhonssadfasdfa sdf asdf asdf asd fasdf asd"
-                            android:layout_toRightOf="@+id/txt_by"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/text_size_tiny"
                             tools:ignore="MissingPrefix" />
@@ -167,9 +168,9 @@
                             android:id="@+id/txt_by"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
                             android:layout_centerVertical="true"
                             android:text="@string/by"
-                            android:layout_alignParentBottom="true"
                             android:textColor="#666666"
                             android:textSize="@dimen/text_size_tiny" />
 
@@ -338,14 +339,14 @@
                         android:id="@+id/txt_total_budget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:text="$40"
                         android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_small"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/_10sdp" />
+                        android:textSize="@dimen/text_size_small" />
 
 
                 </RelativeLayout>
@@ -448,26 +449,29 @@
                     android:layout_marginTop="@dimen/_10sdp"/>
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/change_shipping_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_service">
+                android:background="@drawable/bg_service"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/img_location"
                     android:layout_width="@dimen/_48sdp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_dark_place"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/_10sdp"/>
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/icon_dark_place" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/img_location"
-                    android:layout_centerVertical="true">
+                    android:orientation="vertical">
+
                     <TextView
                         fontPath="fonts/Montserrat-Medium.ttf"
                         android:layout_width="wrap_content"
@@ -493,17 +497,18 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/right_arrow_icon"
-                    android:layout_alignParentEnd="true"
-                    android:padding="@dimen/_10sdp"/>
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/right_arrow_icon" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/fix_0.5dp"
-                    android:background="@drawable/divider_option"
                     android:layout_below="@+id/img_location"
-                    android:layout_marginTop="@dimen/_10sdp"/>
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/divider_option" />
 
             </RelativeLayout>
 

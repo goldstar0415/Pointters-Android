@@ -15,7 +15,7 @@ public class CustomOfferModels {
     private String sellerId;
     private String buyerId;
     private String description;
-    private FulfillmentMethodForCustom1 fulfillmentMethod;
+    private FulfillmentMethodForCustom fulfillmentMethod;
     private Object location;
     private Integer price;
     private String serviceId;
@@ -26,7 +26,8 @@ public class CustomOfferModels {
     private String createdAt;
     private String currencySymbol;
     private String currencyCode;
-
+    private AddressModel address;
+    private ParcelModel parcel;
 
     public String getId() {
         return _id;
@@ -66,11 +67,11 @@ public class CustomOfferModels {
         this.media = media;
     }
 
-    public FulfillmentMethodForCustom1 getFulfillmentMethod() {
+    public FulfillmentMethodForCustom getFulfillmentMethod() {
         return fulfillmentMethod;
     }
 
-    public void setFulfillmentMethod(FulfillmentMethodForCustom1 fulfillmentMethod) {
+    public void setFulfillmentMethod(FulfillmentMethodForCustom fulfillmentMethod) {
         this.fulfillmentMethod = fulfillmentMethod;
     }
 
@@ -221,5 +222,21 @@ public class CustomOfferModels {
 
     public void setCurrencyCode(String currencyCode) {
         this.currencyCode = currencyCode;
+    }
+
+    public AddressModel getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressModel address) {
+        this.address = address;
+    }
+
+    public ParcelModel getParcel() {
+        return parcel;
+    }
+
+    public void setParcel(ParcelModel parcel) {
+        this.parcel = parcel;
     }
 }

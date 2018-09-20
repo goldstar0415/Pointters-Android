@@ -22,6 +22,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
+import com.pointters.activity.CustomOfferDetailsActivity;
+import com.pointters.activity.GetLiveOffersActivity;
 import com.pointters.activity.LocationSearchActivity;
 import com.pointters.listener.MapWrapperLayout;
 import com.pointters.listener.OnInfoWindowElemTouchListener;
@@ -55,12 +58,17 @@ import com.pointters.utils.ConstantUtils;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by jkc on 3/8/18.
  */
 
 @SuppressLint("ValidFragment")
 public class LiveOffersMapFragment extends Fragment implements View.OnClickListener{
+
+    public static final int GETLOCATION = 0;
+
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private View view;
@@ -74,7 +82,7 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
     private LinearLayout spinnerCategories;
     private LinearLayout llEditButton, llNewRequestButton, llSeeRequestButton;
     private RelativeLayout editView;
-    private CardView locationButton;
+    private CardView locationButton, card_view;
 
     private ViewGroup infoWindow;
     private ImageView imgUser;
@@ -138,7 +146,9 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
                     @Override
                     protected void onClickConfirmed(View v, Marker marker) {
                         // Here we can perform some action triggered after clicking the button
-                        Toast.makeText(getActivity(), marker.getTitle() + "'s button clicked!", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getActivity(), CustomOfferDetailsActivity.class);
+                        startActivity(intent);
                     }
                 };
                 infoWindow.setOnTouchListener(infoButtonListener);
@@ -248,11 +258,14 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
         }
         // For zooming automatically to the location of the marker
         if (models.size() > 0) {
-            ArrayList<Double> coordinate = models.get(models.size() - 1).getLocation().get(0).getGeoJson().getCoordinates();
-            LatLng camera = new LatLng(coordinate.get(1), coordinate.get(0));
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(camera).zoom(12).build();
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition
-                    (cameraPosition ));
+
+            if (models.get(models.size() - 1).getLocation().size() != 0) {
+                ArrayList<Double> coordinate = models.get(models.size() - 1).getLocation().get(0).getGeoJson().getCoordinates();
+                LatLng camera = new LatLng(coordinate.get(1), coordinate.get(0));
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(camera).zoom(12).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition
+                        (cameraPosition));
+            }
         }
 
 
@@ -362,6 +375,8 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
         spinnerCategories.setOnClickListener(this);
         locationButton = (CardView) view.findViewById(R.id.card_location);
         locationButton.setOnClickListener(this);
+        card_view = (CardView) view.findViewById(R.id.card_view);
+        card_view.setOnClickListener(this);
         editView.setOnClickListener(this);
 
     }
@@ -378,13 +393,19 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
+        Intent intent = null;
         switch (v.getId()){
             case R.id.spinner_categories:
                 editView.setVisibility(View.VISIBLE);
                 break;
-
+            case R.id.card_view:
+                editView.setVisibility(View.VISIBLE);
+                break;
             case R.id.ll_new_request:
                 editView.setVisibility(View.GONE);
+                intent = new Intent(getActivity(), GetLiveOffersActivity.class);
+                startActivity(intent);
                 break;
             case R.id.rl_overlay:
                 editView.setVisibility(View.GONE);
@@ -396,9 +417,23 @@ public class LiveOffersMapFragment extends Fragment implements View.OnClickListe
                 editView.setVisibility(View.GONE);
                 break;
             case R.id.card_location:
-                startActivity(new Intent(getActivity(), LocationSearchActivity.class));
+                intent = new Intent(getActivity(), LocationSearchActivity.class);
+                startActivityForResult(intent, GETLOCATION);
                 break;
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case GETLOCATION:
+                    Log.d("test", "test");
+                    break;
+            }
+        }
     }
 }

@@ -105,6 +105,10 @@
         <activity
             android:name=".activity.PhotoViewerActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.PhotoSlideViewerActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MediaPlayerActivity"
             android:screenOrientation="portrait"/>

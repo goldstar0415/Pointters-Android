@@ -14,10 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.thunder413.datetimeutils.DateTimeStyle;
+import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -27,10 +30,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
 import com.pointters.model.CategoryModel;
 import com.pointters.model.FulfillmentDetails;
 import com.pointters.model.FulfillmentMethod;
+import com.pointters.model.LocationModel;
+import com.pointters.model.OrderItem;
+import com.pointters.model.OrderModel;
 import com.pointters.model.OrdersDetailModel;
 import com.pointters.model.response.GetCategoryResponse;
 import com.pointters.rest.ApiClient;
@@ -73,6 +81,16 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
     private RecyclerView serviceOrderd;
     private EditText edtStartScheduleDate, edtStartScheduleTime;
 
+    private ImageView toolbar_right_img;
+
+    private Button btn_status_description;
+    private TextView txt_stated_date, txt_order_id, mDeliveredFile, txt_name, txt_view_verified, txt_user_descriptiom, txt_one_hour_service, txt_service_fee, txt_taxes, txt_shipping_fee, txt_total_budget, txt_paid_date, txt_work_time, txt_service_location, txt_shipment_date, txt_carrier, txt_tracking_number, txt_expectedArrival, txt_price, txt_starts_date;
+    private RelativeLayout rl_review, add_file_view, direction_view, cancel_order_view;
+    private RoundedImageView img_profile;
+    private ImageView btn_call, btn_chat, check_seller_accepted_schedule_time;
+    private EditText edt_date, edt_time;
+    private LinearLayout ll_date, ll_time, ll_delivery_method;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +101,6 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
                 .setCancellable(true)
                 .setAnimationSpeed(2)
                 .setDimAmount(0.5f);
-
 
         AppUtils.setToolBarWithBothIcon(FulfillmentActivity.this, getResources().getString(R.string.fulfillment), R.drawable.back_icon, R.drawable.more_icon_horizontal);
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
@@ -96,6 +113,8 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
             finish();
         }
 
+        toolbar_right_img = (ImageView) findViewById(R.id.toolbar_right_img);
+        toolbar_right_img.setVisibility(View.GONE);
 
         recyclerView = (RecyclerView) findViewById(R.id.mDeliveredFilesRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -103,43 +122,56 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
         //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        stepView1 = (ImageView) findViewById(R.id.mCircleViewNumberReplacement);
-        stepView2 = (ImageView) findViewById(R.id.mCircleViewNumberReplacement2);
-        stepView3 = (ImageView) findViewById(R.id.mCircleViewNumberReplacement3);
-        stepView4 = (ImageView) findViewById(R.id.mCircleViewNumberReplacement4);
-        stepView5 = (ImageView) findViewById(R.id.mCircleViewNumberReplacement5);
-        stepView1.setOnClickListener(this);
-        stepView2.setOnClickListener(this);
-        stepView3.setOnClickListener(this);
-        stepView4.setOnClickListener(this);
-        stepView5.setOnClickListener(this);
-
         orderAccept = (RelativeLayout) findViewById(R.id.view_order_accept);
         orderAccept.setOnClickListener(this);
-        cancelOrderButton = (Button) findViewById(R.id.btn_cancel_order);
-        cancelOrderButton.setOnClickListener(this);
-        reviewOrderButton = (Button) findViewById(R.id.btn_review);
-        reviewOrderButton.setOnClickListener(this);
+        cancel_order_view = (RelativeLayout) findViewById(R.id.cancel_order_view);
+        cancel_order_view.setOnClickListener(this);
+        rl_review = (RelativeLayout) findViewById(R.id.rl_review);
+        rl_review.setOnClickListener(this);
+        add_file_view = (RelativeLayout) findViewById(R.id.add_file_view);
+        add_file_view.setOnClickListener(this);
+        direction_view = (RelativeLayout) findViewById(R.id.direction_view);
+        direction_view.setOnClickListener(this);
+
+        btn_status_description = (Button) findViewById(R.id.btn_status_description);
+
+        txt_stated_date = (TextView) findViewById(R.id.txt_stated_date);
+        txt_order_id = (TextView) findViewById(R.id.txt_order_id);
+        mDeliveredFile = (TextView) findViewById(R.id.mDeliveredFile);
+        txt_name = (TextView) findViewById(R.id.txt_name);
+        txt_view_verified = (TextView) findViewById(R.id.txt_view_verified);
+        txt_user_descriptiom = (TextView) findViewById(R.id.txt_user_descriptiom);
+        txt_one_hour_service = (TextView) findViewById(R.id.txt_one_hour_service);
+        txt_price = (TextView) findViewById(R.id.txt_price);
+        txt_service_fee = (TextView) findViewById(R.id.txt_service_fee);
+        txt_taxes = (TextView) findViewById(R.id.txt_taxes);
+        txt_shipping_fee = (TextView) findViewById(R.id.txt_shipping_fee);
+        txt_total_budget = (TextView) findViewById(R.id.txt_total_budget);
+        txt_paid_date = (TextView) findViewById(R.id.txt_paid_date);
+        txt_work_time = (TextView) findViewById(R.id.txt_work_time);
+        txt_service_location = (TextView) findViewById(R.id.txt_service_location);
+        txt_shipment_date = (TextView) findViewById(R.id.txt_shipment_date);
+        txt_carrier = (TextView) findViewById(R.id.txt_carrier);
+        txt_tracking_number = (TextView) findViewById(R.id.txt_tracking_number);
+        txt_expectedArrival = (TextView) findViewById(R.id.txt_expectedArrival);
+        txt_starts_date = (TextView) findViewById(R.id.txt_starts_date);
+
+        img_profile = (RoundedImageView) findViewById(R.id.img_profile);
+
+        btn_call = (ImageView) findViewById(R.id.btn_call);
+        btn_chat = (ImageView) findViewById(R.id.btn_chat);
+        check_seller_accepted_schedule_time = (ImageView) findViewById(R.id.check_seller_accepted_schedule_time);
+
+        edt_date = (EditText) findViewById(R.id.edt_date);
+        edt_time = (EditText) findViewById(R.id.edt_time);
+
+        ll_date = (LinearLayout) findViewById(R.id.ll_date);
+        ll_time = (LinearLayout) findViewById(R.id.ll_time);
+        ll_delivery_method = (LinearLayout) findViewById(R.id.ll_delivery_method);
 
         ArrayList fulfillmentList = prepareData();
         ImageAdapter adapter = new ImageAdapter(FulfillmentActivity.this, fulfillmentList);
         recyclerView.setAdapter(adapter);
-
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapId);
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                mMap = googleMap;
-                // Add a marker in Agicent and move the camera
-                LatLng TutorialsPoint = new LatLng(28.6125, 77.3773);
-
-                mMap.addMarker(new MarkerOptions().position(TutorialsPoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_location_big)));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.6125, 77.3773), 12.0f));
-
-               // mMap.moveCamera(CameraUpdateFactory.newLatLng(TutorialsPoint));
-            }
-        });
 
         CallGetOrderDetail(orderId);
     }
@@ -147,19 +179,19 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
     public void CallGetOrderDetail(String orderid) {
         loader.show();
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<OrdersDetailModel> callGetCategoryApi = apiService.getOrderDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), orderid);
-        callGetCategoryApi.enqueue(new Callback<OrdersDetailModel>() {
+        Call<OrderModel> callGetCategoryApi = apiService.getOrderDetail(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), orderid);
+        callGetCategoryApi.enqueue(new Callback<OrderModel>() {
             @Override
-            public void onResponse(Call<OrdersDetailModel> call, Response<OrdersDetailModel> response) {
+            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
                 loader.dismiss();
                 if (response.code() == 200 && response.body() != null) {
-                    ordersDetailModel = response.body();
+                    ordersDetailModel = response.body().getOrder();
                     updateUI();
                 }
             }
 
             @Override
-            public void onFailure(Call<OrdersDetailModel> call, Throwable t) {
+            public void onFailure(Call<OrderModel> call, Throwable t) {
                 loader.dismiss();
             }
         });
@@ -167,6 +199,79 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
 
     public void updateUI(){
 
+        DisplayImageOptions options1 = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.user_avatar_placeholder)
+                .showImageForEmptyUri(R.drawable.user_avatar_placeholder)
+                .showImageOnFail(R.drawable.user_avatar_placeholder)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .build();
+
+        String[] startedDate = ordersDetailModel.getCreatedAt().split("T");
+        String[] arr = startedDate[0].split("-");
+
+        txt_stated_date.setText(String.format("Started On %s/%s", arr[1], arr[2]));
+        txt_order_id.setText(String.format("Order #%s", orderId));
+
+        ImageLoader.getInstance().displayImage(ordersDetailModel.getContact().getProfilePic(), img_profile, options1);
+        txt_name.setText(String.format("%s %s", ordersDetailModel.getContact().getFirstName(), ordersDetailModel.getContact().getLastName()));
+
+        String verifed = (ordersDetailModel.getContact().isVerified()) ? "Verified" : "No verified";
+        txt_view_verified.setText(verifed);
+        txt_user_descriptiom.setText(ordersDetailModel.getDescription());
+
+        txt_one_hour_service.setText(ordersDetailModel.getOrderItems().get(0).getDescription());
+        txt_price.setText(String.format("%d x %s%d", ordersDetailModel.getOrderItems().get(0).getQuantity(), ordersDetailModel.getCurrencySymbol(), ordersDetailModel.getOrderItems().get(0).getPrice()));
+        txt_service_fee.setText(String.format("%s%.02f", ordersDetailModel.getCurrencySymbol(), ordersDetailModel.getServicesPrices().get(0).getPrice()));
+        txt_taxes.setText(String.format("%s%.02f", ordersDetailModel.getCurrencySymbol(), ordersDetailModel.getTaxAmount()));
+        txt_shipping_fee.setText(String.format("%s%.02f", ordersDetailModel.getCurrencySymbol(), ordersDetailModel.getShippingFee()));
+        txt_total_budget.setText(String.format("%s%.02f", ordersDetailModel.getCurrencySymbol(), ordersDetailModel.getSubtotalAmount()));
+        txt_paid_date.setText("Paid on:" + DateTimeUtils.getTimeAgo(this, DateTimeUtils.formatDate(ordersDetailModel.getPaymentDate()), DateTimeStyle.MEDIUM));
+
+        if (viewType.equals("seller")) {
+            txt_starts_date.setText("Starts");
+        } else {
+            txt_starts_date.setText("Starts (click to change)");
+
+            ll_date.setOnClickListener(this);
+            ll_time.setOnClickListener(this);
+        }
+//        edt_date.setText(DateTimeUtils.getTimeAgo(this, DateTimeUtils.formatDate(ordersDetailModel.getServiceScheduleDate()), DateTimeStyle.MEDIUM));
+
+        if (ordersDetailModel.getFulfillmentMethod().getOnline()) {
+            ll_delivery_method.setVisibility(View.GONE);
+        } else {
+            ll_delivery_method.setVisibility(View.VISIBLE);
+
+//            if (ordersDetailModel.getFulfillmentMethod().getLocal() || ordersDetailModel.getFulfillmentMethod().getShipment()) {
+//
+//            } else if(ordersDetailModel.getFulfillmentMethod().getStore()) {
+//
+//            }
+
+            double lat, lng;
+            LocationModel location = ordersDetailModel.getSellerServiceLocation().get(0);
+            lat = location.getGeoJson().getCoordinates().get(0);
+            lng = location.getGeoJson().getCoordinates().get(1);
+
+            MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapId);
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    mMap = googleMap;
+                    // Add a marker in Agicent and move the camera
+                    LatLng TutorialsPoint = new LatLng(lat, lng);
+
+                    mMap.addMarker(new MarkerOptions().position(TutorialsPoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_location_big)));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 12.0f));
+
+                    // mMap.moveCamera(CameraUpdateFactory.newLatLng(TutorialsPoint));
+                }
+            });
+
+            txt_service_location.setText(String.format("%s %s, %s", location.getPostalCode(), location.getCity(), location.getState()));
+        }
     }
 
     private ArrayList prepareData() {
@@ -193,16 +298,6 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
             case R.id.toolbar_lft_img:
                 onBackPressed();
                 break;
-            case R.id.toolbar_right_img:
-                break;
-            case R.id.mCircleViewNumberReplacement:
-                stepView1.setVisibility(View.VISIBLE);
-
-                break;
-
-            case R.id.mCircleViewNumberReplacement2:
-                stepView1.setVisibility(View.VISIBLE);
-                break;
             case R.id.view_order_accept:
                 Intent orderProcessingIntent = new Intent(FulfillmentActivity.this, OrderProcessingActivity.class);
                 orderProcessingIntent.putExtra("orderId", orderId);
@@ -217,15 +312,19 @@ public class FulfillmentActivity extends AppCompatActivity implements View.OnCli
 //                        .negativeText("CANCEL")
 //                        .show();
 //                break;
-            case R.id.btn_cancel_order:
+            case R.id.cancel_order_view:
                 Intent cancelOrderIntent = new Intent(FulfillmentActivity.this, CancelOrderActivity.class);
                 cancelOrderIntent.putExtra("orderId", orderId);
                 startActivityForResult(cancelOrderIntent, REQUEST_CANCEL_ORDER);
                 break;
-            case R.id.btn_review:
+            case R.id.rl_review:
                 Intent reviewOrderIntent = new Intent(FulfillmentActivity.this, ReviewOrderActivity.class);
                 reviewOrderIntent.putExtra("orderId", orderId);
                 startActivityForResult(reviewOrderIntent, REQUEST_REVIEW_ORDER);
+                break;
+            case R.id.ll_date:
+                break;
+            case R.id.ll_time:
                 break;
         }
 

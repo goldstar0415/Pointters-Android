@@ -11,8 +11,10 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.pointters.R;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.rest.PlaceAPI;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -25,12 +27,14 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
 
     Context mContext;
     int mResource;
+    private OnRecyclerViewButtonClickListener listener;
 
     PlaceAPI mPlaceAPI = new PlaceAPI();
 
-    public PlacesAutoCompleteAdapter(Context context, int resource) {
-        mContext = context;
-        mResource = resource;
+    public PlacesAutoCompleteAdapter(Context context, int resource, OnRecyclerViewButtonClickListener listener) {
+        this.mContext = context;
+        this.mResource = resource;
+        this.listener = listener;
     }
 
     public String getItem(int position) {
@@ -55,12 +59,7 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                if (results != null && results.count > 0) {
-                    notifyDataSetChanged();
-                }
-                else {
-                    notifyDataSetChanged();
-                }
+                notifyDataSetChanged();
             }
         };
 
@@ -83,16 +82,22 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
         return resultList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textView;
+        private WeakReference<OnRecyclerViewButtonClickListener> listenerRef;
 
         public MyViewHolder(View view) {
             super(view);
+
+            listenerRef = new WeakReference<>(listener);
             textView=(TextView) itemView.findViewById(R.id.txt_search_loation);
+            textView.setOnClickListener(this);
+        }
 
-
-
+        @Override
+        public void onClick(View v) {
+            listenerRef.get().onButtonClick(v, getAdapterPosition());
         }
     }
 

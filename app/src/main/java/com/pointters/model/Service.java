@@ -25,7 +25,7 @@ public class Service {
     private boolean promoted;
     private Integer pointValue;
     private Integer numOrders;
-    private Integer avgRating;
+    private float avgRating;
     private UserModel seller;
     private CategoryModel category;
     private String tagline;
@@ -193,11 +193,11 @@ public class Service {
         this.numOrders = numOrders;
     }
 
-    public Integer getAvgRating() {
+    public float getAvgRating() {
         return avgRating;
     }
 
-    public void setAvgRating(Integer avgRating) {
+    public void setAvgRating(float avgRating) {
         this.avgRating = avgRating;
     }
 

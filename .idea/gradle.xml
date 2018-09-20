@@ -9,10 +9,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/jiaozivideoplayer" />
             <option value="$PROJECT_DIR$/libs" />
             <option value="$PROJECT_DIR$/libs/camerakit" />
             <option value="$PROJECT_DIR$/libs/mediaPickerLibrary" />
-            <option value="$PROJECT_DIR$/libs/zxing-android-embedded" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

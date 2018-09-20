@@ -419,7 +419,8 @@ public class SendServiceActivity extends AppCompatActivity implements View.OnCli
                     arrSendServices.addAll(response.body().getDocs());
                     sendServiceAdapter.setType(false);
                     sendServiceAdapter.setSendServicesList(arrSendServices);
-                    sendServiceAdapter.notifyItemRangeInserted(sendServiceAdapter.getItemCount(), arrSendServices.size()-1);
+                    sendServiceAdapter.notifyItemRangeInserted(sendServiceAdapter.getItemCount(), arrSendServices.size());
+//                    sendServiceAdapter.notifyItemRangeInserted(sendServiceAdapter.getItemCount(), arrSendServices.size() - 1);
 
                     if (inited && arrSendServices.size() == 0) {
                         txtNotFound.setText("No service found");

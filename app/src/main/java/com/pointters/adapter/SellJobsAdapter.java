@@ -41,6 +41,7 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
     private List<SellJobsModel> sellJobsList;
 
     private OnRecyclerViewItemClickListener listener;
+    private OnRecyclerViewButtonClickListener listener1;
     public SellJobsAdapter(Context context, List<SellJobsModel> sellJobsList) {
         this.context = context;
         this.sellJobsList = sellJobsList;
@@ -48,6 +49,9 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
 
     public void setListener(OnRecyclerViewItemClickListener listener) {
         this.listener = listener;
+    }
+    public void setListener1(OnRecyclerViewButtonClickListener listener1) {
+        this.listener1 = listener1;
     }
 
     @Override
@@ -90,7 +94,6 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
             if (requestOffersModel.getExpiresIn() > 0) {
                 holder.txtexpiresDate.setText(String.format("Expires in %d days", requestOffersModel.getExpiresIn()));
                 holder.editOfferButton.setVisibility(View.VISIBLE);
-                holder.makeOfferButton.setVisibility(View.VISIBLE);
             }else{
                 holder.txtexpiresDate.setText("Job Expired");
                 holder.editOfferButton.setVisibility(View.GONE);
@@ -147,7 +150,7 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
         return sellJobsList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         private LinearLayout layoutParent;
         private SquareImageView imgMedia;
         private TextView txtcreatedAt;
@@ -158,7 +161,7 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
 
         public MyViewHolder(View itemView) {
             super(itemView);
-//            listenerRef = new WeakReference<>(listener);
+            listenerRef = new WeakReference<>(listener1);
 
             imgMedia=(SquareImageView)itemView.findViewById(R.id.img_media);
             txtcreatedAt = (TextView) itemView.findViewById(R.id.txt_created_date);
@@ -168,12 +171,25 @@ public class SellJobsAdapter extends RecyclerView.Adapter<SellJobsAdapter.MyView
             txtexpiresDate = (TextView) itemView.findViewById(R.id.txt_expires_date);
 
             makeOfferButton = (Button) itemView.findViewById(R.id.btn_make_offer);
+            makeOfferButton.setVisibility(View.GONE);
+
             editOfferButton = (Button) itemView.findViewById(R.id.btn_edit_offer);
+            editOfferButton.setOnClickListener(this);
 
             layoutParent=(LinearLayout)itemView.findViewById(R.id.move_to_service_detail);
 //            layoutParent.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            if (listenerRef != null){
+                switch (v.getId()){
+                    case R.id.btn_edit_offer:
+                        listenerRef.get().onButtonClick(v, getAdapterPosition());
+                        break;
+                }
+            }
+        }
     }
 
     private String getDateDuration(long originTime) {

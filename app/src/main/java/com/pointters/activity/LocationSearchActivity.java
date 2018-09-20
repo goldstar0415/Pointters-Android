@@ -1,6 +1,7 @@
 package com.pointters.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import com.braintreepayments.cardform.view.CardForm;
 import com.pointters.R;
 import com.pointters.adapter.PlacesAutoCompleteAdapter;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.rest.PlaceAPI;
 import com.pointters.utils.AppUtils;
 
@@ -48,7 +50,16 @@ public class LocationSearchActivity extends AppCompatActivity implements View.On
         backButton.setOnClickListener(this);
         closeButton.setOnClickListener(this);
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new PlacesAutoCompleteAdapter(this, R.layout.adapter_search_item);
+        adapter = new PlacesAutoCompleteAdapter(this, R.layout.adapter_search_item, new OnRecyclerViewButtonClickListener(){
+            @Override
+            public void onButtonClick(View v, int position) {
+                if (v.getId() == R.id.txt_search_loation) {
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+        });
         searchRecyclerView.setAdapter(adapter);
 
         searchField.addTextChangedListener(new TextWatcher() {

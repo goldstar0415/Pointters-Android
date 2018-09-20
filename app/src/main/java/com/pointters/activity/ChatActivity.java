@@ -172,6 +172,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private int limitCnt = 0;
     private int totalCnt = 0;
 
+    private String buyer_id, offer_id, job_id;
+    private int sell_offer_post = -1;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -185,6 +188,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        buyer_id = getIntent().getStringExtra(ConstantUtils.BUYER);
+        offer_id = getIntent().getStringExtra(ConstantUtils.SELECT_OFFER_ID);
+        job_id = getIntent().getStringExtra(ConstantUtils.SELECT_JOB_ID);
+        sell_offer_post = getIntent().getIntExtra(ConstantUtils.SELL_OFFER_POST, -1);
 
         loader = KProgressHUD.create(this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -231,6 +239,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         String convId = sharedPreferences.getString(ConstantUtils.CHAT_CONVERSATION_ID, "");
         otherUserId = sharedPreferences.getString(ConstantUtils.CHAT_USER_ID, "");
+        if (buyer_id == null) {
+            buyer_id = otherUserId;
+        }
+
         getSocketForChatting(convId, otherUserId);
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -941,7 +953,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.chat_custom_tool:
                 Intent customIntent = new Intent(ChatActivity.this, SendCustomOfferActivity.class);
-                customIntent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 1);
+
+                if (offer_id != null) {
+                    if (offer_id.equals("")) {
+                        customIntent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 1);
+                        customIntent.putExtra(ConstantUtils.SELECT_JOB_ID, job_id);
+                    } else {
+                        customIntent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 2);
+                        customIntent.putExtra(ConstantUtils.SELECT_OFFER_ID, offer_id);
+                    }
+                }
+                customIntent.putExtra(ConstantUtils.SELL_OFFER_POST, sell_offer_post);
+                customIntent.putExtra(ConstantUtils.BUYER, buyer_id);
                 startActivityForResult(customIntent, CUSTOM_OFFER_REQUEST);
                 break;
 

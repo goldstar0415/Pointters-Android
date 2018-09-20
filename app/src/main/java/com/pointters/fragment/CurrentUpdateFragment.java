@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -26,6 +27,9 @@ import com.pointters.R;
 import com.pointters.activity.AddServiceActivity;
 import com.pointters.activity.HomeActivity;
 import com.pointters.activity.LikeCommentsShareActivity;
+import com.pointters.activity.PhotoSlideViewerActivity;
+import com.pointters.activity.ProfileScreenActivity;
+import com.pointters.activity.ServiceDetailActivity;
 import com.pointters.adapter.CurrentUpdatesAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewButtonClickListener;
@@ -218,6 +222,7 @@ public class CurrentUpdateFragment extends Fragment implements OnRecyclerViewBut
                     callLoginApiIfFails.OnApiFailDueToSessionListener(CurrentUpdateFragment.this);
                 }
                 else if (response.code() == 404) {
+
                 }
             }
 
@@ -244,21 +249,39 @@ public class CurrentUpdateFragment extends Fragment implements OnRecyclerViewBut
     @Override
     public void onButtonClick(View v, int position) {
         switch (v.getId()){
-            case R.id.view1:
-                GotoDetailView(position);
-                break;
-            case R.id.view2:
-                GotoDetailView(position);
-                break;
             case R.id.bottomView:
                 GotoDetailView(position);
                 break;
             case R.id.btn_send:
                 CallGetComments(position);
                 break;
+            case R.id.upper_view:   //profile
+                Intent userIntent = new Intent(getActivity(), ProfileScreenActivity.class);
+                userIntent.putExtra(ConstantUtils.PROFILE_LOGINUSER, false);
+                userIntent.putExtra(ConstantUtils.PROFILE_USERID, currentUpdateModels.get(position).getUser().getId());
+                startActivityForResult(userIntent, 1);
+                break;
+            case R.id.ll_service:   //type = service
+                if (currentUpdateModels.get(position).getPost().getType().equals("service")) {
+                    moveToServiceDetails(position);
+                } else {    //type = post
+                    Intent photo = new Intent(getActivity(), PhotoSlideViewerActivity.class);
+                    Gson gson = new Gson();
+                    photo.putExtra(ConstantUtils.MEDIA, gson.toJson(currentUpdateModels.get(position).getPost().getMedia()));
+                    startActivityForResult(photo, 1);
+                }
+                break;
         }
     }
 
+    private void moveToServiceDetails(int position) {
+        if (currentUpdateModels.get(position).getService().getId() != null && !currentUpdateModels.get(position).getService().getId().isEmpty()) {
+            String serviceId = currentUpdateModels.get(position).getService().getId();
+            Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
+            intent.putExtra(ConstantUtils.SERVICE_ID, serviceId);
+            startActivity(intent);
+        }
+    }
 
     private void CallGetComments(final int position) {
 
@@ -287,6 +310,7 @@ public class CurrentUpdateFragment extends Fragment implements OnRecyclerViewBut
                     }
 
                     CurrentUpdateModel cmm = model;
+                    cmm.getPost().setCountComments(cmm.getPost().getCountComments() + 1);
                     cmm.setComments(commentModels);
                     currentUpdateModels.remove(position);
                     currentUpdateModels.add(position, cmm);

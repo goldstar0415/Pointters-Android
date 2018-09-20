@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 public class LocationRequestModel implements Serializable{
+    private String _id;
     private String city;
     private String country;
     private LongitudeLatitude geoJson;
@@ -21,6 +22,14 @@ public class LocationRequestModel implements Serializable{
         this.postalCode = postalCode;
         this.province = province;
         this.state = state;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getCity() {

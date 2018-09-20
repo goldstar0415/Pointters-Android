@@ -3,28 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_4sdp"
-        >
+        android:layout_margin="@dimen/_4sdp">
 
         <ImageView
             android:id="@+id/unread_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/unread_dot"
-            android:scaleType="centerCrop"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_8sdp"/>
+            android:layout_marginStart="@dimen/_8sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/unread_dot" />
+
         <RelativeLayout
             android:id="@+id/rl_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/_15sdp">
 
 
@@ -32,9 +30,9 @@
                 android:id="@+id/img_accept_request"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
+                android:layout_centerVertical="true"
                 android:src="@drawable/service_thumb_big"
                 android:visibility="visible"
-                android:layout_centerVertical="true"
                 app:riv_mutate_background="true"
                 app:riv_oval="true"
                 app:riv_tile_mode="clamp" />
@@ -42,69 +40,102 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:layout_toEndOf="@id/rl_img"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/layout_notification_media">
+            android:layout_toEndOf="@id/rl_img">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/mUser_name_iv_riv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="false"
+                android:orientation="vertical">
 
 
-                    <TextView
-                        android:id="@+id/txt_title"
-                        android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/txt_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="Milam Tora  added a new service"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/text_size_small"
+                    tools:ignore="MissingPrefix" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/txt_time_ago_request_accepted"
+                    android:layout_below="@+id/txt_title"
+                    android:layout_marginEnd="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="#F5F5F5"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_media"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:src="@drawable/service_thumb_big" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        android:text="Milam Tora  g gsfd gsf gsdfg sf gsfd gsfdg sfd fsf gsf gsdfg sdfgsdfg sdf sdfgs dfsdf sfg sdf gsd"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/text_size_small"
-                        tools:ignore="MissingPrefix" />
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_toLeftOf="@+id/img_arrow"
+                        android:layout_toRightOf="@+id/img_media"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/txt_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Yoga Instructor at home"
+                            android:textColor="@color/bt_color_primary"
+                            android:textSize="12sp" />
 
+                        <TextView
+                            android:id="@+id/txt_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:text="TextView"
+                            android:textColor="@color/bottom_bar_text_color"
+                            android:textSize="10sp" />
+                    </LinearLayout>
 
+                    <ImageView
+                        android:id="@+id/img_arrow"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_right_arrow_small_black" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/txt_time_ago_request_accepted"
                     fontPath="fonts/Montserrat-Regular.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txt_title"
-                    android:layout_centerVertical="true"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginTop="@dimen/_3sdp"
                     android:maxLines="1"
                     android:text="10 min ago"
                     android:textColor="#7F7F7F"
                     android:textSize="@dimen/text_size_mini_tiny"
                     android:visibility="visible"
                     tools:ignore="MissingPrefix" />
-            </RelativeLayout>
-
+            </LinearLayout>
 
 
         </RelativeLayout>
 
-        <com.pointters.utils.RoundedCornerLayout
-            android:id="@+id/layout_notification_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_12sdp"
-            >
-
-            <ImageView
-                android:id="@+id/img_media"
-                android:layout_width="@dimen/_48sdp"
-                android:layout_height="@dimen/_48sdp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/image_placeholder1"/>
-        </com.pointters.utils.RoundedCornerLayout>
     </RelativeLayout>
 
 

@@ -178,35 +178,39 @@
 
             <RelativeLayout
                 android:id="@+id/layout_chat_msg_offer"
-                android:layout_gravity="start"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_90sdp">
+                android:layout_height="@dimen/_90sdp"
+                android:layout_gravity="start">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:background="@drawable/left_service_bubble" />
+                    android:background="@drawable/left_service_bubble"
+                    android:scaleType="fitXY" />
+
                 <TextView
                     android:id="@+id/txt_chat_offer_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="6dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="6dp"
-                    android:gravity="left"
+                    android:layout_marginTop="8dp"
                     android:ellipsize="end"
+                    android:gravity="left"
                     android:maxLines="2"
                     android:text="NA"
                     android:textSize="12sp" />
+
                 <View
                     android:id="@+id/iv_chat_offer_seperator"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/fix_1dp"
                     android:layout_below="@id/txt_chat_offer_content"
                     android:layout_marginLeft="8dp"
-                    android:background="@color/disabled_btn_color"/>
+                    android:background="@color/disabled_btn_color" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -215,6 +219,7 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp">
+
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/iv_chat_offer_photo"
                         android:layout_width="@dimen/_50sdp"
@@ -223,48 +228,51 @@
                         android:layout_alignParentTop="true"
                         android:scaleType="fitXY"
                         android:src="@drawable/photo_placeholder"
-                        app:riv_corner_radius="@dimen/_3sdp"/>
+                        app:riv_corner_radius="@dimen/_3sdp" />
+
                     <TextView
-                        fontPath="fonts/Montserrat-Medium.ttf"
                         android:id="@+id/txt_chat_offer_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@id/iv_chat_offer_photo"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@id/iv_chat_offer_photo"
-                        android:layout_marginStart="6dp"
-                        android:gravity="left"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:text="NA"
-                        android:textSize="12sp"
-                        tools:ignore="MissingPrefix" />
-                    <TextView
                         fontPath="fonts/Montserrat-Medium.ttf"
-                        android:id="@+id/txt_chat_offer_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@id/iv_chat_offer_photo"
+                        android:layout_alignTop="@id/iv_chat_offer_photo"
                         android:layout_marginStart="6dp"
-                        android:gravity="left"
+                        android:layout_toEndOf="@id/iv_chat_offer_photo"
                         android:ellipsize="end"
+                        android:gravity="left"
                         android:singleLine="true"
                         android:text="NA"
                         android:textSize="12sp"
                         tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/txt_chat_offer_duration"
+                        fontPath="fonts/Montserrat-Medium.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="6dp"
+                        android:layout_toEndOf="@id/iv_chat_offer_photo"
+                        android:ellipsize="end"
+                        android:gravity="left"
+                        android:singleLine="true"
+                        android:text="NA"
+                        android:textSize="12sp"
+                        tools:ignore="MissingPrefix" />
+
                     <TextView
                         android:id="@+id/txt_chat_offer_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@id/iv_chat_offer_photo"
                         android:layout_alignBottom="@id/iv_chat_offer_photo"
-                        android:layout_marginTop = "5dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginStart="6dp"
-                        android:gravity="left"
+                        android:layout_marginTop="5dp"
+                        android:layout_toEndOf="@id/iv_chat_offer_photo"
                         android:ellipsize="end"
+                        android:gravity="left"
                         android:singleLine="true"
                         android:text="NA"
                         android:textSize="10sp"

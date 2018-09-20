@@ -126,96 +126,95 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical"
-                android:background="@color/colorWhite">
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Media"
-                    android:textColor="@color/color_black_info"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"/>
+                    android:text="Media"
+                    android:textColor="@color/color_black_info" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_media"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"/>
+                    android:layout_margin="@dimen/_10sdp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/fix_0.5dp"
-                    android:background="@drawable/divider_option"/>
+                    android:background="@drawable/divider_option" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorWhite"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price range"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"/>
+                    android:text="Price range" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center">
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="wrap_content"
                             android:text="Min:"
-                            android:textColor="@color/color_black_info"/>
+                            android:textColor="@color/color_black_info" />
+
                         <Button
                             android:id="@+id/btn_min_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorAccent"
                             android:background="@color/transparent"
-                            android:text="$10.00"/>
+                            android:text="$10.00"
+                            android:textColor="@color/colorAccent" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center">
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="wrap_content"
                             android:text="Max:"
-                            android:textColor="@color/color_black_info"/>
+                            android:textColor="@color/color_black_info" />
+
                         <Button
                             android:id="@+id/btn_max_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorAccent"
                             android:background="@color/transparent"
-                            android:text="$50.00"/>
+                            android:text="$50.00"
+                            android:textColor="@color/colorAccent" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/fix_0.5dp"
-                    android:background="@drawable/divider_option"/>
+                    android:background="@drawable/divider_option" />
 
             </LinearLayout>
 
@@ -223,10 +222,11 @@
                 android:id="@+id/location_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/colorWhite"
+                android:layout_marginBottom="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_15sdp">
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -241,46 +241,46 @@
                             android:id="@+id/icon_place"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icon_dark_place"
-                            android:layout_margin="@dimen/_10sdp"/>
+                            android:layout_margin="@dimen/_10sdp"
+                            android:src="@drawable/icon_dark_place" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
+                            android:layout_centerVertical="true"
                             android:layout_toRightOf="@+id/icon_place"
-                            android:layout_centerVertical="true">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Location"
-                                android:textColor="@color/color_black_info"/>
+                                android:textColor="@color/color_black_info" />
+
                             <TextView
                                 android:id="@+id/txt_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
-                                android:text="123 Lake Shore Chicago, IL"/>
+                                android:text="123 Lake Shore Chicago, IL" />
                         </LinearLayout>
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/right_arrow_icon"
-                            android:layout_centerVertical="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_margin="@dimen/_10sdp"/>
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:src="@drawable/right_arrow_icon" />
                     </RelativeLayout>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/fix_0.5dp"
-                    android:background="@drawable/divider_option"/>
+                    android:background="@drawable/divider_option" />
 
             </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>
@@ -296,13 +296,13 @@
             android:id="@+id/btn_send_offer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
             android:layout_alignParentEnd="true"
+            android:background="@color/transparent"
             android:padding="@dimen/_10sdp"
             android:text="Send Offer"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_small" />
         <Button
             android:id="@+id/btn_chat"
             android:layout_toStartOf="@+id/btn_send_offer"

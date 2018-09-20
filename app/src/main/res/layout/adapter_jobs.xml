@@ -193,13 +193,13 @@
                     android:id="@+id/btn_make_offer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:text="MAKE OFFER"
                     android:layout_alignParentBottom="true"
-                    android:background="@android:color/transparent"/>
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@android:color/transparent"
+                    android:text="MAKE OFFER"
+                    android:textColor="@color/colorAccent" />
 
                 <Button
                     android:id="@+id/btn_edit_offer"

@@ -7,11 +7,13 @@ import com.braintreepayments.api.models.ClientToken;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.google.gson.internal.LinkedTreeMap;
 import com.pointters.model.ClientTokenModel;
+import com.pointters.model.CustomOfferModels;
 import com.pointters.model.ExploreJobsModel;
 import com.pointters.model.GetserviceSearch;
 import com.pointters.model.InviteSuggestedUserModel;
 import com.pointters.model.LocationModel;
 import com.pointters.model.Media;
+import com.pointters.model.OrderModel;
 import com.pointters.model.OrdersDetailModel;
 import com.pointters.model.PaymentMethod;
 import com.pointters.model.PaymentMethodNonceString;
@@ -30,6 +32,7 @@ import com.pointters.model.request.DateModel;
 import com.pointters.model.request.FlagInappropriateRequest;
 import com.pointters.model.request.PostUpdateRequest;
 import com.pointters.model.request.SendCustomOfferRequest;
+import com.pointters.model.request.SendCustomOfferRequest1;
 import com.pointters.model.request.SendServicesRequest;
 import com.pointters.model.request.StoreLocationRequest;
 import com.pointters.model.request.UserEmailLoginRequest;
@@ -90,7 +93,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -166,7 +171,7 @@ public interface ApiInterface {
 
 
     @POST("service")
-    Call<Object>
+    Call<Service>
     postService(@Header("Authorization") String token,
                 @Body AddServiceRequest params);
 
@@ -340,7 +345,7 @@ public interface ApiInterface {
     //==================================================================================//
 
     @GET("order/{id}")
-    Call<OrdersDetailModel>
+    Call<OrderModel>
     getOrderDetail(@Header("Authorization") String token,
                    @Path("id") String id);
     @PUT("order/{id}/request-location-change")
@@ -548,21 +553,71 @@ public interface ApiInterface {
 
     // ==============================================================================================
 
-    @POST("offer")
+    @POST("request/{id}/offer")
     Call<GetCustomOfferDetailsResponse>
     sendCustomOffers(@Header("Authorization") String token,
+                     @Path("id") String id,
                      @Body SendCustomOfferRequest params);
 
-    @PUT("offer/{id}")
-    Call<Object>
+    @POST("request/{id}/offer")
+    Call<GetCustomOfferDetailsResponse>
+    sendCustomOffers1(@Header("Authorization") String token,
+                     @Path("id") String id,
+                     @Body SendCustomOfferRequest1 params);
+
+    @POST("offer")
+    Call<GetCustomOfferDetailsResponse>
+    sendCustomOffers2(@Header("Authorization") String token,
+                     @Body SendCustomOfferRequest params);
+
+    @POST("offer")
+    Call<GetCustomOfferDetailsResponse>
+    sendCustomOffers3(@Header("Authorization") String token,
+                      @Body SendCustomOfferRequest1 params);
+
+    @PUT("request/offer/{id}")
+    Call<ResponseBody>
     updateCustomOffers(@Header("Authorization") String token,
                        @Path("id") String id,
                        @Body SendCustomOfferRequest params);
 
-    @GET("offer/{id}")
-    Call<GetCustomOfferDetailsResponse>
+    @PUT("offer/{id}")
+    Call<ResponseBody>
+    updateCustomOffers2(@Header("Authorization") String token,
+                       @Path("id") String id,
+                       @Body SendCustomOfferRequest1 params);
+
+    @PUT("offer/{id}")
+    Call<ResponseBody>
+    updateCustomOffers3(@Header("Authorization") String token,
+                       @Path("id") String id,
+                       @Body SendCustomOfferRequest params);
+
+    @PUT("request/offer/{id}")
+    Call<ResponseBody>
+    updateCustomOffers1(@Header("Authorization") String token,
+                        @Path("id") String id,
+                        @Body SendCustomOfferRequest1 params);
+
+    @GET("request/offer/{id}")
+    Call<CustomOfferModels>
     getCustomOfferDetails(@Header("Authorization") String token,
                           @Path("id") String id);
+
+    @GET("offer/{id}")
+    Call<GetCustomOfferDetailsResponse>
+    getCustomOfferDetails1(@Header("Authorization") String token,
+                          @Path("id") String id);
+
+    @DELETE("request/offer/{id}")
+    Call<Object>
+    deleteOffer(@Header("Authorization") String token,
+                  @Path("id") String id);
+
+    @DELETE("offer/{id}")
+    Call<Object>
+    deleteOffer1(@Header("Authorization") String token,
+                @Path("id") String id);
 
     @GET("service/{id}")
     Call<GetServiceByIdResponse>

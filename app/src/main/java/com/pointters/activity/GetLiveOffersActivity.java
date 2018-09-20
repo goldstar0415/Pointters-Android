@@ -15,12 +15,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -49,9 +53,12 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pointters.R;
+import com.pointters.adapter.PostDataAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.model.CustomOfferModels;
+import com.pointters.model.FulfillmentDetails;
 import com.pointters.model.LinkServiceModel;
+import com.pointters.model.Media;
 import com.pointters.model.response.GetCustomOfferDetailsResponse;
 import com.pointters.model.response.GetServiceByIdResponse;
 import com.pointters.rest.ApiClient;
@@ -84,8 +91,8 @@ public class GetLiveOffersActivity extends AppCompatActivity implements View.OnC
     private SharedPreferences.Editor editor;
     private RelativeLayout layoutCategory, layoutLocation;
     private RecyclerView recyclerSnapPhotos;
-    private TextView txtTitle, txtCategory, txtDesc;//, txtPrice, txtOfferDesc, txtWorkTime, txtDeliveryMethod, btnAccept;
-    private EditText edtDate, edtTime, edtMinPrice, edtMaxPrice;
+    private TextView txtTitle, txtCategory;//, txtPrice, txtOfferDesc, txtWorkTime, txtDeliveryMethod, btnAccept;
+    private EditText edtDate, edtTime, edtMinPrice, edtMaxPrice, txtDesc;
     private Button submitButton, deleteButton;
 
     private KProgressHUD loader;
@@ -99,7 +106,7 @@ public class GetLiveOffersActivity extends AppCompatActivity implements View.OnC
     private String offer_id = "";
     private CustomOfferModels offerInfo;
     private List<Double> service_pos = new ArrayList<>();
-
+    ArrayList<Media> snapDatas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,17 +149,30 @@ public class GetLiveOffersActivity extends AppCompatActivity implements View.OnC
 
     private void initUI() {
         txtTitle = (TextView) findViewById(R.id.toolbar_title);
-        txtTitle.setText(R.string.custom_offer_detail);
+        txtTitle.setText(R.string.get_live_offer);
 
         findViewById(R.id.toolbar_right_img).setVisibility(View.GONE);
         findViewById(R.id.toolbar_lft_img).setOnClickListener(this);
 
         txtCategory = (TextView) findViewById(R.id.txt_category_name);
-        txtDesc = (TextView) findViewById(R.id.txt_desc);
+        txtDesc = (EditText) findViewById(R.id.txt_desc);
         layoutCategory = (RelativeLayout)findViewById(R.id.category_view);
         layoutLocation = (RelativeLayout)findViewById(R.id.location_view);
         layoutCategory.setOnClickListener(this);
         layoutLocation.setOnClickListener(this);
+
+        recyclerSnapPhotos = (RecyclerView) findViewById(R.id.recycler_snap_photos);
+        recyclerSnapPhotos.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerSnapPhotos.setLayoutManager(layoutManager);
+        ImageAdapter postDataAdapter = new ImageAdapter(this, snapDatas, new ImageAdapter.OnDeleteButtonClickListener() {
+            @Override
+            public void deleteButtonClickListener(View view, int position, int type) {
+
+            }
+        });
+        recyclerSnapPhotos.setAdapter(postDataAdapter);
+        postDataAdapter.notifyDataSetChanged();
 
         edtDate = (EditText) findViewById(R.id.edt_date);
         edtTime = (EditText) findViewById(R.id.edt_time);
@@ -171,42 +191,42 @@ public class GetLiveOffersActivity extends AppCompatActivity implements View.OnC
     private void setCustomOfferInfo() {
     }
 
-    private void callGetOfferDetails(final String offerId) {
-        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<GetCustomOfferDetailsResponse> customOfferDetailsCall = apiService.getCustomOfferDetails(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), offerId);
-        customOfferDetailsCall.enqueue(new Callback<GetCustomOfferDetailsResponse>() {
-            @Override
-            public void onResponse(Call<GetCustomOfferDetailsResponse> call, Response<GetCustomOfferDetailsResponse> response) {
-                if (loader.isShowing()) {
-                    loader.dismiss();
-                }
-
-                if (response.code() == 200 && response.body() != null) {
-                    offerInfo = response.body().getOffer();
-                    if (offerInfo.getServiceId() != null && !offerInfo.getServiceId().isEmpty()) {
-                        callGetServiceInfo(offerInfo.getServiceId());
-                    } else {
-                    }
-                    setCustomOfferInfo();
-                }
-                else if (response.code() == 401) {
-                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(GetLiveOffersActivity.this, "callCustomOfferDetailsApi");
-                    callLoginApiIfFails.OnApiFailDueToSessionListener(GetLiveOffersActivity.this);
-                }
-                else if (response.code() == 404) {
-                    Toast.makeText(GetLiveOffersActivity.this, "Can't get the offer info!", Toast.LENGTH_SHORT).show();
-//                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetCustomOfferDetailsResponse> call, Throwable t) {
-                if (loader.isShowing()) { loader.dismiss(); }
-                Toast.makeText(GetLiveOffersActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
-//                finish();
-            }
-        });
-    }
+//    private void callGetOfferDetails(final String offerId) {
+//        ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
+//        Call<GetCustomOfferDetailsResponse> customOfferDetailsCall = apiService.getCustomOfferDetails(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), offerId);
+//        customOfferDetailsCall.enqueue(new Callback<GetCustomOfferDetailsResponse>() {
+//            @Override
+//            public void onResponse(Call<GetCustomOfferDetailsResponse> call, Response<GetCustomOfferDetailsResponse> response) {
+//                if (loader.isShowing()) {
+//                    loader.dismiss();
+//                }
+//
+//                if (response.code() == 200 && response.body() != null) {
+//                    offerInfo = response.body().getOffer();
+//                    if (offerInfo.getServiceId() != null && !offerInfo.getServiceId().isEmpty()) {
+//                        callGetServiceInfo(offerInfo.getServiceId());
+//                    } else {
+//                    }
+//                    setCustomOfferInfo();
+//                }
+//                else if (response.code() == 401) {
+//                    CallLoginApiIfFails callLoginApiIfFails = new CallLoginApiIfFails(GetLiveOffersActivity.this, "callCustomOfferDetailsApi");
+//                    callLoginApiIfFails.OnApiFailDueToSessionListener(GetLiveOffersActivity.this);
+//                }
+//                else if (response.code() == 404) {
+//                    Toast.makeText(GetLiveOffersActivity.this, "Can't get the offer info!", Toast.LENGTH_SHORT).show();
+////                    finish();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GetCustomOfferDetailsResponse> call, Throwable t) {
+//                if (loader.isShowing()) { loader.dismiss(); }
+//                Toast.makeText(GetLiveOffersActivity.this, "Connection Failed!", Toast.LENGTH_SHORT).show();
+////                finish();
+//            }
+//        });
+//    }
 
     private void callGetServiceInfo(final String serviceId) {
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
@@ -362,5 +382,80 @@ public class GetLiveOffersActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 
+    }
+
+    public static class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+        private Context context;
+        private List<Media> postDatas = new ArrayList<>();
+
+        ImageAdapter.OnDeleteButtonClickListener listener;
+        public interface OnDeleteButtonClickListener {
+            public void deleteButtonClickListener(View view, int position, int type);
+        }
+
+        public ImageAdapter(Context context, List<Media> postDatas, ImageAdapter.OnDeleteButtonClickListener listener) {
+            this.context = context;
+            this.postDatas = postDatas;
+            this.listener = listener;
+        }
+
+        @Override
+        public ImageAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.snap_item,
+                    viewGroup, false);
+            return new ImageAdapter.ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ImageAdapter.ViewHolder viewHolder, int position) {
+
+            DisplayImageOptions options = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.photo_placeholder)
+                    .showImageForEmptyUri(R.drawable.photo_placeholder)
+                    .showImageOnFail(R.drawable.photo_placeholder)
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .considerExifParams(true)
+                    .build();
+
+//            Media media = postDatas.get(position);
+
+            if (position == 0) {
+                viewHolder.empty_view.setVisibility(View.VISIBLE);
+                viewHolder.img_close.setVisibility(View.GONE);
+                viewHolder.img_snap.setVisibility(View.GONE);
+            } else {
+                viewHolder.empty_view.setVisibility(View.GONE);
+                viewHolder.img_close.setVisibility(View.VISIBLE);
+                viewHolder.img_snap.setVisibility(View.VISIBLE);
+//                ImageLoader.getInstance().displayImage(media.getFileName(), viewHolder.img_snap, options);
+            }
+
+            viewHolder.img_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        listener.deleteButtonClickListener(v, position, 1);
+                    }
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return postDatas.size() + 1;
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView img_close, img_snap;
+            LinearLayout empty_view;
+
+            public ViewHolder(View view) {
+                super(view);
+                img_snap = (ImageView) view.findViewById(R.id.img_snap);
+                img_close = (ImageView) view.findViewById(R.id.img_snap);
+                empty_view = (LinearLayout) view.findViewById(R.id.empty_view);
+            }
+        }
     }
 }

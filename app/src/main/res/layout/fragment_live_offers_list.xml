@@ -15,21 +15,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/card_title_text_color"
-                android:text="Dog Walking"
-                android:layout_margin="@dimen/_10sdp"
-                android:textSize="@dimen/text_size_small"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"/>
+                android:layout_margin="@dimen/_10sdp"
+                android:gravity="center_vertical"
+                android:text="Dog Walking"
+                android:textColor="@color/card_title_text_color"
+                android:textSize="@dimen/text_size_small" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_expand_blue"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_expand_blue" />
         </LinearLayout>
     </android.support.design.widget.CollapsingToolbarLayout>
     <TextView
@@ -56,6 +57,7 @@
             android:animateLayoutChanges="false"
             />
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
     <RelativeLayout
         android:id="@+id/rl_overlay"
         android:layout_width="match_parent"
@@ -66,76 +68,84 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_alignParentBottom="true"
             android:background="@color/gg_color"
+            android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
             <LinearLayout
                 android:id="@+id/ll_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="@dimen/_10sdp">
+
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_edit_gray"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:src="@drawable/icon_edit_gray" />
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:text="Edit"
                     android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/card_title_text_color"/>
+                    android:layout_weight="3"
+                    android:text="Edit"
+                    android:textColor="@color/card_title_text_color"
+                    android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_new_request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="@dimen/_10sdp">
+
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icons_new_request"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:src="@drawable/icons_new_request" />
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:text="New Request"
                     android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/card_title_text_color"/>
+                    android:layout_weight="3"
+                    android:text="New Request"
+                    android:textColor="@color/card_title_text_color"
+                    android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_see_request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="@dimen/_10sdp">
+
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icons_see_request"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:src="@drawable/icons_see_request" />
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:text="See Request"
                     android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/card_title_text_color"/>
+                    android:layout_weight="3"
+                    android:text="See Request"
+                    android:textColor="@color/card_title_text_color"
+                    android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

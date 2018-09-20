@@ -8,12 +8,11 @@ import java.io.Serializable;
 
 public class CategoryModel implements Serializable{
 
-    private String _id;
     private String id;
     private String name;
 
     public CategoryModel(String id, String name) {
-        this._id = id;
+        this.id = id;
         this.name = name;
     }
 
@@ -21,11 +20,11 @@ public class CategoryModel implements Serializable{
         if (id != null) {
             return id;
         }
-        return _id;
+        return id;
     }
 
     public void setId(String id) {
-        this._id = id;
+        this.id = id;
     }
 
     public String getName() {

@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 public class Media {
     private String _id;
+    private String videoThumbnail;
     private String fileName;
     private String mediaType;
 
@@ -24,6 +25,14 @@ public class Media {
     public Media(String fileName, String mediaType) {
         this.fileName = fileName;
         this.mediaType = mediaType;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getFileName() {
@@ -42,11 +51,11 @@ public class Media {
         this.mediaType = mediaType;
     }
 
-    public String get_id() {
-        return _id;
+    public String getVideoThumbnail() {
+        return videoThumbnail;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setVideoThumbnail(String videoThumbnail) {
+        this.videoThumbnail = videoThumbnail;
     }
 }

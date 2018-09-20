@@ -218,7 +218,7 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private CardView cardView;
         private ImageView imgTagService;
-        private TextView txtTagName;
+        private TextView txtTagName, txtName, txtFlag, txtTick, txtTime, txtServicePrice, txtServiceDesc, txtStatus;;
         private ImageView deleteButton;
 
         public TagViewHolder(View itemView) {
@@ -226,6 +226,14 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             imgTagService = (ImageView) itemView.findViewById(R.id.img_tag_service);
             txtTagName = (TextView) itemView.findViewById(R.id.txt_tag_name);
+
+            txtName = (TextView) itemView.findViewById(R.id.txt_name);
+            txtFlag = (TextView) itemView.findViewById(R.id.txt_flag);
+            txtTick = (TextView) itemView.findViewById(R.id.txt_tick);
+            txtTime = (TextView) itemView.findViewById(R.id.txt_time);
+
+            txtStatus = (TextView) itemView.findViewById(R.id.txt_status);
+
             deleteButton = (ImageView) itemView.findViewById(R.id.delete_tag_button);
         }
         public void bindTo(int position){
@@ -248,69 +256,79 @@ public class PostDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
             if (tagData != null ) {
                 if (tagData.getService() != null) {
-                    if (tagData.getType() != null && tagData.getType().equals("user")) {
-                        imgTagService.setVisibility(View.GONE);
 
-                        if (tagData.getService().getMedia().size() > 0 && !tagData.getService().getMedia().isEmpty()) {
-
-                            String strPic = tagData.getService().getMedia().get(0).getFileName();
-                            if (!strPic.contains("https://s3.amazonaws.com")) {
-                            }
+                    if (tagData.getService().getMedia().size() > 0) {
+                        String strPic = tagData.getService().getMedia().get(0).getFileName();
+                        if (!strPic.contains("https://s3.amazonaws.com")) {
+//                            strPic = "https://s3.amazonaws.com" + strPic;
                         }
-
-                        txtTagName.setText(tagData.getService().getSeller().getFirstName() + " " + tagData.getService().getSeller().getLastName());
-                    }
-                    else {
-                        imgTagService.setVisibility(View.VISIBLE);
-
-                        if (tagData.getService().getMedia().size() > 0) {
-                            String strPic = tagData.getService().getMedia().get(0).getFileName();
-                            if (!strPic.contains("https://s3.amazonaws.com")) {
-                            }
-                            ImageLoader.getInstance().displayImage(strPic, imgTagService, options);
-                        }
-
-                        if (tagData.getService().getDescription() != null) {
-                            txtTagName.setText(tagData.getService().getDescription());
-                        } else {
-                            txtTagName.setText("");
-                        }
+                        ImageLoader.getInstance().displayImage(strPic, imgTagService, options);
                     }
 
-                    if (tagData.getService().getLocation() != null) {
-                        String strCity = "", strState = "", strPos="", strKm="NA";
-                        if (tagData.getService().getLocation().getCity() != null && !tagData.getService().getLocation().getCity().equals(""))
-                            strCity = tagData.getService().getLocation().getCity();
-                        if (tagData.getService().getLocation().getState() != null && !tagData.getService().getLocation().getState().equals(""))
-                            strState = tagData.getService().getLocation().getState();
-                        if (tagData.getService().getLocation().getGeoJson() != null) {
-                            GeoJsonModel geoJson = tagData.getService().getLocation().getGeoJson();
-                            if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
-                                Location servicePos = new Location("");
-                                servicePos.setLatitude(geoJson.getCoordinates().get(1));
-                                servicePos.setLongitude(geoJson.getCoordinates().get(0));
-
-                                Location userPos = new Location("");
-//                                userPos.setLatitude(userLat);
-//                                userPos.setLongitude(userLng);
-
-                                strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
-                            }
-                        }
-
-                        if (strCity.equals("")) {
-                            if (!strState.equals("")) {
-                                strPos = strKm + "@" + strState;
-                            } else {
-                                strPos = strKm;
-                            }
-                        } else {
-                            strPos = strKm + "@" + strCity + ", " + strState;
-                        }
-
-//                    holder.txtTagPos.setText(strPos);
+                    if (tagData.getService().getDescription() != null) {
+                        txtTagName.setText(tagData.getService().getDescription());
+                    } else {
+                        txtTagName.setText("");
                     }
+
+                    txtName.setText(tagData.getService().getSeller().getFirstName());
+                    txtFlag.setText(String.valueOf(tagData.getService().getNumOrders()));
+                    txtTick.setText(String.valueOf(tagData.getService().getAvgRating()));
+                    txtTime.setText(String.valueOf(tagData.getService().getPointValue()));
+
+                    txtStatus.setText("By:");
+                } else {
+                    String strPic = tagData.getUser().getProfilePic();
+                    if (!strPic.contains("https://s3.amazonaws.com")) {
+                        strPic = "https://s3.amazonaws.com" + strPic;
+                    }
+                    ImageLoader.getInstance().displayImage(strPic, imgTagService, options);
+
+                    txtTagName.setText(tagData.getUser().getFirstName() + " " + tagData.getUser().getLastName());
+
+                    txtName.setText(tagData.getUser().getLocation().getProvince());
+
+                    txtFlag.setText(String.valueOf(tagData.getUser().getNumOrders()));
+                    txtTick.setText(String.valueOf(tagData.getUser().getAvgRating()));
+                    txtTime.setText(String.valueOf(tagData.getUser().getPointValue()));
+
+                    txtStatus.setText("@ ");
                 }
+
+//                    if (tagData.getService().getLocation() != null) {
+//                        String strCity = "", strState = "", strPos="", strKm="NA";
+//                        if (tagData.getService().getLocation().getCity() != null && !tagData.getService().getLocation().getCity().equals(""))
+//                            strCity = tagData.getService().getLocation().getCity();
+//                        if (tagData.getService().getLocation().getState() != null && !tagData.getService().getLocation().getState().equals(""))
+//                            strState = tagData.getService().getLocation().getState();
+//                        if (tagData.getService().getLocation().getGeoJson() != null) {
+//                            GeoJsonModel geoJson = tagData.getService().getLocation().getGeoJson();
+//                            if (geoJson.getCoordinates() != null && geoJson.getCoordinates().size() > 0) {
+//                                Location servicePos = new Location("");
+//                                servicePos.setLatitude(geoJson.getCoordinates().get(1));
+//                                servicePos.setLongitude(geoJson.getCoordinates().get(0));
+//
+//                                Location userPos = new Location("");
+////                                userPos.setLatitude(userLat);
+////                                userPos.setLongitude(userLng);
+//
+//                                strKm = String.format("%.02f", userPos.distanceTo(servicePos)/1000) + "km";
+//                            }
+//                        }
+//
+//                        if (strCity.equals("")) {
+//                            if (!strState.equals("")) {
+//                                strPos = strKm + "@" + strState;
+//                            } else {
+//                                strPos = strKm;
+//                            }
+//                        } else {
+//                            strPos = strKm + "@" + strCity + ", " + strState;
+//                        }
+//
+////                    holder.txtTagPos.setText(strPos);
+//                    }
+//                }
             }
         }
     }

@@ -167,6 +167,7 @@ public class CustomOffersFragment extends Fragment implements OnApiFailDueToSess
 
             Intent intent = new Intent(getActivity(), CustomOfferDetailsActivity.class);
             intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offerId);
+            intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 1);
             startActivity(intent);
         } else {
             Toast.makeText(getActivity(), "Can't get the detail info", Toast.LENGTH_SHORT).show();

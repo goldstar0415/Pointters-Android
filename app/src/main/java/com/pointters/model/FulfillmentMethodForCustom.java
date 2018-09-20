@@ -6,15 +6,14 @@ package com.pointters.model;
 
 public class FulfillmentMethodForCustom {
 
-    private String local;
-    private String online;
-    private String shipment;
-    private String store;
+    private boolean local;
+    private boolean online;
+    private boolean shipment;
+    private boolean store;
     private int localServiceRadius;
     private String localServiceRadiusUom;
 
-
-    public FulfillmentMethodForCustom(String online, String shipment, String local, String store, int localServiceRadius, String localServiceRadiusUom) {
+    public FulfillmentMethodForCustom(boolean online, boolean shipment, boolean local, boolean store, int localServiceRadius, String localServiceRadiusUom) {
         this.online = online;
         this.shipment = shipment;
         this.local = local;
@@ -23,35 +22,35 @@ public class FulfillmentMethodForCustom {
         this.localServiceRadiusUom = localServiceRadiusUom;
     }
 
-    public String getLocal() {
+    public boolean isLocal() {
         return local;
     }
 
-    public void setLocal(String local) {
+    public void setLocal(boolean local) {
         this.local = local;
     }
 
-    public String getOnline() {
+    public boolean isOnline() {
         return online;
     }
 
-    public void setOnline(String online) {
+    public void setOnline(boolean online) {
         this.online = online;
     }
 
-    public String getShipment() {
+    public boolean isShipment() {
         return shipment;
     }
 
-    public void setShipment(String shipment) {
+    public void setShipment(boolean shipment) {
         this.shipment = shipment;
     }
 
-    public String getStore() {
+    public boolean isStore() {
         return store;
     }
 
-    public void setStore(String store) {
+    public void setStore(boolean store) {
         this.store = store;
     }
 

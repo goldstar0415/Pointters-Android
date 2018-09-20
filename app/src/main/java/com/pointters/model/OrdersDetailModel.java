@@ -14,6 +14,7 @@ public class OrdersDetailModel {
     private ArrayList<OrderItem> orderItems;
     private ArrayList<Media> sellerDeliveredMedia;
     private ArrayList<LocationModel> sellerServiceLocation;
+    private Object buyerServiceLocation;
     private ArrayList<Prices> servicesPrices;
     private String _id;
     private String buyerId;
@@ -27,12 +28,56 @@ public class OrdersDetailModel {
     private PaymentMethod paymentMethod;
     private String sellerId;
     private String serviceId;
-    private Integer totalAmount;
+    private Float taxAmount;
+    private Float shippingFee;
+    private Float subtotalAmount;
     private Integer totalAmountBeforeDiscount;
     private boolean sellerAcceptedScheduleTime;
     private boolean sellerAcceptedBuyerServiceLocation;
-    private LocationModel buyerServiceLocation;
+//    private LocationModel buyerServiceLocation;
     private Integer __v;
+    private ContactModel contact;
+    private String serviceScheduleDate;
+
+    public String getServiceScheduleDate() {
+        return serviceScheduleDate;
+    }
+
+    public void setServiceScheduleDate(String serviceScheduleDate) {
+        this.serviceScheduleDate = serviceScheduleDate;
+    }
+
+    public Float getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(Float taxAmount) {
+        this.taxAmount = taxAmount;
+    }
+
+    public Float getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(Float shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
+    public Float getSubtotalAmount() {
+        return subtotalAmount;
+    }
+
+    public void setSubtotalAmount(Float subtotalAmount) {
+        this.subtotalAmount = subtotalAmount;
+    }
+
+    public ContactModel getContact() {
+        return contact;
+    }
+
+    public void setContact(ContactModel contact) {
+        this.contact = contact;
+    }
 
     public String getCreatedAt() {
         return createdAt;
@@ -186,14 +231,6 @@ public class OrdersDetailModel {
         this.serviceId = serviceId;
     }
 
-    public Integer getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Integer totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
     public Integer getTotalAmountBeforeDiscount() {
         return totalAmountBeforeDiscount;
     }
@@ -218,11 +255,11 @@ public class OrdersDetailModel {
         this.sellerAcceptedBuyerServiceLocation = sellerAcceptedBuyerServiceLocation;
     }
 
-    public LocationModel getBuyerServiceLocation() {
+    public Object getBuyerServiceLocation() {
         return buyerServiceLocation;
     }
 
-    public void setBuyerServiceLocation(LocationModel buyerServiceLocation) {
+    public void setBuyerServiceLocation(Object buyerServiceLocation) {
         this.buyerServiceLocation = buyerServiceLocation;
     }
 

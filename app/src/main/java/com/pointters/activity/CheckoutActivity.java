@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -88,6 +89,8 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
 
     private StoreLocationModel shippingAddress;
     private PaymentMethod paymentMethod;
+    private CardView card_view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +98,8 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+        card_view = (CardView) findViewById(R.id.card_view);
+        card_view.setOnClickListener(this);
         payButton = (TextView) findViewById(R.id.btn_pay);
         changePaymentMethodRelativeLayout = (RelativeLayout) findViewById(R.id.change_payment);
         changeShippingAddressLayout = (RelativeLayout) findViewById(R.id.change_shipping_address);
@@ -150,7 +155,12 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
                 onBackPressed();
                 break;
             case R.id.btn_pay:
-                startActivity(new Intent(CheckoutActivity.this, FulfillmentActivity.class));
+                if (!txtTotalBudget.getText().equals("") && !txtTotalBudget.getText().equals("$0.00")) {
+                    Intent intent = new Intent(this, FulfillmentActivity.class);
+//                    intent.putExtra(ConstantUtils.SELECT_ORDER_ID, strId);
+                    intent.putExtra(ConstantUtils.SELECT_ORDER_TYPE, ConstantUtils.BUYER);
+                    startActivity(intent);
+                }
                 break;
             case R.id.change_payment:
                 startActivity(new Intent(CheckoutActivity.this, PaymentMethodsActivity.class));
@@ -164,6 +174,9 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
                 }else{
                     startActivityForResult(shipIntent, REQUEST_ENTER_SHIPPING_ADDRESS);
                 }
+                break;
+            case R.id.card_view:
+                onBackPressed();
                 break;
         }
     }
@@ -269,6 +282,12 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
             txtCompleteTime.setText(String.format("%d %s", 0, unit));
             float total = 0f;
             txtTotalBudget.setText(String.format("%s%.2f", prices.getCurrencySymbol(), total));
+        }
+
+        if (service.getFulfillmentMethod().getShipment()) {
+            changeShippingAddressLayout.setVisibility(View.VISIBLE);
+        } else {
+            changeShippingAddressLayout.setVisibility(View.GONE);
         }
     }
 

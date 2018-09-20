@@ -3,6 +3,7 @@ package com.pointters.activity;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,6 +28,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -47,6 +49,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,6 +79,7 @@ import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pointters.R;
 import com.pointters.adapter.AddFragmentsInCrosswallPagerAdapter;
@@ -90,10 +94,12 @@ import com.pointters.model.AddressModel;
 import com.pointters.model.CategoryModel;
 import com.pointters.model.DeliveryMethod;
 import com.pointters.model.FulfillmentMethod;
+import com.pointters.model.FulfillmentMethodForCustom;
 import com.pointters.model.FulfillmentMethodForCustom1;
 import com.pointters.model.Media;
 import com.pointters.model.ParcelModel;
 import com.pointters.model.Prices;
+import com.pointters.model.Service;
 import com.pointters.model.ServiceInfoModel;
 import com.pointters.model.request.AddServiceRequest;
 import com.pointters.model.request.LocationRequestModel;
@@ -182,6 +188,7 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
     private AddressModel addressModel;
     private CategoryModel categoryModel;
     private FulfillmentMethodForCustom1 fulfillmentMethod;
+    private FulfillmentMethodForCustom fulfillmentMethod1;
     private Media media;
     private ArrayList<String> listDataHeader = new ArrayList<String>();
     private HashMap<String, List<CategoryModel>> listDataChild = new HashMap<String, List<CategoryModel>>();
@@ -209,6 +216,8 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
     private MediaAdapter adapter;
     String cameraImageFilePath = "";
     String cameraVideoFilePath = "";
+
+    int selDeliveryMethod = -1;
 
     public static void try2CreateCompressDir() {
         File f = new File(Environment.getExternalStorageDirectory(), File.separator + APP_DIR);
@@ -248,6 +257,7 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         fulfillmentMethod = new FulfillmentMethodForCustom1();
+
         if (!sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "").equals("")) {
             mUserLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
         }
@@ -374,15 +384,19 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.check_button1:
+                    selDeliveryMethod = 0;
                     setDeliveryMethod(0);
                     break;
                 case R.id.check_button2:
+                    selDeliveryMethod = 1;
                     setDeliveryMethod(1);
                     break;
                 case R.id.check_button3:
+                    selDeliveryMethod = 2;
                     setDeliveryMethod(2);
                     break;
                 case R.id.check_button4:
+                    selDeliveryMethod = 3;
                     setDeliveryMethod(3);
                     break;
                 default:
@@ -529,7 +543,11 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         switch (v.getId()){
 
             case R.id.btn_add_service:
-                CallAddServiceApi();
+                if (selDeliveryMethod == -1) {
+                    showConfirmAlert();
+                } else {
+                    CallAddServiceApi();
+                }
                 break;
             case R.id.btn_add_price_option:
                 Intent intent = new Intent(EditServiceDetailActivity.this, AddPriceOptionActivity.class);
@@ -599,7 +617,13 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         serviceDesc = edtServiceDescription.getText().toString();
         //SetUp fulFillment method
 //        fulfillmentMethod = new FulfillmentMethodForCustom1(deliveryMethods.get(0).isSelected(), deliveryMethods.get(1).isSelected(), deliveryMethods.get(2).isSelected(), deliveryMethods.get(3).isSelected(), mServiceRadius, "mile");
-        AddServiceRequest addServiceRequest = new AddServiceRequest(categoryModel, serviceDesc, fulfillmentMethod, files, pricesList);
+        AddServiceRequest addServiceRequest = null;
+
+        if (fulfillmentMethod.getShipment()) {
+            addServiceRequest = new AddServiceRequest(categoryModel, serviceDesc, fulfillmentMethod, files, pricesList);
+        } else {
+            addServiceRequest = new AddServiceRequest(categoryModel, serviceDesc, fulfillmentMethod1, files, pricesList);
+        }
 
         loader.show();
         if (fulfillmentMethod.getShipment()) {
@@ -609,6 +633,7 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
                 coordinates.add(1, mUserLat);
                 LongitudeLatitude longitudeLatitude = new LongitudeLatitude(coordinates, "Point");
 
+                geocoder = new Geocoder(this);
                 addresses = geocoder.getFromLocation(mUserLat, mUserLng, 1);// Here 1 represent max location result to returned, by documents it recommended 1 to 5
                 String city = addresses.get(0).getLocality();
                 String state = addresses.get(0).getAdminArea();
@@ -626,11 +651,13 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
             }
         }
 
+        String jsonStr = new GsonBuilder().create().toJson(addServiceRequest);
+
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<Object> updateServiceRequestCall = apiService.postService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), addServiceRequest);
-        updateServiceRequestCall.enqueue(new Callback<Object>() {
+        Call<Service> updateServiceRequestCall = apiService.postService(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), addServiceRequest);
+        updateServiceRequestCall.enqueue(new Callback<Service>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(Call<Service> call, Response<Service> response) {
                 if (loader.isShowing()) {
                     loader.dismiss();
                 }
@@ -648,7 +675,7 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<Service> call, Throwable t) {
                 if (loader.isShowing())     loader.dismiss();
                 Toast.makeText(EditServiceDetailActivity.this, "adding service failed!", Toast.LENGTH_SHORT).show();
             }
@@ -656,9 +683,25 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
 
     }
 
+    public void showConfirmAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+
+        alertDialog.setTitle("Warning");
+
+        alertDialog.setMessage("Please select Delivery Method");
+
+
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
+    }
 
     public void showRadiusDialog(){
-        int selectedIndex = fulfillmentMethod.getLocalServiceRadius() / 5 - 1;
+        int selectedIndex = Integer.valueOf(fulfillmentMethod.getLocalServiceRadius()) / 5 - 1;
         new MaterialDialog.Builder(this)
                 .title("Choose Radius")
                 .items(R.array.radius)
@@ -672,8 +715,11 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
                         String radius = text.toString();
                         mServiceRadius = Integer.valueOf(radius.replace(" miles", ""));
                         btnRadius.setText(text);
-                        fulfillmentMethod.setLocalServiceRadius(Integer.parseInt(((String)text).replace(" miles", "")));
+                        fulfillmentMethod.setLocalServiceRadius(Integer.valueOf(((String)text).replace(" miles", "")));
                         fulfillmentMethod.setLocalServiceRadiusUom("mile");
+
+                        fulfillmentMethod1.setLocalServiceRadius(Integer.valueOf(((String)text).replace(" miles", "")));
+                        fulfillmentMethod1.setLocalServiceRadiusUom("mile");
                         return true;
                     }
                 })
@@ -884,6 +930,10 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
                     allowUpdateService();
                     break;
                 case REQUEST_ADD_PRICE:
+//                    edtServiceDescription.setFocusableInTouchMode(false);
+//                    edtServiceDescription.setFocusable(false);
+                    this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
                     prices = (Prices) data.getSerializableExtra(ConstantUtils.PRICE);
                     pricesList.add(prices);
                     pricingRvAdapter.setPricesList(pricesList);
@@ -1260,44 +1310,44 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         startActivityForResult(intent, REQUEST_EDIT_PRICE);
     }
 
-    private void setServiceInfo(ServiceInfoModel service) {
-        if (service.getCategory() != null && service.getCategory().getName() != null && !service.getCategory().getName().isEmpty()) {
-            isCategory = true;
-            categoryModel = service.getCategory();
-//            txtChooseCategory.setText(service.getCategory().getName().toUpperCase());
-        }
-
-        if (service.getDescription() != null && !service.getDescription().isEmpty()) {
-            serviceDesc = service.getDescription();
-            editServiceDesc.setText(serviceDesc);
-        }
-
-        if (service.getMedia() != null && service.getMedia().size() > 0) {
-            files.clear();
-            files.addAll(service.getMedia());
-            media = new Media("", getResources().getString(R.string.image));
-            files.add(media);
-        }
-
-        if (service.getPrices() != null && service.getPrices().size() > 0) {
-            pricesList.addAll(service.getPrices());
-        }
-
-        if (service.getFulfillmentMethod() != null) {
-            if (service.getFulfillmentMethod().getOnline() != null && !service.getFulfillmentMethod().getOnline().isEmpty() && service.getFulfillmentMethod().getOnline().equals("true")) {
-                setDeliveryMethod(0);
-            } else if (service.getFulfillmentMethod().getShipment() != null && !service.getFulfillmentMethod().getShipment().isEmpty() && service.getFulfillmentMethod().getShipment().equals("true")) {
-                setDeliveryMethod(1);
-            } else if (service.getFulfillmentMethod().getLocal() != null && !service.getFulfillmentMethod().getLocal().isEmpty() && service.getFulfillmentMethod().getLocal().equals("true")) {
-                setDeliveryMethod(2);
-            } else if (service.getFulfillmentMethod().getStore() != null && !service.getFulfillmentMethod().getStore().isEmpty() && service.getFulfillmentMethod().getStore().equals("true")) {
-                setDeliveryMethod(3);
-            } else {
-                setDeliveryMethod(2);
-            }
-        }
-
-    }
+//    private void setServiceInfo(ServiceInfoModel service) {
+//        if (service.getCategory() != null && service.getCategory().getName() != null && !service.getCategory().getName().isEmpty()) {
+//            isCategory = true;
+//            categoryModel = service.getCategory();
+////            txtChooseCategory.setText(service.getCategory().getName().toUpperCase());
+//        }
+//
+//        if (service.getDescription() != null && !service.getDescription().isEmpty()) {
+//            serviceDesc = service.getDescription();
+//            editServiceDesc.setText(serviceDesc);
+//        }
+//
+//        if (service.getMedia() != null && service.getMedia().size() > 0) {
+//            files.clear();
+//            files.addAll(service.getMedia());
+//            media = new Media("", getResources().getString(R.string.image));
+//            files.add(media);
+//        }
+//
+//        if (service.getPrices() != null && service.getPrices().size() > 0) {
+//            pricesList.addAll(service.getPrices());
+//        }
+//
+//        if (service.getFulfillmentMethod() != null) {
+//            if (service.getFulfillmentMethod().isOnline()) {
+//                setDeliveryMethod(0);
+//            } else if (service.getFulfillmentMethod().isShipment()) {
+//                setDeliveryMethod(1);
+//            } else if (service.getFulfillmentMethod().getLocal() != null && !service.getFulfillmentMethod().getLocal().isEmpty() && service.getFulfillmentMethod().getLocal().equals("true")) {
+//                setDeliveryMethod(2);
+//            } else if (service.getFulfillmentMethod().getStore() != null && !service.getFulfillmentMethod().getStore().isEmpty() && service.getFulfillmentMethod().getStore().equals("true")) {
+//                setDeliveryMethod(3);
+//            } else {
+//                setDeliveryMethod(2);
+//            }
+//        }
+//
+//    }
 
     private void setDeliveryMethod(int index) {
 
@@ -1306,7 +1356,7 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
         fulfillmentMethod.setShipment(false);
         fulfillmentMethod.setStore(false);
         fulfillmentMethod.setLocalServiceRadius(mServiceRadius);
-        fulfillmentMethod.setLocalServiceRadiusUom("miles");
+        fulfillmentMethod.setLocalServiceRadiusUom("mile");
         check1.setSelected(false);
         check2.setSelected(false);
         check3.setSelected(false);
@@ -1317,6 +1367,7 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
             case 0:
                 check1.setSelected(true);
                 fulfillmentMethod.setOnline(true);
+                fulfillmentMethod1 = new FulfillmentMethodForCustom(true, false, false, false, 25, "mile");
                 allowUpdateService();
                 break;
             case 1:
@@ -1328,12 +1379,14 @@ public class EditServiceDetailActivity extends AppCompatActivity implements View
             case 2:
                 check3.setSelected(true);
                 fulfillmentMethod.setLocal(true);
+                fulfillmentMethod1 = new FulfillmentMethodForCustom(false, false, true, false, 25, "mile");
                 layoutRadius.setVisibility(View.VISIBLE);
                 allowUpdateService();
                 break;
             case 3:
                 check4.setSelected(true);
                 fulfillmentMethod.setStore(true);
+                fulfillmentMethod1 = new FulfillmentMethodForCustom(false, false, false, true, 25, "mile");
                 allowUpdateService();
                 break;
             default:

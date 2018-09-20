@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -192,23 +193,23 @@ public class UserSettingShippingAddressesActivity extends AppCompatActivity impl
             hold.imgView.setImageResource(R.drawable.location_pin_icon);
             hold.title.setText(model.getName());
             hold.subtitle.setText(model.getFullAddress());
-//            if (model.isDefault()) {
-//                hold.checkicon.setImageResource(R.drawable.icon_check);
-//                hold.checkicon.setVisibility(View.VISIBLE);
-//            }else{
-//                hold.checkicon.setVisibility(View.INVISIBLE);
-//            }
+
             hold.checkicon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(position);
                 }
             });
-//            hold.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                }
-//            });
+
+            hold.rl_itemview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedStoreLocation = shippingAddress.get(position);
+                    Intent intent1 = new Intent(UserSettingShippingAddressesActivity.this, EnterShippingAddressesActivity.class);
+                    intent1.putExtra("storeLocationId", selectedStoreLocation.get_id());
+                    startActivityForResult(intent1, REQUEST_EDIT_STORELOCATION);
+                }
+            });
         }
 
         @Override
@@ -223,6 +224,7 @@ public class UserSettingShippingAddressesActivity extends AppCompatActivity impl
             TextView subtitle;
             ImageView imgView;
             ImageView checkicon;
+            RelativeLayout rl_itemview;
 
 
             public MyHolder(View itemView) {
@@ -231,6 +233,7 @@ public class UserSettingShippingAddressesActivity extends AppCompatActivity impl
                 subtitle = (TextView) itemView.findViewById(R.id.txt_subtitle);
                 imgView = (ImageView) itemView.findViewById(R.id.img_payment);
                 checkicon = (ImageView) itemView.findViewById(R.id.right_icon);
+                rl_itemview = (RelativeLayout) itemView.findViewById(R.id.rl_itemview);
             }
         }
     }

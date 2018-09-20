@@ -15,13 +15,13 @@ public class SendCustomOfferRequest {
     private String currencyCode;
     private String currencySymbol;
     private String description;
-    private FulfillmentMethodForCustom1 fulfillmentMethod;
+    private FulfillmentMethodForCustom fulfillmentMethod;
     private int price;
     private int workDuration;
     private String workDurationUom;
 
 
-    public SendCustomOfferRequest(String sellerId, String buyerId, String currencyCode, String currencySymbol, String description, FulfillmentMethodForCustom1 fulfillmentMethod, int price, int workDuration, String workDurationUom) {
+    public SendCustomOfferRequest(String sellerId, String buyerId, String currencyCode, String currencySymbol, String description, FulfillmentMethodForCustom fulfillmentMethod, int price, int workDuration, String workDurationUom) {
         this.sellerId = sellerId;
         this.buyerId = buyerId;
         this.currencyCode = currencyCode;
@@ -37,7 +37,7 @@ public class SendCustomOfferRequest {
         return serviceId;
      }
 
-    public void setServiceId(String serviceId) {
+     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
     }
 }

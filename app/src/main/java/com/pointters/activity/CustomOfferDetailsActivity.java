@@ -86,6 +86,7 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
     private CustomOfferModels offerInfo;
     private List<Double> service_pos = new ArrayList<>();
 
+    private Integer isMessage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,8 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
 
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        isMessage = getIntent().getIntExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 0);
 
         if (!sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "").equals("")) {
             mUserLat = Double.parseDouble(sharedPreferences.getString(ConstantUtils.USER_LATITUDE, "0"));
@@ -122,7 +125,10 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
         offer_id = getIntent().getStringExtra(ConstantUtils.SELECT_OFFER_ID);
         if (!offer_id.equals("")) {
             loader.show();
-            callGetOfferDetails(offer_id);
+
+            if (isMessage == 1) {
+                callGetOfferDetails(offer_id);
+            }
         } else {
             Toast.makeText(this, "Invalid offer!", Toast.LENGTH_SHORT).show();
 //            finish();
@@ -233,11 +239,11 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
         boolean isLocal = false;
         Integer localRadius = 0;
         if (offerInfo.getFulfillmentMethod() != null) {
-            boolean isOnline = offerInfo.getFulfillmentMethod().getOnline();
-            boolean isShipment = offerInfo.getFulfillmentMethod().getShipment();
-            boolean isStore = offerInfo.getFulfillmentMethod().getStore();
+            boolean isOnline = offerInfo.getFulfillmentMethod().isOnline();
+            boolean isShipment = offerInfo.getFulfillmentMethod().isShipment();
+            boolean isStore = offerInfo.getFulfillmentMethod().isStore();
 
-            isLocal = offerInfo.getFulfillmentMethod().getLocal();
+            isLocal = offerInfo.getFulfillmentMethod().isLocal();
             localRadius = offerInfo.getFulfillmentMethod().getLocalServiceRadius();
 
             String locationRadiusUnit = "mile";
@@ -283,9 +289,9 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
         }
     }
 
-    private void callGetOfferDetails(final String offerId) {
+    private void callGetOfferDetails(final String offerId) {    //Buyer -> Offer
         ApiInterface apiService = ApiClient.getClient(false).create(ApiInterface.class);
-        Call<GetCustomOfferDetailsResponse> customOfferDetailsCall = apiService.getCustomOfferDetails(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), offerId);
+        Call<GetCustomOfferDetailsResponse> customOfferDetailsCall = apiService.getCustomOfferDetails1(ConstantUtils.TOKEN_PREFIX + sharedPreferences.getString(ConstantUtils.PREF_TOKEN, ""), offerId);
         customOfferDetailsCall.enqueue(new Callback<GetCustomOfferDetailsResponse>() {
             @Override
             public void onResponse(Call<GetCustomOfferDetailsResponse> call, Response<GetCustomOfferDetailsResponse> response) {
@@ -294,7 +300,9 @@ public class CustomOfferDetailsActivity extends AppCompatActivity implements Vie
                 }
 
                 if (response.code() == 200 && response.body() != null) {
+
                     offerInfo = response.body().getOffer();
+
                     if (offerInfo.getServiceId() != null && !offerInfo.getServiceId().isEmpty()) {
                         callGetServiceInfo(offerInfo.getServiceId());
                     } else {

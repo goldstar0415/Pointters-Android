@@ -184,7 +184,7 @@ public class RelatedServiceAdapter extends RecyclerView.Adapter<RelatedServiceAd
             holder.txtTick.setText(String.valueOf(valOrders));
 
             float valRating = 0.0f;
-            if (serviceArrayList.get(position).getService().getAvgRating() != null && serviceArrayList.get(position).getService().getAvgRating() > 0) {
+            if (serviceArrayList.get(position).getService().getAvgRating() > 0) {
                 valRating = serviceArrayList.get(position).getService().getAvgRating();
             }
             holder.txtTime.setText(String.valueOf(valRating) + "%");

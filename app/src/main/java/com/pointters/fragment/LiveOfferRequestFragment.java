@@ -1,6 +1,7 @@
 package com.pointters.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,8 +21,10 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
+import com.pointters.activity.CustomOfferDetailsActivity;
 import com.pointters.adapter.LiveOfferRequestsAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.model.LiveOfferRequestsModel;
 import com.pointters.model.response.GetLiveOfferRequestsResponse;
 import com.pointters.rest.ApiClient;
@@ -89,7 +92,21 @@ public class LiveOfferRequestFragment extends Fragment implements OnApiFailDueTo
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         liveRecyclerView.setLayoutManager(linearLayoutManager);
         liveRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        liveOfferRequestAdapter = new LiveOfferRequestsAdapter(getActivity(), liveOfferRequestsList);
+        liveOfferRequestAdapter = new LiveOfferRequestsAdapter(getActivity(), liveOfferRequestsList, new OnRecyclerViewButtonClickListener(){
+            @Override
+            public void onButtonClick(View v, int position) {
+                switch (v.getId()) {
+                    case R.id.upper_view:
+                        detailOffer(position);
+                        break;
+
+                    case R.id.btn_accept:
+                        detailOffer(position);
+                        break;
+                }
+            }
+
+        });
         liveRecyclerView.setAdapter(liveOfferRequestAdapter);
 
         liveRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -112,6 +129,18 @@ public class LiveOfferRequestFragment extends Fragment implements OnApiFailDueTo
         });
     }
 
+    private void detailOffer(int position) {
+        if (liveOfferRequestsList.get(position).getRequests().getId() != null && !liveOfferRequestsList.get(position).getRequests().getId().isEmpty()) {
+            String offerId = liveOfferRequestsList.get(position).getRequests().getId();
+
+//            Intent intent = new Intent(getActivity(), CustomOfferDetailsActivity.class);
+//            intent.putExtra(ConstantUtils.SELECT_OFFER_ID, offerId);
+//            intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 2);
+//            startActivity(intent);
+        } else {
+            Toast.makeText(getActivity(), "Can't get the detail info", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private void getLiveOfferRequestsApiCall(final boolean inited, String lastId) {
         if (inited) {

@@ -15,15 +15,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pointters.R;
 import com.pointters.activity.JobDetailActivity;
+import com.pointters.activity.SendCustomOfferActivity;
 import com.pointters.adapter.OffersAdapter;
 import com.pointters.adapter.SellJobsAdapter;
 import com.pointters.listener.OnApiFailDueToSessionListener;
+import com.pointters.listener.OnRecyclerViewButtonClickListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
+import com.pointters.model.ExploreJobsModel;
 import com.pointters.model.SellJobsModel;
 import com.pointters.model.SentOfferModel;
 import com.pointters.model.response.GetSellJobsResponse;
@@ -99,10 +103,26 @@ public class SellJobsFragment extends Fragment implements OnApiFailDueToSessionL
             public void onItemClick(int position) {
                 SellJobsModel model = sellJobsList.get(position);
                 Intent intent = new Intent(getActivity(), JobDetailActivity.class);
-                intent.putExtra(ConstantUtils.SELECT_JOB_ID, model.getRequestOffers().getRequestOfferId());
+                intent.putExtra(ConstantUtils.SELECT_JOB_ID, model.getRequestOffers().getRequest().getRequestId());
+                intent.putExtra(ConstantUtils.BUYER, model.getRequestOffers().getRequester().getUserId());
+                intent.putExtra(ConstantUtils.SELECT_OFFER_ID, model.getRequestOffers().getRequestOfferId());
                 startActivity(intent);
             }
         });
+
+        sellJobsAdapter.setListener1(new OnRecyclerViewButtonClickListener() {
+            @Override
+            public void onButtonClick(View v, int position) {
+                if (v.getId() == R.id.btn_edit_offer) {
+                    Intent intent = new Intent(getActivity(), SendCustomOfferActivity.class);
+                    intent.putExtra(ConstantUtils.SELECT_OFFER_ID, sellJobsList.get(position).getRequestOffers().getRequestOfferId());
+                    intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 2);
+                    intent.putExtra(ConstantUtils.BUYER, sellJobsList.get(position).getRequestOffers().getRequester().getUserId());
+                    startActivity(intent);
+                }
+            }
+        });
+
         sellJobsRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {

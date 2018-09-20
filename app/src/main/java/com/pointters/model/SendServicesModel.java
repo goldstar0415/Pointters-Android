@@ -7,7 +7,7 @@ package com.pointters.model;
 public class SendServicesModel {
 
     private int numOrders;
-    private int avgRating;
+    private float avgRating;
     private int pointValue;
     private ServicesWoArray service;
 
@@ -28,11 +28,11 @@ public class SendServicesModel {
         this.numOrders = numOrders;
     }
 
-    public int getAvgRating() {
+    public float getAvgRating() {
         return avgRating;
     }
 
-    public void setAvgRating(int avgRating) {
+    public void setAvgRating(float avgRating) {
         this.avgRating = avgRating;
     }
 

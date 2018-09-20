@@ -89,6 +89,8 @@ public interface ConstantUtils {
     String CHAT_USER_PIC = "chat_user_pic";
     String CHAT_CONVERSATION_ID = "chat_conversation_id";
 
+    String SELL_OFFER_POST = "sell_offer_post";
+
     String CHAT_SEND_SERVICE = "chat_send_service";
     String CHAT_CUSTOM_OFFER_ID = "chat_custom_offer_id";
     String CHAT_CUSTOM_OFFER_INFO = "chat_custom_offer_info";
@@ -120,4 +122,6 @@ public interface ConstantUtils {
 
     String ADD_PARCEL = "add_parcel";
     String ADD_ADDRESS = "add_address";
+
+    String MEDIA = "media";
 }

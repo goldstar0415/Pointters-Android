@@ -18,10 +18,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.thunder413.datetimeutils.DateTimeUtils;
+import com.google.gson.internal.LinkedTreeMap;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -31,6 +33,7 @@ import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirec
 import com.pointters.R;
 import com.pointters.listener.OnApiFailDueToSessionListener;
 import com.pointters.listener.OnRecyclerViewItemClickListener;
+import com.pointters.model.ExploreJobsModel;
 import com.pointters.model.NotificationModel;
 import com.pointters.model.response.BaseResponse;
 import com.pointters.model.response.GetNotificationsResponse;
@@ -41,6 +44,8 @@ import com.pointters.utils.CallLoginApiIfFails;
 import com.pointters.utils.ConstantUtils;
 import com.pointters.utils.RoundedCornerLayout;
 import com.pointters.utils.TypefaceSpan;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -197,23 +202,43 @@ public class NotificationsActivity extends AppCompatActivity implements View.OnC
     }
 
     public void gotoDetailView(NotificationModel model){
-        if (selectedNotification.getType().contains("service")) {
+        if (selectedNotification.getType().contains("service")) {   //Service details page
             Intent intent = new Intent(NotificationsActivity.this, ServiceDetailActivity.class);
             intent.putExtra(ConstantUtils.SERVICE_ID, selectedNotification.getServiceId());
             startActivity(intent);
-        }else if(selectedNotification.getType().contains("post")) {
-//            Intent intent = new Intent(NotificationsActivity.this, .class);
-//            intent.putExtra(ConstantUtils.SERVICE_ID, selectedNotification.getServiceId());
-//            startActivity(intent);
-
-        }else if (selectedNotification.getType().contains("follow") || selectedNotification.getType().contains("friend")) {
+        } else if(selectedNotification.getType().contains("post")) {    //Post comment page
+            Intent intent = new Intent(this, LikeCommentsShareActivity.class);
+            intent.putExtra("postId", selectedNotification.getPostId());
+            intent.putExtra("postType", "service");
+            intent.putExtra("like_count", 0);
+            intent.putExtra("comment_count", 0);
+            intent.putExtra("share_count", 0);
+            startActivityForResult(intent, 101);
+        } else if (selectedNotification.getType().contains("follow") || selectedNotification.getType().contains("fb_friend")) { //Usre profile
             Intent intent = new Intent(NotificationsActivity.this, ProfileScreenActivity.class);
             intent.putExtra(ConstantUtils.PROFILE_LOGINUSER, false);
             intent.putExtra(ConstantUtils.PROFILE_USERID, selectedNotification.getUserId());
             startActivity(intent);
+        } else if (selectedNotification.getType().equals("chat")) { // Chat page
+
+        } else if (selectedNotification.getType().equals("offer")) {    //Service offer details page
+            Intent intent = new Intent(this, CustomOfferDetailsActivity.class);
+            intent.putExtra(ConstantUtils.SELECT_OFFER_ID, selectedNotification.getOfferId());
+            intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 1);
+            startActivity(intent);
+        } else if (selectedNotification.getType().equals("order")) {    //order details page
+            Intent intent = new Intent(this, FulfillmentActivity.class);
+            intent.putExtra(ConstantUtils.SELECT_ORDER_ID, selectedNotification.getOrderId());
+            intent.putExtra(ConstantUtils.SELECT_ORDER_TYPE, ConstantUtils.SELLER);
+            startActivity(intent);
+        } else if (selectedNotification.getType().equals("request")) {  //Explore Live Offer
+
+        } else if (selectedNotification.getType().equals("request-offer")) {    //request/job offer details page
+            Intent intent = new Intent(this, CustomOfferDetailsActivity.class);
+            intent.putExtra(ConstantUtils.SELECT_OFFER_ID, selectedNotification.getRequestOfferId());
+            intent.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 1);
+            startActivity(intent);
         }
-
-
     }
 
     @Override
@@ -286,23 +311,8 @@ public class NotificationsActivity extends AppCompatActivity implements View.OnC
             Typeface font2 = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Light.ttf");
             SpannableStringBuilder ss = new SpannableStringBuilder( model.getNames() + " " + model.getActivity());
             ss.setSpan(new TypefaceSpan(font), 0, model.getNames().length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            ss.setSpan(new TypefaceSpan(font2), model.getNames().length(), model.getNames().length() + model.getActivity().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            ss.setSpan(new TypefaceSpan(font2), model.getNames().length(), model.getActivity().length() + 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
             hold.title.setText(ss);
-
-            if (model.getMedia() != null) {
-                if (model.getMedia().getMediaType() == "image"){
-                    ImageLoader.getInstance().displayImage(model.getMedia().getFileName(), hold.mediaImageView, options);
-                }
-                hold.llServiceMedia.setVisibility(View.VISIBLE);
-            }else{
-                hold.llServiceMedia.setVisibility(View.GONE);
-            }
-
-            if (model.isMarkedRead()) {
-                hold.markedRead.setVisibility(View.INVISIBLE);
-            }else{
-                hold.markedRead.setVisibility(View.VISIBLE);
-            }
 
             String time = DateTimeUtils.getTimeAgo(getBaseContext(), model.getTime());
             hold.timeago.setText(time);
@@ -312,6 +322,25 @@ public class NotificationsActivity extends AppCompatActivity implements View.OnC
                     listener.onItemClick(position);
                 }
             });
+
+            if (model.getType().equals("service") || model.getType().equals("post")) {
+                if (model.getLink().getMedia() != null) {
+                    ImageLoader.getInstance().displayImage(model.getLink().getMedia().getFileName(), hold.mediaImageView, options);
+                }
+                hold.rl_media.setVisibility(View.VISIBLE);
+
+                hold.txt_location.setText(String.format("%s, %s %s", model.getLink().getLocation().getPostalCode(), model.getLink().getLocation().getCity(), model.getLink().getLocation().getState()));
+            } else {
+                hold.rl_media.setVisibility(View.GONE);
+            }
+
+            if (model.isMarkedRead()) {
+                hold.markedRead.setVisibility(View.INVISIBLE);
+            }else{
+                hold.markedRead.setVisibility(View.VISIBLE);
+            }
+
+
         }
 
         @Override
@@ -327,7 +356,9 @@ public class NotificationsActivity extends AppCompatActivity implements View.OnC
             RoundedImageView profileImageView;
             ImageView mediaImageView;
             ImageView markedRead;
-            RoundedCornerLayout llServiceMedia;
+//            RoundedCornerLayout llServiceMedia;
+            TextView txt_description, txt_location;
+            RelativeLayout rl_media;
 
             public MyHolder(View itemView) {
                 super(itemView);
@@ -336,7 +367,9 @@ public class NotificationsActivity extends AppCompatActivity implements View.OnC
                 profileImageView = (RoundedImageView) itemView.findViewById(R.id.img_accept_request);
                 markedRead = (ImageView) itemView.findViewById(R.id.unread_badge);
                 mediaImageView = (ImageView) itemView.findViewById(R.id.img_media);
-                llServiceMedia = (RoundedCornerLayout) itemView.findViewById(R.id.layout_notification_media);
+                txt_description = (TextView) itemView.findViewById(R.id.txt_description);
+                txt_location = (TextView) itemView.findViewById(R.id.txt_location);
+                rl_media = (RelativeLayout) itemView.findViewById(R.id.rl_media);
             }
         }
     }

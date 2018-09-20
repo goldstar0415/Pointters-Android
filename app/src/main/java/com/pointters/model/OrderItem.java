@@ -1,6 +1,6 @@
 package com.pointters.model;
 
-class OrderItem {
+public class OrderItem {
     private String description;
     private Integer price;
     private Integer priceWithoutDiscount;

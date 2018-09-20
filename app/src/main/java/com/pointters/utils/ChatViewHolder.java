@@ -383,11 +383,12 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                         if (message.getUser().getUserId() != null && message.getUser().getUserId().equals(mLoginUserId)) {
                             Intent intentSend = new Intent(mContext, SendCustomOfferActivity.class);
                             intentSend.putExtra(ConstantUtils.SELECT_OFFER_ID, offerId);
-                            intentSend.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 2);
+                            intentSend.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 3);
                             ((ChatActivity)mContext).startActivityForResult(intentSend, mRequestCode);
                         } else {
                             Intent intentOffer = new Intent(mContext, CustomOfferDetailsActivity.class);
                             intentOffer.putExtra(ConstantUtils.SELECT_OFFER_ID, offerId);
+                            intentOffer.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 1);
                             mContext.startActivity(intentOffer);
                         }
                     }
@@ -402,7 +403,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                         if (message.getUser().getUserId() != null && message.getUser().getUserId().equals(mLoginUserId)) {
                             Intent intentSend = new Intent(mContext, SendCustomOfferActivity.class);
                             intentSend.putExtra(ConstantUtils.SELECT_OFFER_ID, offerId);
-                            intentSend.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 2);
+                            intentSend.putExtra(ConstantUtils.CHAT_OFFER_DIRECTION, 3);
                             ((ChatActivity)mContext).startActivityForResult(intentSend, mRequestCode);
                         } else {
                             Intent intentOffer = new Intent(mContext, CustomOfferDetailsActivity.class);

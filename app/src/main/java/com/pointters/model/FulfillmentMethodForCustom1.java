@@ -29,13 +29,22 @@ public class FulfillmentMethodForCustom1 implements Serializable{
         this.parcel = new ParcelModel();
     }
 
-    public FulfillmentMethodForCustom1(boolean online, boolean shipment, boolean local, boolean store, int localServiceRadius, String localServiceRadiusUom) {
+    public FulfillmentMethodForCustom1(String _id, boolean online, boolean shipment, boolean local, boolean store, int localServiceRadius, String localServiceRadiusUom) {
+        this._id = _id;
         this.online = online;
         this.shipment = shipment;
         this.local = local;
         this.store = store;
         this.localServiceRadius = localServiceRadius;
         this.localServiceRadiusUom = localServiceRadiusUom;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public boolean getLocal() {
@@ -84,14 +93,6 @@ public class FulfillmentMethodForCustom1 implements Serializable{
 
     public void setLocalServiceRadiusUom(String localServiceRadiusUom) {
         this.localServiceRadiusUom = localServiceRadiusUom;
-    }
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
     }
 
     public AddressModel getAddress() {

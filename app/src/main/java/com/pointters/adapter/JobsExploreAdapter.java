@@ -47,13 +47,12 @@ public class JobsExploreAdapter extends RecyclerView.Adapter<JobsExploreAdapter.
         this.serviceArrayList = serviceArrayList;
     }
 
-    public JobsExploreAdapter(Context context, ArrayList<ExploreJobsModel> serviceArrayList, double lat, double lng, String userName, OnRecyclerViewButtonClickListener listener) {
+    public JobsExploreAdapter(Context context, ArrayList<ExploreJobsModel> serviceArrayList, double lat, double lng, String userName) {
         this.context = context;
         this.serviceArrayList = serviceArrayList;
         this.userName = userName;
         this.userLat = lat;
         this.userLng = lng;
-        this.listener = listener;
     }
 
     public void setListener1(OnRecyclerViewItemClickListener listener1) {
@@ -78,7 +77,7 @@ public class JobsExploreAdapter extends RecyclerView.Adapter<JobsExploreAdapter.
                 .build();
         ExploreJobsModel model = serviceArrayList.get(position);
         if (model != null) {
-            if (model.getMedia() != null) {
+            if (model.getMedia().size() != 0) {
                 if (model.getMedia().get(0).getFileName() != null && !model.getMedia().get(0).getFileName().isEmpty()) {
                     String strPic = model.getMedia().get(0).getFileName();
                     if (!strPic.contains("https://s3.amazonaws.com")) {
@@ -173,8 +172,10 @@ public class JobsExploreAdapter extends RecyclerView.Adapter<JobsExploreAdapter.
                 }
             }
             if (model.getOfferSent() != null) {
+                holder.makeOfferButton.setVisibility(View.GONE);
                 holder.editOfferButton.setVisibility(View.VISIBLE);
             }else{
+                holder.makeOfferButton.setVisibility(View.VISIBLE);
                 holder.editOfferButton.setVisibility(View.GONE);
             }
         }

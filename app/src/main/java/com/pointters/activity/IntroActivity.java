@@ -3,11 +3,15 @@ package com.pointters.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +28,8 @@ import com.pointters.utils.AndroidUtils;
 import com.pointters.utils.ConstantUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -50,7 +56,6 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
         introText = (TextView)findViewById(R.id.txt_intro);
 
         sharedPreferences = getSharedPreferences(ConstantUtils.APP_PREF, Context.MODE_PRIVATE);
-
 
         if (sharedPreferences.getBoolean(ConstantUtils.PREF_IS_LOGIN, false)) {
 
